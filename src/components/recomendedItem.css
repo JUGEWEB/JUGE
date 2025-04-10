@@ -1,0 +1,124 @@
+.recommended-items-container {
+    max-width: 1200px;
+    width: 100%;
+    margin: 20px auto;
+    padding: 0 20px;
+    background-color: white;
+    border-radius: 8px;
+  }
+  
+  .recommended-title {
+    text-align: start;
+    font-size: 24px;
+    margin-left: 20px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: black;
+  }
+  
+  .recommended-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 2px;
+   
+  }
+  
+  .recommended-image {
+    width: 180px;
+    max-width: 180px;
+    height: 250px;
+    object-fit: contain;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    padding: 10px;
+    
+}
+
+.rec-img{
+  display: flex;
+  justify-content: center;
+  width: 190px;
+  height: 250px;
+  filter: brightness(0.95);
+  margin-left: 3px;
+  z-index: 3;
+  object-fit: contain;
+  background-color: white;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.rec-img:hover{
+  display: flex;
+  justify-content: center;
+  width: 190px;
+  height: 250px;
+  filter: brightness(0.95);
+  z-index: 3;
+  object-fit: contain;
+  cursor: pointer;
+  background-color: white;
+  align-items: center;
+}
+
+
+  
+  .recommended-info {
+    margin-top: 10px;
+  }
+  
+  .recommended-name {
+    font-size: 14px;
+    margin-bottom: 5px;
+    color: #067a42;
+    text-align: start;
+    max-width: 180px;
+    margin-left: 5px;
+  }
+
+  .recommended-name:hover {
+    font-size: 14px;
+    margin-bottom: 5px;
+    color: #cf7704;
+    text-align: start;
+    max-width: 180px;
+    cursor: pointer;
+   
+  }
+  
+  .recommended-price {
+    color: #000000;
+    font-size: 18px;
+    font-weight: bold;
+    margin-left: 5px;
+    top: 0;
+  }
+
+  .recommended-pi {
+    border-radius: 4px;
+    
+    color: #000000;
+    font-size: 14px;
+    top: 0;
+    border: 1px solid #067a42;
+  }
+
+  .recommended-item{
+   
+    margin-left: 2px;
+    align-items: center;
+    justify-content: center;
+   margin-bottom: 5px;
+    
+  }
+
+  
+  .item-sta {
+    font-size: 1rem;
+    color: #ffb400;
+    margin-left: 5px;
+  }
+  
+  
+  
