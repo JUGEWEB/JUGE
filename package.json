@@ -1,12 +1,15 @@
 {
   "name": "malidag",
+  "homepage": "https://JUGEWEB.github.io/JUGE",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+     "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "keywords": [],
   "author": "",
@@ -51,6 +54,7 @@
     ]
   },
   "devDependencies": {
+    "gh-pages": "^6.3.0",
     "typescript": "^5.8.3"
   }
 }
