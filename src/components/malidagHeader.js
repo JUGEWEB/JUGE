@@ -58,7 +58,7 @@ function MalidagHeader({ user, isConnected, connect, address, disconnect, pendin
   
 
   const home = () => {
-    navigate('/JUGE')
+    navigate('/')
   }
 
 
