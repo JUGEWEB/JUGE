@@ -223,7 +223,7 @@ const App = () => {
         <div style={{ flex: 1 }}>
           <Routes>
             <Route path="/auth" element={<AuthForm auth={auth} user={user} />} />
-            <Route path="/home" element={<Malidag auth={auth} user={user} />} />
+            <Route path="/JUGE" element={<Malidag auth={auth} user={user} />} />
             <Route path="/profile" element={<Profile auth={auth} user={user} />} />
             <Route path="/item/:searchTerm" element={<ItemPage />} />
             <Route path="/items" element={<TypePage />} />
