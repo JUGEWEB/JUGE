@@ -170,7 +170,7 @@ const App = () => {
       
    
     <div style={{ display: "flex", flexDirection: "column", minHeight: "100vh", background: "White" }}>
-      <Router>
+      <Router basename="/JUGE">
         
         {/* Header */}
         <div>
@@ -223,7 +223,7 @@ const App = () => {
         <div style={{ flex: 1 }}>
           <Routes>
             <Route path="/auth" element={<AuthForm auth={auth} user={user} />} />
-            <Route path="/JUGE" element={<Malidag auth={auth} user={user} />} />
+            <Route path="/" element={<Malidag auth={auth} user={user} />} />
             <Route path="/profile" element={<Profile auth={auth} user={user} />} />
             <Route path="/item/:searchTerm" element={<ItemPage />} />
             <Route path="/items" element={<TypePage />} />
