@@ -55,8 +55,10 @@ const Profile = ({ user, auth }) => {
   const handleLogout = async () => {
     try {
       await auth.signOut();
+      sessionStorage.removeItem("hasRefreshed");
       message.success("You have logged out successfully!"); // Show logout success message
       navigate("/");
+     
     } catch (error) {
       message.error("Error logging out."); // Show error message
       console.error("Error logging out:", error);

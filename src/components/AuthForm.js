@@ -18,26 +18,15 @@ const AuthForm = ({ auth, user }) => {
   const navigate = useNavigate();
   const {isMobile, isDesktop, isSmallMobile, isTablet, isVerySmall} = useScreenSize()
 
-  // Handle the redirect result after the sign-in process
+ 
   useEffect(() => {
-    const handleRedirectResult = async () => {
-      try {
-        const result = await getRedirectResult(auth); // Handles redirect result after Google sign-in
-        if (result) {
-          const user = result.user; // User data returned from Google
-          console.log("User signed in:", user);
-          message.success("Login successful!");
-          navigate("/"); // Redirect after successful login
-        }
-      } catch (error) {
-        console.error("Error during redirect result:", error.message); // Log the error to console for debugging
-        message.error("Login failed!"); // Show error message if any
-      }
-    };
-
-    handleRedirectResult();
-  }, [auth, navigate]);
-
+    const hasRefreshed = sessionStorage.getItem("hasRefreshed");
+    if (!hasRefreshed) {
+      sessionStorage.setItem("hasRefreshed", "true");
+      window.location.reload();
+    }
+  }, []);
+  
   useEffect(() => {
     if (user) {
       navigate("/"); // Redirect to homepage if user is logged in
