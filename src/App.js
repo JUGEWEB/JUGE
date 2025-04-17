@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Malidag from "./components/malidag";
 import axios from "axios"
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { HashRouter as Router, Route, Routes } from "react-router-dom";
 import { onAuthStateChanged } from "firebase/auth";
 import AuthForm from "./components/AuthForm";
 import Profile from "./components/profile";
@@ -56,6 +56,7 @@ import All from "./components/All";
 import Type from "./components/type";
 import Coin from "./components/coin";
 import ThemeForPersonnalSmall from "./components/themeForPersonnalSmal";
+
 
 
 const BASE_URLs = 'http://192.168.0.210:3007';
@@ -170,7 +171,7 @@ const App = () => {
       
    
     <div style={{ display: "flex", flexDirection: "column", minHeight: "100vh", background: "White" }}>
-      <Router basename="/JUGE">
+      <Router>
         
         {/* Header */}
         <div>

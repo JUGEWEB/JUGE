@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import useScreenSize from './useIsMobile';
+import { useNavigate } from 'react-router-dom';
 
 const ThemeForMenFashion = () => {
   const [theme, setTheme] = useState(null);
   const { isDesktop, isMobile, isTablet } = useScreenSize();
+   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchTheme = async () => {
@@ -34,6 +36,10 @@ const ThemeForMenFashion = () => {
 
   if (!theme) return null;
 
+  const handleDiscoverClick = () => {
+    navigate("/menfa");
+  };
+
   return (
     <div style={{
       marginLeft: '1rem',
@@ -60,6 +66,7 @@ const ThemeForMenFashion = () => {
       <img
         src={theme.image}
         alt={theme.theme}
+        onClick={handleDiscoverClick}
         style={{
           width: '100%',
           height: 'auto',
@@ -69,7 +76,7 @@ const ThemeForMenFashion = () => {
       />
         {(isDesktop || isMobile || isTablet) && (
      
-      <div style={{color: "blue", marginTop: "4rem", fontSize: "0.8rem", textDecoration: "underline", marginLeft: "1rem"}}>discover now</div>
+      <div onClick={handleDiscoverClick} style={{color: "blue", marginTop: "4rem", fontSize: "0.8rem", textDecoration: "underline", marginLeft: "1rem"}}>discover now</div>
              
     )}
     </div>

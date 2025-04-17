@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import useScreenSize from './useIsMobile';
+import { useNavigate } from 'react-router-dom';
 
 const ThemeForMenFashion2 = () => {
   const [theme, setTheme] = useState(null);
   const { isDesktop, isMobile, isTablet } = useScreenSize();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchTheme = async () => {
