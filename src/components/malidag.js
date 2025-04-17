@@ -28,7 +28,7 @@ import SearchSuggestions from "./searchSuggestion";
 
 const ITEMS_PER_SLIDE = 6; // Number of items to display per slide
 const MAX_ITEMS = 17; // Maximum items to display in total
-const BASE_URLs = "http://192.168.0.210:3010"; // Replace with your IP
+const BASE_URLs = "https://api.malidag.com"; // Replace with your IP
   
 const Malidag = ({ user, gra }) => {
   const [currentSlide, setCurrentSlide] = useState(0); // Manage slide state
@@ -47,6 +47,7 @@ const Malidag = ({ user, gra }) => {
   const [prevType, setPrevType] = useState(currentSlideType);
   const [animate, setAnimate] = useState(false);
   console.log("slice type:", slides?.type)
+  console.log("slice image:", slides?.image)
 
    useEffect(() => {
       const fetchSlides = async () => {
@@ -56,9 +57,11 @@ const Malidag = ({ user, gra }) => {
             slideIds.map((id) => axios.get(`${BASE_URLs}/public/header/${id}`))
           );
           setSlides(responses.map((res) => res.data));
+         
   
            // Store slide data and map to have 'id' as key
            const slidesData = responses.map((res) => res.data);
+           console.log("🎯 Raw slide data:", slidesData); // <--- Add this
            setSlides(slidesData);
            // Optionally, store the type of the first slide on initial load
            if (slidesData.length > 0) {
@@ -175,9 +178,9 @@ const Malidag = ({ user, gra }) => {
         >
           <div style={{width: "100%", height:(isDesktop || isTablet || isMobile) ? "350px" : "210px", position: "relative", border: "none", backgroundColor: slide.type}}>
           {slide.images.map((image, idx) => (
-            <div>
+            <div  key={`${slide.id}-${idx}`}>
             <img
-              key={`${slide.id}-${idx}`}
+             
               src={image}
               alt={`Slide ${slide.id} Image ${idx}`}
               onClick={() => handleNavigation(slide.id)}

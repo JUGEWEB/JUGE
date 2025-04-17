@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import useScreenSize from './useIsMobile';
+import { useNavigate } from 'react-router-dom';
 
 const ThemeForFashionKick = () => {
   const [theme, setTheme] = useState(null);
    const { isDesktop, isMobile, isTablet } = useScreenSize();
+   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchTheme = async () => {
@@ -34,6 +36,10 @@ const ThemeForFashionKick = () => {
 
   if (!theme) return null;
 
+  const handleDiscoverClick = () => {
+    navigate("/faKick");
+  };
+
   return (
     <div style={{
       marginLeft: '1rem',
@@ -60,6 +66,7 @@ const ThemeForFashionKick = () => {
       <img
         src={theme.image}
         alt={theme.theme}
+        onClick={handleDiscoverClick}
         style={{
           width: '100%',
           height: 'auto',
@@ -69,7 +76,7 @@ const ThemeForFashionKick = () => {
       />
     {(isDesktop || isTablet || isMobile) && (
 
-      <div style={{color: "blue", marginTop: "4rem", fontSize: "0.8rem", textDecoration: "underline", marginLeft: "1rem"}}>discover now</div>
+      <div onClick={handleDiscoverClick} style={{color: "blue", marginTop: "4rem", fontSize: "0.8rem", textDecoration: "underline", marginLeft: "1rem"}}>discover now</div>
           
     )}
     </div>
