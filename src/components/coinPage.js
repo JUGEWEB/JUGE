@@ -19,7 +19,7 @@ function CoinPage() {
 
   const fetchCryptoPrices = async (symbols) => {
     try {
-      const response = await axios.get("http://192.168.0.210:2000/crypto-prices");
+      const response = await axios.get("https://api.malidag.com/crypto-prices");
   
       // Filter the response data based on the provided symbols
       const prices = symbols.reduce((acc, symbol) => {
