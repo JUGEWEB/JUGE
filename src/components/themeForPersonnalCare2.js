@@ -9,7 +9,7 @@ const ThemeForPersonnalCare2 = () => {
   useEffect(() => {
     const fetchThemes = async () => {
       try {
-        const res = await axios.get('http://192.168.0.210:3034/themes');
+        const res = await axios.get('https://api.malidag.com/themes/');
         const allThemes = res.data.themes;
 
         const filtered = allThemes.filter(
