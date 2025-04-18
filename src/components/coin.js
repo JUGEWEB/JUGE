@@ -34,7 +34,7 @@ const Coin = () => {
         const uniqueSymbols = [...new Set(symbols)];
   
           // Fetch prices from your server
-        const response = await axios.get("http://192.168.0.210:2000/crypto-prices");
+        const response = await axios.get("https://api.malidag.com/crypto-prices");
         const prices = response.data;
 
         // Map prices to a list of coin objects for rendering
