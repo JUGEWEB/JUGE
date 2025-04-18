@@ -8,7 +8,7 @@ import ThemeForFashionKick from "./themeForFasionKick";
 import ThemeForMenFashion from "./themeForMenFashion";
 import ThemeForGamers from "./themeForGamers";
 
-const BASE_URL = "http://192.168.0.210:3034";
+const BASE_URL = "https://api.malidag.com";
 const BASE_URLs = "http://192.168.0.210:3001";
 
 function MalidagCategorySmall({ user, auth }) {
@@ -22,7 +22,7 @@ function MalidagCategorySmall({ user, auth }) {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await fetch(`${BASE_URL}/themes`);
+        const response = await fetch(`${BASE_URL}/themes/`);
         const data = await response.json();
 
         const groupedCategories = data.themes.reduce((acc, item) => {
