@@ -12,20 +12,21 @@ const Coin = () => {
   const navigate = useNavigate(); // React Router navigation function
 
   const coinImages = {
-    ETH: "https://cryptologos.cc/logos/ethereum-eth-logo.png",
-    USDC: "https://cryptologos.cc/logos/usd-coin-usdc-logo.png",
-    BUSD: "https://cryptologos.cc/logos/binance-usd-busd-logo.png",
-    SOL: "https://cryptologos.cc/logos/solana-sol-logo.png",
-    BNB: "https://cryptologos.cc/logos/binance-coin-bnb-logo.png",
-    USDT: "https://cryptologos.cc/logos/tether-usdt-logo.png", // USDT logo
-    // Add other coin images here
+    ETH: "https://assets.coingecko.com/coins/images/279/large/ethereum.png?1595348880",
+    USDC: "https://assets.coingecko.com/coins/images/6319/large/USD_Coin_icon.png?1547042389",
+    BUSD: "https://assets.coingecko.com/coins/images/9576/large/BUSD.png?1568947766",
+    SOL: "https://assets.coingecko.com/coins/images/4128/large/solana.png?1640133422",
+    BNB: "https://assets.coingecko.com/coins/images/825/large/binance-coin-logo.png?1547034615",
+    USDT: "https://assets.coingecko.com/coins/images/325/large/Tether-logo.png?1598003707",
+    // You can add more if you want
   };
+  
 
   useEffect(() => {
     const fetchCoins = async () => {
       try {
         // Fetch symbols from your server
-        const symbolResponse = await axios.get("http://192.168.0.210:3001/items");
+        const symbolResponse = await axios.get("https://api.malidag.com/items");
         const symbols = symbolResponse.data.items
           .map((item) => item.item.cryptocurrency)
           .filter(Boolean); // Extract and filter valid symbols
@@ -70,14 +71,14 @@ const Coin = () => {
     <div className="coin-scroll-container" style={{backgroundColor:(isDesktop || isTablet) ? "#333" : "#336" }}>
       <div className="coin-scroll">
         {coins.map((coin) => (
-          <div key={coin.symbol} className="coin-item" onClick={() => handleCoinClick(coin.symbol)} >
+          <div key={coin.symbol} className="coin-item" onClick={() => handleCoinClick(coin?.symbol)} >
              <img
-              src={coinImages[coin.symbol] || "https://via.placeholder.com/40"}
-              alt={coin.symbol}
+              src={coinImages[coin?.symbol] || "https://via.placeholder.com/40"}
+              alt={coin?.symbol}
               className="coin-image"
             />
-            <div>{coin.symbol}</div>
-            <div style={{marginLeft: '5px'}}>${coin.price}</div>
+            <div>{coin?.symbol}</div>
+            <div style={{marginLeft: '5px'}}>${coin?.price}</div>
           </div>
         ))}
       </div>
