@@ -1,1 +1,0 @@
-(self.webpackChunkmalidag=self.webpackChunkmalidag||[]).push([[219],{9432:()=>{},9895:()=>{},3776:()=>{}}]);
