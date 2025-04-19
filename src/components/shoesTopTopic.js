@@ -4,7 +4,7 @@ import { useNavigate, useParams, useLocation } from "react-router-dom"; // Impor
 import "./beautyTopTopic.css";
 import AnalyseReview from "./analyseReview"; // Import AnalyseReview component
 
-const BASE_URL = "http://192.168.0.210:3001";
+const BASE_URL = "https://api.malidag.com";
 
 const ShoesTopTopic = () => {
   const { type } = useParams(); // Get the type from URL

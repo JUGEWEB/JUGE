@@ -10,7 +10,7 @@ const SearchSuggestions = ({ userId }) => {
   useEffect(() => {
     const fetchSuggestions = async () => {
       try {
-        const res = await axios.get('http://192.168.0.210:3001/search-items', {
+        const res = await axios.get('https://api.malidag.com/search-items', {
           params: { userId },
         });
 
@@ -40,7 +40,7 @@ const SearchSuggestions = ({ userId }) => {
         // Get brand suggestions
         await Promise.all(
           uniqueSearches.map(async ({ search }) => {
-            const response = await axios.get('http://192.168.0.210:3001/api/brand-suggestions', {
+            const response = await axios.get('https://api.malidag.com/api/brand-suggestions', {
               params: { searchTerm: search },
             });
             response.data.forEach(brand => matchedBrands.add(brand));
@@ -50,7 +50,7 @@ const SearchSuggestions = ({ userId }) => {
         // Get items per brand
         const suggestionData = await Promise.all(
           [...matchedBrands].map(async (brand) => {
-            const res = await axios.get(`http://192.168.0.210:3001/api/brands/${encodeURIComponent(brand)}/items`);
+            const res = await axios.get(`https://api.malidag.com/api/brands/${encodeURIComponent(brand)}/items`);
             return {
               brand,
               items: res.data.slice(0, 4),

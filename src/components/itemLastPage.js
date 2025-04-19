@@ -17,9 +17,9 @@ import ImageZoom from "./imageZoom";
 import ImageZoom1 from "./imageZoom1";
 
 const BASKET_API = "http://192.168.0.210:3017/add-to-basket"
-const BASE_URL = "http://192.168.0.210:3001";
+const BASE_URL = "https://api.malidag.com";
 const TRANSACTION_API = "http://192.168.0.210:3005/api/transaction";
-const PRICE_API = "http://192.168.0.210:2000/crypto-prices"; // Your crypto price endpoint
+const PRICE_API = "https://api.malidag.com/crypto-prices"; // Your crypto price endpoint
 const LIKED_API = "http://192.168.0.210:3018"; // Backend URL
 
 Modal.setAppElement("#root"); // For accessibility

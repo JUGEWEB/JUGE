@@ -4,8 +4,8 @@ import "./youMayLike.css";
 import { useNavigate } from "react-router-dom"; // Import useNavigate
 import useScreenSize from "./useIsMobile";
 
-const BASE_URL = "http://192.168.0.210:3001";
-const BASE_URLs = "http://192.168.0.210:2000"; // Replace with your actual API URL
+const BASE_URL = "https://api.malidag.com";
+const BASE_URLs = "https://api.malidag.com"; // Replace with your actual API URL
 
 function YouMayLike({ user }) {
   const [suggestedItems, setSuggestedItems] = useState([]);

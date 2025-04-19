@@ -17,7 +17,7 @@ function ItemFashionPage() {
 
   const fetchCryptoPrices = async (symbols) => {
     try {
-      const response = await axios.get("http://192.168.0.210:2000/crypto-prices");
+      const response = await axios.get("https://api.malidag.com/crypto-prices");
       console.log("Response data:", response.data);
   
       // Filter the response data based on the provided symbols
@@ -37,7 +37,7 @@ function ItemFashionPage() {
   useEffect(() => {
     const fetchItems = async () => {
       try {
-        const response = await axios.get(`http://192.168.0.210:3001/items/`);
+        const response = await axios.get(`https://api.malidag.com/items/`);
         const fetchedItems = response.data.items || [];
         
         // Filter items by category: "clothes" and "shoes"

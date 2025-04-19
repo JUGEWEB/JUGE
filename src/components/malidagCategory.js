@@ -9,7 +9,7 @@ import ThemeForMenFashion from "./themeForMenFashion";
 import ThemeForGamers from "./themeForGamers";
 
 const BASE_URL = "https://api.malidag.com";
-const BASE_URLs = "http://192.168.0.210:3001";
+const BASE_URLs = "https://api.malidag.com";
 
 function MalidagCategory({ user, auth }) {
   const [categories, setCategories] = useState([]);

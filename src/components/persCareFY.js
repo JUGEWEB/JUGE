@@ -5,8 +5,8 @@ import "./personalCare.css";
 import RecommendedItem from "./personalRecommend";
 
 const BASE_URLs = "http://192.168.0.210:4002"; // Replace with the new API URL for categories (the server you provided)
-const BASE_URL = "http://192.168.0.210:3001"; // Replace with your actual API URL
-const CRYPTO_URL = "http://192.168.0.210:2000/crypto-prices"; // Your crypto prices endpoint
+const BASE_URL = "https://api.malidag.com"; // Replace with your actual API URL
+const CRYPTO_URL = "https://api.malidag.com/crypto-prices"; // Your crypto prices endpoint
 
 function PersonalCare() {
   const [types, setTypes] = useState({});

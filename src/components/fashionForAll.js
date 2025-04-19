@@ -4,7 +4,7 @@ import "./fashionForAll.css";
 import { useNavigate } from "react-router-dom"; // Import useNavigate for navigation
 import useScreenSize from "./useIsMobile";
 
-const BASE_URL = "http://192.168.0.210:3001"; // Replace with your actual API URL
+const BASE_URL = "https://api.malidag.com"; // Replace with your actual API URL
 const ITEMS_PER_SLIDE = 6; // Number of items to display per slide
 const MAX_ITEMS = 17; // Maximum number of items to fetch/display
 

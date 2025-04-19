@@ -4,8 +4,8 @@ import "./woFashion.css";
 import { useNavigate } from "react-router-dom"; // Import useNavigate
 
 
-const BASE_URL = "http://192.168.0.210:3001"; // Items API URL
-const CRYPTO_URL = "http://192.168.0.210:2000/crypto-prices"; // Crypto prices API URL
+const BASE_URL = "https://api.malidag.com"; // Items API URL
+const CRYPTO_URL = "https://api.malidag.com/crypto-prices"; // Crypto prices API URL
 
 function PayBBE() {
   const [types, setTypes] = useState({});

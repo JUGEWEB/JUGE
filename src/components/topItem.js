@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./recomendedItem.css";
 import { useNavigate } from "react-router-dom"; // Import useNavigate
 
-const BASE_URL = "http://192.168.0.210:3001"; // Replace with your actual API URL
+const BASE_URL = "https://api.malidag.com"; // Replace with your actual API URL
 
 function TopItem() {
   const [topSoldItems, setTopSoldItems] = useState([]);
