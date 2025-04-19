@@ -23,7 +23,7 @@ function ItemOfShoes() {
 
   const fetchCryptoPrices = async (symbols) => {
     try {
-      const response = await axios.get("http://192.168.0.210:2000/crypto-prices");
+      const response = await axios.get("https://api.malidag.com/crypto-prices");
       console.log("Response data:", response.data);
   
       // Filter the response data based on the provided symbols
@@ -66,7 +66,7 @@ function ItemOfShoes() {
       try {
         const [, type] = itemClicked.split("-");
         console.log("type:", type)
-        const response = await axios.get(`http://192.168.0.210:3001/items/${type}`);
+        const response = await axios.get(`https://api.malidag.com/items/${type}`);
         const fetchedItems = response.data.items || [];
 
         const [gender] = itemClicked.split("-");

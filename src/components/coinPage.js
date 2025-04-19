@@ -39,7 +39,8 @@ function CoinPage() {
   useEffect(() => {
     const fetchItemsByCrypto = async () => {
       try {
-        const response = await axios.get(`http://192.168.0.210:3001/items/crypto/${crypto}`);
+        //https://api.malidag.com/items
+        const response = await axios.get(`https://api.malidag.com/items/crypto/${crypto}`);
         const fetchedItems = response.data.items || [];
         setItems(fetchedItems);
 

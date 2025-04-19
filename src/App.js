@@ -92,7 +92,7 @@ const App = () => {
     setIsModalVisible(true);
     setIsLoading(true);
     try {
-      const response = await axios.get("http://192.168.0.210:3001/items");
+      const response = await axios.get("https://api.malidag.com/items");
       setModalData(organizeData(response.data.items));
     } catch (error) {
       console.error("Error fetching modal data:", error);

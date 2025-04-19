@@ -5,7 +5,7 @@ import All from "./All";
 import Type from "./type";
 import Coin from "./coin";
 
-const BASE_URL = "http://192.168.0.210:3001"; // Your API URL http://192.168.0.109:3010
+const BASE_URL = "https://api.malidag.com"; // Your API URL http://192.168.0.109:3010
 
 const NavMenu = ({basketItems}) => {
     const [beautyTypes, setBeautyTypes] = useState(new Set()); // Store Beauty category types

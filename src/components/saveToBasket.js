@@ -5,7 +5,7 @@ import "./saveToBasket.css";
 import axios from "axios"
 
 const BASKET_API = "http://192.168.0.210:3017"; // Change this if your backend is running elsewhere
-const CRYPTO_API = "http://192.168.0.210:2000/crypto-prices"; // Your Crypto API
+const CRYPTO_API = "https://api.malidag.com/crypto-prices"; // Your Crypto API
 
 const cryptoOptions = [
   { value: "ETH", label: "Ethereum", image: "https://cryptologos.cc/logos/ethereum-eth-logo.png" },
