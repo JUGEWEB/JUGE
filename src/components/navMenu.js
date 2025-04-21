@@ -57,13 +57,7 @@ const NavMenu = ({basketItems}) => {
 if (isCheckoutPage || isItemsOfWomenPage || (isItemTypeRoute && beautyTypes.has(itemType))) {
   return null;
 }
- // ✅ Hide if mobile/small/verySmall and route is not home
- if (
-  (isMobile || isSmallMobile || isVerySmall) &&
-  location.pathname !== "/"
-) {
-  return null;
-}
+
   return (
     <div className="headtx" style={{  display: "flex", alignItems: "center", gap: "0px", background: "#333", marginTop: "-5px",  marginRight: isBasketVisible && basketItems.length > 0 ? "150px" : "0", }}>
       <All />

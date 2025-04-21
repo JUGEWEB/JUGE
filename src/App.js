@@ -176,9 +176,7 @@ const App = () => {
         {/* Header */}
         <div>
        <div className="header-container" style={{backgroundColor: (isDesktop || isTablet) ? "" : "#333"}} >
-       {(isMobile || isSmallMobile || isVerySmall) && (
-       <All  basketItems={basketItems} /> 
-      )}
+       
         <MalidagHeader  className="malidag-header"  basketItems={basketItems} user={user}  connectors={connectors} connect={connect} address={address} disconnect={disconnect} isConnected={isConnected}  pendingConnector={pendingConnector} allCountries={allCountries} country={country}  />
         
          <BasketComponent basketItems={basketItems}/>

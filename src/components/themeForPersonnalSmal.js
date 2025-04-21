@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import useScreenSize from './useIsMobile';
+import { useLocation } from 'react-router-dom';
 
 const ThemeForPersonnalSmall = () => {
   const [themes, setThemes] = useState([]);
   const {isMobile, isDesktop, isSmallMobile, isTablet, isVerySmall} = useScreenSize()
+  const location = useLocation()
 
   useEffect(() => {
     const fetchThemes = async () => {
@@ -24,6 +26,14 @@ const ThemeForPersonnalSmall = () => {
 
     fetchThemes();
   }, []);
+
+   // ✅ Hide if mobile/small/verySmall and route is not home
+ if (
+  (isMobile || isSmallMobile || isVerySmall) &&
+  location.pathname !== "/"
+) {
+  return null;
+}
 
   if (themes.length === 0) return null;
 
