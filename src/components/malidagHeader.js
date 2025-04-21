@@ -10,6 +10,7 @@ import Location from "./location";
 import {Connector} from "wagmi"
 import useScreenSize from "./useIsMobile";
 import InputSearch from "./inputSearch";
+import All from "./All";
 
 
 
@@ -107,6 +108,13 @@ function MalidagHeader({ user, isConnected, connect, address, disconnect, pendin
       
       }}
     >
+
+<div style={{marginTop: "10px"}}>
+       {(isMobile || isSmallMobile || isVerySmall) && (
+       <All  basketItems={basketItems} /> 
+      )}
+      </div>
+
       <div style={{display: "flex", alignItems: "center"}}>
       {/* Logo */}
       <div
