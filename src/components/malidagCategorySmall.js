@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import "./malidagCategory.css";
 import SearchSuggestions from "./searchSuggestion";
 import ThemeForPersonnalCare from "./themeForPersonnalCare";
+import { useLocation } from "react-router-dom";
 import useScreenSize from "./useIsMobile";
 import ThemeForFashionKick from "./themeForFasionKick";
 import ThemeForMenFashion from "./themeForMenFashion";
@@ -16,6 +17,8 @@ function MalidagCategorySmall({ user, auth }) {
   const [searchedItems, setSearchedItems] = useState([]);
   const navigate = useNavigate();
   const {isMobile, isDesktop, isSmallMobile, isTablet, isVerySmall} = useScreenSize()
+  const location = useLocation();
+
 
   const userId = user?.uid;
 
@@ -100,18 +103,16 @@ function MalidagCategorySmall({ user, auth }) {
 
   return (
     <div className="categories-container">
-     {(isSmallMobile || isVerySmall) && (
-      <ThemeForFashionKick/>
-    )}
-      {(isSmallMobile || isVerySmall) && (
-      <ThemeForMenFashion/>
-    )}
-      {(isSmallMobile || isVerySmall) && (
-      <ThemeForGamers/>
-    )}
-     
+      {(location.pathname === "/" && (isSmallMobile || isVerySmall)) && (
+        <>
+          <ThemeForFashionKick />
+          <ThemeForMenFashion />
+          <ThemeForGamers />
+        </>
+      )}
     </div>
   );
+  
 }
 
 export default MalidagCategorySmall;

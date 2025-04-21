@@ -176,6 +176,9 @@ const App = () => {
         {/* Header */}
         <div>
        <div className="header-container" style={{backgroundColor: (isDesktop || isTablet) ? "" : "#333"}} >
+       {(isMobile || isSmallMobile || isVerySmall) && (
+       <All  basketItems={basketItems} /> 
+      )}
         <MalidagHeader  className="malidag-header"  basketItems={basketItems} user={user}  connectors={connectors} connect={connect} address={address} disconnect={disconnect} isConnected={isConnected}  pendingConnector={pendingConnector} allCountries={allCountries} country={country}  />
         
          <BasketComponent basketItems={basketItems}/>
@@ -188,7 +191,6 @@ const App = () => {
    {/* ✅ Navigation Menu */}
    {(isMobile || isSmallMobile || isVerySmall) && (
     <div style={{display: "flex", backgroundColor: "#333", padding: "5px"}}>
-      <All  basketItems={basketItems} /> 
       <Type basketItems={basketItems} />
       </div>
         )}

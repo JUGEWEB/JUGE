@@ -4,6 +4,7 @@ import axios from "axios";
 import All from "./All";
 import Type from "./type";
 import Coin from "./coin";
+import useScreenSize from "./useIsMobile";
 
 const BASE_URL = "https://api.malidag.com"; // Your API URL http://192.168.0.109:3010
 
@@ -11,6 +12,7 @@ const NavMenu = ({basketItems}) => {
     const [beautyTypes, setBeautyTypes] = useState(new Set()); // Store Beauty category types
     const [isBasketVisible, setIsBasketVisible] = useState(false);
     const location = useLocation(); // ✅ Get the current URL path
+    const {isMobile, isSmallMobile, isVerySmall} = useScreenSize()
 
      // Using useEffect to track location changes
    useEffect(() => {
@@ -55,7 +57,13 @@ const NavMenu = ({basketItems}) => {
 if (isCheckoutPage || isItemsOfWomenPage || (isItemTypeRoute && beautyTypes.has(itemType))) {
   return null;
 }
- 
+ // ✅ Hide if mobile/small/verySmall and route is not home
+ if (
+  (isMobile || isSmallMobile || isVerySmall) &&
+  location.pathname !== "/"
+) {
+  return null;
+}
   return (
     <div className="headtx" style={{  display: "flex", alignItems: "center", gap: "0px", background: "#333", marginTop: "-5px",  marginRight: isBasketVisible && basketItems.length > 0 ? "150px" : "0", }}>
       <All />
