@@ -261,20 +261,23 @@ const Malidag = ({ user, gra }) => {
           <Electronic />
           </div>
           </div>
+          <div>
 
-        { user && (
-        <div className="container1">
-          <h1  style={{display: "flex", alignItems: "center", width: "100%"}} >Based on your browsing history  <div style={{fontSize: "14px", color: "green", marginLeft: "10px", fontWeight: "bold", marginTop: "10px", cursor: "pointer"}}  onClick={onclickbrowsing} >Explore now</div> </h1>
-          <div style={{width: "100%"}}>
-          <YouMayLike user={user} />
-          </div>
-        </div>
-        )}
+{ user && (
+<div className="container1">
+  <h1  style={{display: "flex", alignItems: "center", width: "100%"}} >Based on your browsing history  <div style={{fontSize: "14px", color: "green", marginLeft: "10px", fontWeight: "bold", marginTop: "10px", cursor: "pointer"}}  onClick={onclickbrowsing} >Explore now</div> </h1>
+  <div style={{width: "100%"}}>
+  <YouMayLike user={user} />
+  </div>
+</div>
+)}
+</div>
+
+<div className="container2">
+  <h1  style={{display: "flex", alignItems: "center"}}>Top 100 Most Sold Items  <div style={{fontSize: "14px", color: "green", marginLeft: "10px", fontWeight: "bold", marginTop: "10px", cursor: "pointer"}}  onClick={onclicktopitem} >Explore now</div> </h1>
+  <TopTopic />
+</div>
        
-        <div className="container2">
-          <h1  style={{display: "flex", alignItems: "center"}}>Top 100 Most Sold Items  <div style={{fontSize: "14px", color: "green", marginLeft: "10px", fontWeight: "bold", marginTop: "10px", cursor: "pointer"}}  onClick={onclicktopitem} >Explore now</div> </h1>
-          <TopTopic />
-        </div>
         
         <div >
         <RecommendedItem />

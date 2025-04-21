@@ -1,8 +1,6 @@
 .recommended-items-container {
-    max-width: 1200px;
+    max-width: 100%;
     width: 100%;
-    margin: 20px auto;
-    padding: 0 20px;
     background-color: white;
     border-radius: 8px;
   }
@@ -17,11 +15,12 @@
   }
   
   .recommended-grid {
-    display: grid;
-    grid-template-columns: repeat(6, 1fr);
+    display: flex;
+    flex-wrap: wrap;
     gap: 2px;
-   
-  }
+    overflow-x: hidden;
+    justify-content: center;
+}
   
   .recommended-image {
     width: 180px;

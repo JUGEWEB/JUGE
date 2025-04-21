@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { LeftOutlined, RightOutlined } from "@ant-design/icons"; // Import arrow icons
 import "./topTopic.css";
 import { useNavigate } from "react-router-dom"; // Import useNavigate
+import useScreenSize from "./useIsMobile";
 
 const BASE_URL = "https://api.malidag.com"; // Replace with your actual API URL
 const BASE_URLs = "https://api.malidag.com"; // Replace with your actual API URL
@@ -12,8 +13,13 @@ function TopTopic() {
   const [currentSlide, setCurrentSlide] = useState(0);
   const stars = Math.floor(Math.random() * 5) + 1; // Random stars for now
   const navigate = useNavigate(); // Initialize navigate
+  const {isMobile, isTablet, isSmallMobile, isDesktop, isVerySmall} = useScreenSize()
 
-  const itemsPerSlide = 7; // Number of items to show per slide
+  const itemsPerSlide = 7;
+
+  const itemsPerRow = isSmallMobile || isVerySmall ? 2 : isMobile ? 3 : 7;
+
+
 
   // Fetch cryptocurrency prices from the new endpoint
  const fetchCryptoPrices = async () => {
@@ -71,7 +77,9 @@ function TopTopic() {
 
   // Get the items for the current slide
   const startIdx = currentSlide * itemsPerSlide;
-  const currentItems = topItems.slice(startIdx, startIdx + itemsPerSlide);
+  const currentItems = isDesktop
+  ? topItems.slice(startIdx, startIdx + itemsPerSlide)  // Desktop: slice
+  : topItems; 
 
   // Helper function to convert USD price to cryptocurrency price
   const convertToCrypto = (usdPrice, crypto) => {
@@ -89,7 +97,14 @@ function TopTopic() {
 
   return (
     <div className="top-topic-carou">
-      <div className="carousel-sli">
+      <div
+  className="carousel-sli"
+  style={{
+    overflowX: (isMobile || isSmallMobile || isVerySmall || isTablet) ? 'auto' : 'hidden',
+    flexWrap: (isMobile || isSmallMobile || isVerySmall || isTablet) ? 'nowrap' : 'wrap',
+  }}
+>
+
         {currentItems.map((item, index) => (
           <div>
           <div className="carousel-i" key={item.id}>
@@ -115,12 +130,13 @@ function TopTopic() {
           </div>
         ))}
       </div>
-      {topItems.length > itemsPerSlide && (
-        <div className="carousel-arr">
-          <LeftOutlined onClick={handlePrevSlide} className="arrow-but" />
-          <RightOutlined onClick={handleNextSlide} className="arrow-but" />
-        </div>
-      )}
+      {isDesktop && topItems.length > itemsPerSlide && (
+  <div className="carousel-arr">
+    <LeftOutlined onClick={handlePrevSlide} className="arrow-but" />
+    <RightOutlined onClick={handleNextSlide} className="arrow-but" />
+  </div>
+)}
+
     </div>
   );
 }
