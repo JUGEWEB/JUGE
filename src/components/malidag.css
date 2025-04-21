@@ -105,7 +105,7 @@
   position: relative;
   display: flex;
   justify-content: center;
-  background-color: #ddd5;
+  background-color: white;
   color: black;
   width: 100%;
   height: auto;
@@ -115,31 +115,40 @@
   position: relative;
   display: flex;
   justify-content: center;
-  background-color: #ddd5;
-  color: black;
-  width: 100%;
-  height: auto;
-  margin-top: 10px;
-}
-
-.container1{
   background-color: white;
   color: black;
   width: 100%;
-  top: 0;
-  padding-bottom: 10px;
+  height: auto;
+  margin-top: 5px;
+  margin-bottom: 0px;
+}
+
+.container1{
+  position: relative;
+  background-color: white;
+  color: black;
+  width: 100%;
+  margin-top: 5px;
+  margin-bottom: 0px;
+  padding-bottom: 0px;
   border-radius: 0px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .container2{
+  position: relative;
   background-color: white;
   color: black;
-  width: 97%;
-  margin-left: 20px;
-  padding-bottom: 20px;
-  border-radius: 5px;
+  width: 100%;
+  padding-bottom: 0px;
+  height: auto;
+  margin-top: 5px;
+  border-radius: 0px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.cont{
+  background-color: white;
 }
 
 .container h1{
