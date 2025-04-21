@@ -38,11 +38,10 @@ const ThemeForPersonnalSmall = () => {
   if (themes.length === 0) return null;
 
   return (
-    <div style={{ padding:(isSmallMobile || isVerySmall) ? "0rem" :'1rem' }}>
-      <h3 style={{ marginBottom: '1rem', marginTop:(isSmallMobile || isVerySmall) ? "0.3rem" :''   }}>Personal care for you</h3>
+    <div style={{ padding:(isSmallMobile || isVerySmall) ? "0rem" :'0rem' }}>
+      <span style={{ marginTop:(isSmallMobile || isVerySmall) ? "0rem" :'' , fontWeight: "bold"  }}>Personal care for you</span>
       <div style={{
         display: 'flex',
-        gap: '1rem',
         justifyContent: 'space-between',
         overflowX: "auto"
       }}>
@@ -50,7 +49,6 @@ const ThemeForPersonnalSmall = () => {
           <div key={theme.id} style={{
             width: '140px',
             textAlign: 'center',
-            border: '1px solid #eee',
             borderRadius: '8px',
             padding: '0.5rem',
             background: '#fff',
@@ -59,9 +57,9 @@ const ThemeForPersonnalSmall = () => {
               src={theme.image}
               alt={theme.types?.[0] || 'Type'}
               style={{
-                width: '100%',
-                height: 'auto',
-                borderRadius: '6px',
+                width: '70px',
+                height: '70px',
+                borderRadius: '70px',
                 objectFit: 'cover',
                 marginBottom: '0.5rem',
               }}

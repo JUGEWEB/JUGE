@@ -205,7 +205,7 @@ const App = () => {
     </div>
   )}
   {(isMobile || isSmallMobile || isVerySmall) && (
-  <div style={{color: "black", backgroundColor: " white", padding:(isSmallMobile || isVerySmall) ? "2px" : "10px"}}>
+  <div style={{color: "black", backgroundColor: " white", padding:(isSmallMobile || isVerySmall) ? "2px" : "10px", maxHeight: "150px"}}>
     <ThemeForPersonnalSmall/>
     </div>
   )}

@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios"; // Don't forget to import axios
+import { FaSearch } from "react-icons/fa"; // ✅ Import the real search icon
 
 function InputSearch({ isBasketVisible, basketItems, user }) {
   const [filteredItems, setFilteredItems] = useState([]);
@@ -100,7 +101,7 @@ function InputSearch({ isBasketVisible, basketItems, user }) {
   }, [searchTerm, items]);
 
   return (
-    <div className="input-search-wrapper" style={{ display: "flex", alignItems: "center", position: "relative", marginLeft: "10px", marginRight: "15px" }}>
+    <div className="input-search-wrapper" style={{ display: "flex", alignItems: "center", position: "relative", marginLeft: "10px", marginRight: "10px" }}>
       <input
         type="text"
         value={searchTerm}
@@ -110,13 +111,12 @@ function InputSearch({ isBasketVisible, basketItems, user }) {
         placeholder="Search by name, ID, or category"
         style={{
           width: "100%",
-          height: "20px",
+          height: "10px",
           padding: "10px",
-          borderRadius: "5px 0 0 5px",
           border: `2px solid ${isFocused ? "#0078ff" : "white"}`,
           fontSize: "16px",
           outline: "none",
-          margin: "5px",
+          margin: "0px",
         }}
       />
       <button
@@ -127,19 +127,14 @@ function InputSearch({ isBasketVisible, basketItems, user }) {
           setIsFocused(false);
         }}
         style={{
-          height: "45px",
-          padding: "0 20px",
-          border: `2px solid white`,
-          borderLeft: "none",
+          height: "auto",
+          padding: "8.90px",
           borderRadius: "0 5px 5px 0",
           backgroundColor: "white",
           cursor: "pointer",
-          fontSize: "20px",
-          marginTop: "5px",
-          marginBottom: "5px",
         }}
       >
-        🔍
+       <FaSearch /> {/* ✅ REAL SEARCH ICON */}
       </button>
 
       {suggestions.length > 0 && isFocused && (

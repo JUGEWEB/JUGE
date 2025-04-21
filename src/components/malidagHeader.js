@@ -11,6 +11,8 @@ import {Connector} from "wagmi"
 import useScreenSize from "./useIsMobile";
 import InputSearch from "./inputSearch";
 import All from "./All";
+import { FaUser } from "react-icons/fa"; // ✅ Import user icon
+
 
 
 
@@ -109,7 +111,7 @@ function MalidagHeader({ user, isConnected, connect, address, disconnect, pendin
       }}
     >
 
-<div style={{marginTop: "10px"}}>
+<div style={{marginTop: "2px"}}>
        {(isMobile || isSmallMobile || isVerySmall) && (
        <All  basketItems={basketItems} /> 
       )}
@@ -117,48 +119,21 @@ function MalidagHeader({ user, isConnected, connect, address, disconnect, pendin
 
       <div style={{display: "flex", alignItems: "center"}}>
       {/* Logo */}
+      {(isSmallMobile || isMobile || isTablet || isDesktop) && (
+      
       <div
         className="logoStyle"
         onClick={home}
-        style={{ display: "flex", alignItems: "center", cursor: "pointer", width: "auto" }}
+        style={{ display: "flex", alignItems: "center", cursor: "pointer", width: "auto", fontWeight: "bold" }}
       >
-        <div
-          style={{
-            fontSize: "25px",
-            fontWeight: "bold",
-            color: "#fff",
-            letterSpacing: "3px",
-            textShadow: "0px 0px 10px #00ffea",
-            position: "relative",
-          }}
-        >
-          <span style={{ color: "white" }}>M</span>
-          <span
-            style={{
-              color: "#fff",
-              position: "relative",
-              fontSize: "35px",
-              fontWeight: "bold",
-              textShadow: "0 0 10px #ff005e, 0 0 20px #ff005e",
-            }}
-          >
-            a
-          </span>
-          lid
-          <span
-            style={{
-              color: "white",
-              position: "relative",
-              fontSize: "30px",
-              fontWeight: "bold",
-              textShadow: "0 0 10px #ff005e, 0 0 20px #ff005e",
-            }}
-          >
-            a
-          </span>
-          g
-        </div>
+       MALIGAG
       </div>
+        
+      )}
+
+      {(isVerySmall && (
+        <img style={{maxWidth: "30px"}}  src="https://firebasestorage.googleapis.com/v0/b/benege-93e7c.appspot.com/o/uploads%2FGemini_Generated_Image_8tsm718tsm718tsm-removebg-preview.png?alt=media&token=265d1922-0c07-4658-9955-58660103c88e" alt="malidag logo"/>
+      ))}
 
       {(isTablet || isDesktop) && (
   <Location country={country} allCountries={allCountries} />
@@ -229,8 +204,8 @@ function MalidagHeader({ user, isConnected, connect, address, disconnect, pendin
         ) : (
           <div className="buttonlog" onClick={() => navigate("/auth")}>
            <div>Login</div> <div>-</div> <div>&gt;</div> <div style={{ cursor: "pointer",
-              fontSize: (isTablet || isDesktop)? "27px" : "20px",
-              filter: "hue-rotate(100deg) saturate(350%) brightness(1.2)",}}>👤</div>
+              fontSize: (isTablet || isDesktop)? "27px" : "15px",
+              filter: "hue-rotate(100deg) saturate(350%) brightness(1.2)",}}> <FaUser /></div>
           </div>
         )}
       </div>
