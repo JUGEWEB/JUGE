@@ -101,7 +101,7 @@ function InputSearch({ isBasketVisible, basketItems, user }) {
   }, [searchTerm, items]);
 
   return (
-    <div className="input-search-wrapper" style={{ display: "flex", alignItems: "center", position: "relative", marginLeft: "10px", marginRight: "10px" }}>
+    <div className="input-search-wrapper" style={{ display: "flex", alignItems: "center", position: "relative", marginLeft: "10px", marginRight: "10px"}}>
       <input
         type="text"
         value={searchTerm}
@@ -116,10 +116,10 @@ function InputSearch({ isBasketVisible, basketItems, user }) {
           border: `2px solid ${isFocused ? "#0078ff" : "white"}`,
           fontSize: "16px",
           outline: "none",
-          margin: "0px",
+          marginTop: "0px",
         }}
       />
-      <button
+      <div
         onClick={() => {
           if (searchTerm) {
             handleSearch(searchTerm);
@@ -128,14 +128,15 @@ function InputSearch({ isBasketVisible, basketItems, user }) {
         }}
         style={{
           height: "auto",
-          padding: "8.90px",
+          padding: "6.4px",
           borderRadius: "0 5px 5px 0",
           backgroundColor: "white",
           cursor: "pointer",
+          color: "black"
         }}
       >
        <FaSearch /> {/* ✅ REAL SEARCH ICON */}
-      </button>
+      </div>
 
       {suggestions.length > 0 && isFocused && (
         <div
