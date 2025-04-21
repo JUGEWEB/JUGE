@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom"; // Import for navigation
+import { useNavigate , useLocation } from "react-router-dom"; // Import for navigation
 import "./coin.css";
 import useScreenSize from "./useIsMobile";
 
@@ -10,6 +10,7 @@ const Coin = () => {
   const {isMobile, isDesktop, isSmallMobile, isTablet, isVerySmall} = useScreenSize()
   const [error, setError] = useState(null);
   const navigate = useNavigate(); // React Router navigation function
+  const location = useLocation(); // ✅ New to detect the path
 
   const coinImages = {
     ETH: "https://assets.coingecko.com/coins/images/279/large/ethereum.png?1595348880",
@@ -58,6 +59,11 @@ const Coin = () => {
   
     return () => clearInterval(intervalId); // Clear interval on component unmount
   }, []);
+
+   // ✅ If small device and NOT on home page, return null
+   if ((isMobile || isSmallMobile || isVerySmall) && location.pathname !== "/") {
+    return null;
+  }
   
 
   if (loading) return <div>Loading coins...</div>;
