@@ -114,7 +114,7 @@ function InputSearch({ isBasketVisible, basketItems, user }) {
     placeholder="Search by name, ID, or category"
     style={{
       flex: 1, 
-      height: "25px",
+      height: "35px",
       padding: "0 10px",
       border: "none",
       fontSize: "16px",
@@ -130,7 +130,7 @@ function InputSearch({ isBasketVisible, basketItems, user }) {
       setIsFocused(false);
     }}
     style={{
-      height: "25px",
+      height: "35px",
       padding: "0 15px",
       display: "flex",
       alignItems: "center",
