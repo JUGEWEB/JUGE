@@ -174,7 +174,7 @@ const App = () => {
       <Router>
         
         {/* Header */}
-        <div>
+        <div style={{backgroundColor: "#333"}}>
        <div className="header-container" style={{backgroundColor: (isDesktop || isTablet) ? "" : "#333"}} >
        
         <MalidagHeader  className="malidag-header"  basketItems={basketItems} user={user}  connectors={connectors} connect={connect} address={address} disconnect={disconnect} isConnected={isConnected}  pendingConnector={pendingConnector} allCountries={allCountries} country={country}  />
@@ -182,7 +182,7 @@ const App = () => {
          <BasketComponent basketItems={basketItems}/>
         </div>
         {(isMobile || isSmallMobile || isVerySmall || isTablet) && (
-          <div style={{width: "100%", marginLeft: "0px", marginRight: "0px", backgroundColor: "#333"}}>
+          <div style={{width: "100%", marginLeft: "0px", marginRight: "0px", backgroundColor: "#333", marginTop: "2px"}}>
     <InputSearch user={user} basketItems={basketItems} isBasketVisible={true} />
     </div>
   )}
