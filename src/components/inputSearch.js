@@ -102,41 +102,49 @@ function InputSearch({ isBasketVisible, basketItems, user }) {
 
   return (
     <div className="input-search-wrapper" style={{ display: "flex", alignItems: "center", position: "relative", marginLeft: "10px", marginRight: "10px"}}>
-      <input
-        type="text"
-        value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
-        onFocus={() => setIsFocused(true)}
-        onBlur={() => setTimeout(() => setIsFocused(false), 200)}
-        placeholder="Search by name, ID, or category"
-        style={{
-          width: "100%",
-          height: "10px",
-          padding: "10px",
-          border: `2px solid ${isFocused ? "#0078ff" : "white"}`,
-          fontSize: "16px",
-          outline: "none",
-          marginTop: "0px",
-        }}
-      />
-      <div
-        onClick={() => {
-          if (searchTerm) {
-            handleSearch(searchTerm);
-          }
-          setIsFocused(false);
-        }}
-        style={{
-          height: "auto",
-          padding: "6.4px",
-          borderRadius: "0 5px 5px 0",
-          backgroundColor: "white",
-          cursor: "pointer",
-          color: "black"
-        }}
-      >
-       <FaSearch /> {/* ✅ REAL SEARCH ICON */}
-      </div>
+
+<div style={{ display: "flex", alignItems: "center", width: "100%", backgroundColor: "white", border: `2px solid ${isFocused ? "#0078ff" : "white"}`,  borderRadius: "0 5px 5px 0", overflow: "hidden" }}>
+  
+  <input
+    type="text"
+    value={searchTerm}
+    onChange={(e) => setSearchTerm(e.target.value)}
+    onFocus={() => setIsFocused(true)}
+    onBlur={() => setTimeout(() => setIsFocused(false), 200)}
+    placeholder="Search by name, ID, or category"
+    style={{
+      flex: 1, 
+      height: "25px",
+      padding: "0 10px",
+      border: "none",
+      fontSize: "16px",
+      outline: "none",
+    }}
+  />
+  
+  <div
+    onClick={() => {
+      if (searchTerm) {
+        handleSearch(searchTerm);
+      }
+      setIsFocused(false);
+    }}
+    style={{
+      height: "25px",
+      padding: "0 15px",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      cursor: "pointer",
+      backgroundColor: "white",
+      borderLeft: "1px solid #ddd",
+    }}
+  >
+    <FaSearch style={{ fontSize: "10px", color: "#333" }} />
+  </div>
+
+</div>
+
 
       {suggestions.length > 0 && isFocused && (
         <div
