@@ -1,75 +1,91 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import useScreenSize from './useIsMobile';
+import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
+import useScreenSize from './useIsMobile';
+import './themeSkeleton.css';
+
+const themes = [
+  {
+    id: 1,
+    type: "Perfume",
+    url: "https://api.malidag.com/images/1744935328707-1734648207643-transparent-perfume-bottle-flowers-pink-wall-spring-wall-with-aroma-perfume-flat-lay.jpg",
+  },
+  {
+    id: 2,
+    type: "Eyebrow",
+    url: "https://api.malidag.com/images/1744935570674-1734648857748-comparison-different-types-brush-strokes.jpg",
+  },
+  {
+    id: 3,
+    type: "Make-up",
+    url: "https://api.malidag.com/images/1744935668110-1734646823425-creative-display-makeup-products-arrangement.jpg",
+  },
+  {
+    id: 4,
+    type: "Skincare",
+    url: "https://api.malidag.com/images/1744935707885-1734646785153-close-up-body-butter-recipient.jpg",
+  },
+];
 
 const ThemeForPersonnalSmall = () => {
-  const [themes, setThemes] = useState([]);
-  const {isMobile, isDesktop, isSmallMobile, isTablet, isVerySmall} = useScreenSize()
-  const location = useLocation()
+  const { isMobile, isDesktop, isSmallMobile, isTablet, isVerySmall } = useScreenSize();
+  const location = useLocation();
+  const [loadedImages, setLoadedImages] = useState({}); // ✅ Keep track of loaded images
 
   useEffect(() => {
-    const fetchThemes = async () => {
-      try {
-        const res = await axios.get('https://api.malidag.com/themes/');
-        const allThemes = res.data.themes;
+    themes.forEach((theme) => {
+      const img = new Image();
+      img.src = theme.url;
+      img.onload = () => {
+        setLoadedImages(prev => ({ ...prev, [theme.id]: true }));
+      };
+    });
+  }, []); // Preload once on mount
 
-        const filtered = allThemes.filter(
-          t => t.mode === 'default' && t.theme === 'Personal care for you'
-        );
-
-        setThemes(filtered.slice(0, 4)); // only take 4
-      } catch (error) {
-        console.error('Error fetching themes:', error);
-      }
-    };
-
-    fetchThemes();
-  }, []);
-
-   // ✅ Hide if mobile/small/verySmall and route is not home
- if (
-  (isMobile || isSmallMobile || isVerySmall) &&
-  location.pathname !== "/"
-) {
-  return null;
-}
-
-  if (themes.length === 0) return null;
+  if ((isMobile || isSmallMobile || isVerySmall) && location.pathname !== "/") {
+    return null;
+  }
 
   return (
-    <div style={{ padding:(isSmallMobile || isVerySmall) ? "0rem" :'0rem' }}>
-      <span style={{ marginTop:(isSmallMobile || isVerySmall) ? "0rem" :'' , fontWeight: "bold"  }}>Personal care for you</span>
+    <div style={{ padding: (isSmallMobile || isVerySmall) ? "0rem" : '0rem' }}>
+      <span style={{ marginTop: (isSmallMobile || isVerySmall) ? "0rem" : '', fontWeight: "bold" }}>
+        Personal care for you
+      </span>
+
       <div style={{
         display: 'flex',
         justifyContent: 'space-between',
-        overflowX: "auto"
+        overflowX: "auto",
+        gap: "10px",
+        marginTop: "10px",
       }}>
         {themes.map((theme) => (
           <div key={theme.id} style={{
             width: '140px',
             textAlign: 'center',
-            borderRadius: '8px',
-            padding: '0.5rem',
             background: '#fff',
+            padding: '0.5rem',
+            borderRadius: '8px',
           }}>
             <img
-              src={theme.image}
-              alt={theme.types?.[0] || 'Type'}
+              src={theme.url}
+              alt={theme.type}
               style={{
                 width: '70px',
                 height: '70px',
-                borderRadius: '70px',
+                borderRadius: '50%',
                 objectFit: 'cover',
                 marginBottom: '0.5rem',
+                opacity: loadedImages[theme.id] ? 1 : 0.6, // ✅ Smooth fade
+                transition: 'opacity 0.5s ease-in-out',
+                backgroundColor: loadedImages[theme.id] ? 'transparent' : '#f0f0f0', // ✅ Light background if not loaded
               }}
             />
             <div style={{
               fontSize: '0.9rem',
               color: '#555',
-              fontWeight: '500'
+              fontWeight: '500',
             }}>
-              {theme.types?.[0] || 'Unknown'}
+              {theme.type}
             </div>
           </div>
         ))}

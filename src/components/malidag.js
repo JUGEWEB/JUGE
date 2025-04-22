@@ -49,31 +49,27 @@ const Malidag = ({ user, gra }) => {
   console.log("slice type:", slides?.type)
   console.log("slice image:", slides?.image)
 
-   useEffect(() => {
-      const fetchSlides = async () => {
-        try {
-          const slideIds = [1, 2, 3]; // Assuming we have 3 slides
-          const responses = await Promise.all(
-            slideIds.map((id) => axios.get(`${BASE_URLs}/public/header/${id}`))
-          );
-          setSlides(responses.map((res) => res.data));
-         
+  useEffect(() => {
+    const fetchSlides = async () => {
+      try {
+        const slides = [
+          { id: 1, url: `${BASE_URLs}/public/header/1/steptodown.com296421.jpg`, type: "#689c85" },
+          { id: 2, url: `${BASE_URLs}/public/header/2/Untitled%20design%20%2821%29_enhanced_enhanced_enhanced.png`, type: "#e87909" },
+          { id: 3, url: `${BASE_URLs}/public/header/3/360_F_650418483_ZaHCajaxDWesXF8XfMYbgF4AMcvBB2eH_enhanced_enhanced_enhanced.jpg`, type: "#024163" },
+        ];
+        setSlides(slides);
   
-           // Store slide data and map to have 'id' as key
-           const slidesData = responses.map((res) => res.data);
-           console.log("🎯 Raw slide data:", slidesData); // <--- Add this
-           setSlides(slidesData);
-           // Optionally, store the type of the first slide on initial load
-           if (slidesData.length > 0) {
-             localStorage.setItem("currentSlideType", slidesData[0].type);
-           }
-        } catch (error) {
-          console.error("Error fetching slides:", error);
+        // Store the type of the first slide if you want
+        if (slides.length > 0) {
+          localStorage.setItem("currentSlideType", "yourType"); // <-- you can customize this
         }
-      };
+      } catch (error) {
+        console.error("Error fetching slides:", error);
+      }
+    };
   
-      fetchSlides();
-    }, []);
+    fetchSlides();
+  }, []);
 
   
     // Slider settings
@@ -151,57 +147,68 @@ const Malidag = ({ user, gra }) => {
           <div style={{position: "relative", top: "0", height: "auto", width: "100%", height: "auto",  backgroundColor: " #ddd5"}}>
           <div style={{ position: 'relative', top: '0', height: 'auto',  backgroundColor: " #ddd5"}}>
           <div className="malidag-present-items">
-          {slides.length > 0 ? (
-    <Slider {...settings}  style={{
-      border: "none !important",
-      outline: "none",
-      boxShadow: "none",
-      height: "auto",
-      backgroundColor: "#ddd5",
-      width: "100%"
-    }}>
-      {slides.map((slide, index) => (
-        <div
-          key={slide.id}
-          style={{
-            position: "relative",
-            width: "100%",
-            height: "auto",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            border: "none",
-            outline: "none",
-            boxShadow: "none",
-            backgroundColor: "#ddd5"
-          }}
-        >
-          <div style={{width: "100%", height:(isDesktop || isTablet || isMobile) ? "350px" : "210px", position: "relative", border: "none", backgroundColor: slide.type}}>
-          {slide.images.map((image, idx) => (
-            <div  key={`${slide.id}-${idx}`}>
-            <img
-             
-              src={image}
-              alt={`Slide ${slide.id} Image ${idx}`}
-              onClick={() => handleNavigation(slide.id)}
-              style={{
-                width: "100%",
-                height:(isDesktop || isTablet || isMobile) ? "300px" : "200px",
-                objectFit: "cover", // Keep image proportions
-                background: `#ddd5`
-              }}
-            />
-            <div style={{width: "100%", height: "50px", border: "", position: "absolute", bottom:(isDesktop || isMobile || isTablet) ? "50px" : "10px",  background: `linear-gradient(to bottom, transparent, ${slide.type})` }}></div>
-            </div>
-          ))}
-          </div>
-          <div style={{width: "100%", height:(isDesktop || isMobile || isTablet) ? "400px" : "230px", background: `linear-gradient(to bottom, ${slide.type}, #ddd5)`}}></div>
-        </div>
-      ))}
-    </Slider>
-  ) : (
-    <p>Loading slides...</p>
-  )}
+ <Slider {...settings}>
+ {(slides.length > 0 ? slides : [
+   {
+     id: 1,
+     url: "https://api.malidag.com/public/header/1/steptodown.com296421.jpg",
+     type: "#689c85",
+   },
+ ]).map((slide) => (
+   <div
+     key={slide.id}
+     style={{
+       position: "relative",
+       width: "100%",
+       height: "auto",
+       display: "flex",
+       justifyContent: "center",
+       alignItems: "center",
+       backgroundColor: "#ddd5",
+     }}
+   >
+     <div
+       style={{
+         width: "100%",
+         height: (isDesktop || isTablet || isMobile) ? "350px" : "210px",
+         position: "relative",
+         backgroundColor: slide.type,
+       }}
+     >
+       <img
+         src={slide.url}
+         alt={`Slide ${slide.id}`}
+         onClick={() => handleNavigation(slide.id)}
+         style={{
+           width: "100%",
+           height: (isDesktop || isTablet || isMobile) ? "300px" : "200px",
+           objectFit: "cover",
+           background: `#ddd5`,
+         }}
+       />
+       <div
+         style={{
+           width: "100%",
+           height: "50px",
+           position: "absolute",
+           bottom: (isDesktop || isMobile || isTablet) ? "50px" : "10px",
+           background: `linear-gradient(to bottom, transparent, ${slide.type || '#ddd5'})`,
+         }}
+       ></div>
+     </div>
+
+     <div
+       style={{
+         width: "100%",
+         height: (isDesktop || isMobile || isTablet) ? "400px" : "230px",
+         top: "0px",
+         background: `linear-gradient(to bottom, ${slide.type}, #ddd5)`,
+       }}
+     ></div>
+   </div>
+ ))}
+</Slider>
+
     </div>
     <div style={{position: "absolute", bottom: "10px", width: "100%" }}>
 

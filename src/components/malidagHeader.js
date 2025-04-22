@@ -27,6 +27,7 @@ function MalidagHeader({ user, isConnected, connect, address, disconnect, pendin
   const [showDisconnect, setShowDisconnect] = useState(false);
   const [isBasketVisible, setIsBasketVisible] = useState(false);
   const {isSmallMobile , isMobile, isTablet, isVerySmall, isDesktop} = useScreenSize()
+  const [logoLoaded, setLogoLoaded] = useState(false); // ✨ Logo loading state
  
   console.log('Connectors:', connectors);
   // Determine if we are on the BuyNow (checkout) page
@@ -131,9 +132,38 @@ function MalidagHeader({ user, isConnected, connect, address, disconnect, pendin
         
       )}
 
-      {(isVerySmall && (
-        <img style={{maxWidth: "30px"}}  src="https://firebasestorage.googleapis.com/v0/b/benege-93e7c.appspot.com/o/uploads%2FGemini_Generated_Image_8tsm718tsm718tsm-removebg-preview.png?alt=media&token=265d1922-0c07-4658-9955-58660103c88e" alt="malidag logo"/>
-      ))}
+       {/* Image logo for Very Small Devices with Skeleton */}
+  {isVerySmall && (
+    <div style={{ position: "relative", width: "30px", height: "30px" }}>
+      {/* Skeleton while loading */}
+      {!logoLoaded && (
+        <div
+          style={{
+            backgroundColor: "#ccc",
+            width: "100%",
+            height: "100%",
+            borderRadius: "4px",
+          }}
+        ></div>
+      )}
+      <img
+        onClick={home}
+        src="https://firebasestorage.googleapis.com/v0/b/benege-93e7c.appspot.com/o/uploads%2FGemini_Generated_Image_8tsm718tsm718tsm-removebg-preview.png?alt=media&token=265d1922-0c07-4658-9955-58660103c88e"
+        alt="Malidag Logo"
+        style={{
+          width: "30px",
+          height: "30px",
+          position: "absolute",
+          top: "0",
+          left: "0",
+          objectFit: "cover",
+          display: logoLoaded ? "block" : "none", // Hide image until it's loaded
+        }}
+        onLoad={() => setLogoLoaded(true)} // 💥 Set loaded true once image is ready
+      />
+    </div>
+  )}
+
 
       {(isTablet || isDesktop) && (
   <Location country={country} allCountries={allCountries} />
