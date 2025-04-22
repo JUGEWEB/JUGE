@@ -213,9 +213,9 @@ function MalidagHeader({ user, isConnected, connect, address, disconnect, pendin
      {/* Connect Button */}
     
 {!isConnected ? (
-  <Button type="primary" onClick={showModal} style={{marginRight: "5px", marginLeft: "10px"}}>
+  <div className="connectBttt" onClick={showModal} style={{marginRight: "5px", marginLeft: "10px", fontSize: "11px", padding: "5px", cursor: "pointer"}}>
     Connect Wallet
-  </Button>
+  </div>
 ) : (
   <div style={{ display: 'flex', alignItems: 'center', height: "auto" }}>
     <p
@@ -232,7 +232,7 @@ function MalidagHeader({ user, isConnected, connect, address, disconnect, pendin
     </p>
     <div style={{ position: 'relative' }}>
       {/* Three dots button */}
-      <Button
+      <div
         type="text"
         style={{
           fontSize: '24px',
@@ -246,7 +246,7 @@ function MalidagHeader({ user, isConnected, connect, address, disconnect, pendin
         onClick={() => setShowDisconnect(!showDisconnect)}
       >
         ⋮
-      </Button>
+      </div>
       {/* Disconnect button */}
       {showDisconnect && (
         <Button
