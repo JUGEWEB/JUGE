@@ -57,9 +57,9 @@ const Malidag = ({ user, gra }) => {
     const fetchSlides = async () => {
       try {
         const slides = [
-          { id: 1, url: `${BASE_URLs}/public/header/1/steptodown.com296421.jpg`, type: "#689c85" },
-          { id: 2, url: `${BASE_URLs}/public/header/2/Untitled%20design%20%2821%29_enhanced_enhanced_enhanced.png`, type: "#e87909" },
-          { id: 3, url: `${BASE_URLs}/public/header/3/360_F_650418483_ZaHCajaxDWesXF8XfMYbgF4AMcvBB2eH_enhanced_enhanced_enhanced.jpg`, type: "#024163" },
+          { id: 1, url: `${BASE_URLs}/public/header/1/steptodown.com296421.webp`, type: "#689c85" },
+          { id: 2, url: `${BASE_URLs}/public/header/2/Untitled%20design%20%2821%29_enhanced_enhanced_enhanced.webp`, type: "#e87909" },
+          { id: 3, url: `${BASE_URLs}/public/header/3/360_F_650418483_ZaHCajaxDWesXF8XfMYbgF4AMcvBB2eH_enhanced_enhanced_enhanced.webp`, type: "#024163" },
         ];
         setSlides(slides);
   
@@ -180,24 +180,19 @@ const Malidag = ({ user, gra }) => {
        }}
      >
       <picture>
-  <source
-    srcSet={slide.url.replace(/\.(jpg|jpeg|png)$/i, '.webp')}
-    type="image/webp"
-  />
-  <LazyLoadImage
-    src={slide.url}
+  <source srcSet={slide.url} type="image/webp" />
+  <img
+    src={slide.url} // fallback is also WebP just in case
     alt={`Slide ${slide.id}`}
-     effect="blur"
-    onClick={() => handleNavigation(slide.id)}
     style={{
       width: "100%",
-      maxWidth: "100%",
-      height: (isDesktop || isTablet || isMobile) ? "300px" : "200px",
+      height: isDesktop || isTablet || isMobile ? "300px" : "200px",
       objectFit: "cover",
-      background: `#ddd5`,
     }}
+    onClick={() => handleNavigation(slide.id)}
   />
 </picture>
+
        <div
          style={{
            width: "100%",
