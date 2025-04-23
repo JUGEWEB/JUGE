@@ -12,6 +12,7 @@ import useScreenSize from "./useIsMobile";
 import InputSearch from "./inputSearch";
 import All from "./All";
 import { FaUser } from "react-icons/fa"; // ✅ Import user icon
+import "./themeSkeleton.css";
 
 
 

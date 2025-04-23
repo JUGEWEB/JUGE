@@ -103,8 +103,9 @@ function MalidagCategory({ user, auth }) {
        {(isTablet || isDesktop || isMobile) && (
       <SearchSuggestions/>
        )}
-      {(isTablet || isDesktop) && (
-       <ThemeForPersonnalCare />
+
+{(isTablet || isDesktop || isMobile) && (
+      <ThemeForPersonnalCare/>
     )}
      {(isTablet || isDesktop || isMobile) && (
       <ThemeForFashionKick/>

@@ -25,6 +25,10 @@ import ThemeWithText from "./themewithtext";
 import MalidagCategories2 from "./malidagCatgories2";
 import MalidagCategorySmall from "./malidagCategorySmall";
 import SearchSuggestions from "./searchSuggestion";
+import ThemeForPersonnalCare from "./themeForPersonnalCare";
+import ThemeForMenFashion from "./themeForMenFashion";
+import { LazyLoadImage } from 'react-lazy-load-image-component';
+import 'react-lazy-load-image-component/src/effects/blur.css';
 
 const ITEMS_PER_SLIDE = 6; // Number of items to display per slide
 const MAX_ITEMS = 17; // Maximum items to display in total
@@ -70,6 +74,11 @@ const Malidag = ({ user, gra }) => {
   
     fetchSlides();
   }, []);
+
+  useEffect(() => {
+    console.log("Slides rendered:", slides);
+  }, [slides]);
+  
 
   
     // Slider settings
@@ -142,19 +151,14 @@ const Malidag = ({ user, gra }) => {
   
 
   return (
-      <div  style={{ height: 'auto', position: "relative", backgroundColor: " #ddd5", background: " #ddd5"}}>
-        <div style={{position: "relative", top: "0",  backgroundColor:  "#ddd5"}}  >
-          <div style={{position: "relative", top: "0", height: "auto", width: "100%", height: "auto",  backgroundColor: " #ddd5"}}>
-          <div style={{ position: 'relative', top: '0', height: 'auto',  backgroundColor: " #ddd5"}}>
-          <div className="malidag-present-items">
- <Slider {...settings}>
- {(slides.length > 0 ? slides : [
-   {
-     id: 1,
-     url: "https://api.malidag.com/public/header/1/steptodown.com296421.jpg",
-     type: "#689c85",
-   },
- ]).map((slide) => (
+
+    <>
+
+    <div style={{position: "relative"}}>
+      <div>
+
+<Slider {...settings}>
+{slides.length > 0 && slides.map((slide) => (
    <div
      key={slide.id}
      style={{
@@ -175,17 +179,25 @@ const Malidag = ({ user, gra }) => {
          backgroundColor: slide.type,
        }}
      >
-       <img
-         src={slide.url}
-         alt={`Slide ${slide.id}`}
-         onClick={() => handleNavigation(slide.id)}
-         style={{
-           width: "100%",
-           height: (isDesktop || isTablet || isMobile) ? "300px" : "200px",
-           objectFit: "cover",
-           background: `#ddd5`,
-         }}
-       />
+      <picture>
+  <source
+    srcSet={slide.url.replace(/\.(jpg|jpeg|png)$/i, '.webp')}
+    type="image/webp"
+  />
+  <LazyLoadImage
+    src={slide.url}
+    alt={`Slide ${slide.id}`}
+     effect="blur"
+    onClick={() => handleNavigation(slide.id)}
+    style={{
+      width: "100%",
+      maxWidth: "100%",
+      height: (isDesktop || isTablet || isMobile) ? "300px" : "200px",
+      objectFit: "cover",
+      background: `#ddd5`,
+    }}
+  />
+</picture>
        <div
          style={{
            width: "100%",
@@ -208,8 +220,7 @@ const Malidag = ({ user, gra }) => {
    </div>
  ))}
 </Slider>
-
-    </div>
+</div>
     <div style={{position: "absolute", bottom: "10px", width: "100%" }}>
 
     {(isTablet || isDesktop) && (
@@ -231,20 +242,10 @@ const Malidag = ({ user, gra }) => {
 
           </div>
         </div>
-        <div style={{ position: "relative", display: "flex", alignItems: "center", justifyContent: "center", width: "100%", height: "auto"}}>
-        <div style={{position: "relative" , overflow: 'hidden', width: '100%', height: "auto"}}>
-  
           <div style={{backgroundColor: "#ddd5", position: 'relative',width: "100%", height: "auto"}}>
 
             <MalidagCategories2/>
         
-        <div style={{ 
-  background: "#ddd5", // Replace with desired colors
-  position: "relative",
-  paddingTop: "0px",
-  width: "100%",
-  height: "auto",
-}}>
            {(isSmallMobile || isVerySmall) && (
             <div style={{marginBottom: "10px"}}>
             <SearchSuggestions/>
@@ -268,7 +269,6 @@ const Malidag = ({ user, gra }) => {
           <Electronic />
           </div>
           </div>
-          <div>
 
 { user && (
 <div className="container1">
@@ -278,7 +278,6 @@ const Malidag = ({ user, gra }) => {
   </div>
 </div>
 )}
-</div>
 
 <div className="container2">
   <h1  style={{display: "flex", alignItems: "center"}}>Top 100 Most Sold Items  <div style={{fontSize: "14px", color: "green", marginLeft: "10px", fontWeight: "bold", marginTop: "10px", cursor: "pointer"}}  onClick={onclicktopitem} >Explore now</div> </h1>
@@ -295,12 +294,9 @@ const Malidag = ({ user, gra }) => {
           <TradingView symbol={selectedSymbol} />
         </div>
         </div>
-        </div>
-          </div>
-          </div>
-        </div>
-          </div>
-      </div>
+
+        </>
+        
   );
 };
 

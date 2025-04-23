@@ -167,10 +167,10 @@ const App = () => {
   }, [user]); // Fetch basket when userId changes
 
   return (
-    <div>
+    <div style={{ backgroundColor: "#fdfdfd", minHeight: "100vh" }}>
       
    
-    <div style={{ display: "flex", flexDirection: "column", minHeight: "100vh", background: "White" }}>
+    <div style={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
       <Router>
         
         {/* Header */}
@@ -202,11 +202,6 @@ const App = () => {
 {(isMobile || isSmallMobile || isVerySmall) && (
   <div style={{color: "white", backgroundColor: " rgb(3, 29, 48)", padding: "10px"}}>
     <Location country={country} allCountries={allCountries}/>
-    </div>
-  )}
-  {(isMobile || isSmallMobile || isVerySmall) && (
-  <div style={{color: "black", backgroundColor: " white", padding:(isSmallMobile || isVerySmall) ? "2px" : "10px", maxHeight: "150px"}}>
-    <ThemeForPersonnalSmall/>
     </div>
   )}
 

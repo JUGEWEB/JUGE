@@ -77,7 +77,7 @@ const ThemeForPersonnalSmall = () => {
                 marginBottom: '0.5rem',
                 opacity: loadedImages[theme.id] ? 1 : 0.6, // ✅ Smooth fade
                 transition: 'opacity 0.5s ease-in-out',
-                backgroundColor: loadedImages[theme.id] ? 'transparent' : '#f0f0f0', // ✅ Light background if not loaded
+                backgroundColor: loadedImages[theme.id] ? 'gray' : '#f0f0f0', // ✅ Light background if not loaded
               }}
             />
             <div style={{
