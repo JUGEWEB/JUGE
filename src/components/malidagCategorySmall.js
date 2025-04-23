@@ -1,21 +1,22 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./malidagCategory.css";
-import SearchSuggestions from "./searchSuggestion";
-import ThemeForPersonnalCare from "./themeForPersonnalCare";
 import useScreenSize from "./useIsMobile";
+
+import ThemeForPersonnalCare from "./themeForPersonnalCare";
 import ThemeForFashionKick from "./themeForFasionKick";
 import ThemeForMenFashion from "./themeForMenFashion";
 import ThemeForGamers from "./themeForGamers";
 
 const BASE_URL = "https://api.malidag.com";
-const BASE_URLs = "https://api.malidag.com";
 
-function MalidagCategorySmall({ user, auth }) {
+function MalidagCategorySmall({ user }) {
   const [categories, setCategories] = useState([]);
   const [searchedItems, setSearchedItems] = useState([]);
+  const [loading, setLoading] = useState(true);
+
   const navigate = useNavigate();
-  const {isMobile, isDesktop, isSmallMobile, isTablet, isVerySmall} = useScreenSize()
+  const { isMobile, isDesktop, isSmallMobile, isTablet, isVerySmall } = useScreenSize();
 
   const userId = user?.uid;
 
@@ -25,7 +26,7 @@ function MalidagCategorySmall({ user, auth }) {
         const response = await fetch(`${BASE_URL}/themes/`);
         const data = await response.json();
 
-        const groupedCategories = data.themes.reduce((acc, item) => {
+        const grouped = data.themes.reduce((acc, item) => {
           const theme = item.theme;
           if (!acc[theme]) {
             acc[theme] = { mode: item.mode || "default", theme, items: [] };
@@ -34,18 +35,17 @@ function MalidagCategorySmall({ user, auth }) {
           return acc;
         }, {});
 
-        const processedCategories = Object.entries(groupedCategories).map(
-          ([themeName, { mode, theme, items }]) => ({
-            name: themeName,
-            mode,
-            theme,
-            items: items.slice(0, mode === "full" ? 1 : 4),
-          })
-        );
+        const processed = Object.entries(grouped).map(([themeName, { mode, items }]) => ({
+          name: themeName,
+          mode,
+          items: items.slice(0, mode === "full" ? 1 : 4),
+        }));
 
-        setCategories(processedCategories);
+        setCategories(processed);
       } catch (error) {
-        console.error("Error fetching items:", error);
+        console.error("Error fetching categories:", error);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -57,22 +57,22 @@ function MalidagCategorySmall({ user, auth }) {
 
     const fetchSearchedItems = async () => {
       try {
-        const response = await fetch(`${BASE_URLs}/search-items?userId=${userId}`);
+        const response = await fetch(`${BASE_URL}/search-items?userId=${userId}`);
         const data = await response.json();
 
         if (data?.userSearches) {
-          const allSearchedItems = [];
+          const allItems = [];
+
           for (let search of data.userSearches) {
             const searchTerm = search.search;
-            const itemsResponse = await fetch(`${BASE_URLs}/items/${searchTerm}`);
-            const itemsData = await itemsResponse.json();
+            const res = await fetch(`${BASE_URL}/items/${searchTerm}`);
+            const itemsData = await res.json();
             if (itemsData?.items) {
-              allSearchedItems.push(...itemsData.items);
+              allItems.push(...itemsData.items);
             }
           }
-          setSearchedItems(allSearchedItems.slice(0, 4));
-        } else {
-          setSearchedItems([]);
+
+          setSearchedItems(allItems.slice(0, 4));
         }
       } catch (error) {
         console.error("Error fetching searched items:", error);
@@ -100,16 +100,35 @@ function MalidagCategorySmall({ user, auth }) {
 
   return (
     <div className="categories-container">
-     {(isSmallMobile || isVerySmall) && (
-      <ThemeForFashionKick/>
-    )}
-      {(isSmallMobile || isVerySmall) && (
-      <ThemeForMenFashion/>
-    )}
-      {(isSmallMobile || isVerySmall) && (
-      <ThemeForGamers/>
-    )}
-     
+      {/* ✅ Loading fallback */}
+      {loading ? (
+        <div className="loading-skeletons">
+          {Array.from({ length: 3 }).map((_, i) => (
+            <div
+              key={i}
+              className="skeleton-card"
+              style={{
+                width: "150px",
+                height: "100px",
+                borderRadius: "8px",
+                backgroundColor: "#eee",
+                marginBottom: "1rem",
+              }}
+            />
+          ))}
+        </div>
+      ) : (
+        <>
+          {/* ✅ Render these only for mobile/small screens */}
+          {(isSmallMobile || isVerySmall) && (
+            <>
+              <ThemeForFashionKick />
+              <ThemeForMenFashion />
+              <ThemeForGamers />
+            </>
+          )}
+        </>
+      )}
     </div>
   );
 }

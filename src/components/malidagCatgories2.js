@@ -103,9 +103,6 @@ function MalidagCategories2({ user, auth }) {
        {(isDesktop) && (
       <ThemeForGamers/>
        )}
-      {(isDesktop) && (
-       <ThemeForPersonnalCare2 />
-    )}
      {(isDesktop) && (
       <ThemeForFashionKick2/>
     )}

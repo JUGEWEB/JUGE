@@ -1,45 +1,34 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import useScreenSize from './useIsMobile';
+import personalCareThemes from './personnalCareThemes'; // ✅ Correctly imported theme data
 
 const ThemeForPersonnalCare = () => {
-  const [themes, setThemes] = useState([]);
-  const { isDesktop, isMobile, isTablet } = useScreenSize();
+  const { isDesktop } = useScreenSize();
+  const [loadedImages, setLoadedImages] = useState({});
 
   useEffect(() => {
-    const fetchThemes = async () => {
-      try {
-        const res = await axios.get('https://api.malidag.com/themes/');
-        const allThemes = res.data.themes;
-
-        const filtered = allThemes.filter(
-          t => t.mode === 'default' && t.theme === 'Personal care for you'
-        );
-
-        setThemes(filtered.slice(0, 4)); // limit to 4
-      } catch (error) {
-        console.error('Error fetching themes:', error);
-      }
-    };
-
-    fetchThemes();
+    personalCareThemes.forEach((theme) => {
+      const img = new Image();
+      img.src = theme.url;
+      img.onload = () => {
+        setLoadedImages(prev => ({ ...prev, [theme.id]: true }));
+      };
+    });
   }, []);
 
   const brandCount = parseInt(localStorage.getItem('brandCount')) || 0;
-
-  // ❌ On desktop, hide if brandCount is 3 or more
   if (isDesktop && brandCount >= 3) return null;
-
-  if (themes.length === 0) return null;
 
   return (
     <div style={{
-        padding: "1rem",
-      backgroundColor: '#f9f9f9',
+      padding: "1rem",
       width: '270px',
-      height: "auto",
-      marginTop: "1rem", 
-      marginBottom: "1rem"
+      minHeight: '250px',
+      marginTop: "1rem",
+      marginBottom: "1rem",
+      boxShadow: '0 1px 4px rgba(0,0,0,0.08)',
+      borderRadius: '10px',
+      backgroundColor: '#fff'
     }}>
       <div style={{
         fontSize: '1.25rem',
@@ -56,40 +45,47 @@ const ThemeForPersonnalCare = () => {
         flexWrap: 'wrap',
         gap: "1rem",
         justifyContent: 'space-between',
-        height: "auto",
       }}>
-        {themes.map((theme) => (
+        {personalCareThemes.map((theme) => (
           <div key={theme.id} style={{
             width: '100px',
             textAlign: 'center',
+            minHeight: '130px',
           }}>
             <img
-              src={theme.image}
-              alt={theme.types?.[0] || 'Type'}
+              src={theme.url}
+              alt={theme.type}
+              loading="lazy"
               style={{
-                width: '100%',
+                width: '100px',
                 height: '100px',
                 objectFit: 'cover',
-                marginTop: '1rem',
+                borderRadius: '8px',
+                opacity: loadedImages[theme.id] ? 1 : 0.5,
+                transition: 'opacity 0.3s ease',
+                backgroundColor: '#eee'
               }}
             />
             <div style={{
               fontSize: '0.9rem',
               fontWeight: '500',
               color: '#555',
+              marginTop: '6px',
             }}>
-              {theme.types?.[0] || 'Unknown'}
+              {theme.type}
             </div>
           </div>
         ))}
       </div>
+
       <div style={{
         fontSize: '0.8rem',
         fontWeight: 'bold',
         color: 'blue',
-        marginTop: "5rem",
+        marginTop: "2rem",
         textAlign: 'start',
-        textDecoration: "underline"
+        textDecoration: "underline",
+        cursor: "pointer"
       }}>
         Discover Now
       </div>
