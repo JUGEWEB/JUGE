@@ -43,7 +43,7 @@ const ThemeForGamers = () => {
       padding: (isDesktop) ? "1rem" : "0rem",
       overflow: 'hidden',
       width: (isDesktop || isTablet || isMobile) ? '270px' : "150px",
-      borderRadius:(isDesktop || isMobile || isTablet) ? "0px" : "20px",
+      borderRadius:(isDesktop || isMobile || isTablet) ? "0px" : "0px",
       boxShadow: '0 2px 10px rgba(0, 0, 0, 0.05)',
       backgroundColor: '#fdfdfd',
       marginTop: (isDesktop) ? "0rem" : "1rem",

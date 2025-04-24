@@ -45,7 +45,7 @@ const ThemeForMenFashion = () => {
       marginLeft: '1rem',
       overflow: 'hidden',
       width:(isDesktop || isMobile || isTablet) ? '270px' : "150px",
-      borderRadius:(isDesktop || isMobile || isTablet) ? "0px" : "20px",
+      borderRadius:(isDesktop || isMobile || isTablet) ? "0px" : "0px",
       boxShadow: '0 2px 10px rgba(0, 0, 0, 0.05)',
       backgroundColor: '#fdfdfd',
       marginTop: "1rem",

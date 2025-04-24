@@ -52,6 +52,10 @@ const Malidag = ({ user, gra }) => {
   const [animate, setAnimate] = useState(false);
   console.log("slice type:", slides?.type)
   console.log("slice image:", slides?.image)
+  const [loadedImages, setLoadedImages] = useState({});
+
+
+  
 
   useEffect(() => {
     const fetchSlides = async () => {
@@ -80,6 +84,14 @@ const Malidag = ({ user, gra }) => {
   }, [slides]);
   
 
+  useEffect(() => {
+    const savedSlide = localStorage.getItem("malidagCurrentSlide");
+    if (savedSlide !== null) {
+      setCurrentSlide(parseInt(savedSlide));
+    }
+  }, []);
+  
+
   
     // Slider settings
     const settings = {
@@ -90,8 +102,10 @@ const Malidag = ({ user, gra }) => {
       slidesToScroll: 1,
       autoplay: true,
       autoplaySpeed: 15000,
+      initialSlide: currentSlide, // 👈 Start from saved slide
       beforeChange: (oldIndex, newIndex) => {
         setCurrentSlide(newIndex);
+        localStorage.setItem("malidagCurrentSlide", newIndex); // 👈 Save it
         const newColor = slides[newIndex]?.type || "#689c85";
         setCurrentSlideType(newColor);
       },
@@ -159,6 +173,7 @@ const Malidag = ({ user, gra }) => {
 
 <Slider {...settings}>
 {slides.length > 0 && slides.map((slide) => (
+   
    <div
      key={slide.id}
      style={{
@@ -180,18 +195,35 @@ const Malidag = ({ user, gra }) => {
        }}
      >
       <picture>
-  <source srcSet={slide.url} type="image/webp" />
-  <img
-    src={slide.url} // fallback is also WebP just in case
-    alt={`Slide ${slide.id}`}
-    style={{
-      width: "100%",
-      height: isDesktop || isTablet || isMobile ? "300px" : "200px",
-      objectFit: "cover",
-    }}
-    onClick={() => handleNavigation(slide.id)}
-  />
-</picture>
+      <source srcSet={slide.url} type="image/webp" />
+      {/* 👇 Skeleton Placeholder */}
+    {!loadedImages[slide.id] && (
+      <div
+        style={{
+          width: "100%",
+          height: (isDesktop || isTablet || isMobile) ? "300px" : "200px",
+          backgroundColor: slide.type,
+          borderRadius: "4px",
+        }}
+      />
+    )}
+
+    {/* 👇 Actual Image */}
+    <img
+      src={slide.url}
+      alt={`Slide ${slide.id}`}
+      onLoad={() =>
+        setLoadedImages((prev) => ({ ...prev, [slide.id]: true }))
+      }
+      onClick={() => handleNavigation(slide.id)}
+      style={{
+        width: "100%",
+        height: (isDesktop || isTablet || isMobile) ? "300px" : "200px",
+        objectFit: "cover",
+        display: loadedImages[slide.id] ? "block" : "none", // Hide if not loaded
+      }}
+    />
+    </picture>
 
        <div
          style={{
@@ -213,10 +245,10 @@ const Malidag = ({ user, gra }) => {
        }}
      ></div>
    </div>
- ))}
+))}
 </Slider>
 </div>
-    <div style={{position: "absolute", bottom: "10px", width: "100%" }}>
+    <div style={{position: "absolute", top: "170px", width: "100%" }}>
 
     {(isTablet || isDesktop) && (
 <span className="span-warning">
