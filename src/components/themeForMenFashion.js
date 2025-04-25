@@ -4,30 +4,15 @@ import useScreenSize from './useIsMobile';
 import { useNavigate } from 'react-router-dom';
 
 const ThemeForMenFashion = () => {
-  const [theme, setTheme] = useState(null);
-  const { isDesktop, isMobile, isTablet } = useScreenSize();
+ 
+  const { isDesktop, isMobile, isTablet, isSmallMobile, isVerySmall } = useScreenSize();
    const navigate = useNavigate();
 
-  useEffect(() => {
-    const fetchTheme = async () => {
-      try {
-        const res = await axios.get('https://api.malidag.com/themes/');
-        const allThemes = res.data.themes;
-
-        const selected = allThemes.find(
-          t => t.theme === "Men fashion" && t.mode === 'full'
-        );
-
-        if (selected) {
-          setTheme(selected);
-        }
-      } catch (error) {
-        console.error('Error fetching theme:', error);
-      }
-    };
-
-    fetchTheme();
-  }, []);
+   const theme = {
+    id: 2,
+    theme: "Men fashion",
+    image: "https://api.malidag.com/images/1745544015775-fashionkick-Picsart-AiImageEnhancer.webp"
+  };
 
   const brandCount = parseInt(localStorage.getItem('brandCount')) || 0;
 
@@ -60,9 +45,10 @@ const ThemeForMenFashion = () => {
         textAlign: 'center',
         borderBottom: '1px solid #eee',
       }}>
-        {theme.theme}
+        Men fashion
       </div>
 
+      <div style={{ width:(isSmallMobile || isVerySmall) ? "150px" : '100%', height:(isSmallMobile || isVerySmall) ? "170px" : 'auto', backgroundColor: "#ddd5"}}>
       <img
         src={theme.image}
         alt={theme.theme}
@@ -74,6 +60,7 @@ const ThemeForMenFashion = () => {
           objectFit: 'cover',
         }}
       />
+      </div>
         {(isDesktop || isMobile || isTablet) && (
      
       <div onClick={handleDiscoverClick} style={{color: "blue", marginTop: "4rem", fontSize: "0.8rem", textDecoration: "underline", marginLeft: "1rem"}}>discover now</div>

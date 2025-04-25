@@ -3,24 +3,19 @@ import useScreenSize from './useIsMobile';
 import { useNavigate } from 'react-router-dom';
 
 const ThemeForFashionKick = () => {
-  const [imageLoaded, setImageLoaded] = useState(false);
-  const { isDesktop, isMobile, isTablet } = useScreenSize();
+  const { isDesktop, isMobile, isTablet, isSmallMobile, isVerySmall } = useScreenSize();
   const navigate = useNavigate();
 
   const theme = {
     id: 1,
     theme: "Fashion's kick",
-    image: "https://api.malidag.com/images/1744938259183-1734827472068-1734655782065-Untitled design (3).png"
+    image: "https://api.malidag.com/images/1744938259183-1734827472068-1734655782065-Untitled design (3).webp"
   };
 
   const brandCount = parseInt(localStorage.getItem('brandCount')) || 0;
   if (isDesktop && brandCount === 2) return null;
 
-  useEffect(() => {
-    const img = new Image();
-    img.src = theme.image;
-    img.onload = () => setImageLoaded(true);
-  }, []);
+  
 
   const handleDiscoverClick = () => {
     navigate("/faKick");
@@ -46,19 +41,10 @@ const ThemeForFashionKick = () => {
         textAlign: 'center',
         borderBottom: '1px solid #eee',
       }}>
-        {theme.theme}
+        Fashion Kick
       </div>
 
-      <div style={{ width: '100%', height: 'auto' }}>
-        {!imageLoaded ? (
-          <div style={{
-            width: '100%',
-            height: '180px',
-            backgroundColor: '#eee',
-            animation: 'pulse 2s infinite',
-            borderRadius: '4px'
-          }}></div>
-        ) : (
+      <div style={{ width:(isSmallMobile || isVerySmall) ? "150px" : '100%', height:(isSmallMobile || isVerySmall) ? "170px" : 'auto', backgroundColor: "#ddd5"}}>
           <img
             src={theme.image}
             alt={theme.theme}
@@ -68,11 +54,9 @@ const ThemeForFashionKick = () => {
               height: 'auto',
               display: 'block',
               objectFit: 'cover',
-              borderRadius: '4px',
               transition: 'opacity 0.3s ease-in-out'
             }}
           />
-        )}
       </div>
 
       {(isDesktop || isTablet || isMobile) && (

@@ -100,26 +100,7 @@ function MalidagCategorySmall({ user }) {
 
   return (
     <div className="categories-container">
-      {/* ✅ Loading fallback */}
-      {loading ? (
-        <div className="loading-skeletons">
-          {Array.from({ length: 3 }).map((_, i) => (
-            <div
-              key={i}
-              className="skeleton-card"
-              style={{
-                width: "150px",
-                height: "100px",
-                borderRadius: "8px",
-                backgroundColor: "#eee",
-                marginBottom: "1rem",
-              }}
-            />
-          ))}
-        </div>
-      ) : (
-        <>
-          {/* ✅ Render these only for mobile/small screens */}
+    
           {(isSmallMobile || isVerySmall) && (
             <>
               <ThemeForFashionKick />
@@ -127,8 +108,6 @@ function MalidagCategorySmall({ user }) {
               <ThemeForGamers />
             </>
           )}
-        </>
-      )}
     </div>
   );
 }

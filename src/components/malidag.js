@@ -61,16 +61,12 @@ const Malidag = ({ user, gra }) => {
     const fetchSlides = async () => {
       try {
         const slides = [
-          { id: 1, url: `${BASE_URLs}/public/header/1/steptodown.com296421.webp`, type: "#689c85" },
-          { id: 2, url: `${BASE_URLs}/public/header/2/Untitled%20design%20%2821%29_enhanced_enhanced_enhanced.webp`, type: "#e87909" },
-          { id: 3, url: `${BASE_URLs}/public/header/3/360_F_650418483_ZaHCajaxDWesXF8XfMYbgF4AMcvBB2eH_enhanced_enhanced_enhanced.webp`, type: "#024163" },
+          { id: 1, url: `https://api.malidag.com/public/header/1/steptodown.com296421.webp`, type: "#689c85" },
+          { id: 2, url: `https://api.malidag.com/public/header/2/Untitled%20design%20%2821%29_enhanced_enhanced_enhanced.webp`, type: "#e87909" },
+          { id: 3, url: `https://api.malidag.com/public/header/3/360_F_650418483_ZaHCajaxDWesXF8XfMYbgF4AMcvBB2eH_enhanced_enhanced_enhanced.webp`, type: "#024163" },
         ];
         setSlides(slides);
   
-        // Store the type of the first slide if you want
-        if (slides.length > 0) {
-          localStorage.setItem("currentSlideType", "yourType"); // <-- you can customize this
-        }
       } catch (error) {
         console.error("Error fetching slides:", error);
       }
@@ -79,17 +75,17 @@ const Malidag = ({ user, gra }) => {
     fetchSlides();
   }, []);
 
-  useEffect(() => {
-    console.log("Slides rendered:", slides);
-  }, [slides]);
+  const handleImageLoad = (id) => {
+    setLoadedImages((prev) => ({
+      ...prev,
+      [id]: true,
+    }));
+  };
   
 
   useEffect(() => {
-    const savedSlide = localStorage.getItem("malidagCurrentSlide");
-    if (savedSlide !== null) {
-      setCurrentSlide(parseInt(savedSlide));
-    }
-  }, []);
+    console.log("Slides rendered:", slides);
+  }, [slides]);
   
 
   
@@ -105,7 +101,6 @@ const Malidag = ({ user, gra }) => {
       initialSlide: currentSlide, // 👈 Start from saved slide
       beforeChange: (oldIndex, newIndex) => {
         setCurrentSlide(newIndex);
-        localStorage.setItem("malidagCurrentSlide", newIndex); // 👈 Save it
         const newColor = slides[newIndex]?.type || "#689c85";
         setCurrentSlideType(newColor);
       },
@@ -169,7 +164,7 @@ const Malidag = ({ user, gra }) => {
     <>
 
     <div style={{position: "relative"}}>
-      <div>
+      <div style={{width: "100%", height: (isDesktop || isTablet || isMobile) ? "750px" : "440px", backgroundColor: "#ddd5"}}>
 
 <Slider {...settings}>
 {slides.length > 0 && slides.map((slide) => (
@@ -196,26 +191,12 @@ const Malidag = ({ user, gra }) => {
      >
       <picture>
       <source srcSet={slide.url} type="image/webp" />
-      {/* 👇 Skeleton Placeholder */}
-    {!loadedImages[slide.id] && (
-      <div
-        style={{
-          width: "100%",
-          height: (isDesktop || isTablet || isMobile) ? "300px" : "200px",
-          backgroundColor: slide.type,
-          borderRadius: "4px",
-        }}
-      />
-    )}
-
     {/* 👇 Actual Image */}
     <img
       src={slide.url}
       alt={`Slide ${slide.id}`}
-      onLoad={() =>
-        setLoadedImages((prev) => ({ ...prev, [slide.id]: true }))
-      }
       onClick={() => handleNavigation(slide.id)}
+      onLoad={() => handleImageLoad(slide.id)} // ← call this when loaded
       style={{
         width: "100%",
         height: (isDesktop || isTablet || isMobile) ? "300px" : "200px",
@@ -275,6 +256,7 @@ const Malidag = ({ user, gra }) => {
         
            {(isSmallMobile || isVerySmall) && (
             <div style={{marginBottom: "10px"}}>
+             
             <SearchSuggestions/>
             </div>
            )}
