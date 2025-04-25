@@ -63,7 +63,7 @@ const Malidag = ({ user, gra }) => {
         const slides = [
           { id: 1, url: `https://api.malidag.com/public/header/1/steptodown.com296421.webp`, type: "#689c85" },
           { id: 2, url: `https://api.malidag.com/public/header/2/Untitled%20design%20%2821%29_enhanced_enhanced_enhanced.webp`, type: "#e87909" },
-          { id: 3, url: `https://api.malidag.com/public/header/3/360_F_650418483_ZaHCajaxDWesXF8XfMYbgF4AMcvBB2eH_enhanced_enhanced_enhanced.webp`, type: "#024163" },
+          { id: 3, url: `https://api.malidag.com/public/header/3/header.jpg`, type: "#024163" },
         ];
         setSlides(slides);
   
