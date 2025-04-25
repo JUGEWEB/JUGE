@@ -9,7 +9,7 @@ const ThemeForFashionKick = () => {
   const theme = {
     id: 1,
     theme: "Fashion's kick",
-    image: "https://api.malidag.com/images/1744938259183-1734827472068-1734655782065-Untitled design (3).webp"
+    image: "https://api.malidag.com/images/1745586262836-Screenshot_7.webp"
   };
 
   const brandCount = parseInt(localStorage.getItem('brandCount')) || 0;
@@ -51,7 +51,7 @@ const ThemeForFashionKick = () => {
             onClick={handleDiscoverClick}
             style={{
               width: '100%',
-              height: 'auto',
+              height: (isSmallMobile || isVerySmall) ? "100%" : 'auto',
               display: 'block',
               objectFit: 'cover',
               transition: 'opacity 0.3s ease-in-out'
