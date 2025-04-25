@@ -4,22 +4,22 @@ const personalCareThemes = [
     {
       id: 1,
       type: "Perfume",
-      url: "https://api.malidag.com/uploads/1732631623382/images/1602633361371-742084085-removebg-preview (1).png",
+      url: "https://api.malidag.com/images/1744935328707-1734648207643-transparent-perfume-bottle-flowers-pink-wall-spring-wall-with-aroma-perfume-flat-lay.webp",
     },
     {
       id: 2,
       type: "Eyebrow",
-      url: "https://api.malidag.com/uploads/1732631623382/images/1732633361378-208054387.jpg",
+      url: "https://api.malidag.com/images/1744935570674-1734648857748-comparison-different-types-brush-strokes.webp",
     },
     {
       id: 3,
       type: "Make-up",
-      url: "https://api.malidag.com/uploads/1732631623382/images-variants/NC25 9 ml/610mlI7u99L._SL1500_.jpg",
+      url: "https://api.malidag.com/images/1744935668110-1734646823425-creative-display-makeup-products-arrangement.webp",
     },
     {
       id: 4,
       type: "Skincare",
-      url: "https://api.malidag.com/uploads/1732631623382/images-variants/NC35 9 ml/619hu2pY+qL._SL1500_.jpg",
+      url: "https://api.malidag.com/images/1744935707885-1734646785153-close-up-body-butter-recipient.webp",
     },
   ];
   
