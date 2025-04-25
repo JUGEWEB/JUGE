@@ -61,9 +61,9 @@ const Malidag = ({ user, gra }) => {
     const fetchSlides = async () => {
       try {
         const slides = [
-          { id: 1, url: `https://api.malidag.com/public/header/1/steptodown.com296421.webp`, type: "#689c85" },
-          { id: 2, url: `https://api.malidag.com/public/header/2/Untitled%20design%20%2821%29_enhanced_enhanced_enhanced.webp`, type: "#e87909" },
-          { id: 3, url: `https://api.malidag.com/public/header/3/header.jpg`, type: "#024163" },
+          { id: 1, url: `https://api.malidag.com/public/header/1/firstbestimage.webp`, type: "#689c85" },
+          { id: 2, url: `https://api.malidag.com/public/header/2/Screenshorealbbbb.webp`, type: "#e87909" },
+          { id: 3, url: `https://api.malidag.com/public/header/3/dyctm.webp`, type: "#024163" },
         ];
         setSlides(slides);
   
@@ -202,6 +202,7 @@ const Malidag = ({ user, gra }) => {
         height: (isDesktop || isTablet || isMobile) ? "300px" : "200px",
         objectFit: "cover",
         display: loadedImages[slide.id] ? "block" : "none", // Hide if not loaded
+        filter: "contrast(1.2) brightness(1.1)", // Add this line to enhance clarity
       }}
     />
     </picture>
