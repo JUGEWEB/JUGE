@@ -75,12 +75,18 @@ const Malidag = ({ user, gra }) => {
     fetchSlides();
   }, []);
 
-  const handleImageLoad = (id) => {
-    setLoadedImages((prev) => ({
-      ...prev,
-      [id]: true,
-    }));
-  };
+  useEffect(() => {
+    if (slides.length > 0) {
+      const firstSlide = slides.find(slide => slide.id === 1);
+      if (firstSlide) {
+        const img = new Image();
+        img.src = firstSlide.url;
+        img.onload = () => {
+          setLoadedImages(prev => ({ ...prev, [firstSlide.id]: true }));
+        };
+      }
+    }
+  }, [slides]);
   
 
   useEffect(() => {
@@ -196,12 +202,14 @@ const Malidag = ({ user, gra }) => {
       src={slide.url}
       alt={`Slide ${slide.id}`}
       onClick={() => handleNavigation(slide.id)}
-      onLoad={() => handleImageLoad(slide.id)} // ← call this when loaded
+       loading="lazy"
       style={{
         width: "100%",
         height: (isDesktop || isTablet || isMobile) ? "300px" : "200px",
         objectFit: "cover",
-        display: loadedImages[slide.id] ? "block" : "none", // Hide if not loaded
+        opacity: slide.id === 1
+        ? (loadedImages[1] ? 1 : 1) // Only apply loading effect to first image
+        : 1, // Other slides: always 1 opacity
         filter: "contrast(1.2) brightness(1.1)", // Add this line to enhance clarity
       }}
     />

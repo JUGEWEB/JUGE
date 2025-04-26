@@ -7,6 +7,21 @@ const ThemeForGamers = () => {
   const [theme, setTheme] = useState(null);
   const { isDesktop, isMobile, isTablet, isSmallMobile, isVerySmall } = useScreenSize();
   const navigate = useNavigate();
+   const [loadedImages, setLoadedImages] = useState({});
+   
+   const loadTheme = {
+    id: 2435,
+    theme: "Game product",
+    image: "https://api.malidag.com/images/1745672632373-game7.webp"
+  };
+  
+   useEffect(() => {
+           const img = new Image();
+           img.src = loadTheme.image;
+           img.onload = () => {
+             setLoadedImages(prev => ({ ...prev, [loadTheme.id]: true }));
+           };
+         }, []);
 
   useEffect(() => {
     const fetchTheme = async () => {
@@ -65,11 +80,13 @@ const ThemeForGamers = () => {
       <img
         src={theme.image}
         alt={theme.theme}
+        loading="lazy"
         onClick={handleDiscoverClick}
         style={{
           width: '100%',
           height: (isSmallMobile || isVerySmall) ? "100%" : 'auto',
           display: 'block',
+          opacity: loadedImages[loadTheme.id] ? 1 : 1,
           objectFit: 'cover',
         }}
       />
