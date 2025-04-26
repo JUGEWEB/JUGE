@@ -254,10 +254,17 @@ const Malidag = ({ user, gra }) => {
           <div style={{backgroundColor: "#ddd5", position: 'relative',width: "100%", height: "auto"}}>
 
             <MalidagCategories2/>
-        
+
+            {(isSmallMobile || isVerySmall) && (
+            <div style={{width: "100%", display: "flex", alignItems: "center", justifyContent: "center"}}>
+              
+            <ThemeForPersonnalCare/>
+            </div>
+           )}
+
            {(isSmallMobile || isVerySmall) && (
             <div style={{marginBottom: "10px"}}>
-             
+        
             <SearchSuggestions/>
             </div>
            )}
