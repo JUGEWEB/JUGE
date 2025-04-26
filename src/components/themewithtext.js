@@ -5,6 +5,21 @@ import useScreenSize from './useIsMobile';
 const ThemeWithText = () => {
   const [theme, setTheme] = useState(null);
   const {isMobile, isDesktop, isSmallMobile, isTablet, isVerySmall} = useScreenSize()
+  const [loadedImages, setLoadedImages] = useState({});
+
+  const loadTheme = {
+    id: 2,
+    theme: "Hot deals",
+    image: "https://api.malidag.com/images/1744938620683-1742913356938-steptodown.com510219.webp"
+  };
+
+  useEffect(() => {
+         const img = new Image();
+         img.src = loadTheme.image;
+         img.onload = () => {
+           setLoadedImages(prev => ({ ...prev, [loadTheme.id]: true }));
+         };
+       }, []);
 
   useEffect(() => {
     const fetchTheme = async () => {
@@ -27,6 +42,8 @@ const ThemeWithText = () => {
 
     fetchTheme();
   }, []);
+  
+  
 
   if (!theme) return null;
 
@@ -57,10 +74,12 @@ const ThemeWithText = () => {
         <img
           src={theme.image}
           alt={theme.theme}
+          loading="lazy"
           style={{
             maxWidth: '100%',
             height: 'auto',
             objectFit: 'cover',
+            opacity: loadedImages[loadTheme.id] ? 1 : 1,
            marginTop: "30px"
           }}
         />

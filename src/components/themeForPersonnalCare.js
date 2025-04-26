@@ -59,7 +59,7 @@ const ThemeForPersonnalCare = () => {
                 width: '100px',
                 height: '100px',
                 objectFit: 'cover',
-                opacity: loadedImages[theme.id] ? 1 : 0.5,
+                opacity: loadedImages[theme.id] ? 1 : 1,
                 transition: 'opacity 0.3s ease',
                 filter: "contrast(1)",
                 backgroundColor: '#eee'

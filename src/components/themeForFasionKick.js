@@ -5,6 +5,16 @@ import { useNavigate } from 'react-router-dom';
 const ThemeForFashionKick = () => {
   const { isDesktop, isMobile, isTablet, isSmallMobile, isVerySmall } = useScreenSize();
   const navigate = useNavigate();
+  const [loadedImages, setLoadedImages] = useState({});
+
+  useEffect(() => {
+    const img = new Image();
+    img.src = theme.image;
+    img.onload = () => {
+      setLoadedImages(prev => ({ ...prev, [theme.id]: true }));
+    };
+  }, []);
+  
 
   const theme = {
     id: 1,
@@ -48,11 +58,13 @@ const ThemeForFashionKick = () => {
           <img
             src={theme.image}
             alt={theme.theme}
+             loading="lazy"
             onClick={handleDiscoverClick}
             style={{
               width: '100%',
               height: (isSmallMobile || isVerySmall) ? "100%" : 'auto',
               display: 'block',
+              opacity: loadedImages[theme.id] ? 1 : 1,
               objectFit: 'cover',
               transition: 'opacity 0.3s ease-in-out'
             }}
