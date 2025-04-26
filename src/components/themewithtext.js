@@ -49,8 +49,10 @@ const ThemeWithText = () => {
         color: '#333',
          backgroundColor: '#f9f9f9'
       }}>
-        {theme.theme.replace(/"/g, '')}
+        Explore our top brands and shop with brands
       </div>
+
+      <div style={{width: "100%", height: "190px"}}>
       {theme.image && (
         <img
           src={theme.image}
@@ -63,6 +65,7 @@ const ThemeWithText = () => {
           }}
         />
       )}
+      </div>
     </div>
   );
 };

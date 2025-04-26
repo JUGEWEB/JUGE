@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 
 const ThemeForGamers = () => {
   const [theme, setTheme] = useState(null);
-  const { isDesktop, isMobile, isTablet } = useScreenSize();
+  const { isDesktop, isMobile, isTablet, isSmallMobile, isVerySmall } = useScreenSize();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -59,20 +59,21 @@ const ThemeForGamers = () => {
         textAlign: 'center',
         borderBottom: '1px solid #eee',
       }}>
-        {theme.theme}
+        Products for gamers
       </div>
-
+      <div style={{ width:(isSmallMobile || isVerySmall) ? "150px" : '100%', height:(isSmallMobile || isVerySmall) ? "170px" : 'auto', backgroundColor: "#ddd5"}}>
       <img
         src={theme.image}
         alt={theme.theme}
         onClick={handleDiscoverClick}
         style={{
           width: '100%',
-          height: 'auto',
+          height: (isSmallMobile || isVerySmall) ? "100%" : 'auto',
           display: 'block',
           objectFit: 'cover',
         }}
       />
+      </div>
         {(isDesktop || isMobile || isTablet) && (
    
       <div  onClick={handleDiscoverClick} style={{color: "blue", marginTop: "4rem", fontSize: "0.8rem", textDecoration: "underline", marginLeft: "1rem"}}>discover now</div>

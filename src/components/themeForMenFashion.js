@@ -55,7 +55,7 @@ const ThemeForMenFashion = () => {
         onClick={handleDiscoverClick}
         style={{
           width: '100%',
-          height: 'auto',
+          height: (isSmallMobile || isVerySmall) ? "100%" : 'auto',
           display: 'block',
           objectFit: 'cover',
         }}

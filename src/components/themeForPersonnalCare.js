@@ -3,7 +3,7 @@ import useScreenSize from './useIsMobile';
 import personalCareThemes from './personnalCareThemes'; // ✅ Correctly imported theme data
 
 const ThemeForPersonnalCare = () => {
-  const { isDesktop } = useScreenSize();
+  const { isDesktop, isMobile, isSmallMobile, isTablet, isVerySmall } = useScreenSize();
   const [loadedImages, setLoadedImages] = useState({});
 
   useEffect(() => {
@@ -22,12 +22,11 @@ const ThemeForPersonnalCare = () => {
   return (
     <div style={{
       padding: "1rem",
-      width: '270px',
-      minHeight: '250px',
-      marginTop: "1rem",
+      width: (isSmallMobile || isVerySmall) ? "100%" : '270px',
+      minHeight:  '250px',
+      marginTop: (isSmallMobile || isVerySmall) ? "0rem" : "1rem",
       marginBottom: "1rem",
       boxShadow: '0 1px 4px rgba(0,0,0,0.08)',
-      borderRadius: '10px',
       backgroundColor: '#fff'
     }}>
       <div style={{
@@ -60,9 +59,9 @@ const ThemeForPersonnalCare = () => {
                 width: '100px',
                 height: '100px',
                 objectFit: 'cover',
-                borderRadius: '8px',
                 opacity: loadedImages[theme.id] ? 1 : 0.5,
                 transition: 'opacity 0.3s ease',
+                filter: "contrast(1.3)",
                 backgroundColor: '#eee'
               }}
             />
