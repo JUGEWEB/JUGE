@@ -47,7 +47,7 @@ const ThemeForPersonnalCare = () => {
       }}>
         {personalCareThemes.map((theme) => (
           <div key={theme.id} style={{
-            width: '100px',
+            width:(isSmallMobile || isVerySmall) ? "150px" : '100px',
             textAlign: 'center',
             minHeight: '130px',
           }}>
@@ -61,7 +61,7 @@ const ThemeForPersonnalCare = () => {
                 objectFit: 'cover',
                 opacity: loadedImages[theme.id] ? 1 : 0.5,
                 transition: 'opacity 0.3s ease',
-                filter: "contrast(1.3)",
+                filter: "contrast(1)",
                 backgroundColor: '#eee'
               }}
             />
