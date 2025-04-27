@@ -35,9 +35,9 @@ import { Helmet } from "react-helmet";
 
 const ITEMS_PER_SLIDE = 6; // Number of items to display per slide
 const MAX_ITEMS = 17; // Maximum items to display in total
-const BASE_URLs = "https://api.malidag.com"; // Replace with your IP
+const BASE_URL = "https://api.malidag.com"; // Replace with your IP
   
-const Malidag = ({ user, gra }) => {
+const Malidag = ({ user, gra, slides }) => {
   const [currentSlide, setCurrentSlide] = useState(0); // Manage slide state
   const [totalSlides, setTotalSlides] = useState(0);
   const [items, setItems] = useState([]); // Hold all items
@@ -52,22 +52,6 @@ const Malidag = ({ user, gra }) => {
   const {isMobile, isDesktop, isSmallMobile, isTablet, isVerySmall} = useScreenSize()
   const [prevType, setPrevType] = useState(currentSlideType);
   const [animate, setAnimate] = useState(false);
-
-
-  
-
-  const { data: slides = [] } = useQuery({
-    queryKey: ['slides'],
-    queryFn: async () => {
-      return [
-        { id: 1, url: `https://api.malidag.com/public/header/1/firstbestimage.webp`, type: "#689c85" },
-        { id: 2, url: `https://api.malidag.com/public/header/2/Screenshorealbbbb.webp`, type: "#e87909" },
-        { id: 3, url: `https://api.malidag.com/public/header/3/dyctm.webp`, type: "#024163" },
-      ];
-    },
-    staleTime: 1000 * 60 * 5,  // 5 minutes
-    cacheTime: 1000 * 60 * 30, // 30 minutes
-  });
   
 
   useEffect(() => {
@@ -152,99 +136,11 @@ const Malidag = ({ user, gra }) => {
 
      {/* Helmet for Dynamic Preload */}
      <Helmet>
-        {slides.length > 0 && slides.slice(0, 3).map(slide => (
+        {slides.map(slide => (
           <link key={slide.id} rel="preload" as="image" href={slide.url} />
         ))}
       </Helmet>
 
-    <div style={{position: "relative"}}>
-      <div style={{width: "100%", height: (isDesktop || isTablet || isMobile) ? "750px" : "440px", backgroundColor: "#ddd5"}}>
-
-<Slider {...settings}>
-{slides.length > 0 && slides.map((slide) => (
-   
-   <div
-     key={slide.id}
-     style={{
-       position: "relative",
-       width: "100%",
-       height: "auto",
-       display: "flex",
-       justifyContent: "center",
-       alignItems: "center",
-       backgroundColor: "#ddd5",
-     }}
-   >
-     <div
-       style={{
-         width: "100%",
-         height: (isDesktop || isTablet || isMobile) ? "350px" : "210px",
-         position: "relative",
-         backgroundColor: slide.type,
-       }}
-     >
-      <picture>
-      <source srcSet={slide.url} type="image/webp" />
-    {/* 👇 Actual Image */}
-    <img
-      src={slide.url}
-      alt={`Slide ${slide.id}`}
-      onClick={() => handleNavigation(slide.id)}
-       loading="lazy"
-      style={{
-        width: "100%",
-        height: (isDesktop || isTablet || isMobile) ? "300px" : "200px",
-        objectFit: "cover",
-        filter: "contrast(1.2) brightness(1.1)", // Add this line to enhance clarity
-      }}
-    />
-    </picture>
-
-       <div
-         style={{
-           width: "100%",
-           height: "50px",
-           position: "absolute",
-           bottom: (isDesktop || isMobile || isTablet) ? "50px" : "10px",
-           background: `linear-gradient(to bottom, transparent, ${slide.type || '#ddd5'})`,
-         }}
-       ></div>
-     </div>
-
-     <div
-       style={{
-         width: "100%",
-         height: (isDesktop || isMobile || isTablet) ? "400px" : "230px",
-         top: "0px",
-         background: `linear-gradient(to bottom, ${slide.type}, #ddd5)`,
-       }}
-     ></div>
-   </div>
-))}
-</Slider>
-</div>
-
-    <div style={{position: "absolute", top: "170px", width: "100%" }}>
-
-    {(isTablet || isDesktop) && (
-<span className="span-warning">
-  We are displaying products that ship to your location. You can select a different location in the menu above.  
-  <a href="/international-shipping" style={{ color: "blue", marginLeft: "5px", textDecoration: "underline" }}>
-    Learn about international shipping here
-  </a>
-</span>
-)}
-        <div style={{display: "flex", width: "100%", height: "auto", alignItems: "start", justifyContent: "space-between", overflowX:(isMobile || isTablet || isDesktop) ? "auto" : "auto"}}>
-          <MalidagCategorySmall/>
-            <MalidagCategory user={user} />
-           <div style={{}}>
-            <ThemeWithText/>
-            </div>
-      
-            </div>
-
-          </div>
-        </div>
           <div style={{backgroundColor: "#ddd5", position: 'relative',width: "100%", height: "auto"}}>
 
             <MalidagCategories2/>
