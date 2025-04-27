@@ -30,6 +30,7 @@ import ThemeForMenFashion from "./themeForMenFashion";
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import 'react-lazy-load-image-component/src/effects/blur.css';
 import { useQuery } from '@tanstack/react-query'; // 👈 Import useQuery
+import { Helmet } from "react-helmet";
 
 
 const ITEMS_PER_SLIDE = 6; // Number of items to display per slide
@@ -164,6 +165,13 @@ const Malidag = ({ user, gra }) => {
   return (
 
     <>
+
+     {/* Helmet for Dynamic Preload */}
+     <Helmet>
+        {slides.length > 0 && slides.slice(0, 3).map(slide => (
+          <link key={slide.id} rel="preload" as="image" href={slide.url} />
+        ))}
+      </Helmet>
 
     <div style={{position: "relative"}}>
       <div style={{width: "100%", height: (isDesktop || isTablet || isMobile) ? "750px" : "440px", backgroundColor: "#ddd5"}}>
