@@ -52,7 +52,6 @@ const Malidag = ({ user, gra }) => {
   const {isMobile, isDesktop, isSmallMobile, isTablet, isVerySmall} = useScreenSize()
   const [prevType, setPrevType] = useState(currentSlideType);
   const [animate, setAnimate] = useState(false);
-  const [loadedImages, setLoadedImages] = useState({});
 
 
   
@@ -69,21 +68,6 @@ const Malidag = ({ user, gra }) => {
     staleTime: 1000 * 60 * 5,  // 5 minutes
     cacheTime: 1000 * 60 * 30, // 30 minutes
   });
-  
-  
-
-  useEffect(() => {
-    if (slides.length > 0) {
-      const firstSlide = slides.find(slide => slide.id === 1);
-      if (firstSlide) {
-        const img = new Image();
-        img.src = firstSlide.url;
-        img.onload = () => {
-          setLoadedImages(prev => ({ ...prev, [firstSlide.id]: true }));
-        };
-      }
-    }
-  }, [slides]);
   
 
   useEffect(() => {
@@ -211,9 +195,6 @@ const Malidag = ({ user, gra }) => {
         width: "100%",
         height: (isDesktop || isTablet || isMobile) ? "300px" : "200px",
         objectFit: "cover",
-        opacity: slide.id === 1
-        ? (loadedImages[1] ? 1 : 1) // Only apply loading effect to first image
-        : 1, // Other slides: always 1 opacity
         filter: "contrast(1.2) brightness(1.1)", // Add this line to enhance clarity
       }}
     />
