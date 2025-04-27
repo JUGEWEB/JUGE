@@ -56,6 +56,7 @@ import All from "./components/All";
 import Type from "./components/type";
 import Coin from "./components/coin";
 import ThemeForPersonnalSmall from "./components/themeForPersonnalSmal";
+import MainSlider from "./components/MainSlider";
 
 
 
@@ -79,6 +80,12 @@ const App = () => {
     const savedIndex = localStorage.getItem("selectedIndex");
     return savedIndex !== null ? Number(savedIndex) : 0  
   });
+
+  const slides = [
+    { id: 1, url: "https://api.malidag.com/public/header/1/firstbestimage.webp", type: "#689c85" },
+    { id: 2, url: "https://api.malidag.com/public/header/2/Screenshorealbbbb.webp", type: "#e87909" },
+    { id: 3, url: "https://api.malidag.com/public/header/3/dyctm.webp", type: "#024163" },
+  ];
  
   console.log("contry:", country)
   useEffect(() => {
@@ -212,6 +219,8 @@ const App = () => {
         {(isTablet || isDesktop) && (
       <NavMenu  basketItems={basketItems} /> 
         )}
+
+        <MainSlider user={user}/>
      
          
 
@@ -219,7 +228,7 @@ const App = () => {
         <div style={{ flex: 1 }}>
           <Routes>
             <Route path="/auth" element={<AuthForm auth={auth} user={user} />} />
-            <Route path="/" element={<Malidag auth={auth} user={user} />} />
+            <Route path="/" element={<Malidag auth={auth} user={user} slides={slides} />} />
             <Route path="/profile" element={<Profile auth={auth} user={user} />} />
             <Route path="/item/:searchTerm" element={<ItemPage />} />
             <Route path="/items" element={<TypePage />} />
