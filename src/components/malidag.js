@@ -29,6 +29,8 @@ import ThemeForPersonnalCare from "./themeForPersonnalCare";
 import ThemeForMenFashion from "./themeForMenFashion";
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import 'react-lazy-load-image-component/src/effects/blur.css';
+import { useQuery } from '@tanstack/react-query'; // 👈 Import useQuery
+
 
 const ITEMS_PER_SLIDE = 6; // Number of items to display per slide
 const MAX_ITEMS = 17; // Maximum items to display in total
@@ -43,37 +45,31 @@ const Malidag = ({ user, gra }) => {
   const [modalData, setModalData] = useState(null); // Data for the modal
   const [isLoading, setIsLoading] = useState(false); // Loading state for modal content
   const [selectedSymbol, setSelectedSymbol] = useState("BTC");
-  const [slides, setSlides] = useState([]);
    const [currentSlideType, setCurrentSlideType] = useState("#689c85");
    const [slideDirection, setSlideDirection] = useState("right");
   const  navigate = useNavigate()
   const {isMobile, isDesktop, isSmallMobile, isTablet, isVerySmall} = useScreenSize()
   const [prevType, setPrevType] = useState(currentSlideType);
   const [animate, setAnimate] = useState(false);
-  console.log("slice type:", slides?.type)
-  console.log("slice image:", slides?.image)
   const [loadedImages, setLoadedImages] = useState({});
 
 
   
 
-  useEffect(() => {
-    const fetchSlides = async () => {
-      try {
-        const slides = [
-          { id: 1, url: `https://api.malidag.com/public/header/1/firstbestimage.webp`, type: "#689c85" },
-          { id: 2, url: `https://api.malidag.com/public/header/2/Screenshorealbbbb.webp`, type: "#e87909" },
-          { id: 3, url: `https://api.malidag.com/public/header/3/dyctm.webp`, type: "#024163" },
-        ];
-        setSlides(slides);
+  const { data: slides = [] } = useQuery({
+    queryKey: ['slides'],
+    queryFn: async () => {
+      return [
+        { id: 1, url: `https://api.malidag.com/public/header/1/firstbestimage.webp`, type: "#689c85" },
+        { id: 2, url: `https://api.malidag.com/public/header/2/Screenshorealbbbb.webp`, type: "#e87909" },
+        { id: 3, url: `https://api.malidag.com/public/header/3/dyctm.webp`, type: "#024163" },
+      ];
+    },
+    staleTime: 1000 * 60 * 5,  // 5 minutes
+    cacheTime: 1000 * 60 * 30, // 30 minutes
+  });
   
-      } catch (error) {
-        console.error("Error fetching slides:", error);
-      }
-    };
   
-    fetchSlides();
-  }, []);
 
   useEffect(() => {
     if (slides.length > 0) {
@@ -238,6 +234,7 @@ const Malidag = ({ user, gra }) => {
 ))}
 </Slider>
 </div>
+
     <div style={{position: "absolute", top: "170px", width: "100%" }}>
 
     {(isTablet || isDesktop) && (
