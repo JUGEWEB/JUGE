@@ -145,12 +145,16 @@ const Malidag = ({ user, gra, slides }) => {
 
             <MalidagCategories2/>
 
+            <div style={{paddingLeft: "0rem", paddingRight: "0rem"}}>
+
             {(isSmallMobile || isVerySmall) && (
             <div style={{width: "100%", display: "flex", alignItems: "center", justifyContent: "center"}}>
               
             <ThemeForPersonnalCare/>
+           
             </div>
            )}
+           </div>
 
            {(isSmallMobile || isVerySmall) && (
             <div style={{marginBottom: "10px"}}>

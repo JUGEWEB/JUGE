@@ -21,7 +21,7 @@ const ThemeForPersonnalCare = () => {
 
   return (
     <div style={{
-      padding: "1rem",
+      padding: (isSmallMobile || isVerySmall) ? "0.5rem" : "1rem",
       width: (isSmallMobile || isVerySmall) ? "100%" : '270px',
       minHeight:  '250px',
       marginTop: (isSmallMobile || isVerySmall) ? "0rem" : "1rem",
@@ -40,29 +40,36 @@ const ThemeForPersonnalCare = () => {
       </div>
 
       <div style={{
-        display: 'flex',
+       display:(isSmallMobile || isVerySmall) ? "grid" : 'flex',
         flexWrap: 'wrap',
-        gap: "1rem",
-        justifyContent: 'space-between',
+        width: "100%",
+        gap:(isSmallMobile || isVerySmall) ? "1rem" :  "1rem",
+        justifyContent:(isSmallMobile || isVerySmall) ? "space-between" :  'space-between',
+        gridTemplateColumns: (isSmallMobile || isVerySmall) ? 'repeat(2, 1fr)' : 'repeat(2, 1fr)', // 👈 Always 2 columns
+        alignItems: "center",
       }}>
         {personalCareThemes.map((theme) => (
           <div key={theme.id} style={{
-            width:(isSmallMobile || isVerySmall) ? "150px" : '100px',
+            width:(isSmallMobile || isVerySmall) ? "100%" : '100px',
             textAlign: 'center',
-            minHeight: '130px',
+            minHeight: '100%',
+           
+            marginTop: "10px",
           }}>
             <img
               src={theme.url}
               alt={theme.type}
               loading="lazy"
               style={{
-                width: '100px',
-                height: '100px',
+                width: (isSmallMobile || isVerySmall) ? "100%" :  '100px',
+                height: (isSmallMobile || isVerySmall) ? "185px" :  '100px',
                 objectFit: 'cover',
                 opacity: loadedImages[theme.id] ? 1 : 1,
                 transition: 'opacity 0.3s ease',
                 filter: "contrast(1)",
-                backgroundColor: '#eee'
+                boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)', // ✅ Add shadow here
+               borderRadius: "5px",
+                backgroundColor: '#fff'
               }}
             />
             <div style={{
