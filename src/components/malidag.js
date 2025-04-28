@@ -32,6 +32,7 @@ import 'react-lazy-load-image-component/src/effects/blur.css';
 import { useQuery } from '@tanstack/react-query'; // 👈 Import useQuery
 import { Helmet } from "react-helmet";
 import ThemeForWomenFashion from "./themeForWomenFashion";
+import ThemeForHomeAndKitchen from "./themeForHomeAndKitchen";
 
 
 const ITEMS_PER_SLIDE = 6; // Number of items to display per slide
@@ -160,6 +161,14 @@ const Malidag = ({ user, gra, slides }) => {
                     <div style={{width: "100%", display: "flex", alignItems: "center", justifyContent: "center"}}>
                       
                     <ThemeForWomenFashion/>
+                  
+                    </div>
+                  )}
+
+{(isSmallMobile || isVerySmall) && (
+                    <div style={{width: "100%", display: "flex", alignItems: "center", justifyContent: "center", marginTop: "0.2rem"}}>
+                      
+                    <ThemeForHomeAndKitchen/>
                   
                     </div>
                   )}
