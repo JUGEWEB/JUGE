@@ -25,7 +25,7 @@ const ThemeForPersonnalCare = () => {
       width: (isSmallMobile || isVerySmall) ? "100%" : '270px',
       minHeight:  '250px',
       marginTop: (isSmallMobile || isVerySmall) ? "0rem" : "1rem",
-      marginBottom: "1rem",
+      marginBottom: (isSmallMobile || isVerySmall) ? "0.2rem" : "1rem",
       boxShadow: '0 1px 4px rgba(0,0,0,0.08)',
       backgroundColor: '#fff'
     }}>
