@@ -53,8 +53,6 @@ const ThemeForPersonnalCare = () => {
             width:(isSmallMobile || isVerySmall) ? "100%" : '100px',
             textAlign: 'center',
             minHeight: '100%',
-           
-            marginTop: "10px",
           }}>
             <img
               src={theme.url}
