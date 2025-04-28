@@ -19,7 +19,7 @@ const ThemeForWomenFashion = () => {
   const theme = {
     id: 456,
     theme: "Women fashion",
-    image: "https://api.malidag.com/images/1745852520473-Screenshot_11.webp"
+    image: "https://api.malidag.com/images/1745877690253-Screenshot_12fashion.webp"
   };
 
   const brandCount = parseInt(localStorage.getItem('brandCount')) || 0;
