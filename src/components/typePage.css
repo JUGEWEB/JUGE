@@ -1,8 +1,9 @@
 
 .item-type-container {
-    max-width: 1200px;
+    max-width: 100%;
+    width: 100%;
+    overflow: hidden;
     margin: 0 auto;
-    padding: 20px;
     color: #333;
     margin-top: 0;
   }
@@ -25,39 +26,16 @@
   }
   
   
-  .search-results-type-container {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 7px;
-    padding: 20px 0;
-  }
-  
-  
   .item-type-card {
     display: flex;
     flex-direction: column;
     align-items: center;
     text-align: center;
-    transition: box-shadow 0.3s ease;
-    border-color: #bbb;
-    padding-bottom: 20px;
-     padding-right: 5px;
-     padding-left: 5px;
-     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-  }
-
-  .item-type-card:hover{
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.4);
-    border-color: #ffffff;
-    cursor: pointer;
+    
   }
   
 
-  .item-type-image {
-    width: 230px;
-    height: 230px;
-    object-fit: contain;
-  }
+ 
   
 
   .item-type-details {
