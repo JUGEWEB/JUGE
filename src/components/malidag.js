@@ -54,6 +54,8 @@ const Malidag = ({ user, gra, slides }) => {
   const {isMobile, isDesktop, isSmallMobile, isTablet, isVerySmall} = useScreenSize()
   const [prevType, setPrevType] = useState(currentSlideType);
   const [animate, setAnimate] = useState(false);
+  const brandCount = parseInt(localStorage.getItem('brandCount')) || 0;
+
   
 
   useEffect(() => {
@@ -174,12 +176,12 @@ const Malidag = ({ user, gra, slides }) => {
                   )}
            </div>
 
-           {(isSmallMobile || isVerySmall) && (
-            <div style={{marginBottom: "10px"}}>
-        
-            <SearchSuggestions/>
-            </div>
-           )}
+                  {(isSmallMobile || isVerySmall) && brandCount > 0 && (
+          <div style={{ marginBottom: "10px" }}>
+            <SearchSuggestions />
+          </div>
+        )}
+
           <div className="container">
             <div style={{ backgroundColor: "white", width: "100%", position: "relative", height: "auto", paddingBottom: "10px"}}>
             <div style={{display: "flex", alignItems: "center", justifyContent: "start",}}>
@@ -208,9 +210,11 @@ const Malidag = ({ user, gra, slides }) => {
 </div>
 )}
 
-<div className="container2">
+<div className="container2de">
   <h1  style={{display: "flex", alignItems: "center"}}>Top 100 Most Sold Items  <div style={{fontSize: "14px", color: "green", marginLeft: "10px", fontWeight: "bold", marginTop: "10px", cursor: "pointer"}}  onClick={onclicktopitem} >Explore now</div> </h1>
+  <div style={{width: "100%"}}>
   <TopTopic />
+  </div>
 </div>
        
         
