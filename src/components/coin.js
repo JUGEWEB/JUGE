@@ -74,7 +74,7 @@ const Coin = () => {
   };
 
   return (
-    <div className="coin-scroll-container" style={{backgroundColor:(isDesktop || isTablet) ? "#333" : "#336" }}>
+    <div className="coin-scroll-container" style={{backgroundColor:(isDesktop || isTablet) ? "#333" : "#334" }}>
       <div className="coin-scroll">
         {coins.map((coin) => (
           <div key={coin.symbol} className="coin-item" onClick={() => handleCoinClick(coin?.symbol)} >

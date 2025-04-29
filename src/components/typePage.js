@@ -5,6 +5,7 @@ import { DownOutlined, UpOutlined } from "@ant-design/icons";
 import axios from "axios";
 import "./typePage.css";
 import { useNavigate } from "react-router-dom"; // Import useNavigate
+import useScreenSize from "./useIsMobile";
 
 function TypePage() {
   const navigate = useNavigate(); // Initialize navigate
@@ -17,6 +18,7 @@ function TypePage() {
   const [activeVideoId, setActiveVideoId] = useState(null);
   const [allItems, setAllItems] = useState([]); // All fetched items
   const [reviews, setReviews] = useState({}); // Store reviews data
+  const {isMobile, isDesktop, isSmallMobile, isTablet, isVerySmall} = useScreenSize()
  
   const fetchCryptoPrices = async (symbols) => {
     try {
@@ -223,7 +225,17 @@ function TypePage() {
 
        
       <div className="item-type-container">
-        <div className="search-results-type-container">
+        <div className="search-results-type-container" style={{
+  display: (isDesktop || isMobile || isTablet) ? "flex" : "grid",
+  flexWrap: (isDesktop || isMobile || isTablet) ? "wrap" : undefined,
+  gridTemplateColumns:
+    isVerySmall || isSmallMobile
+      ? "repeat(2, 1fr)"
+      : isMobile || isTablet
+      ? "repeat(3, 1fr)"
+      : undefined,
+      gap: "0.5rem"
+}}>
           {items.map((itemData) => {
             const {itemId, id, item } = itemData;
             const { name, usdPrice, originalPrice, cryptocurrency, sold, videos } = item;
@@ -247,9 +259,9 @@ function TypePage() {
                   style={{
                     background: "white",
                     zIndex: "1",
-                    filter: "brightness(0.93)",
-                    width: "230px",
-                    height: "230px",
+                    filter: "brightness(0.880000000) contrast(1.2)",
+                    width:(isSmallMobile || isVerySmall) ? "200px" : "230px",
+                    height: "250px",
                     marginBottom: "10px",
                     marginTop: "10px",
                     position: "relative",
@@ -273,7 +285,9 @@ function TypePage() {
                         onError={(e) => {
                           e.target.onerror = null;
                           e.target.src = "/path/to/placeholder.jpg";
+                         
                         }}
+                        style={{width:(isSmallMobile || isVerySmall) ? "200px" : "230px",  height: "250px", objectFit: "contain" }}
                       />
                       {firstVideoUrl && ( 
                         <div
