@@ -19,7 +19,7 @@ function TypePage() {
   const [activeVideoId, setActiveVideoId] = useState(null);
   const [allItems, setAllItems] = useState([]); // All fetched items
   const [reviews, setReviews] = useState({}); // Store reviews data
-  const {isMobile, isDesktop, isSmallMobile, isTablet, isVerySmall} = useScreenSize()
+  const {isMobile, isDesktop, isSmallMobile, isTablet, isVerySmall, isVeryVerySmall} = useScreenSize()
  
   const fetchCryptoPrices = async (symbols) => {
     try {
@@ -271,17 +271,22 @@ function TypePage() {
 
        
       <div className="item-type-container">
-        <div className="search-results-type-container" style={{
-  display: (isDesktop || isMobile || isTablet) ? "flex" : "grid",
-  flexWrap: (isDesktop || isMobile || isTablet) ? "wrap" : undefined,
+        <div className="search-results-type-container"style={{
+  display: "grid",
+  gap: "5px",
+  padding: "5px",
   gridTemplateColumns:
-        isVerySmall
+    isVerySmall
+      ? "repeat(2, 1fr)"
+      : isVeryVerySmall
       ? "repeat(1, 1fr)"
       : isSmallMobile
       ? "repeat(2, 1fr)"
-      : isMobile || isTablet
+      : isMobile
       ? "repeat(3, 1fr)"
-      : undefined,
+      : isTablet
+      ? "repeat(4, 1fr)"
+      : "repeat(5, 1fr)",
 }}>
           {items.map((itemData) => {
             const {itemId, id, item } = itemData;
@@ -301,14 +306,14 @@ function TypePage() {
             );
 
             return (
-              <div key={id} className="item-type-card">
+              <div key={id} className="item-type-card" style={{width :"100%", maxWidth: "100%"}}>
                 <div
                   style={{
                     background: "white",
                     zIndex: "1",
                     filter: "brightness(0.880000000) contrast(1.2)",
-                    width:(isSmallMobile || isVerySmall) ? "100%" : "230px",
-                    height: "250px",
+                    width: "100%",
+                    height:(isVerySmall) ? "190px" :  "250px",
                     marginBottom: "10px",
                     marginTop: "10px",
                     position: "relative",
@@ -320,7 +325,9 @@ function TypePage() {
                       controls
                       autoPlay
                       onEnded={handleVideoStop}
-                      style={{ width:(isSmallMobile || isVerySmall) ? "200px" : "230px", height: "250px", objectFit: "cover" }}
+                      style={{ width: "100%",
+                        height: (isVerySmall) ? "190px" :  "250px",
+                        objectFit: "contain" }}
                     />
                   ) : (
                     <>
@@ -334,7 +341,9 @@ function TypePage() {
                           e.target.src = "/path/to/placeholder.jpg";
                          
                         }}
-                        style={{width:(isSmallMobile || isVerySmall) ? "200px" : "230px",  height: "250px", objectFit: "contain" }}
+                       style={{ width: "100%",
+  height:(isVerySmall) ? "190px" :  "250px",
+  objectFit: "contain"}}
                       />
                       {firstVideoUrl && ( 
 
