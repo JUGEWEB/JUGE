@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import useFinalRating from "./finalRating"; // Import the hook
-import { DownOutlined, UpOutlined } from "@ant-design/icons";
+import { DownOutlined, PlayCircleOutlined, UpOutlined } from "@ant-design/icons";
 import axios from "axios";
 import "./typePage.css";
+import { FaPlay } from "react-icons/fa"; // FontAwesome play ico
 import { useNavigate } from "react-router-dom"; // Import useNavigate
 import useScreenSize from "./useIsMobile";
 
@@ -144,10 +145,49 @@ function TypePage() {
   };
   
 
-  if (loading) return <div className="loading-message">Loading...</div>;
-  if (!items || items.length === 0) {
-    return <div className="no-results-message">No items found "".</div>;
+  if (loading) {
+    return (
+      <div
+        className="loading-message"
+        style={{
+          width: "100%",
+          height: "500px",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          fontSize: "1.2rem",
+          color: "#555",
+          backgroundColor: "white",
+        }}
+      >
+    
+      </div>
+    );
   }
+  
+  if (!items || items.length === 0) {
+    return (
+      <div
+        className="no-results-message"
+        style={{
+          width: "100%",
+          height: "500px",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          fontSize: "1.1rem",
+          fontWeight: "500",
+          color: "#777",
+          backgroundColor: "#fff3f3",
+          border: "1px solid #ffdddd",
+          borderRadius: "8px",
+        }}
+      >
+        No items found 😔
+      </div>
+    );
+  }
+  
 
   // Handle item click to navigate to product details page
   const handleItemClick = (id) => {
@@ -159,13 +199,15 @@ function TypePage() {
   return (
     <>
     {/* ✅ 1. HEADER SECTION - Titles and Types */}
-<div className="item-type-title" style={{ display: "flex", alignItems: "center", gap: "20px" }}>
-  <div style={{ whiteSpace: "nowrap" }}>New in the market.</div>
+    <div style={{width: "100%", maxWidth: "100%"}}>
+<div className="item-type-title">
+  
   <div style={{ whiteSpace: "nowrap" }}>Related Types:</div>
 
+  <div  className="related-type-info" >
   {categoryTypes.map((relatedType, index) => (
-    <div key={index} className="related-type-info">
-      <div
+   
+      <div key={index}
         className="related-type-type"
         onClick={() => toggleDropdown(relatedType)}
       >
@@ -179,8 +221,11 @@ function TypePage() {
   </div>
       </div>
       
-    </div>
+   
   ))}
+   </div>
+  
+</div>
 </div>
 
 {/* ✅ 2. DROPDOWN SECTION (Separate) */}
@@ -191,8 +236,8 @@ function TypePage() {
         key={index}
         className="stable-type-dropdown"
       >
-        <div className="circular-items" style={{ display: "flex", flexWrap: "wrap", gap: "15px" }}>
-          <div style={{ display: "flex", flexWrap: "wrap", gap: "15px" }}>
+        <div className="circular-items" style={{ display: "flex", gap: "15px", flexWrap:(isDesktop || isTablet || isMobile) ? "wrap" : undefined, overflowX: (isSmallMobile || isVerySmall) ? "auto" : undefined, overflowY: (isDesktop || isMobile || isTablet) ? "auto" : undefined }}>
+          <div style={{ display: "flex", flexWrap:(isDesktop || isTablet || isMobile) ? "wrap" : undefined , gap: "15px" }}>
           {getItemsByType(relatedType).map((item, idx) => (
             <div key={idx} className="circular-item">
               <div
@@ -217,8 +262,9 @@ function TypePage() {
           ))}
         </div>
           </div>
-        <div style={{color: "blue", width: "200px", textDecoration: "underline", cursor: "pointer"}}> view {relatedType} page</div>
+        <div style={{color: "blue", textDecoration: "underline", cursor: "pointer"}}> view {relatedType} page</div>
       </div>
+
     )
   ))}
 </div>
@@ -273,7 +319,7 @@ function TypePage() {
                       controls
                       autoPlay
                       onEnded={handleVideoStop}
-                      style={{ width: "230px", height: "230px", objectFit: "cover" }}
+                      style={{ width:(isSmallMobile || isVerySmall) ? "200px" : "230px", height: "250px", objectFit: "cover" }}
                     />
                   ) : (
                     <>
@@ -290,22 +336,20 @@ function TypePage() {
                         style={{width:(isSmallMobile || isVerySmall) ? "200px" : "230px",  height: "250px", objectFit: "contain" }}
                       />
                       {firstVideoUrl && ( 
-                        <div
-                          className="play-type-button"
-                          onClick={() => handleVideoPlay(id)}
-                          style={{
-                            position: "absolute",
-                            left: "20px",
-                            bottom: "0px",
-                            zIndex: "2",
-                            fontSize: "1.5rem",
-                            color: "white",
-                            textShadow: "0 0 5px rgba(0,0,0,0.5)",
-                            cursor: "pointer",
-                          }}
-                        >
-                          ▶️
-                        </div>
+
+                      <PlayCircleOutlined
+                      onClick={() => handleVideoPlay(id)}
+                      style={{
+                        position: "absolute",
+                        left: "20px",
+                        bottom: "0px",
+                        zIndex: "2",
+                        fontSize: "2rem",
+                        color: "black",
+                        cursor: "pointer",
+                        textShadow: "0 0 6px rgba(0, 0, 0, 0.7)"
+                      }}
+                      />
                       )}
                     </>
                   )}
