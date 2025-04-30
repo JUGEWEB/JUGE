@@ -275,12 +275,13 @@ function TypePage() {
   display: (isDesktop || isMobile || isTablet) ? "flex" : "grid",
   flexWrap: (isDesktop || isMobile || isTablet) ? "wrap" : undefined,
   gridTemplateColumns:
-    isVerySmall || isSmallMobile
+        isVerySmall
+      ? "repeat(1, 1fr)"
+      : isSmallMobile
       ? "repeat(2, 1fr)"
       : isMobile || isTablet
       ? "repeat(3, 1fr)"
       : undefined,
-      gap: "0.5rem"
 }}>
           {items.map((itemData) => {
             const {itemId, id, item } = itemData;
