@@ -332,7 +332,7 @@ function TypePage() {
                   ) : (
                     <>
                       <img
-                        className="item-type-image"
+                        
                         src={item.images[0] || "/path/to/placeholder.jpg"}
                         onClick={() => handleItemClick(id)} // Pass the correct id
                         alt={name}

@@ -2,7 +2,9 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import { useNavigate } from "react-router-dom"; // Import useNavigate for navigation
+import useScreenSize from "./useIsMobile";
 import Coin from "./coin";
+import "./coinPage.css"
 
 function CoinPage() {
     const { crypto } = useParams(); // Extract cryptocurrency from URL
@@ -14,6 +16,7 @@ function CoinPage() {
   const [activeVideoId, setActiveVideoId] = useState(null);
   const [chartVisible, setChartVisible] = useState(false); // State for chart visibility
   const navigate = useNavigate(); // Initialize the useNavigate hook
+  const {isMobile, isDesktop, isSmallMobile, isTablet, isVerySmall, isVeryVerySmall} = useScreenSize()
   
 
   const fetchCryptoPrices = async (symbols) => {
@@ -226,8 +229,24 @@ function CoinPage() {
       </div>
     
      
-    <div className="item-page-container">
-      <div className="search-results-container">
+    <div className="item-coin-container">
+      <div className="search-results-coin-container" style={{
+  display: "grid",
+  gap: "5px",
+  padding: "5px",
+  gridTemplateColumns:
+    isVerySmall
+      ? "repeat(2, 1fr)"
+      : isVeryVerySmall
+      ? "repeat(1, 1fr)"
+      : isSmallMobile
+      ? "repeat(2, 1fr)"
+      : isMobile
+      ? "repeat(3, 1fr)"
+      : isTablet
+      ? "repeat(4, 1fr)"
+      : "repeat(5, 1fr)",
+}}>
         {items.map((itemData) => {
           const { id, item } = itemData;
           const { name, usdPrice, originalPrice, cryptocurrency, sold, videos } = item;
@@ -244,17 +263,17 @@ function CoinPage() {
           );
 
           return (
-            <div key={id} className="item-card">
+            <div key={id} className="item-coin-card" style={{width :"100%", maxWidth: "100%"}}>
               <div
-                style={{
-                  background: 'white',
-                  zIndex: '1',
-                  filter: "brightness(0.93)",
-                  width: '230px',
-                  height: '230px',
-                  marginBottom: '10px',
-                  marginTop: '10px',
-                  position: 'relative',
+                  style={{
+                    background: "white",
+                    zIndex: "1",
+                    filter: "brightness(0.880000000) contrast(1.2)",
+                    width: "100%",
+                    height:(isVerySmall) ? "190px" :  "250px",
+                    marginBottom: "10px",
+                    marginTop: "10px",
+                    position: "relative",
                 }}
               >
                 {activeVideoId === id && firstVideoUrl  ? (
@@ -263,15 +282,19 @@ function CoinPage() {
                     controls
                     autoPlay
                     onEnded={handleVideoStop}
-                    style={{ width: '230px', height: '230px', objectFit: 'cover' }}
+                    style={{ width: "100%",
+                      height: (isVerySmall) ? "230px" :  "250px",
+                      objectFit: "contain" }}
                   />
                 ) : (
                   <>
                     <img
-                      className="item-image"
                       src={item.images[0]}
                       onClick={() => handleItemClick(id)} // Attach the click handle
                       alt={name}
+                      style={{ width: "100%",
+                        height:(isVerySmall) ? "230px" :  "250px",
+                        objectFit: "contain"}}
                     />
                     {firstVideoUrl && ( 
                       <div
