@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import { useNavigate } from "react-router-dom"; // Import useNavigate for navigation
-import './itemPage.css'; 
 import Coin from "./coin";
 
 function CoinPage() {
@@ -117,71 +116,90 @@ function CoinPage() {
 
   return (
     <>
-    <div className="item-page-title">
-        <div>Malidag crypto "{crypto}".</div>
+    <div style={{position: "relative", width: "100%"}}>
+    <div style={{color: "#222", display: "flex", alignItems: "center", justifyContent: "start", overflowX: "auto", width: "100%", boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.2)"}}>
+        <div style={{marginLeft: "10px"}}>Malidag crypto "{crypto}".</div>
         <div style={{ marginLeft: "20px" }}>Related Categories:</div>
-        <div className="related-info">
-          <div className="related-categories">
-            {categories.map((category, index) => (
-              <div key={index}>
-                <div
-                  className="related-category"
-                  onClick={() => toggleDropdown(category)}
-                >
-                  {category}
-                <span
-                className={`dropdown-arrow ${
-                dropdownOpen[category] ? "arrow-open" : "arrow-closed"
-                }`}
+     
+
+      {/* CATEGORY HEADERS */}
+     
+        <div style={{display: "flex", alignItems: "center", marginLeft: "10px", marginRight: "10px", justifyContent: "start"}} >
+          {categories.map((category, index) => (
+            <div
+              key={index}
+              onClick={() => toggleDropdown(category)}
+              style={{display: "flex", alignItems: "center", justifyContent: "start", padding: "10px", cursor: "pointer"}}
             >
-                ▼
-            </span>
-                </div>
-               
-                {dropdownOpen[category] && (
-                  <div className="stable-category-dropdown">
-                    <div className="stable-category-types">
-                      <strong>malidag {category}</strong>
-                      {categorizedItems[category]
-                        .map((item) => item.item.type)
-                        .filter((type, idx, arr) => arr.indexOf(type) === idx)
-                        .map((type, idx) => (
-                          <div key={idx} className="stable-type-item">
-                            {type}
-                          </div>
-                        ))}
-                    </div>
-                    <div>
-                    <strong style={{marginLeft: '50%'}}>Hot 🔥:</strong>
-                    <div className="stable-hot-items">
-                      {getHotItems(categorizedItems[category]).map(
-                        (hotItem, idx) => (
-                          <div key={idx} className="stable-hot-item">
-                            <img
-                              src={hotItem.item.images[0]}
-                              alt={hotItem.item.name}
-                              onClick={() => handleItemClick(hotItem.id)} // Attach the click handle
-                              
-                              className="stable-hot-item-image"
-                            />
-                            <div  onClick={() => handleItemClick(hotItem.id)}  className="stable-hot-item-name">
-                              {hotItem.item.name}
-                            </div>
-                            <div className="stable-hot-item-sold">
-                              {hotItem.item.sold} sold
-                            </div>
-                          </div>
-                        )
-                      )}
-                    </div>
-                    </div>
-                  </div>
-                )}
+              <div>
+              {category}
               </div>
-            ))}
-          </div>
+              <span
+                className={`dropdown-arrow ${
+                  dropdownOpen[category] ? "arrow-open" : "arrow-closed"
+                }`}
+              >
+                ▼
+              </span>
+            </div>
+          ))}
         </div>
       </div>
+
+      {/* CATEGORY DROPDOWNS (Below headers) */}
+      <div className="dropdown-seitction" style={{
+        boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
+        position: "absolute",
+        zIndex: 1000,
+        backgroundColor: "white",
+        width: "100%"
+
+      }}>
+        {categories.map((category) =>
+          dropdownOpen[category] ? (
+            <div key={category}style={{
+              display: "flex",
+              alignItems: "center"
+            }}>
+              <div style={{color: "#222", marginLeft: "10px"}}>
+                <strong>malidag {category}</strong>
+                {categorizedItems[category]
+                  .map((item) => item.item.type)
+                  .filter((type, idx, arr) => arr.indexOf(type) === idx)
+                  .map((type, idx) => (
+                    <div key={idx} className="stale-ty-item" style={{color: "blue", padding: "10px", textDecoration: "underline", cursor: "pointer"}}>
+                      {type}
+                    </div>
+                  ))}
+              </div>
+              <div style={{width: "100%", maxWidth: "100%", overflowX: "auto", marginTop: "10px"}}>
+                <strong style={{ marginLeft: "50%", color: "#222" }}>Hot 🔥:</strong>
+                <div className="stable-hot-items">
+                  {getHotItems(categorizedItems[category]).map((hotItem, idx) => (
+                    <div key={idx} className="stable-hot-item">
+                      <img
+                        src={hotItem.item.images[0]}
+                        alt={hotItem.item.name}
+                        onClick={() => handleItemClick(hotItem.id)}
+                        className="stable-hot-item-image"
+                      />
+                      <div
+                        onClick={() => handleItemClick(hotItem.id)}
+                        className="stable-hot-item-name"
+                      >
+                        {hotItem.item.name}
+                      </div>
+                      <div className="stable-hot-item-sold">{hotItem.item.sold} sold</div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          ) : null
+        )}
+      </div>
+      </div>
+
       <div>
       <div style={{display: 'flex', margin: '20px', border: '1px solid black', padding: '10px'}}>
       <div style={{color: 'black', marginLeft: '20px', fontSize: '11px', fontWeight: 'bold'}}>View {crypto} chart here <a style={{color: 'green', cursor: 'pointer'}} onClick={toggleChartVisibility} > {chartVisible ? "▲ Hide" : "▼ Show"}</a></div>
