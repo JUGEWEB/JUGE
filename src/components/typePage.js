@@ -236,7 +236,7 @@ function TypePage() {
         key={index}
         className="stable-type-dropdown"
       >
-        <div className="circular-items" style={{ display: "flex", gap: "15px", flexWrap:(isDesktop || isTablet || isMobile) ? "wrap" : undefined, overflowX: (isSmallMobile || isVerySmall) ? "auto" : undefined, overflowY: (isDesktop || isMobile || isTablet) ? "auto" : undefined }}>
+        <div className="circular-items" style={{ display: "flex", gap: "15px", flexWrap:(isDesktop || isTablet || isMobile) ? "wrap" : undefined, overflowX: (isSmallMobile || isVerySmall) ? "auto" : undefined, overflowY: (isDesktop || isMobile || isTablet) ? "auto" : undefined, height: (isDesktop || isMobile || isTablet) ? "100%" : "auto",  }}>
           <div style={{ display: "flex", flexWrap:(isDesktop || isTablet || isMobile) ? "wrap" : undefined , gap: "15px" }}>
           {getItemsByType(relatedType).map((item, idx) => (
             <div key={idx} className="circular-item">
@@ -306,7 +306,7 @@ function TypePage() {
                     background: "white",
                     zIndex: "1",
                     filter: "brightness(0.880000000) contrast(1.2)",
-                    width:(isSmallMobile || isVerySmall) ? "200px" : "230px",
+                    width:(isSmallMobile || isVerySmall) ? "100%" : "230px",
                     height: "250px",
                     marginBottom: "10px",
                     marginTop: "10px",
