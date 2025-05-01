@@ -16,6 +16,7 @@ function CoinPage() {
   const [activeVideoId, setActiveVideoId] = useState(null);
   const [chartVisible, setChartVisible] = useState(false); // State for chart visibility
   const navigate = useNavigate(); // Initialize the useNavigate hook
+   const [reviews, setReviews] = useState({}); // Store reviews data
   const {isMobile, isDesktop, isSmallMobile, isTablet, isVerySmall, isVeryVerySmall} = useScreenSize()
   
 
@@ -36,6 +37,31 @@ function CoinPage() {
       console.error("Error fetching crypto prices:", error);
     }
   };
+
+   // Fetch reviews from the endpoint
+   const fetchReviews = async (productId) => {
+    try {
+      const response = await axios.get(`http://192.168.0.210:6001/get-reviews/${productId}`);
+      if (response.data.success) {
+       
+        const reviewsArray = response.data.reviews || [];
+        const totalRating = reviewsArray.reduce((acc, review) => {
+          let rating = parseFloat(review.rating);
+          return acc + (isNaN(rating) ? 4 : rating); // If rating is invalid, treat as 5 stars
+        }, 0);
+        const averageRating = reviewsArray.length ? (totalRating / reviewsArray.length).toFixed(2) : null;
+
+        setReviews((prevReviews) => ({
+          ...prevReviews,
+          [productId]: { averageRating, reviewsArray },
+        }));
+
+      }
+    } catch (error) {
+      console.error("Error fetching reviews:", error);
+    }
+  };
+
   
 
   useEffect(() => {
@@ -49,6 +75,11 @@ function CoinPage() {
         const uniqueCategories = [...new Set(fetchedItems.map(item => item.category))];
         setCategories(uniqueCategories);
 
+         // Fetch reviews for each item
+       uniqueCategories.forEach((item) => {
+        fetchReviews(item.itemId); // Fetch reviews for each product
+      });
+       
         const cryptoSymbols = [
           ...new Set(fetchedItems.map((item) => `${item.item.cryptocurrency}`)),
         ];
@@ -59,6 +90,9 @@ function CoinPage() {
         setLoading(false);
       }
     };
+
+    
+    
 
     fetchItemsByCrypto();
   }, [crypto]); // Run when the crypto parameter changes
@@ -249,14 +283,17 @@ function CoinPage() {
 }}>
         {items.map((itemData) => {
           const { id, item } = itemData;
+          const itemId = item.itemId;
           const { name, usdPrice, originalPrice, cryptocurrency, sold, videos } = item;
           const cryptoSymbol = `${cryptocurrency}`;
           const crypto = String(cryptocurrency);
-          const stars = Math.floor(Math.random() * 5) + 1; // Random stars for now
+         
           const cryptoPriceInUSD = cryptoPrices[cryptoSymbol] || 0;
           const itemPriceInCrypto =
             cryptoPriceInUSD > 0 ? (usdPrice / cryptoPriceInUSD).toFixed(6) : "N/A";
 
+            const reviewsData = reviews[itemId] || {}; // Ensure it exists
+            const finalRating = reviewsData ? reviewsData.averageRating : "No rating";
             const normalizedVideos = Array.isArray(videos) ? videos : [videos];
           const firstVideoUrl = normalizedVideos.find(
             (video) => typeof video === "string" && video.endsWith(".mp4")
@@ -270,7 +307,7 @@ function CoinPage() {
                     zIndex: "1",
                     filter: "brightness(0.880000000) contrast(1.2)",
                     width: "100%",
-                    height:(isVerySmall) ? "190px" :  "250px",
+                    height:(isVerySmall) ? "230px" :  "250px",
                     marginBottom: "10px",
                     marginTop: "10px",
                     position: "relative",
@@ -318,12 +355,12 @@ function CoinPage() {
                   </>
                 )}
               </div>
-              <div  onClick={() => handleItemClick(id)} className="item-details">
-                <div  className="item-name" title={name}>
+              <div   className="item-details">
+                <div className="item-name" title={name}>
                   {name.length > 20 ? `${name.substring(0, 20)}...` : name}
                 </div>
                 <div className="item-prices">
-                  <div style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
+                  <div style={{ display: "flex", alignItems: "center", justifyContent: "start" }}>
                     <span className="item-price">${usdPrice}</span>
                     {originalPrice > 0 && (
                       <span className="item-original-price" style={{color: "black"}}>${originalPrice}</span>
@@ -338,7 +375,7 @@ function CoinPage() {
                       </div>
                     </span>
                   </div>
-                  <div className="item-crypto">
+                  <div className="item-crypto" style={{display: "flex", justifyContent: "start", alignItems: "center"}}>
                     <img
                       src={`https://raw.githubusercontent.com/atomiclabs/cryptocurrency-icons/master/svg/color/${crypto.toLowerCase()}.svg`}
                       alt={cryptocurrency}
@@ -355,8 +392,11 @@ function CoinPage() {
                     </span>
                   </div>
                 </div>
-                <div className="item-stars">
-                  {"★".repeat(stars)}{"☆".repeat(5 - stars)}
+                <div className="item-stars"  onClick={() =>
+   navigate('/reviewPage', { 
+    state: { itemData: itemData}
+ }) } title="View reviews of this item" >
+                 {finalRating ? "★".repeat(Math.round(finalRating)) + "☆".repeat(5 - Math.round(finalRating)) : "No rating"}
                 </div>
               </div>
             </div>
