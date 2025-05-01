@@ -108,16 +108,6 @@ function CoinPage() {
     setChartVisible((prev) => !prev); // Toggle chart visibility
   };
 
-  if (loading) return <div className="loading-message">Loading...</div>;
-
-  if (!items || items.length === 0) {
-    return (
-      <div className="no-results-message">
-        No results found for "{crypto}".
-      </div>
-    );
-  }
-
   const categorizedItems = categories.reduce((acc, category) => {
     acc[category] = items.filter((item) => item.category === category);
     return acc;
@@ -138,10 +128,47 @@ function CoinPage() {
     setActiveVideoId(null);
   };
 
-  if (loading) return <div className="loading-message">Loading...</div>;
-
+  if (loading) {
+    return (
+      <div
+        className="loading-message"
+        style={{
+          width: "100%",
+          height: "500px",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          fontSize: "1.2rem",
+          color: "#555",
+          backgroundColor: "white",
+        }}
+      >
+    
+      </div>
+    );
+  }
+  
   if (!items || items.length === 0) {
-    return <div className="no-results-message">No results found for "{crypto}".</div>;
+    return (
+      <div
+        className="no-results-message"
+        style={{
+          width: "100%",
+          height: "500px",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          fontSize: "1.1rem",
+          fontWeight: "500",
+          color: "#777",
+          backgroundColor: "#fff3f3",
+          border: "1px solid #ffdddd",
+          borderRadius: "8px",
+        }}
+      >
+         No results found for "{crypto}". 😔
+      </div>
+    );
   }
 
   // Handle item click to navigate to product details page

@@ -66,7 +66,7 @@ const Coin = () => {
   }
   
 
-  if (loading) return <div>Loading coins...</div>;
+  if (loading) return <div style={{height: "60px", backgroundColor:(isDesktop || isTablet) ? "#333" : "#334" }}></div>;
   if (error) return <div>{error}</div>;
 
   const handleCoinClick = (symbol) => {
