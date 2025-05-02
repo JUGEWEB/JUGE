@@ -8,7 +8,6 @@ const CRYPTO_URL = "https://api.malidag.com/crypto-prices";
 
 function PayBBE() {
   const [types, setTypes] = useState({});
-  const [selectedType, setSelectedType] = useState(null);
   const [cryptoPrices, setCryptoPrices] = useState({});
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
@@ -38,8 +37,6 @@ function PayBBE() {
         }, {});
 
         setTypes(groupedData);
-        const firstType = Object.keys(groupedData)[0];
-        setSelectedType(firstType); // select first by default
       } catch (error) {
         console.error("Error fetching items:", error);
       } finally {
@@ -61,6 +58,27 @@ function PayBBE() {
     const intervalId = setInterval(fetchCryptoPrices, 5000);
     return () => clearInterval(intervalId);
   }, []);
+
+  const formatTypeForUrl = (type) =>
+    encodeURIComponent(type.toLowerCase().replace(/\s+/g, "-"));
+  
+  const handleNavigateByType = (firstItem) => {
+    const type = firstItem.item.type.toLowerCase();
+    const category = firstItem.category.toLowerCase();
+    const gender = firstItem.item.genre?.toLowerCase(); // optional
+
+    if (category === "beauty") {
+      navigate(`/items/${type}`);
+    }else if (category === "shoes") {
+      const gender = firstItem.item.genre?.toLowerCase() || "unisex";
+      const formattedType = formatTypeForUrl(type); // e.g. "running shoes" → "running-shoes"
+      navigate(`/itemsOfShoes/${encodeURIComponent(`${gender}-${formattedType}`)}`);        
+    } else if (category === "clothes" && gender === "women") {
+      navigate(`/itemsOfWomen/${type}`);
+    } else {
+      console.warn("No route matched for:", { type, category, gender });
+    }
+  };
 
   const convertToCrypto = (usdPrice, cryptocurrency) => {
     if (!cryptoPrices[cryptocurrency]) return null;
@@ -97,34 +115,34 @@ function PayBBE() {
 
   return (
     <div className="bbe-container">
-      {/* Type List */}
+      {/* Types List (clickable) */}
       <div className="bbe-type-list">
-        {Object.keys(types).map((type) => (
+        {Object.entries(types).map(([type, items]) => (
           <div
             key={type}
-            className={`bbe-type-item ${selectedType === type ? "active" : ""}`}
-            onClick={() => setSelectedType(type)}
+            className="bbe-type-item"
+            onClick={() => handleNavigateByType(items[0])}
           >
             {type}
           </div>
         ))}
       </div>
 
-      {/* Items for selected type */}
+      {/* All Discounted Items */}
       <div className="bbe-item-grid">
-        {types[selectedType]?.map(({ id, item }) => (
+        {Object.values(types).flat().map(({ id, item }) => (
           <div key={id} className="bbe-item-card">
-            <div style={{backgroundColor: "white",  filter: "brightness(0.880000000) contrast(1.2)"}}>
-            <img
-              src={item.images[0]}
-              alt={item.name}
-              onClick={() => handleItemClick(id)}
-              className="bbe-item-image"
-              onError={(e) => {
-                e.target.onerror = null;
-                e.target.src = "/fallback.png";
-              }}
-            />
+            <div style={{ backgroundColor: "white", filter: "brightness(0.88) contrast(1.2)" }}>
+              <img
+                src={item.images[0]}
+                alt={item.name}
+                onClick={() => handleItemClick(id)}
+                className="bbe-item-image"
+                onError={(e) => {
+                  e.target.onerror = null;
+                  e.target.src = "/fallback.png";
+                }}
+              />
             </div>
             <div className="bbe-item-info" onClick={() => handleItemClick(id)}>
               <div className="bbe-item-price">
