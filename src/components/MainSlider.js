@@ -8,6 +8,7 @@ import MalidagCategorySmall from "./malidagCategorySmall";
 import MalidagCategory from "./malidagCategory";
 import ThemeWithText from "./themewithtext";
 import useScreenSize from "./useIsMobile";
+import { useNavigate } from "react-router-dom";
 
 const slides = [
   { id: 1, url: "https://api.malidag.com/public/header/1/firstbestimage.webp", type: "#689c85" },
@@ -18,6 +19,7 @@ const slides = [
 const MainSlider = ({user}) => {
   const location = useLocation(); // 👈 use it here!
    const {isMobile, isDesktop, isSmallMobile, isTablet, isVerySmall} = useScreenSize()
+    const  navigate = useNavigate()
 
   const isHome = location.pathname === "/"; // Only show slider on home page
 
@@ -29,6 +31,25 @@ const MainSlider = ({user}) => {
     slidesToScroll: 1,
     autoplay: true,
     autoplaySpeed: 15000,
+  };
+
+  // Handle navigation based on ID
+  const handleNavigation = (id) => {
+    if (!id) return;
+    switch (id.toString()) {
+      case "1":
+        navigate("/50off");
+        break;
+      case "2":
+        navigate("/30off");
+        break;
+      case "3":
+        navigate("/savebig");
+        break;
+      default:
+        console.warn("Unknown id:", id);
+        break;
+    }
   };
 
   return (
