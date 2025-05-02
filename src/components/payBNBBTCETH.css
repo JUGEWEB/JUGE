@@ -1,30 +1,40 @@
-/* payBNBBTCETH.css */
-
 .bbe-container {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     padding: 15px;
-    background-color: white;
+    background-color: #f9f9f9;
   }
   
+  /* ========== TYPE LIST (LEFT SIDE ON DESKTOP & TABLET) ========== */
   .bbe-type-list {
     display: flex;
-    overflow-x: auto;
+    flex-direction: column;
+    min-width: 200px;
+    max-width: 200px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    height: 100vh;
+    position: sticky;
+    top: 0;
+    background-color: #fff;
+    border-right: 1px solid #ddd;
     padding: 10px 0;
-    margin-bottom: 15px;
-    gap: 10px;
-    border-bottom: 1px solid #ccc;
   }
   
   .bbe-type-item {
     flex: 0 0 auto;
     padding: 6px 12px;
     border-radius: 20px;
-    background-color: #e0e0e0;
+    background-color: #222;
     cursor: pointer;
     font-size: 14px;
     white-space: nowrap;
     transition: background-color 0.2s ease-in-out;
+    margin: 4px 10px;
+  }
+  
+  .bbe-type-item:hover {
+    background-color: #d5d5d5;
   }
   
   .bbe-type-item.active {
@@ -32,25 +42,32 @@
     color: white;
   }
   
-  .bbe-type-item:hover {
-    background-color: #ddd5;
-  }
-  
+  /* ========== PRODUCT GRID ========== */
   .bbe-item-grid {
+    flex: 1;
     display: grid;
     gap: 5px;
-    padding: 5px;
-    grid-template-columns: repeat(5, 1fr);
+    padding: 5px 15px;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
   }
   
+  /* ========== CARD STYLE ========== */
   .bbe-item-card {
     background-color: white;
+    
     overflow: hidden;
+   
+    cursor: pointer;
+   
+  }
+  
+  .bbe-item-card:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   }
   
   .bbe-item-image {
     width: 100%;
-    height: 230px;
+    height: 150px;
     object-fit: contain;
     margin-bottom: 10px;
   }
@@ -90,19 +107,34 @@
     color: #f4c150;
   }
   
-  /* Responsive grid with hook-based classes */
-  @media (max-width: 1023px) {
-    .bbe-item-grid {
-      grid-template-columns: repeat(4, 1fr);
-    }
-  }
-  
+  /* ========== RESPONSIVE ========== */
   @media (max-width: 767px) {
     .bbe-container {
+      flex-direction: column;
       padding: 10px;
     }
+  
+    .bbe-type-list {
+      flex-direction: row;
+      overflow-x: auto;
+      overflow-y: hidden;
+      white-space: nowrap;
+      height: auto;
+      max-width: 100%;
+      position: static;
+      background-color: #f9f9f9;
+      border-bottom: 1px solid #ccc;
+      border-right: none;
+      padding: 10px 0;
+    }
+  
     .bbe-item-grid {
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(2, 1fr);
+      padding-left: 0;
+    }
+  
+    .bbe-type-item {
+      margin: 0 10px;
     }
   }
   
