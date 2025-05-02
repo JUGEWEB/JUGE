@@ -40,7 +40,7 @@ function Item() {
   useEffect(() => {
     const fetchBeautyImages = async () => {
       try {
-        const response = await axios.get("http://192.168.0.210:7000/beauty/images");
+        const response = await axios.get("https://api.malidag.com/beauty/images");
 
         // ✅ Filter images where type matches itemClicked
         const filteredImages = response.data.filter(
