@@ -11,6 +11,7 @@ const Coin = () => {
   const [error, setError] = useState(null);
   const navigate = useNavigate(); // React Router navigation function
   const location = useLocation(); // ✅ New to detect the path
+  const [loadedImages, setLoadedImages] = useState({});
 
   const coinImages = {
     ETH: "https://assets.coingecko.com/coins/images/279/large/ethereum.png?1595348880",
@@ -21,6 +22,19 @@ const Coin = () => {
     USDT: "https://assets.coingecko.com/coins/images/325/large/Tether-logo.png?1598003707",
     // You can add more if you want
   };
+
+   // ✅ Preload coin images
+  useEffect(() => {
+    Object.entries(coinImages).forEach(([symbol, url]) => {
+      const img = new Image();
+      img.src = url;
+      img.onload = () => {
+        setLoadedImages((prev) => ({ ...prev, [symbol]: true }));
+      };
+    });
+  }, []);
+
+ 
   
 
   useEffect(() => {
@@ -79,9 +93,11 @@ const Coin = () => {
         {coins.map((coin) => (
           <div key={coin.symbol} className="coin-item" onClick={() => handleCoinClick(coin?.symbol)} >
              <img
+             loading="lazy"
               src={coinImages[coin?.symbol] || "https://via.placeholder.com/40"}
               alt={coin?.symbol}
               className="coin-image"
+              style={{ opacity: loadedImages[coin.symbol] ? 1 : 1 }}
             />
             <div>{coin?.symbol}</div>
             <div style={{marginLeft: '5px'}}>${coin?.price}</div>

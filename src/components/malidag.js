@@ -113,25 +113,6 @@ const Malidag = ({ user, gra, slides }) => {
  const onclicktopitem = () => {
   navigate('/topitem')
  }
-
-   // Handle navigation based on ID
-   const handleNavigation = (id) => {
-    if (!id) return;
-    switch (id.toString()) {
-      case "1":
-        navigate("/50off");
-        break;
-      case "2":
-        navigate("/30off");
-        break;
-      case "3":
-        navigate("/savebig");
-        break;
-      default:
-        console.warn("Unknown id:", id);
-        break;
-    }
-  };
   
 
   return (

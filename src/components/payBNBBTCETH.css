@@ -1,0 +1,120 @@
+/* payBNBBTCETH.css */
+
+.bbe-container {
+    display: flex;
+    flex-direction: column;
+    padding: 15px;
+    background-color: white;
+  }
+  
+  .bbe-type-list {
+    display: flex;
+    overflow-x: auto;
+    padding: 10px 0;
+    margin-bottom: 15px;
+    gap: 10px;
+    border-bottom: 1px solid #ccc;
+  }
+  
+  .bbe-type-item {
+    flex: 0 0 auto;
+    padding: 6px 12px;
+    border-radius: 20px;
+    background-color: #e0e0e0;
+    cursor: pointer;
+    font-size: 14px;
+    white-space: nowrap;
+    transition: background-color 0.2s ease-in-out;
+  }
+  
+  .bbe-type-item.active {
+    background-color: #333;
+    color: white;
+  }
+  
+  .bbe-type-item:hover {
+    background-color: #ddd5;
+  }
+  
+  .bbe-item-grid {
+    display: grid;
+    gap: 5px;
+    padding: 5px;
+    grid-template-columns: repeat(5, 1fr);
+  }
+  
+  .bbe-item-card {
+    background-color: white;
+    overflow: hidden;
+  }
+  
+  .bbe-item-image {
+    width: 100%;
+    height: 230px;
+    object-fit: contain;
+    margin-bottom: 10px;
+  }
+  
+  .bbe-item-info {
+    font-size: 14px;
+    color: #333;
+  }
+  
+  .bbe-item-price {
+    font-weight: bold;
+    color: #28a745;
+    margin-bottom: 4px;
+  }
+  
+  .crypto-price {
+    display: block;
+    font-size: 12px;
+    color: #555;
+    margin-top: 2px;
+  }
+  
+  .crypto-icon {
+    width: 14px;
+    height: 14px;
+    margin-left: 4px;
+    vertical-align: middle;
+  }
+  
+  .bbe-item-name {
+    margin: 5px 0;
+    font-size: 13px;
+  }
+  
+  .bbe-item-rating .star {
+    font-size: 12px;
+    color: #f4c150;
+  }
+  
+  /* Responsive grid with hook-based classes */
+  @media (max-width: 1023px) {
+    .bbe-item-grid {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+  
+  @media (max-width: 767px) {
+    .bbe-container {
+      padding: 10px;
+    }
+    .bbe-item-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+  
+  @media (max-width: 600px) {
+    .bbe-item-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  
+  @media (max-width: 345px) {
+    .bbe-item-grid {
+      grid-template-columns: repeat(1, 1fr);
+    }
+  }
+  
