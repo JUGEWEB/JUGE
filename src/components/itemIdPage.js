@@ -12,7 +12,7 @@ const ItemIdPage = ({ id }) => {
       setLoading(true);
       setError(null);
       try {
-        const response = await fetch(`http://192.168.0.210:5000/api/items/items/${id}`);
+        const response = await fetch(`https://api.malidag.com/api/items/items/${id}`);
         if (!response.ok) throw new Error("Item not found or API error");
         const result = await response.json();
         setData(result);
@@ -42,7 +42,7 @@ const ItemIdPage = ({ id }) => {
             {item.type === "image_with_text" && (
               <div className="flex flex-col md:flex-row items-center gap-6 bg-gray-100 p-4 rounded-lg" style={{display: "flex", alignItems: "center", justifyContent: "space-between", padding: "20px"}}>
                 <img
-                  src={`http://192.168.0.210:5000${item.filePath}`}
+                  src={`https://api.malidag.com${item.filePath}`}
                   alt="With text"
                   className="w-full md:w-1/3 h-auto rounded-lg shadow-md"
                   style={{maxWidth: "500px", height: "auto"}}
@@ -55,7 +55,7 @@ const ItemIdPage = ({ id }) => {
               <div className="flex flex-col md:flex-row items-center gap-6 bg-gray-100 p-4 rounded-lg" style={{display: "flex", alignItems: "center", justifyContent: "space-between", padding: "20px"}}>
                 <p className="text-lg md:w-2/3" style={{color: "black", padding: "20px"}}>{item.text}</p>
                 <img
-                  src={`http://192.168.0.210:5000${item.filePath}`}
+                  src={`https://api.malidag.com${item.filePath}`}
                   alt="With text"
                   className="w-full md:w-1/3 h-auto rounded-lg shadow-md"
                   style={{maxWidth: "500px", height: "auto"}}
@@ -68,7 +68,7 @@ const ItemIdPage = ({ id }) => {
             {item.type === "video_with_text" && (
               <div className="flex flex-col md:flex-row-reverse items-center gap-6 bg-gray-100 p-4 rounded-lg">
                 <video
-                  src={`http://192.168.0.210:5000${item.filePath}`}
+                  src={`https://api.malidag.com${item.filePath}`}
                   controls
                   className="w-full md:w-1/2 h-auto rounded-lg shadow-md"
                 />
@@ -85,7 +85,7 @@ const ItemIdPage = ({ id }) => {
                     item.filePath.map((slide, i) => (
                       <div key={i}>
                         <img
-                          src={`http://192.168.0.210:5000${slide}`}
+                          src={`https://api.malidag.com${slide}`}
                           alt={`Slide ${i + 1}`}
                           className="rounded-lg shadow-md"
                         />
@@ -100,7 +100,7 @@ const ItemIdPage = ({ id }) => {
             {item.type === "single_image" && (
               <div className="w-full flex justify-center">
                 <img
-                  src={`http://192.168.0.210:5000${item.filePath}`}
+                  src={`https://api.malidag.com${item.filePath}`}
                   alt="Full Image"
                   className="w-full max-w-[1200px] h-[400px] object-cover rounded-lg shadow-md"
                 />

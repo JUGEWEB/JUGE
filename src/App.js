@@ -57,6 +57,7 @@ import Type from "./components/type";
 import Coin from "./components/coin";
 import ThemeForPersonnalSmall from "./components/themeForPersonnalSmal";
 import MainSlider from "./components/MainSlider";
+import ItemOfMen from "./components/itemOfMen";
 
 
 
@@ -236,6 +237,7 @@ const App = () => {
             <Route path="/items/:itemClicked" element={<Item />} />
             <Route path="/itemsOfWomen/:itemClicked" element={<ItemOfWomen />} />
             <Route path="/itemsOfShoes/:itemClicked" element={<ItemOfShoes />} />
+            <Route path="/itemsOfMen/:itemClicked" element={<ItemOfMen />} />
             <Route path="/personal" element={<PersonalCare />} />
             <Route path="/woFashion" element={<WoFashion />} />
             <Route path="/faKick" element={<FashionKick />} />
