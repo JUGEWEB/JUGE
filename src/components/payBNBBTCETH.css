@@ -20,6 +20,10 @@
     border-right: 1px solid #ddd;
     padding: 10px 0;
   }
+
+  .bbe-type-item:hover {
+    background-color: #d5d5d5;
+  }
   
   .bbe-type-item {
     flex: 0 0 auto;
@@ -31,10 +35,6 @@
     white-space: nowrap;
     transition: background-color 0.2s ease-in-out;
     margin: 4px 10px;
-  }
-  
-  .bbe-type-item:hover {
-    background-color: #d5d5d5;
   }
   
   .bbe-type-item.active {
@@ -59,10 +59,6 @@
    
     cursor: pointer;
    
-  }
-  
-  .bbe-item-card:hover {
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   }
   
   .bbe-item-image {

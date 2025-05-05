@@ -75,6 +75,8 @@ function PayBBE() {
       navigate(`/itemsOfShoes/${encodeURIComponent(`${gender}-${formattedType}`)}`);        
     } else if (category === "clothes" && gender === "women") {
       navigate(`/itemsOfWomen/${type}`);
+    } else if (category === "clothes" && gender === "men") {
+      navigate(`/itemsOfMen/${type}`);
     } else {
       console.warn("No route matched for:", { type, category, gender });
     }
