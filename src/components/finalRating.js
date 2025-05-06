@@ -12,7 +12,7 @@ const useFinalRating = (productId) => {
     setLoading(true);
     setError(null);
 
-    fetch(`http://192.168.0.210:6001/get-reviews/${productId}`)
+    fetch(`https://api.malidag.com/get-reviews/${productId}`)
       .then((response) => response.json())
       .then((data) => {
         setLoading(false);

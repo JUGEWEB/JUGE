@@ -75,8 +75,13 @@ function ProductDetails({basketItems, country, user, address, auth, chainId}) {
 
   const fetchZoomSetting = async (itemId, color, imageNumber) => {
     try {
-      const response = await fetch(`http://192.168.0.210:9000/api/zoom?itemId=${itemId}&color=${color}&imageNumber=${imageNumber}`);
+      if (!itemId || !color) {
+        console.warn("Missing itemId or color, skipping zoom fetch.");
+        return;
+      }
+      const response = await fetch(`https://api.malidag.com/api/zoom?itemId=${itemId}&color=${color}&imageNumber=${imageNumber}`);
       const result = await response.json();
+      console.log("resultzoom:", result)
       if (response.ok) {
         setZoomType(result.zoomType); // Set the zoom type from the API response
       } else {
@@ -89,6 +94,7 @@ function ProductDetails({basketItems, country, user, address, auth, chainId}) {
 
   useEffect(() => {
     fetchZoomSetting(itemsd, selectedColor, selectedImageNumber); // Trigger the zoom setting fetch
+    console.log("selectedColor:", selectedColor)
   }, [itemsd, selectedColor, selectedImageNumber]);
 
   const checkDetailsSectionPosition = () => {

@@ -43,7 +43,7 @@ function TypePage() {
   // Fetch reviews from the endpoint
   const fetchReviews = async (productId) => {
     try {
-      const response = await axios.get(`http://192.168.0.210:6001/get-reviews/${productId}`);
+      const response = await axios.get(`https://api.malidag.com/get-reviews/${productId}`);
       if (response.data.success) {
        
         const reviewsArray = response.data.reviews || [];
