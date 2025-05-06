@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
 import "./fetchReview.css";
 
-const BASE_URL = "http://192.168.0.210:6001";
+const BASE_URL = "https://api.malidag.com";
 
 // Sample first & last names for generating real names
 const firstNames = ["James", "Sophia", "Liam", "Olivia", "Noah", "Emma", "Ethan", "Ava", "Mason", "Isabella"];
