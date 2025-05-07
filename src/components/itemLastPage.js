@@ -79,7 +79,7 @@ function ProductDetails({basketItems, country, user, address, auth, chainId}) {
         console.warn("Missing itemId or color, skipping zoom fetch.");
         return;
       }
-      const response = await fetch(`https://api.malidag.com/api/zoom?itemId=${itemId}&color=${color}&imageNumber=${imageNumber}`);
+      const response = await fetch(`https://api.malidag.com/api/zoom-setting?itemId=${itemId}&color=${color}&imageNumber=${imageNumber}`);
       const result = await response.json();
       console.log("resultzoom:", result)
       if (response.ok) {
