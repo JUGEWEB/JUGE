@@ -21,7 +21,7 @@ function BrandDepartment() {
     console.log("department & brandType:", department, brandType); // Debugging
 
     useEffect(() => {
-        fetch("http://192.168.0.210:3001/api/brands/blaasploa")
+        fetch("https://api.malidag.com/api/brands/blaasploa")
             .then((response) => response.json())
             .then((data) => setDepartments(data.departments || []));
     }, []);
@@ -32,7 +32,7 @@ function BrandDepartment() {
         setLoading(true);
         setError(null);
 
-        axios.get("http://192.168.0.210:3001/api/brands/blaasploa/items")
+        axios.get("https://api.malidag.com/api/brands/blaasploa/items")
             .then((response) => {
                 const allItems = response.data;
 

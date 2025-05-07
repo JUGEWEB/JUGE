@@ -5,7 +5,7 @@ import axios from "axios";
 import useScreenSize from "./useIsMobile";
 import "./All.css";
 
-const BASE_URL = "http://192.168.0.210:3001"; // Update with your API URL
+const BASE_URL = "https://api.malidag.com"; // Update with your API URL
 
 const All = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);

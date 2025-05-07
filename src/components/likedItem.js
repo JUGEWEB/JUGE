@@ -3,7 +3,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import "./LikedItems.css";
 
-const BASE_URL = "http://192.168.0.210:3018";
+const BASE_URL = "https://api.malidag.com";
 
 const LikedItems = ({ auth }) => {
   const [likedItems, setLikedItems] = useState([]);

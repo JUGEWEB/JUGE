@@ -5,7 +5,7 @@ import axios from "axios";
 import "./deliveryInfo.css";
 import BuyNow from "./buyNow";
 
-const API_BASE_URL = "http://192.168.0.210:5200"; // Change if your backend URL is different
+const API_BASE_URL = "https://api.malidag.com"; // Change if your backend URL is different
 
 const DeliveryInfo = ({ user, auth, selectedIndex, setSelectedIndex }) => {
   const [deliveryAddresses, setDeliveryAddresses] = useState([]);
@@ -29,7 +29,7 @@ const DeliveryInfo = ({ user, auth, selectedIndex, setSelectedIndex }) => {
 
     const fetchAddresses = async () => {
       try {
-        const response = await axios.get(`${API_BASE_URL}/user/delivery/${useridi.uid}`);
+        const response = await axios.get(`${API_BASE_URL}/user/delivery-get/${useridi.uid}`);
         setDeliveryAddresses(response.data.deliveryAddresses || []);
       } catch (err) {
         console.error("Error fetching delivery data:", err);
@@ -58,7 +58,7 @@ const DeliveryInfo = ({ user, auth, selectedIndex, setSelectedIndex }) => {
     setError("");
 
     try {
-      const response = await axios.post(`${API_BASE_URL}/user/delivery`, {
+      const response = await axios.post(`${API_BASE_URL}/user/delivery-post`, {
         userId: iduser,
         ...formData,
       });
@@ -94,7 +94,7 @@ const DeliveryInfo = ({ user, auth, selectedIndex, setSelectedIndex }) => {
   // Handle deleting an address
   const handleDeleteAddress = async (index) => {
     try {
-      const response = await axios.delete(`${API_BASE_URL}/user/delivery/${iduser}/${index}`);
+      const response = await axios.delete(`${API_BASE_URL}/user/delivery-delete/${iduser}/${index}`);
       
       // Remove the address from the state
       const updatedAddresses = deliveryAddresses.filter((_, idx) => idx !== index);
