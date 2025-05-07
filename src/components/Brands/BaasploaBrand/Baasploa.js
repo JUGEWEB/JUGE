@@ -17,20 +17,20 @@ function Baasploa() {
     const navigate = useNavigate(); // ✅ Initialize navigation function
 
     useEffect(() => {
-        fetch("http://192.168.0.210:3001/api/brands/blaasploa")
+        fetch("https://api.malidag.com/api/brands/blaasploa")
             .then((response) => response.json())
             .then((data) => setDepartments(data.departments || []));
     }, []);
 
     useEffect(() => {
-        fetch("http://192.168.0.210:3001/api/brands/blaasploa/top-items")
+        fetch("https://api.malidag.com/api/brands/blaasploa/top-items")
             .then((response) => response.json())
             .then((data) => setTopItems(data))
             .catch((error) => console.error("Error fetching top items:", error));
     }, []);
 
     useEffect(() => {
-        fetch("http://192.168.0.210:3001/api/brands/blaasploa/best-seller")
+        fetch("https://api.malidag.com/api/brands/blaasploa/best-seller")
             .then((response) => response.json())
             .then((data) => setBestSeller(data))
             .catch((error) => console.error("Error fetching best seller:", error));

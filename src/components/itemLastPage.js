@@ -16,21 +16,21 @@ import ItemIdPage from "./itemIdPage";
 import ImageZoom from "./imageZoom";
 import ImageZoom1 from "./imageZoom1";
 
-const BASKET_API = "http://192.168.0.210:3017/add-to-basket"
+const BASKET_API = "https://api.malidag.com/add-to-basket"
 const BASE_URL = "https://api.malidag.com";
-const TRANSACTION_API = "http://192.168.0.210:3005/api/transaction";
+const TRANSACTION_API = "https://api.malidag.com/api/transaction";
 const PRICE_API = "https://api.malidag.com/crypto-prices"; // Your crypto price endpoint
-const LIKED_API = "http://192.168.0.210:3018"; // Backend URL
+const LIKED_API = "https://api.malidag.com"; // Backend URL
 
 Modal.setAppElement("#root"); // For accessibility
 
 const coinImages = {
-  ETH: "https://cryptologos.cc/logos/ethereum-eth-logo.png",
-  USDC: "https://cryptologos.cc/logos/usd-coin-usdc-logo.png",
-  BUSD: "https://cryptologos.cc/logos/binance-usd-busd-logo.png",
-  SOL: "https://cryptologos.cc/logos/solana-sol-logo.png",
-  BNB: "https://cryptologos.cc/logos/binance-coin-bnb-logo.png",
-  USDT: "https://cryptologos.cc/logos/tether-usdt-logo.png",
+  ETH: "https://assets.coingecko.com/coins/images/279/large/ethereum.png?1595348880",
+  USDC: "https://assets.coingecko.com/coins/images/6319/large/USD_Coin_icon.png?1547042389",
+  BUSD: "https://assets.coingecko.com/coins/images/9576/large/BUSD.png?1568947766",
+  SOL: "https://assets.coingecko.com/coins/images/4128/large/solana.png?1640133422",
+  BNB: "https://assets.coingecko.com/coins/images/825/large/binance-coin-logo.png?1547034615",
+  USDT: "https://assets.coingecko.com/coins/images/325/large/Tether-logo.png?1598003707",
 };
 
 function ProductDetails({basketItems, country, user, address, auth, chainId}) {
@@ -461,11 +461,13 @@ const renderImageZoom = () => {
   }
 };
 
+
+
 const networkLogos = {
-  1: "https://cryptologos.cc/logos/ethereum-eth-logo.png",
-  56: "https://cryptologos.cc/logos/binance-coin-bnb-logo.png",
-  97: "https://cryptologos.cc/logos/binance-coin-bnb-logo.png", // BSC Testnet uses the same logo as BSC
-  137: "https://cryptologos.cc/logos/polygon-matic-logo.png",
+  1: "https://assets.coingecko.com/coins/images/279/large/ethereum.png?1595348880",
+  56: "https://assets.coingecko.com/coins/images/825/large/binance-coin-logo.png?1547034615",
+  97: "https://assets.coingecko.com/coins/images/825/large/binance-coin-logo.png?1547034615", // BSC Testnet uses the same logo as BSC
+  137: "https://assets.coingecko.com/coins/images/4713/large/matic-token-icon.png?1624446912",
   // Add more networks as needed
 };
 

@@ -4,16 +4,26 @@ import { Popover, Select, Button } from "antd";
 import "./saveToBasket.css";
 import axios from "axios"
 
-const BASKET_API = "http://192.168.0.210:3017"; // Change this if your backend is running elsewhere
+const BASKET_API = "https://api.malidag.com"; // Change this if your backend is running elsewhere
 const CRYPTO_API = "https://api.malidag.com/crypto-prices"; // Your Crypto API
 
+const coinImages = {
+  ETH: "https://assets.coingecko.com/coins/images/279/large/ethereum.png?1595348880",
+  USDC: "https://assets.coingecko.com/coins/images/6319/large/USD_Coin_icon.png?1547042389",
+  BUSD: "https://assets.coingecko.com/coins/images/9576/large/BUSD.png?1568947766",
+  SOL: "https://assets.coingecko.com/coins/images/4128/large/solana.png?1640133422",
+  BNB: "https://assets.coingecko.com/coins/images/825/large/binance-coin-logo.png?1547034615",
+  USDT: "https://assets.coingecko.com/coins/images/325/large/Tether-logo.png?1598003707",
+  // You can add more if you want
+};
+
 const cryptoOptions = [
-  { value: "ETH", label: "Ethereum", image: "https://cryptologos.cc/logos/ethereum-eth-logo.png" },
-  { value: "BNB", label: "Binance Coin", image: "https://cryptologos.cc/logos/binance-coin-bnb-logo.png" },
-  { value: "USDT", label: "Tether", image: "https://cryptologos.cc/logos/tether-usdt-logo.png" },
-  { value: "SOL", label: "Solana", image: "https://cryptologos.cc/logos/solana-sol-logo.png" },
-  { value: "USDC", label: "USD Coin", image: "https://cryptologos.cc/logos/usd-coin-usdc-logo.png" },
-  { value: "BUSD", label: "Binance USD", image: "https://cryptologos.cc/logos/binance-usd-busd-logo.png" }
+  { value: "ETH", label: "Ethereum", image: "https://assets.coingecko.com/coins/images/279/large/ethereum.png?1595348880" },
+  { value: "BNB", label: "Binance Coin", image: "https://assets.coingecko.com/coins/images/825/large/binance-coin-logo.png?1547034615" },
+  { value: "USDT", label: "Tether", image: "https://assets.coingecko.com/coins/images/325/large/Tether-logo.png?1598003707" },
+  { value: "SOL", label: "Solana", image: "https://assets.coingecko.com/coins/images/4128/large/solana.png?1640133422" },
+  { value: "USDC", label: "USD Coin", image: "https://assets.coingecko.com/coins/images/6319/large/USD_Coin_icon.png?1547042389" },
+  { value: "BUSD", label: "Binance USD", image: "https://assets.coingecko.com/coins/images/9576/large/BUSD.png?1568947766" }
 ];
 
 const AddToBasket = ({auth}) => {

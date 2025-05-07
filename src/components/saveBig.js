@@ -85,12 +85,11 @@ function SaveBig() {
 
   const getCryptoIcon = (cryptocurrency) => {
     const cryptoIcons = {
-      USDT: "https://cryptologos.cc/logos/tether-usdt-logo.png",
-      ETH: "https://cryptologos.cc/logos/ethereum-eth-logo.png",
-      BNB: "https://cryptologos.cc/logos/binance-coin-bnb-logo.png",
-      BTC: "https://cryptologos.cc/logos/bitcoin-btc-logo.png",
-      BUSD: "https://cryptologos.cc/logos/binance-usd-busd-logo.png",
-      USDC: "https://cryptologos.cc/logos/usd-coin-usdc-logo.png",
+      USDT: "https://assets.coingecko.com/coins/images/325/large/Tether-logo.png?1598003707",
+      ETH: "https://assets.coingecko.com/coins/images/279/large/ethereum.png?1595348880",
+      BNB: "https://assets.coingecko.com/coins/images/825/large/binance-coin-logo.png?1547034615",
+      BUSD: "https://assets.coingecko.com/coins/images/9576/large/BUSD.png?1568947766",
+      USDC: "https://assets.coingecko.com/coins/images/6319/large/USD_Coin_icon.png?1547042389",
     };
     return cryptoIcons[cryptocurrency] || "/crypto-icons/default.png";
   };

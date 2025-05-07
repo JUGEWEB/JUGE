@@ -159,7 +159,7 @@ const App = () => {
     const fetchBasketItems = async () => {
       const userId = user?.uid || "guest"; // Use user ID if logged in, otherwise "guest"http://192.168.0.109:3010
       try {
-        const response = await axios.get(`http://192.168.0.210:3017/basket/${userId}`);
+        const response = await axios.get(`https://api.malidag.com/basket/${userId}`);
         setBasketItems(response.data.basket || []); // Update state with items
       } catch (error) {
         console.error("Error fetching basket:", error);

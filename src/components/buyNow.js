@@ -47,12 +47,12 @@ const tokenAddresses = {
 
  // Mapping of symbols to logo URLs
  const logoUrls = {
-  ETH: "https://cryptologos.cc/logos/ethereum-eth-logo.png",
-  BNB: "https://cryptologos.cc/logos/binance-coin-bnb-logo.png",
-  USDC: "https://cryptologos.cc/logos/usd-coin-usdc-logo.png",
-  SOL: "https://cryptologos.cc/logos/solana-sol-logo.png",
-  BUSD: "https://cryptologos.cc/logos/binance-usd-busd-logo.png",
-  USDT: "https://cryptologos.cc/logos/tether-usdt-logo.png", // Added USDT logo
+  ETH: "https://assets.coingecko.com/coins/images/279/large/ethereum.png?1595348880",
+  USDC: "https://assets.coingecko.com/coins/images/6319/large/USD_Coin_icon.png?1547042389",
+  BUSD: "https://assets.coingecko.com/coins/images/9576/large/BUSD.png?1568947766",
+  SOL: "https://assets.coingecko.com/coins/images/4128/large/solana.png?1640133422",
+  BNB: "https://assets.coingecko.com/coins/images/825/large/binance-coin-logo.png?1547034615",
+  USDT: "https://assets.coingecko.com/coins/images/325/large/Tether-logo.png?1598003707",
 };
 
 
@@ -95,8 +95,8 @@ const BuyNow = ({ basketItems, userAddresses, user, connectors, connect, address
     useEffect(() => {
       const fetchCryptoData = async () => {
         try {
-          const pricesResponse = await axios.get("http://192.168.0.210:2000/crypto-prices");
-          const percentageResponse = await axios.get("http://192.168.0.210:2000/crypto-24h-percentage");
+          const pricesResponse = await axios.get("https://api.malidag.com/crypto-prices");
+          const percentageResponse = await axios.get("https://api.malidag.com/crypto-24h-percentage");
     
           setCryptoPrices(pricesResponse.data);
           setCrypto24hPercentageChanges(percentageResponse.data);
@@ -127,7 +127,7 @@ const BuyNow = ({ basketItems, userAddresses, user, connectors, connect, address
         // If there's an id and basket is false, proceed to fetch the item from the server
         try {
           // Fetch all items from the server
-          const response = await axios.get(`http://192.168.0.210:3001/items`);
+          const response = await axios.get(`https://api.malidag.com/items`);
     
           // Ensure response contains the 'items' array
           if (response.data && response.data.items) {
@@ -178,7 +178,7 @@ const tokenDecimals = {
 
 const fetchNativeBalance = async (address, chainId) => {
   try {
-    const response = await fetch(`http://192.168.0.210:3061/balance?address=${address}&chainId=${chainId}`);
+    const response = await fetch(`https://api.malidag.com/balance?address=${address}&chainId=${chainId}`);
     const data = await response.json();
     return data.balance; // Native balance in ether/BNB
   } catch (error) {
@@ -189,7 +189,7 @@ const fetchNativeBalance = async (address, chainId) => {
 
 const fetchTokenBalance = async (address, tokenAddress, chainId) => {
   try {
-    const response = await fetch(`http://192.168.0.210:3061/token-balance?address=${address}&tokenAddress=${tokenAddress}&chainId=${chainId}`);
+    const response = await fetch(`https://api.malidag.com/token-balance?address=${address}&tokenAddress=${tokenAddress}&chainId=${chainId}`);
     const data = await response.json();
     return data.balance; // Token balance formatted
   } catch (error) {
@@ -239,7 +239,7 @@ useEffect(() => {
 useEffect(() => {
   const checkUserDeliveryInfo = async (userId) => {
     try {
-      const response = await fetch(`http://192.168.0.210:5200/user/delivery/${userId}`);
+      const response = await fetch(`https://api.malidag.com/user/delivery-get/${userId}`);
       if (response.ok) {
         const data = await response.json();
         setDeliveryInformation(data.deliveryAddresses);
@@ -307,7 +307,7 @@ const estimateGas = async () => {
     };
 
     // Fetch gas estimate
-    const response = await axios.post("http://192.168.0.210:5100/estimate-gas", txData);
+    const response = await axios.post("https://api.malidag.com/estimate-gas", txData);
 
     if (response.data.estimatedGas) {
       const gasLimitWithBuffer = Math.ceil(response.data.estimatedGas * 1.2);
@@ -361,7 +361,7 @@ const handleBuyNow = async () => {
     message.loading("Processing transaction...", 0);
 
     // Send request to backend to process the transaction
-    const response = await axios.post("http://192.168.0.210:3005/api/transaction", {
+    const response = await axios.post("https://api.malidag.com/api/transaction", {
       chainId,
       recipient: "0x40c61A01639BA0d675509878d58864B9C9F65fbf", // Recipient address
       amount: requiredCryptoAmount,

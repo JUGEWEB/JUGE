@@ -271,10 +271,6 @@ function ItemPage() {
                       src={`https://raw.githubusercontent.com/atomiclabs/cryptocurrency-icons/master/svg/color/${crypto.toLowerCase()}.svg`}
                       alt={cryptocurrency}
                       className="crypto-icon"
-                      onError={(e) => {
-                        e.target.onerror = null;
-                        e.target.src = "https://cryptologos.cc/logos/binance-usd-busd-logo.png";
-                      }}
                     />
                     <span className="item-crypto-price">
                       {itemPriceInCrypto !== "N/A"
