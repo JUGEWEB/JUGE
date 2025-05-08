@@ -61,7 +61,7 @@ import ItemOfMen from "./components/itemOfMen";
 
 
 
-const BASE_URLs = 'http://192.168.0.210:3007';
+const BASE_URLs = 'https://api.malidag.com';
 
 const App = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
