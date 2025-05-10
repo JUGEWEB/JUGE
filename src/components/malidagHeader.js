@@ -135,6 +135,7 @@ function MalidagHeader({ user, isConnected, connect, address, disconnect, pendin
 
        {/* Image logo for Very Small Devices with Skeleton */}
   {isVerySmall && (
+   
     <div style={{ position: "relative", width: "30px", height: "30px" }}>
       {/* Skeleton while loading */}
       {!logoLoaded && (

@@ -96,10 +96,8 @@ const BuyNow = ({ basketItems, userAddresses, user, connectors, connect, address
       const fetchCryptoData = async () => {
         try {
           const pricesResponse = await axios.get("https://api.malidag.com/crypto-prices");
-          const percentageResponse = await axios.get("https://api.malidag.com/crypto-24h-percentage");
     
           setCryptoPrices(pricesResponse.data);
-          setCrypto24hPercentageChanges(percentageResponse.data);
         } catch (error) {
           console.error("Error fetching crypto data:", error);
         }
@@ -623,20 +621,6 @@ const handleBuyNow = async () => {
               </div>
               <div style={{ alignItems: "center", justifyContent: "start", width: "150px", display: "flex", backgroundColor: "yellow" }}>
                 {balance}
-              </div>
-              {/* Display the 24-hour percentage change */}
-              <div style={{ width: "100px" }}>
-                {crypto24hPercentageChanges[symbol] !== undefined && (
-                  <span
-                    style={{
-                      marginLeft: "10px",
-                      color: crypto24hPercentageChanges[symbol] > 0 ? "green" : "red",
-                      fontWeight: "bold",
-                    }}
-                  >
-                    ({crypto24hPercentageChanges[symbol]}%)
-                  </span>
-                )}
               </div>
             </div>
           ))}
