@@ -419,11 +419,11 @@ const handleBuyNow = async () => {
     const margin = 0.00000001; 
 
     if (cryptoToCheck === nativeToken) {
-        return parseFloat(nativeBalance?.formatted || "0") + margin < parseFloat(requiredCryptoAmount);
+        return parseFloat(Number(nativeBalance?.formatted || "0").toFixed(8)) + margin < parseFloat(requiredCryptoAmount);
     }
     
     const userToken = tokenBalances.find(token => token.symbol === cryptoToCheck);
-    const userBalance = userToken ? parseFloat(userToken.balance) : 0;
+    const userBalance = userToken ? parseFloat(userToken.balance.toFixed(6)) : 0;
     return userBalance + margin < parseFloat(requiredCryptoAmount);
 };
 
