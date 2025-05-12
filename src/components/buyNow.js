@@ -378,6 +378,8 @@ const handleBuyNow = async () => {
       size: newSize
     });
 
+    console.log("size:", newSize)
+
     message.destroy(); // Remove the loading message
 
     if (response.data.success) {
@@ -423,7 +425,7 @@ const handleBuyNow = async () => {
     }
     
     const userToken = tokenBalances.find(token => token.symbol === cryptoToCheck);
-    const userBalance = userToken ? parseFloat(userToken.balance.toFixed(6)) : 0;
+    const userBalance = userToken ? parseFloat(Number(userToken.balance).toFixed(6)) : 0;
     return userBalance + margin < parseFloat(requiredCryptoAmount);
 };
 
