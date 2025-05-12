@@ -347,8 +347,30 @@ const handleBuyNow = async () => {
   const tokenSymbol = selectedCurrency;
   const requiredCryptoAmount = convertUsdToCrypto(tokenAmount, tokenSymbol);
 
-  const newSize = selectedSize && selectedSize !== "null" && id && basket === "false" ? selectedSize : "nosize";
-  const newColor = selectedColor && selectedColor !== "null" && id && basket === "false" ? selectedColor : "noColor";
+  // 🛍 Build items payload
+  let items = [];
+
+  if (basket === "true" && Array.isArray(checkoutData?.items)) {
+    items = checkoutData.items.map((item) => ({
+      itemId: item.itemId,
+      quantity: item.quantity || 1,
+      color: item.color || "noColor",
+      size: item.size || "nosize"
+    }));
+  } else {
+    // Single item
+    const newSize = selectedSize && selectedSize !== "null" ? selectedSize : "nosize";
+    const newColor = selectedColor && selectedColor !== "null" ? selectedColor : "noColor";
+
+    items = [
+      {
+        itemId: payItem,
+        quantity: quantity || 1,
+        size: newSize,
+        color: newColor
+      }
+    ];
+  }
 
   if (isInsufficientBalance(tokenAmount, tokenSymbol)) {
     message.error(`Insufficient ${tokenSymbol} balance.`);
@@ -358,10 +380,9 @@ const handleBuyNow = async () => {
   try {
     message.loading("Processing transaction...", 0);
 
-    // Send request to backend to process the transaction
     const response = await axios.post("https://api.malidag.com/api/transaction", {
       chainId,
-      recipient: "0x40c61A01639BA0d675509878d58864B9C9F65fbf", // Recipient address
+      recipient: "0x40c61A01639BA0d675509878d58864B9C9F65fbf",
       amount: requiredCryptoAmount,
       fullName: selectedDeliveryInfo.fullName,
       email: selectedDeliveryInfo.email,
@@ -371,20 +392,14 @@ const handleBuyNow = async () => {
       country: selectedDeliveryInfo.country,
       town: selectedDeliveryInfo.town,
       cryptoSymbol: tokenSymbol,
-      tokenAddress: tokenAddresses[chainId]?.[tokenSymbol]?.address || null, // Send null if native token
-      quantity: quantity,
-      items: payItem,
-      color: newColor,
-      size: newSize
+      tokenAddress: tokenAddresses[chainId]?.[tokenSymbol]?.address || null,
+      items // ✅ Now an array of item(s)
     });
 
-    console.log("size:", newSize)
-
-    message.destroy(); // Remove the loading message
+    message.destroy();
 
     if (response.data.success) {
       message.success("Payment successful!");
-     
     } else {
       message.error("Transaction failed. Please try again.");
     }
@@ -393,6 +408,7 @@ const handleBuyNow = async () => {
     message.error("Transaction failed. Please try again.");
   }
 };
+
 
 
    // 🏷 Extract First Name from Firebase
