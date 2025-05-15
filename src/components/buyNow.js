@@ -87,10 +87,12 @@ const BuyNow = ({ basketItems, userAddresses, user, connectors, connect, address
     const [color, setColor] = useState(null);
     const [size, setSize] = useState(null);
     const [checkLoading, setCheckLoading] = useState(false)
+    const [brand, setBrand] = useState(null)
 
     const navigate = useNavigate()
 
     const isCheckoutPage = location.pathname === "/checkout";
+    
 
     useEffect(() => {
       const fetchCryptoData = async () => {
@@ -112,6 +114,7 @@ const BuyNow = ({ basketItems, userAddresses, user, connectors, connect, address
     useEffect(() => {
       const fetchItem = async () => {
         if (id === "false" && basket === "true") {
+          console.log("checkoutData", checkoutData)
           // If there's no ID but a basket exists, set product from basket
           setProduct(checkoutData); // Assuming `checkoutData` contains the basket items
           setPayItem(checkoutData);
@@ -136,6 +139,7 @@ const BuyNow = ({ basketItems, userAddresses, user, connectors, connect, address
               setItem(foundItem.item);
               setProduct(foundItem.item);
               setPayItem(foundItem.itemId)
+              setBrand(foundItem.item.brand)
             } else {
               console.warn("Item not found for ID:", id);
               setItem(null); // Set item to null if not found
@@ -355,7 +359,10 @@ const handleBuyNow = async () => {
       itemId: item.itemId,
       quantity: item.quantity || 1,
       color: item.color || "noColor",
-      size: item.size || "nosize"
+      size: item.size || "nosize",
+      price: item.price || "0",
+      brand: item.brand || "Unknown", // ✅ Add brand from basket item
+      brandPrice: item.brandPrice || "0" // ✅ Add brand from basket item
     }));
   } else {
     // Single item
@@ -367,7 +374,10 @@ const handleBuyNow = async () => {
         itemId: payItem,
         quantity: quantity || 1,
         size: newSize,
-        color: newColor
+        color: newColor,
+        price: item.usdPrice || "0",
+        brand: item?.brand || "Unknown", // ✅ Pull from product info
+        brandPrice: item.brandPrice || "0" // ✅ Add brand from basket item
       }
     ];
   }

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Popover, Select, Button } from "antd";
+import { Popover, Select, Button, message } from "antd";
 import "./saveToBasket.css";
 import axios from "axios"
 
@@ -56,12 +56,13 @@ const AddToBasket = ({auth}) => {
   };
 
   // Remove item from basket using API
-  const removeFromBasket = async (id) => {
+  const removeFromBasket = async (itemId) => {
     try {
-      const response = await axios.delete(`${BASKET_API}/remove-from-basket/${user.uid}/${id}`);
+      const response = await axios.delete(`${BASKET_API}/remove-from-basket/${user.uid}/${itemId}`);
 
       if (response.status === 200) {
-        setBasket((prevBasket) => prevBasket.filter((item) => item.id !== id));
+       setBasket((prevBasket) => prevBasket.filter((item) => item.itemId !== itemId));
+       message.success("Item removed from basket!");
       }
     } catch (error) {
       console.error("Error removing item from basket:", error);
@@ -110,7 +111,7 @@ const AddToBasket = ({auth}) => {
   const handleCheckout = () => {
     const checkoutData = {
       isFromBasket: true, // New flag to indicate basket checkout
-      items: basket.map(item => ({ id: item.id, quantity: item.quantity, itemId: item.itemId , color: item.color, size: item.size })),
+      items: basket.map(item => ({ id: item.id, quantity: item.quantity, itemId: item.itemId , color: item.color, size: item.size, brand: item.brand, brandPrice: item.brandPrice || "0", price: item.price  })),
       currency: selectedCrypto.value,
       totalPrice: totalPrice
     };
@@ -128,9 +129,10 @@ const AddToBasket = ({auth}) => {
         basket.map((item, index) => {
           if (!item) return null; // Ensure item exists
 
-          const { id, name, price, image, quantity, color, size } = item;
+          const { id, name, price, image, quantity, color, size, itemId } = item;
           const slicedName = name.length > 20 ? name.slice(0, 20) + "..." : name;
           const imageUrl = image || "placeholder.jpg";
+          console.log("itemId:", itemId)
 
           return (
             <div key={index} className="basket-item">
@@ -149,7 +151,7 @@ const AddToBasket = ({auth}) => {
               </p>
               <div>
               <Popover content="Delete Item" trigger="hover">
-              <button className="remove-btn" onClick={() => removeFromBasket(id)}>🗑️</button>
+              <button className="remove-btn" onClick={() => removeFromBasket(itemId)}>🗑️</button>
               </Popover>
               </div>
               </div>
