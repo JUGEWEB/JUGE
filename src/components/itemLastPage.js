@@ -346,6 +346,8 @@ const handleSizeChange = (size) => {
                 color: selectedColor,
                 size: selectedSize,
                 image: selectedImage,
+                brand: product.brand,
+                brandPrice: product.brandPrice,
                 quantity: 1, // Default quantity
             }
         };
