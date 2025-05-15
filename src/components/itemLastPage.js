@@ -22,6 +22,9 @@ const TRANSACTION_API = "https://api.malidag.com/api/transaction";
 const PRICE_API = "https://api.malidag.com/crypto-prices"; // Your crypto price endpoint
 const LIKED_API = "https://api.malidag.com"; // Backend URL
 
+
+
+
 Modal.setAppElement("#root"); // For accessibility
 
 const coinImages = {
@@ -62,6 +65,15 @@ function ProductDetails({basketItems, country, user, address, auth, chainId}) {
   const [isZoomVisible, setIsZoomVisible] = useState(false);
   const [selectedImageNumber, setSelectedImageNumber] = useState(0); // Default to the first image
   const [quantity, setQuantity] = useState(1); // Quantity state
+  console.log("Product videos:", product?.videos);
+  console.log("Rendered videos count:", product?.videos?.length);
+
+  const validVideos = Array.isArray(product?.videos)
+  ? product?.videos.filter((v) => typeof v === "string" && v.trim().toLowerCase().endsWith(".mp4"))
+  : [];
+
+
+
 
   console.log("itemsd:", itemsd)
 
@@ -305,7 +317,7 @@ const handleSizeChange = (size) => {
   // Slick slider settings for videos
   const videoSliderSettings = {
     dots: true,
-    infinite: true,
+    infinite: false,
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
@@ -776,45 +788,35 @@ const handleQuantityChange = (amount) => {
         </div>
       </div>
       {/* Video Slider */}
-      <div className="product-videos">
-        <h2 style={{ color: "black", width: "100%", display: "flex", alignItems: "center"}}>Product Videos</h2>
-        {Array.isArray(product.videos) && product.videos.length > 0 ? (
-          <Slider {...videoSliderSettings}>
-            {product.videos.map((videoUrl, index) => (
-              <div key={index}>
-                <video
-                  src={videoUrl}
-                  controls
-                  style={{
-                    width: "100%",
-                    maxWidth: "600px",
-                    margin: "10px auto",
-                    height: "400px",
-                  }}
-                >
-                  Your browser does not support the video tag.
-                </video>
-              </div>
-            ))}
-          </Slider>
-        ) : product.videos ? (
-          <video
-            src={product.videos}
-            controls
-            style={{
-              width: "100%",
-              maxWidth: "600px",
-              margin: "10px auto",
-              height: "400px",
-            }}
-          >
-            Your browser does not support the video tag.
-          </video>
-        ) : (
-          <p style={{ color: "black" }}>No videos available for this product.</p>
-        )}
+{validVideos?.length > 0 && (
+  <div className="product-videos">
+    <h2 style={{ color: "black" }}>Product Videos</h2>
+
+    {validVideos?.length === 1 ? (
+      <div>
+        <video
+          src={validVideos[0]}
+          controls
+          style={{ width: "100%", maxWidth: "600px", height: "400px" }}
+        />
       </div>
-      
+    ) : (
+      <Slider {...videoSliderSettings}>
+        {validVideos.map((videoUrl, index) => (
+          <div key={index}>
+            <video
+              src={videoUrl}
+              controls
+              style={{ width: "100%", maxWidth: "600px", height: "400px" }}
+            />
+          </div>
+        ))}
+      </Slider>
+    )}
+  </div>
+)}
+
+
        {/* Modal for Transaction Form */}
       <div style={{marginRight: isBasketVisible && basketItems.length > 0 ? "150px" : "0" }}>
       <ItemIdPage id={itemsd}/>
