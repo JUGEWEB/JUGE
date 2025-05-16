@@ -75,6 +75,15 @@ function PayBBE() {
       navigate(`/itemsOfShoes/${encodeURIComponent(`${gender}-${formattedType}`)}`);        
     } else if (category === "clothes" && gender === "women") {
       navigate(`/itemsOfWomen/${type}`);
+    } else if (category === "electronic") {
+      navigate(`/itemsOfElectronic/${type}`);
+    } else if (category === "home & kitchen") {
+      navigate(`/itemsOfHome/${type}`);
+    } else if (category === "pet care") {
+     navigate(`/itemsOfPetCare/${gender}/${formatTypeForUrl(type)}`);
+    } else if ( category === "clothes" &&
+    ["boy", "girl", "babies", "babyboy", "babygirl"].includes(gender)) {
+     navigate(`/itemsOfKids/${gender}/${formatTypeForUrl(type)}`);
     } else if (category === "clothes" && gender === "men") {
       navigate(`/itemsOfMen/${type}`);
     } else {
@@ -119,15 +128,24 @@ function PayBBE() {
     <div className="bbe-container">
       {/* Types List (clickable) */}
       <div className="bbe-type-list">
-        {Object.entries(types).map(([type, items]) => (
-          <div
-            key={type}
-            className="bbe-type-item"
-            onClick={() => handleNavigateByType(items[0])}
-          >
-            {type}
-          </div>
-        ))}
+      {Object.entries(types).map(([type, items]) => {
+  const firstItem = items[0];
+  const category = firstItem.category?.toLowerCase();
+  const gender = firstItem.item.genre || "Unisex";
+  const label = category === "electronic" ? type : `${gender} ${type}`;
+  
+  return (
+    <div
+      key={type}
+      className="bbe-type-item"
+      onClick={() => handleNavigateByType(firstItem)}
+    >
+      {label}
+    </div>
+  );
+})}
+
+
       </div>
 
       {/* All Discounted Items */}
