@@ -58,6 +58,10 @@ import Coin from "./components/coin";
 import ThemeForPersonnalSmall from "./components/themeForPersonnalSmal";
 import MainSlider from "./components/MainSlider";
 import ItemOfMen from "./components/itemOfMen";
+import ItemOfElectronic from "./components/itemOfElectronic";
+import ItemOfPetCare from "./components/itemOfPetCare";
+import ItemOfKids from "./components/itemOfKids";
+import ItemOfHome from "./components/itemOfHome";
 
 
 
@@ -238,6 +242,10 @@ const App = () => {
             <Route path="/itemsOfWomen/:itemClicked" element={<ItemOfWomen />} />
             <Route path="/itemsOfShoes/:itemClicked" element={<ItemOfShoes />} />
             <Route path="/itemsOfMen/:itemClicked" element={<ItemOfMen />} />
+            <Route path="/itemsOfElectronic/:itemClicked" element={<ItemOfElectronic />} />
+            <Route path="/itemsOfHome/:itemClicked" element={<ItemOfHome />} />
+            <Route path="/itemsOfPetCare/:gender/:type" element={<ItemOfPetCare />} />
+            <Route path="/itemsOfKids/:gender/:type" element={<ItemOfKids />} />
             <Route path="/personal" element={<PersonalCare />} />
             <Route path="/woFashion" element={<WoFashion />} />
             <Route path="/faKick" element={<FashionKick />} />
