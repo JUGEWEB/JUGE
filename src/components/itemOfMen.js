@@ -317,7 +317,7 @@ function ItemOfMen() {
 </div>
 
 
-    <div >
+    <div style={{display: "flex"}} >
     <div style={{
        display: (!isDesktop) ? "none" : "",
   backgroundColor: '#f8f9fa', 
@@ -408,7 +408,7 @@ function ItemOfMen() {
                  paddingTop: "20px",
                  filter: "brightness(0.880000000) contrast(1.2)",
                   width: '100%',
-                  height:(isVerySmall) ? "230px" :  "250px",
+                  height:(isVerySmall) ? "230px" :  "300px",
                   marginBottom: '10px',
                   marginTop: '10px',
                   position: 'relative',
