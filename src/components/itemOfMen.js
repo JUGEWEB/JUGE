@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import useScreenSize from "./useIsMobile";
 import './itemOfWomen.css';
 
 function ItemOfMen() {
@@ -14,6 +15,8 @@ function ItemOfMen() {
   const [activeVideoId, setActiveVideoId] = useState(null);
   const [beautyImages, setBeautyImages] = useState([]); // Store beauty images
   const [selectedSize, setSelectedSize] = useState(null); // Track selected size
+   const [reviews, setReviews] = useState({}); // Store reviews data
+        const {isMobile, isDesktop, isTablet, isSmallMobile, isVerySmall, isVeryVerySmall} = useScreenSize()
   const navigate = useNavigate();
 
   console.log('video', activeVideoId)
@@ -59,6 +62,32 @@ function ItemOfMen() {
     fetchBeautyImages();
   }, [itemClicked]); // ✅ Re-fetch when `itemClicked` changes
 
+  // Fetch reviews from the endpoint
+            const fetchReviews = async (productId) => {
+              try {
+                const response = await axios.get(`https://api.malidag.com/get-reviews/${productId}`);
+                if (response.data.success) {
+                 
+                  const reviewsArray = response.data.reviews || [];
+                  const totalRating = reviewsArray.reduce((acc, review) => {
+                    let rating = parseFloat(review.rating);
+                    return acc + (isNaN(rating) ? 4 : rating); // If rating is invalid, treat as 5 stars
+                  }, 0);
+                  const averageRating = reviewsArray.length ? (totalRating / reviewsArray.length).toFixed(2) : null;
+          
+                  setReviews((prevReviews) => ({
+                    ...prevReviews,
+                    [productId]: { averageRating, reviewsArray },
+                  }));
+          
+                }
+              } catch (error) {
+                console.error("Error fetching reviews:", error);
+              }
+            };
+          
+           
+
   useEffect(() => {
     const fetchItems = async () => {
       try {
@@ -69,6 +98,11 @@ function ItemOfMen() {
 
         const uniqueCategories = [...new Set(fetchedItems.map(item => item.category))];
         setCategories(uniqueCategories);
+
+          // Fetch reviews for each item
+       filteredItems.forEach((item) => {
+        fetchReviews(item.itemId); // Fetch reviews for each product
+      });
        
 
         const cryptoSymbols = [
@@ -146,68 +180,70 @@ function ItemOfMen() {
    const displayedItems = selectedSize ? filterItemsBySize(selectedSize) : items;
 
   return (
-    <>
-    <div className="item-pge-tile">
-        <div>Malidag {itemClicked}.</div>
+    <div style={{maxWidth: "100%", overflow: "hidden"}} >
+   <div  style={{maxWidth: "100%", width: "100%", color: "black"}}>
+      <div style={{width: "100%", overflowX: "auto"}}>
+      <div style={{width: "100%", maxWidth: "100%", display: "flex", alignItems: "center", justifyContent: "start", padding: "10px"}}>
+        <div>Malidag {itemClicked}</div>
         <div style={{ marginLeft: "20px" }}>Related Categories:</div>
-        <div className="related-ifo">
-          <div className="related-catgories">
-            {categories.map((category, index) => (
-              <div key={index}>
-                <div
-                  className="related-catgory"
-                  onClick={() => toggleDropdown(category)}
-                >
-                  {category}
-                <span
-                className={`dropdown-arrow ${
-                dropdownOpen[category] ? "arrow-open" : "arrow-closed"
-                }`}
-            >
-                ▼
-            </span>
-                </div>
-               
-                {dropdownOpen[category] && (
-                  <div className="stable-catgory-dropdown">
-                    <div className="stable-catgory-types">
-                      <strong>malidag {category}</strong>
-                      {categorizedItems[category]
-                        .map((item) => item.item.type)
-                        .filter((type, idx, arr) => arr.indexOf(type) === idx)
-                        .map((type, idx) => (
-                          <div key={idx} className="stable-tpe-item">
-                            {type}
-                          </div>
-                        ))}
-                    </div>
-                    <div>
-                    <strong style={{marginLeft: '50%'}}>Hot 🔥:</strong>
-                    <div className="stable-ht-items">
-                      {getHotItems(categorizedItems[category]).map(
-                        (hotItem, idx) => (
-                          <div key={idx} className="stable-ht-item">
-                            <img
-                              src={hotItem.item.images[0]}
-                              alt={hotItem.item.name}
-                               onClick={() => handleNavigate(hotItem.id)} // Navigate when clicking the card
-                              className="stable-ht-item-image"
-                            />
-                            <div className="stable-ht-item-name">
-                              {hotItem.item.name}
-                            </div>
-                            <div className="stable-ht-item-sold">
-                              {hotItem.item.sold} sold
-                            </div>
-                          </div>
-                        )
-                      )}
-                    </div>
-                    </div>
-                  </div>
-                )}
-              </div>
-            ))}
+           <div style={{ marginLeft: "20px" }}>
+        {categories.map((category, index) => (
+  <div key={index}>
+    <div
+      onClick={() => toggleDropdown(category)}
+    >
+      {category}
+      <span className={`dropdown-arrow ${dropdownOpen[category] ? "arrow-open" : "arrow-closed"}`}>
+        ▼
+      </span>
+    </div>
+  </div>
+))}
+</div>
+</div>
+</div>
+        <div>
+
+          <div style={{position: "relative", width: "100%"}}>
+
+{/* Render dropdown separately so you can move it wherever you want */}
+<div style={{position: "absolute", width: "100%", zIndex: "1000", backgroundColor: "white"}}>
+{categories.map((category) =>
+  dropdownOpen[category] ? (
+    <div key={category}  style={{position: "relative", width: "100%", display: "flex", alignItems: "center"}}>
+      <div className="stable-catgory-types">
+        <strong>malidag {category}</strong>
+        {categorizedItems[category]
+          .map((item) => item.item.type)
+          .filter((type, idx, arr) => arr.indexOf(type) === idx)
+          .map((type, idx) => (
+            <div key={idx} className="stable-tpe-item">
+              {type}
+            </div>
+          ))}
+      </div>
+      <div>
+        <strong style={{ marginLeft: "50%" , width: "100%"}}>Hot 🔥:</strong>
+        <div style={{width: "100%", backgroundColor: "white"}}>
+          {getHotItems(categorizedItems[category]).map((hotItem, idx) => (
+            <div key={idx} style={{width: "250px"}}>
+              <img
+                src={hotItem.item.images[0]}
+                alt={hotItem.item.name}
+                onClick={() => handleNavigate(hotItem.id)}
+                className="stable-ht-item-image"
+              />
+              <div className="stable-ht-item-name">{hotItem.item.name}</div>
+              <div className="stable-ht-item-sold">{hotItem.item.sold} sold</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  ) : null
+)}
+</div>
+
           </div>
         </div>
       </div>
@@ -216,7 +252,7 @@ function ItemOfMen() {
       ) : (
         <div className="beauty-images-container" 
         style={{
-          display: "flex", alignItems: "center", justifyContent: "center"
+          display: "flex", alignItems: "center", justifyContent: "center", maxWidth: "100%"
         }}
         >
           {beautyImages.length > 0 ? (
@@ -226,7 +262,7 @@ function ItemOfMen() {
                 src={img.imageUrl} // ✅ Corrected URL
                 alt={itemClicked}
                 className="beauty-image"
-                style={{maxHeight: "400px", width: "1200px", objectFit: "cover"}}
+                style={{maxHeight: "400px", width: "100%", objectFit: "cover", padding: "20px"}}
               />
             ))
           ) : (
@@ -234,8 +270,9 @@ function ItemOfMen() {
           )}
         </div>
       )}
-    <div className="item-pge-container">
-    <div style={{
+
+       <div style={{
+       display: (isDesktop) ? "none" : "",
   backgroundColor: '#f8f9fa', 
   borderLeft: '5px solid #4CAF50', 
   padding: '15px', 
@@ -243,7 +280,9 @@ function ItemOfMen() {
   fontFamily: 'Arial, sans-serif', 
   lineHeight: '1.5', 
   color: '#333',
-  margin: '20px 0'
+  margin: '20px 0',
+   maxHeight: "auto",
+  maxWidth: "100%"
 }}>
   <h2 style={{ color: '#4CAF50', marginBottom: '10px' }}>🔍 Search by Size 👕</h2>
   <p>Finding the perfect fit is easier than ever! Use our size search feature to explore clothing in your preferred size:</p>
@@ -278,13 +317,79 @@ function ItemOfMen() {
 </div>
 
 
-      <div className="search-reslts-container">
+    <div >
+    <div style={{
+       display: (!isDesktop) ? "none" : "",
+  backgroundColor: '#f8f9fa', 
+  borderLeft: '5px solid #4CAF50', 
+  padding: '15px', 
+  borderRadius: '8px', 
+  fontFamily: 'Arial, sans-serif', 
+  lineHeight: '1.5', 
+  color: '#333',
+  margin: '20px 0',
+   maxHeight: "auto",
+  maxWidth: "210px"
+}}>
+  <h2 style={{ color: '#4CAF50', marginBottom: '10px' }}>🔍 Search by Size 👕</h2>
+  <p>Finding the perfect fit is easier than ever! Use our size search feature to explore clothing in your preferred size:</p>
+  <ul style={{ paddingLeft: '20px' }}>
+    <li>✅ <strong>Small (S)</strong> – For a snug and comfortable fit.</li>
+    <li>✅ <strong>Medium (M)</strong> – Classic and standard sizing.</li>
+    <li>✅ <strong>Large (L)</strong> – Roomy and relaxed wear.</li>
+    <li>✅ <strong>Extra Large (XL, XXL, XXXL)</strong> – Designed for ultimate comfort.</li>
+  </ul>
+  <p style={{ fontWeight: 'bold', color: '#4CAF50' }}>Find your size effortlessly and shop with confidence! 👗🛍️</p>
+
+  <div className="size-filter-container">
+            <h3>Filter by Size</h3>
+            <div className="sizes-list">
+              {getAllSizes(items).map((size) => (
+                <button
+                  key={size}
+                  className={`size-button ${selectedSize === size ? "active" : ""}`}
+                  onClick={() => setSelectedSize(size)}
+                >
+                  {size}
+                </button>
+              ))}
+            </div>
+
+            {selectedSize && (
+              <button className="clear-filter" onClick={() => setSelectedSize(null)}>
+                ❌ Clear Filter
+              </button>
+            )}
+          </div>
+</div>
+
+
+      <div  style={{
+  display: "grid",
+  width: "100%",
+  maxWidth: "100%",
+  gap: "5px",
+  padding: "5px",
+  gridTemplateColumns:
+    isVerySmall
+      ? "repeat(2, 1fr)"
+      : isVeryVerySmall
+      ? "repeat(1, 1fr)"
+      : isSmallMobile
+      ? "repeat(2, 1fr)"
+      : isMobile
+      ? "repeat(3, 1fr)"
+      : isTablet
+      ? "repeat(3, 1fr)"
+      : "repeat(3, 1fr)",
+}}>
         {displayedItems.map((itemData) => {
-          const { id, item } = itemData;
+          const {itemId, id, item } = itemData;
           const { name, usdPrice, originalPrice, cryptocurrency, sold, videos } = item;
           const cryptoSymbol = `${cryptocurrency}`;
           const crypto = String(cryptocurrency);
-          const stars = Math.floor(Math.random() * 5) + 1; // Random stars for now
+         const reviewsData = reviews[itemId] || {}; // Ensure it exists
+            const finalRating = reviewsData ? reviewsData.averageRating : "No rating";
           const cryptoPriceInUSD = cryptoPrices[cryptoSymbol] || 0;
           const itemPriceInCrypto =
             cryptoPriceInUSD > 0 ? (usdPrice / cryptoPriceInUSD).toFixed(6) : "N/A";
@@ -295,14 +400,15 @@ function ItemOfMen() {
             );
 
           return (
-            <div key={id} className="itm-card">
+            <div key={id} style={{width :"100%", maxWidth: "100%", margin: " 0 auto"}} >
               <div
-                style={{
+                 style={{
                   background: '#dddddd53',
                   zIndex: '1',
                  paddingTop: "20px",
-                  width: '230px',
-                  height: '300px',
+                 filter: "brightness(0.880000000) contrast(1.2)",
+                  width: '100%',
+                  height:(isVerySmall) ? "230px" :  "250px",
                   marginBottom: '10px',
                   marginTop: '10px',
                   position: 'relative',
@@ -314,7 +420,9 @@ function ItemOfMen() {
                     controls
                     autoPlay
                     onEnded={handleVideoStop}
-                    style={{ width: '230px', height: '300px', objectFit: 'cover' }}
+                    style={{ width: "100%",
+                      height: (isVerySmall) ? "230px" :  "300px",
+                      objectFit: "contain" }}
                   />
                 ) : (
                   <>
@@ -323,6 +431,9 @@ function ItemOfMen() {
                       src={item.images[0]}
                       alt={name}
                       onClick={() => handleNavigate(id)} // Navigate when clicking the card
+                       style={{ width: "100%",
+                        height:(isVerySmall) ? "230px" :  "300px",
+                        objectFit: "contain"}}
                     />
                      {firstVideoUrl && ( 
                       <div
@@ -383,8 +494,11 @@ function ItemOfMen() {
                     </span>
                   </div>
                 </div>
-                <div className="item-stars">
-                  {"★".repeat(stars)}{"☆".repeat(5 - stars)}
+                 <div className="item-type-stars" onClick={() =>
+   navigate('/reviewPage', { 
+    state: { itemData: itemData}
+ }) } title="View reviews of this item">
+                {finalRating ? "★".repeat(Math.round(finalRating)) + "☆".repeat(5 - Math.round(finalRating)) : "No rating"}
                 </div>
               </div>
             </div>
@@ -392,7 +506,7 @@ function ItemOfMen() {
         })}
       </div>
     </div>
-    </>
+    </div>
     
   );
 }
