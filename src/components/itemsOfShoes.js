@@ -15,6 +15,7 @@ function ItemOfShoes() {
   const [activeVideoId, setActiveVideoId] = useState(null);
   const [beautyImages, setBeautyImages] = useState([]); // Store beauty images
   const [selectedSize, setSelectedSize] = useState(null); // Track selected size
+   const [reviews, setReviews] = useState({}); // Store reviews data
    // Extract gender and type from itemClicked (e.g., "men-sneakers")
    const [gender, type] = itemClicked.split("-");
   const navigate = useNavigate();
@@ -42,6 +43,33 @@ function ItemOfShoes() {
     }
   };
 
+  // Fetch reviews from the endpoint
+    const fetchReviews = async (productId) => {
+      try {
+        const response = await axios.get(`https://api.malidag.com/get-reviews/${productId}`);
+        if (response.data.success) {
+         
+          const reviewsArray = response.data.reviews || [];
+          const totalRating = reviewsArray.reduce((acc, review) => {
+            let rating = parseFloat(review.rating);
+            return acc + (isNaN(rating) ? 4 : rating); // If rating is invalid, treat as 5 stars
+          }, 0);
+          const averageRating = reviewsArray.length ? (totalRating / reviewsArray.length).toFixed(2) : null;
+  
+          setReviews((prevReviews) => ({
+            ...prevReviews,
+            [productId]: { averageRating, reviewsArray },
+          }));
+  
+        }
+      } catch (error) {
+        console.error("Error fetching reviews:", error);
+      }
+    };
+  
+   
+    
+
   useEffect(() => {
     const fetchBeautyImages = async () => {
       try {
@@ -53,12 +81,17 @@ function ItemOfShoes() {
         );
           console.log("filtered", filteredImages)
         setBeautyImages(filteredImages);
+
+        
+
       } catch (error) {
         console.error("Error fetching beauty images:", error);
       } finally {
         setLoading(false);
       }
     };
+
+   
 
     fetchBeautyImages();
   }, [itemClicked]); // ✅ Re-fetch when `itemClicked` changes
@@ -81,7 +114,10 @@ function ItemOfShoes() {
        const uniqueCategories = [
   ...new Set(filteredItems.map(item => item.category?.toLowerCase()))
 ];
-
+       // Fetch reviews for each item
+       filteredItems.forEach((item) => {
+        fetchReviews(item.itemId); // Fetch reviews for each product
+      });
         setCategories(uniqueCategories);
 
         const cryptoSymbols = [...new Set(filteredItems.map((item) => `${item.item.cryptocurrency}`))];
@@ -292,11 +328,12 @@ function ItemOfShoes() {
 }}
       >
         {displayedItems.map((itemData) => {
-          const { id, item } = itemData;
+          const {itemId, id, item } = itemData;
           const { name, usdPrice, originalPrice, cryptocurrency, sold, videos } = item;
           const cryptoSymbol = `${cryptocurrency}`;
           const crypto = String(cryptocurrency);
-          const stars = Math.floor(Math.random() * 5) + 1; // Random stars for now
+           const reviewsData = reviews[itemId] || {}; // Ensure it exists
+            const finalRating = reviewsData ? reviewsData.averageRating : "No rating";
           const cryptoPriceInUSD = cryptoPrices[cryptoSymbol] || 0;
           const itemPriceInCrypto =
             cryptoPriceInUSD > 0 ? (usdPrice / cryptoPriceInUSD).toFixed(6) : "N/A";
@@ -401,8 +438,11 @@ function ItemOfShoes() {
                     </span>
                   </div>
                 </div>
-                <div className="item-stars">
-                  {"★".repeat(stars)}{"☆".repeat(5 - stars)}
+                <div className="item-type-stars" onClick={() =>
+   navigate('/reviewPage', { 
+    state: { itemData: itemData}
+ }) } title="View reviews of this item">
+                {finalRating ? "★".repeat(Math.round(finalRating)) + "☆".repeat(5 - Math.round(finalRating)) : "No rating"}
                 </div>
               </div>
             </div>

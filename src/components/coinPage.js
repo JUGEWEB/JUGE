@@ -41,7 +41,7 @@ function CoinPage() {
    // Fetch reviews from the endpoint
    const fetchReviews = async (productId) => {
     try {
-      const response = await axios.get(`http://192.168.0.210:6001/get-reviews/${productId}`);
+      const response = await axios.get(`https://api.malidag.com/get-reviews/${productId}`);
       if (response.data.success) {
        
         const reviewsArray = response.data.reviews || [];
@@ -75,11 +75,13 @@ function CoinPage() {
         const uniqueCategories = [...new Set(fetchedItems.map(item => item.category))];
         setCategories(uniqueCategories);
 
-         // Fetch reviews for each item
-       uniqueCategories.forEach((item) => {
-        fetchReviews(item.itemId); // Fetch reviews for each product
-      });
-       
+      fetchedItems.forEach((itemData) => {
+  if (itemData?.itemId) {
+    fetchReviews(itemData.itemId);
+  }
+});
+
+
         const cryptoSymbols = [
           ...new Set(fetchedItems.map((item) => `${item.item.cryptocurrency}`)),
         ];
@@ -309,8 +311,7 @@ function CoinPage() {
       : "repeat(5, 1fr)",
 }}>
         {items.map((itemData) => {
-          const { id, item } = itemData;
-          const itemId = item.itemId;
+          const { id, itemId, item } = itemData;
           const { name, usdPrice, originalPrice, cryptocurrency, sold, videos } = item;
           const cryptoSymbol = `${cryptocurrency}`;
           const crypto = String(cryptocurrency);
