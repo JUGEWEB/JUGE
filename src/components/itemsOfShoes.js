@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import './itemOfShoes.css';
+import useScreenSize from "./useIsMobile";
 
 function ItemOfShoes() {
   const { itemClicked } = useParams();
@@ -17,6 +18,7 @@ function ItemOfShoes() {
    // Extract gender and type from itemClicked (e.g., "men-sneakers")
    const [gender, type] = itemClicked.split("-");
   const navigate = useNavigate();
+  const {isMobile, isDesktop, isTablet, isSmallMobile, isVerySmall, isVeryVerySmall} = useScreenSize()
 
   console.log('video', activeVideoId)
   console.log('itemClick', itemClicked)
@@ -76,7 +78,10 @@ function ItemOfShoes() {
       );
         
         setItems(filteredItems);
-        const uniqueCategories = [...new Set(filteredItems.map(item => item.category))];
+       const uniqueCategories = [
+  ...new Set(filteredItems.map(item => item.category?.toLowerCase()))
+];
+
         setCategories(uniqueCategories);
 
         const cryptoSymbols = [...new Set(filteredItems.map((item) => `${item.item.cryptocurrency}`))];
@@ -151,68 +156,70 @@ function ItemOfShoes() {
    const displayedItems = selectedSize ? filterItemsBySize(selectedSize) : items;
 
   return (
-    <>
-    <div className="item-pge-tile">
+    <div style={{maxWidth: "100%", overflow: "hidden"}}>
+    <div  style={{maxWidth: "100%", width: "100%", color: "black"}}>
+      <div style={{width: "100%", overflowX: "auto"}}>
+      <div style={{width: "100%", maxWidth: "100%", display: "flex", alignItems: "center", justifyContent: "start", padding: "10px"}}>
         <div>Malidag {itemClicked}.</div>
         <div style={{ marginLeft: "20px" }}>Related Categories:</div>
-        <div className="related-ifo">
-          <div className="related-catgories">
-            {categories.map((category, index) => (
-              <div key={index}>
-                <div
-                  className="related-catgory"
-                  onClick={() => toggleDropdown(category)}
-                >
-                  {category}
-                <span
-                className={`dropdown-arrow ${
-                dropdownOpen[category] ? "arrow-open" : "arrow-closed"
-                }`}
-            >
-                ▼
-            </span>
-                </div>
-               
-                {dropdownOpen[category] && (
-                  <div className="stable-catgory-dropdown">
-                    <div className="stable-catgory-types">
-                      <strong>malidag {category}</strong>
-                      {categorizedItems[category]
-                        .map((item) => item.item.type)
-                        .filter((type, idx, arr) => arr.indexOf(type) === idx)
-                        .map((type, idx) => (
-                          <div key={idx} className="stable-tpe-item">
-                            {type}
-                          </div>
-                        ))}
-                    </div>
-                    <div>
-                    <strong style={{marginLeft: '50%'}}>Hot 🔥:</strong>
-                    <div className="stable-ht-items">
-                      {getHotItems(categorizedItems[category]).map(
-                        (hotItem, idx) => (
-                          <div key={idx} className="stable-ht-item">
-                            <img
-                              src={hotItem.item.images[0]}
-                              alt={hotItem.item.name}
-                               onClick={() => handleNavigate(hotItem.id)} // Navigate when clicking the card
-                              className="stable-ht-item-image"
-                            />
-                            <div className="stable-ht-item-name">
-                              {hotItem.item.name}
-                            </div>
-                            <div className="stable-ht-item-sold">
-                              {hotItem.item.sold} sold
-                            </div>
-                          </div>
-                        )
-                      )}
-                    </div>
-                    </div>
-                  </div>
-                )}
-              </div>
-            ))}
+           <div style={{ marginLeft: "20px" }}>
+        {categories.map((category, index) => (
+  <div key={index}>
+    <div
+      onClick={() => toggleDropdown(category)}
+    >
+      {category}
+      <span className={`dropdown-arrow ${dropdownOpen[category] ? "arrow-open" : "arrow-closed"}`}>
+        ▼
+      </span>
+    </div>
+  </div>
+))}
+</div>
+</div>
+</div>
+        <div>
+
+          <div style={{position: "relative", width: "100%"}}>
+
+{/* Render dropdown separately so you can move it wherever you want */}
+<div style={{position: "absolute", width: "100%", zIndex: "1000", backgroundColor: "white"}}>
+{categories.map((category) =>
+  dropdownOpen[category] ? (
+    <div key={category}  style={{position: "relative", width: "100%", display: "flex", alignItems: "center"}}>
+      <div className="stable-catgory-types">
+        <strong>malidag {category}</strong>
+        {categorizedItems[category]
+          .map((item) => item.item.type)
+          .filter((type, idx, arr) => arr.indexOf(type) === idx)
+          .map((type, idx) => (
+            <div key={idx} className="stable-tpe-item">
+              {type}
+            </div>
+          ))}
+      </div>
+      <div>
+        <strong style={{ marginLeft: "50%" , width: "100%"}}>Hot 🔥:</strong>
+        <div style={{width: "100%", backgroundColor: "white"}}>
+          {getHotItems(categorizedItems[category]).map((hotItem, idx) => (
+            <div key={idx} style={{width: "250px"}}>
+              <img
+                src={hotItem.item.images[0]}
+                alt={hotItem.item.name}
+                onClick={() => handleNavigate(hotItem.id)}
+                className="stable-ht-item-image"
+              />
+              <div className="stable-ht-item-name">{hotItem.item.name}</div>
+              <div className="stable-ht-item-sold">{hotItem.item.sold} sold</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  ) : null
+)}
+</div>
+
           </div>
         </div>
       </div>
@@ -221,7 +228,7 @@ function ItemOfShoes() {
       ) : (
         <div className="beauty-images-container" 
         style={{
-          display: "flex", alignItems: "center", justifyContent: "center"
+          display: "flex", alignItems: "center", justifyContent: "center", maxWidth: "100%"
         }}
         >
           {beautyImages.length > 0 ? (
@@ -231,7 +238,7 @@ function ItemOfShoes() {
                 src={img.imageUrl} // ✅ Corrected URL
                 alt={itemClicked}
                 className="beauty-image"
-                style={{maxHeight: "400px", width: "1200px", objectFit: "cover"}}
+                style={{maxHeight: "400px", width: "100%", objectFit: "cover"}}
               />
             ))
           ) : (
@@ -239,10 +246,8 @@ function ItemOfShoes() {
           )}
         </div>
       )}
-    <div className="item-pge-container">
-   
- 
-  <div className="size-filter-container">
+
+      <div className="size-filter-container">
             <h3>Filter by Size</h3>
             <div className="sizes-list">
               {getAllSizes(items).map((size) => (
@@ -263,9 +268,29 @@ function ItemOfShoes() {
             )}
           
 </div>
+    <div className="item-pge-container" style={{maxWidth: "100%"}}>
 
 
-      <div className="search-reslts-container">
+      <div 
+      style={{
+  display: "grid",
+  width: "100%",
+  gap: "5px",
+  padding: "1px",
+  gridTemplateColumns:
+    isVerySmall
+      ? "repeat(2, 1fr)"
+      : isVeryVerySmall
+      ? "repeat(1, 1fr)"
+      : isSmallMobile
+      ? "repeat(2, 1fr)"
+      : isMobile
+      ? "repeat(3, 1fr)"
+      : isTablet
+      ? "repeat(3, 1fr)"
+      : "repeat(4, 1fr)",
+}}
+      >
         {displayedItems.map((itemData) => {
           const { id, item } = itemData;
           const { name, usdPrice, originalPrice, cryptocurrency, sold, videos } = item;
@@ -282,14 +307,15 @@ function ItemOfShoes() {
             );
 
           return (
-            <div key={id} className="itm-card">
+            <div key={id} >
               <div
                 style={{
                   background: '#dddddd53',
                   zIndex: '1',
                  paddingTop: "20px",
-                  width: '290px',
-                  height: '300px',
+                 filter: "brightness(0.880000000) contrast(1.2)",
+                  width: '100%',
+                  height:(isVerySmall) ? "230px" :  "300px",
                   marginBottom: '10px',
                   marginTop: '10px',
                   position: 'relative',
@@ -301,7 +327,9 @@ function ItemOfShoes() {
                     controls
                     autoPlay
                     onEnded={handleVideoStop}
-                    style={{ width: '290px', height: '300px', objectFit: 'cover' }}
+                    style={{ width: "100%",
+                      height: (isVerySmall) ? "230px" :  "300px",
+                      objectFit: "contain" }}
                   />
                 ) : (
                   <>
@@ -310,6 +338,9 @@ function ItemOfShoes() {
                       src={item.images[0]}
                       alt={name}
                       onClick={() => handleNavigate(id)} // Navigate when clicking the card
+                       style={{ width: "100%",
+                        height:(isVerySmall) ? "230px" :  "250px",
+                        objectFit: "contain"}}
                     />
                      {firstVideoUrl && ( 
                       <div
@@ -379,7 +410,7 @@ function ItemOfShoes() {
         })}
       </div>
     </div>
-    </>
+    </div>
     
   );
 }
