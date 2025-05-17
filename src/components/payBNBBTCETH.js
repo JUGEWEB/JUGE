@@ -63,33 +63,37 @@ function PayBBE() {
     encodeURIComponent(type.toLowerCase().replace(/\s+/g, "-"));
   
   const handleNavigateByType = (firstItem) => {
-    const type = firstItem.item.type.toLowerCase();
-    const category = firstItem.category.toLowerCase();
-    const gender = firstItem.item.genre?.toLowerCase(); // optional
+  const type = (firstItem.item.type || "").toLowerCase();
+  const category = (firstItem.category || "").toLowerCase();
+  const gender = (firstItem.item.genre || "").toLowerCase();
 
-    if (category === "beauty") {
-      navigate(`/items/${type}`);
-    }else if (category === "shoes") {
-      const gender = firstItem.item.genre?.toLowerCase() || "unisex";
-      const formattedType = formatTypeForUrl(type); // e.g. "running shoes" → "running-shoes"
-      navigate(`/itemsOfShoes/${encodeURIComponent(`${gender}-${formattedType}`)}`);        
-    } else if (category === "clothes" && gender === "women") {
-      navigate(`/itemsOfWomen/${type}`);
-    } else if (category === "electronic") {
-      navigate(`/itemsOfElectronic/${type}`);
-    } else if (category === "home & kitchen") {
-      navigate(`/itemsOfHome/${type}`);
-    } else if (category === "pet care") {
-     navigate(`/itemsOfPetCare/${gender}/${formatTypeForUrl(type)}`);
-    } else if ( category === "clothes" &&
-    ["boy", "girl", "babies", "babyboy", "babygirl"].includes(gender)) {
-     navigate(`/itemsOfKids/${gender}/${formatTypeForUrl(type)}`);
-    } else if (category === "clothes" && gender === "men") {
-      navigate(`/itemsOfMen/${type}`);
-    } else {
-      console.warn("No route matched for:", { type, category, gender });
-    }
-  };
+  const formattedType = formatTypeForUrl(type);
+
+  // ✅ Prioritize Kids route first (since pet care might accidentally eat it)
+  if (
+    ["clothes", "toys", "accessories", "gear", "toy"].includes(category) &&
+    ["boy", "girl", "babies", "babyboy", "babygirl", "kids", "kid"].includes(gender)
+  ) {
+    navigate(`/itemsOfKids/${gender}/${formattedType}`);
+  } else if (category === "beauty") {
+    navigate(`/items/${formattedType}`);
+  } else if (category === "shoes") {
+    navigate(`/itemsOfShoes/${gender}-${formattedType}`);
+  } else if (category === "clothes" && gender === "women") {
+    navigate(`/itemsOfWomen/${formattedType}`);
+  } else if (category === "clothes" && gender === "men") {
+    navigate(`/itemsOfMen/${formattedType}`);
+  } else if (category === "electronic") {
+    navigate(`/itemsOfElectronic/${formattedType}`);
+  } else if (category === "home & kitchen") {
+    navigate(`/itemsOfHome/${formattedType}`);
+  } else if (category === "pet care") {
+    navigate(`/itemsOfPetCare/${gender}/${formattedType}`);
+  } else {
+    console.warn("No route matched for:", { type, category, gender });
+  }
+};
+
 
   const convertToCrypto = (usdPrice, cryptocurrency) => {
     if (!cryptoPrices[cryptocurrency]) return null;
