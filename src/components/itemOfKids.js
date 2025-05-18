@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import useScreenSize from "./useIsMobile";
 import './itemOfWomen.css';
 
 function ItemOfKids() {
@@ -14,6 +15,8 @@ function ItemOfKids() {
   const [activeVideoId, setActiveVideoId] = useState(null);
   const [beautyImages, setBeautyImages] = useState([]); // Store beauty images
   const [selectedSize, setSelectedSize] = useState(null); // Track selected size
+    const [reviews, setReviews] = useState({}); // Store reviews data
+          const {isMobile, isDesktop, isTablet, isSmallMobile, isVerySmall, isVeryVerySmall} = useScreenSize()
   const navigate = useNavigate();
 
   console.log('video', activeVideoId)
@@ -58,6 +61,33 @@ function ItemOfKids() {
     fetchBeautyImages();
   }, [type]); // ✅ Re-fetch when `itemClicked` changes
 
+  // Fetch reviews from the endpoint
+              const fetchReviews = async (productId) => {
+                try {
+                  const response = await axios.get(`https://api.malidag.com/get-reviews/${productId}`);
+                  if (response.data.success) {
+                   
+                    const reviewsArray = response.data.reviews || [];
+                    const totalRating = reviewsArray.reduce((acc, review) => {
+                      let rating = parseFloat(review.rating);
+                      return acc + (isNaN(rating) ? 4 : rating); // If rating is invalid, treat as 5 stars
+                    }, 0);
+                    const averageRating = reviewsArray.length ? (totalRating / reviewsArray.length).toFixed(2) : null;
+            
+                    setReviews((prevReviews) => ({
+                      ...prevReviews,
+                      [productId]: { averageRating, reviewsArray },
+                    }));
+            
+                  }
+                } catch (error) {
+                  console.error("Error fetching reviews:", error);
+                }
+              };
+            
+             
+  
+
   useEffect(() => {
   const fetchItems = async () => {
     try {
@@ -69,6 +99,11 @@ function ItemOfKids() {
       );
 
       setItems(filteredItems);
+
+        // Fetch reviews for each item
+       filteredItems.forEach((item) => {
+        fetchReviews(item.itemId); // Fetch reviews for each product
+      });
 
       const uniqueCategories = [...new Set(filteredItems.map(item => item.category))];
       setCategories(uniqueCategories);
@@ -131,68 +166,70 @@ function ItemOfKids() {
    const displayedItems = selectedSize ? filterItemsBySize(selectedSize) : items;
 
   return (
-    <>
-    <div className="item-pge-tile">
-        <div>Malidag {gender} {type}.</div>
+    <div style={{maxWidth: "100%", overflow: "hidden"}}>
+    <div  style={{maxWidth: "100%", width: "100%", color: "black"}}>
+      <div style={{width: "100%", overflowX: "auto"}}>
+      <div style={{width: "100%", maxWidth: "100%", display: "flex", alignItems: "center", justifyContent: "start", padding: "10px"}}>
+        <div>Malidag {gender}-{type}</div>
         <div style={{ marginLeft: "20px" }}>Related Categories:</div>
-        <div className="related-ifo">
-          <div className="related-catgories">
-            {categories.map((category, index) => (
-              <div key={index}>
-                <div
-                  className="related-catgory"
-                  onClick={() => toggleDropdown(category)}
-                >
-                  {category}
-                <span
-                className={`dropdown-arrow ${
-                dropdownOpen[category] ? "arrow-open" : "arrow-closed"
-                }`}
-            >
-                ▼
-            </span>
-                </div>
-               
-                {dropdownOpen[category] && (
-                  <div className="stable-catgory-dropdown">
-                    <div className="stable-catgory-types">
-                      <strong>malidag {category}</strong>
-                      {categorizedItems[category]
-                        .map((item) => item.item.type)
-                        .filter((type, idx, arr) => arr.indexOf(type) === idx)
-                        .map((type, idx) => (
-                          <div key={idx} className="stable-tpe-item">
-                            {type}
-                          </div>
-                        ))}
-                    </div>
-                    <div>
-                    <strong style={{marginLeft: '50%'}}>Hot 🔥:</strong>
-                    <div className="stable-ht-items">
-                      {getHotItems(categorizedItems[category]).map(
-                        (hotItem, idx) => (
-                          <div key={idx} className="stable-ht-item">
-                            <img
-                              src={hotItem.item.images[0]}
-                              alt={hotItem.item.name}
-                               onClick={() => handleNavigate(hotItem.id)} // Navigate when clicking the card
-                              className="stable-ht-item-image"
-                            />
-                            <div className="stable-ht-item-name">
-                              {hotItem.item.name}
-                            </div>
-                            <div className="stable-ht-item-sold">
-                              {hotItem.item.sold} sold
-                            </div>
-                          </div>
-                        )
-                      )}
-                    </div>
-                    </div>
-                  </div>
-                )}
-              </div>
-            ))}
+           <div style={{ marginLeft: "20px" }}>
+        {categories.map((category, index) => (
+  <div key={index}>
+    <div
+      onClick={() => toggleDropdown(category)}
+    >
+      {category}
+      <span className={`dropdown-arrow ${dropdownOpen[category] ? "arrow-open" : "arrow-closed"}`}>
+        ▼
+      </span>
+    </div>
+  </div>
+))}
+</div>
+</div>
+</div>
+        <div>
+
+          <div style={{position: "relative", width: "100%"}}>
+
+{/* Render dropdown separately so you can move it wherever you want */}
+<div style={{position: "absolute", width: "100%", zIndex: "1000", backgroundColor: "white"}}>
+{categories.map((category) =>
+  dropdownOpen[category] ? (
+    <div key={category}  style={{position: "relative", width: "100%", display: "flex", alignItems: "center"}}>
+      <div className="stable-catgory-types">
+        <strong>malidag {category}</strong>
+        {categorizedItems[category]
+          .map((item) => item.item.type)
+          .filter((type, idx, arr) => arr.indexOf(type) === idx)
+          .map((type, idx) => (
+            <div key={idx} className="stable-tpe-item">
+              {type}
+            </div>
+          ))}
+      </div>
+      <div>
+        <strong style={{ marginLeft: "50%" , width: "100%"}}>Hot 🔥:</strong>
+        <div style={{width: "100%", backgroundColor: "white"}}>
+          {getHotItems(categorizedItems[category]).map((hotItem, idx) => (
+            <div key={idx} style={{width: "250px"}}>
+              <img
+                src={hotItem.item.images[0]}
+                alt={hotItem.item.name}
+                onClick={() => handleNavigate(hotItem.id)}
+                className="stable-ht-item-image"
+              />
+              <div className="stable-ht-item-name">{hotItem.item.name}</div>
+              <div className="stable-ht-item-sold">{hotItem.item.sold} sold</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  ) : null
+)}
+</div>
+
           </div>
         </div>
       </div>
@@ -201,7 +238,7 @@ function ItemOfKids() {
       ) : (
         <div className="beauty-images-container" 
         style={{
-          display: "flex", alignItems: "center", justifyContent: "center"
+          display: "flex", alignItems: "center", justifyContent: "center", maxWidth: "100%"
         }}
         >
           {beautyImages.length > 0 ? (
@@ -211,7 +248,7 @@ function ItemOfKids() {
                 src={img.imageUrl} // ✅ Corrected URL
                 alt={itemClicked}
                 className="beauty-image"
-                style={{maxHeight: "400px", width: "1200px", objectFit: "cover"}}
+                style={{maxHeight: "400px", width: "100%", objectFit: "cover", padding: "20px"}}
               />
             ))
           ) : (
@@ -219,15 +256,34 @@ function ItemOfKids() {
           )}
         </div>
       )}
-    <div className="item-pge-container">
+    <div >
 
-      <div className="search-reslts-container">
+      <div  style={{
+  display: "grid",
+  width: "100%",
+  maxWidth: "100%",
+  gap: "5px",
+  padding: "5px",
+  gridTemplateColumns:
+    isVerySmall
+      ? "repeat(2, 1fr)"
+      : isVeryVerySmall
+      ? "repeat(1, 1fr)"
+      : isSmallMobile
+      ? "repeat(2, 1fr)"
+      : isMobile
+      ? "repeat(3, 1fr)"
+      : isTablet
+      ? "repeat(3, 1fr)"
+      : "repeat(3, 1fr)",
+}}>
         {displayedItems.map((itemData) => {
-          const { id, item } = itemData;
+          const {itemId, id, item } = itemData;
           const { name, usdPrice, originalPrice, cryptocurrency, sold, videos } = item;
           const cryptoSymbol = `${cryptocurrency}`;
           const crypto = String(cryptocurrency);
-          const stars = Math.floor(Math.random() * 5) + 1; // Random stars for now
+          const reviewsData = reviews[itemId] || {}; // Ensure it exists
+            const finalRating = reviewsData ? reviewsData.averageRating : "No rating";
           const cryptoPriceInUSD = cryptoPrices[cryptoSymbol] || 0;
           const itemPriceInCrypto =
             cryptoPriceInUSD > 0 ? (usdPrice / cryptoPriceInUSD).toFixed(6) : "N/A";
@@ -238,14 +294,15 @@ function ItemOfKids() {
             );
 
           return (
-            <div key={id} className="itm-card">
+            <div key={id}style={{width :"100%", maxWidth: "100%", margin: " 0 auto"}}>
               <div
                 style={{
-                  background: '#dddddd53',
+                  background: 'white',
                   zIndex: '1',
                  paddingTop: "20px",
-                  width: '230px',
-                  height: '300px',
+                 filter: "brightness(0.880000000) contrast(1.2)",
+                  width: '100%',
+                  height:(isVerySmall) ? "230px" :  "300px",
                   marginBottom: '10px',
                   marginTop: '10px',
                   position: 'relative',
@@ -257,7 +314,9 @@ function ItemOfKids() {
                     controls
                     autoPlay
                     onEnded={handleVideoStop}
-                    style={{ width: '230px', height: '300px', objectFit: 'cover' }}
+                     style={{ width: "100%",
+                      height: (isVerySmall) ? "230px" :  "300px",
+                      objectFit: "contain" }}
                   />
                 ) : (
                   <>
@@ -266,6 +325,9 @@ function ItemOfKids() {
                       src={item.images[0]}
                       alt={name}
                       onClick={() => handleNavigate(id)} // Navigate when clicking the card
+                       style={{ width: "100%",
+                        height:(isVerySmall) ? "230px" :  "300px",
+                        objectFit: "contain"}}
                     />
                      {firstVideoUrl && ( 
                       <div
@@ -326,8 +388,11 @@ function ItemOfKids() {
                     </span>
                   </div>
                 </div>
-                <div className="item-stars">
-                  {"★".repeat(stars)}{"☆".repeat(5 - stars)}
+                 <div className="item-type-stars" onClick={() =>
+   navigate('/reviewPage', { 
+    state: { itemData: itemData}
+ }) } title="View reviews of this item">
+                {finalRating ? "★".repeat(Math.round(finalRating)) + "☆".repeat(5 - Math.round(finalRating)) : "No rating"}
                 </div>
               </div>
             </div>
@@ -335,7 +400,7 @@ function ItemOfKids() {
         })}
       </div>
     </div>
-    </>
+    </div>
     
   );
 }
