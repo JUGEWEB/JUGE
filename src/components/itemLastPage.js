@@ -15,6 +15,7 @@ import "slick-carousel/slick/slick-theme.css";
 import ItemIdPage from "./itemIdPage";
 import ImageZoom from "./imageZoom";
 import ImageZoom1 from "./imageZoom1";
+import useScreenSize from "./useIsMobile";
 
 const BASKET_API = "https://api.malidag.com/add-to-basket"
 const BASE_URL = "https://api.malidag.com";
@@ -65,6 +66,7 @@ function ProductDetails({basketItems, country, user, address, auth, chainId}) {
   const [isZoomVisible, setIsZoomVisible] = useState(false);
   const [selectedImageNumber, setSelectedImageNumber] = useState(0); // Default to the first image
   const [quantity, setQuantity] = useState(1); // Quantity state
+   const {isMobile, isDesktop, isTablet, isSmallMobile, isVerySmall, isVeryVerySmall} = useScreenSize()
   console.log("Product videos:", product?.videos);
   console.log("Rendered videos count:", product?.videos?.length);
 
@@ -419,13 +421,16 @@ const handleMouseMove = (e) => {
 
   setZoomedPosition({ x: xPercent, y: yPercent });
 };
-// Toggle zoom visibility when mouse enters or leaves the image
 const handleMouseEnterImage = () => {
-  setIsZoomVisible(true);
+  if (isDesktop) {
+    setIsZoomVisible(true);
+  }
 };
 
 const handleMouseLeaveImage = () => {
-  setIsZoomVisible(false);
+  if (isDesktop) {
+    setIsZoomVisible(false);
+  }
 };
 
 const closeModal = () => {
@@ -552,13 +557,13 @@ const handleQuantityChange = (amount) => {
 
   return (
     <div className="product-details"  >
-      <div className="product-layout"  style={{ marginRight: isBasketVisible && basketItems.length > 0 ? "150px" : "0"}}>
+      <div className="product-layout"  style={{ marginRight: isBasketVisible && isDesktop && basketItems.length > 0 ? "150px" : "0"}}>
         {/* Left: Thumbnails for selected color */}
         <div  
         onMouseEnter={handleMouseEnterThumbnails}
         onMouseLeave={handleMouseLeaveThumbnails}
          className="left-thumbnails"
-         style={{ width: isBasketVisible && basketItems.length > 0 ? "140px" : "165px"}}
+         style={{display: (!(isDesktop || isTablet)) ? "none" : "" , width: isBasketVisible && basketItems.length > 0 ? "140px" : "165px"}}
          >
           {product.imagesVariants[selectedColor].map((image, index) => (
             <img
@@ -572,18 +577,20 @@ const handleQuantityChange = (amount) => {
         </div>
 
         {/* Center: Full-size image */}
+        <div style={{backgroundColor: "white", padding: (!(isTablet || isDesktop)) ? "1rem" : "", width:  (!(isTablet || isDesktop)) ? "100%" : ""}}>
         <div
         onMouseEnter={handleMouseEnterImageCenter}
         onMouseLeave={handleMouseLeaveImageCenter}
-           style={{width:"500px", height: "600px", filter: "brightness(0.9)", padding: "20px", background: "white", alignItems: "center", display: "flex", justifyContent: "center"}}
+           style={{width:(isTablet) ? "200px" : isDesktop ? "400px" : "100%", height:(isDesktop) ? "500px" : (isTablet) ? "300px" : "auto", filter: "brightness(0.9)", padding: "0px", background: "white", alignItems: "center", display: "flex", justifyContent: "center"}}
            >
          {renderImageZoom()} {/* Render the zoomed image based on the zoomType */}
+        </div>
         </div>
 
         {/* Right: Color options with images */}
         <div
         
-       className={`details-section ${detailsSectionAtTop ? "at-top" : ""} ${detailsSectionAtBottom ? "at-bottom" : ""}`} style={{maxWidth: isBasketVisible && basketItems.length > 0 ? "350px" : "500px", padding: "20px", maxHeight: "600px", overflowY: "auto"}}  ref={detailsRef}
+       className={`details-section ${detailsSectionAtTop ? "at-top" : ""} ${detailsSectionAtBottom ? "at-bottom" : ""}`} style={{display: (isDesktop || isTablet) ? "block" : "none" , maxWidth: isBasketVisible && isDesktop && basketItems.length > 0 ? "350px" : isBasketVisible && isTablet && basketItems.length > 0 ? "250px" : "auto", padding: "20px", maxHeight: "600px", overflowY: "auto"}}  ref={detailsRef}
          >
         <div>
            {/* Conditionally render Zoomed Portion only when the cursor is inside the image */}

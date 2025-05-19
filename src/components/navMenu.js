@@ -12,7 +12,7 @@ const NavMenu = ({basketItems}) => {
     const [beautyTypes, setBeautyTypes] = useState(new Set()); // Store Beauty category types
     const [isBasketVisible, setIsBasketVisible] = useState(false);
     const location = useLocation(); // ✅ Get the current URL path
-    const {isMobile, isSmallMobile, isVerySmall} = useScreenSize()
+    const {isMobile, isSmallMobile, isVerySmall, isDesktop} = useScreenSize()
 
      // Using useEffect to track location changes
    useEffect(() => {
@@ -59,7 +59,7 @@ if (isCheckoutPage || isItemsOfWomenPage || (isItemTypeRoute && beautyTypes.has(
 }
 
   return (
-    <div className="headtx" style={{  display: "flex", alignItems: "center", gap: "0px", background: "#333", marginTop: "-5px",  marginRight: isBasketVisible && basketItems.length > 0 ? "150px" : "0", }}>
+    <div className="headtx" style={{  display: "flex", alignItems: "center", gap: "0px", background: "#333", marginTop: "-5px",  marginRight: isBasketVisible && isDesktop && basketItems.length > 0 ? "150px" : "0", }}>
       <All />
       <Type />
       <Coin />

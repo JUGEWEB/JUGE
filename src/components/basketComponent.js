@@ -1,15 +1,17 @@
 import React, {useEffect, useState} from 'react';
 import { useLocation, Link } from 'react-router-dom';
+import useScreenSize from "./useIsMobile";
 
 const BasketComponent = ({ basketItems }) => {
     const [isBasketVisible, setIsBasketVisible] = useState(false);
+    const {isMobile, isDesktop, isSmallMobile, isTablet, isVerySmall} = useScreenSize()
   // Use location to get current path
   const location = useLocation();
 
   // Using useEffect to track location changes
   useEffect(() => {
     // Check if we're on the product or checkout page
-    if (location.pathname.includes('product/') || location.pathname === '/checkout') {
+    if ((location.pathname.includes('product/') || location.pathname === '/checkout')) {
       setIsBasketVisible(true); // Show the basket if on product or checkout page
     } else {
       setIsBasketVisible(false); // Hide the basket otherwise
@@ -18,6 +20,10 @@ const BasketComponent = ({ basketItems }) => {
   
 
   if (!isBasketVisible || basketItems.length === 0) {
+    return null; // Don't render the basket if it's not visible or there are no items
+  }
+
+   if (!isDesktop) {
     return null; // Don't render the basket if it's not visible or there are no items
   }
 

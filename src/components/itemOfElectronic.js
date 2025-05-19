@@ -161,7 +161,7 @@ function ItemOfElectronic() {
    const displayedItems = selectedSize ? filterItemsBySize(selectedSize) : items;
 
   return (
-    <>
+    <div style={{maxWidth: "100%", overflow: "hidden"}}>
    <div  style={{maxWidth: "100%", width: "100%", color: "black"}}>
       <div style={{width: "100%", overflowX: "auto"}}>
       <div style={{width: "100%", maxWidth: "100%", display: "flex", alignItems: "center", justifyContent: "start", padding: "10px"}}>
@@ -395,7 +395,7 @@ function ItemOfElectronic() {
         })}
       </div>
     </div>
-    </>
+    </div>
     
   );
 }
