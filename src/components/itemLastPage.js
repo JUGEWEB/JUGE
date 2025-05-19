@@ -658,6 +658,131 @@ const handleQuantityChange = (amount) => {
   </>
 )}
 
+{(!(isDesktop || isTablet)) && (
+  <div>
+     <h1 style={{color: "black"}}>{product.name}</h1>
+
+      {product.brand && product.brand.trim() !== "" && (
+        <Link to={`/${product.brand}Brand`} > visit the {product.brand} brand</Link>
+      )}
+
+       <p style={{color: "black"}}> <div className="rating-dropdown" style={{ display: "flex", alignItems: "center" }}>
+        <span style={{marginRight: "10px", fontWeight: "bold", fontStyle: "italic"}} className="text-lg font-semibold">{finalRating || 0}</span>
+                  {[...Array(5)].map((_, index) => {
+            const starValue = index + 1;
+            return (
+              <FaStar
+                key={index}
+                color={
+                  starValue <= Math.floor(finalRating)
+                    ? "gold"
+                    : starValue - 0.5 <= finalRating
+                    ? "goldenrod"
+                    : "gray"
+                }
+              />
+            );
+          })}
+          
+          <span ref={buttonRef}>
+  <FaChevronDown  onClick={toggleModal} style={{ cursor: "pointer", fontSize: "20px", marginLeft: "10px", marginTop: "5px" }} />
+</span>
+
+              
+          </div></p>
+
+           <div style={{position: "relative"}}> 
+          {modalOpen && itemsd && (
+        <div
+        className="modal-content"
+        ref={modalRef}
+        style={{
+          position: "absolute",
+          top: `-20px`,
+          right: `40px`,
+          background: "white",
+          padding: "10px",
+          borderRadius: "8px",
+          boxShadow: "0px 4px 8px rgba(0,0,0,0.2)",
+         zIndex: 1000,
+          width: "300px", // Adjust width as needed
+          transition: "top 0.1s ease-out, left 0.1s ease-out", // Smooth position updates
+        }}
+        >
+        <span className="close-btn" onClick={closeModal}>&times;</span>
+    <AnalyseReview productId={itemsd} id={id} onRatingClick={setSelectedRating}  />
+  </div>
+            )}
+
+            {/* Display the network name dynamically */}
+<div style={{ display: "flex", alignItems: "center" }}>
+  <span role="img" aria-label="network">🌐</span> {/* Keep the globe emoji for better UX */}
+  <span style={{ marginLeft: "5px", fontWeight: "bold", color: "black" }}>
+    {getNetworkName(chainId)}
+  </span>
+</div>
+
+            <div style={{display: "flex", justifyContent: "start", alignItems: "center"}}>
+            
+          <h2 style={{color: "black", fontStyle: "italic"}}>${product.usdPrice * quantity}</h2>
+
+            <h4 style={{color: "black", fontStyle: "italic", paddingLeft: "20px", paddingRight: "20px"}}> ≈ </h4>
+
+           {/* Show Converted Crypto Price */}
+      {product.usdPrice && cryptoPrices[product.cryptocurrency] ? (
+        <h3 style={{ color: "black" }}>
+          {convertToCrypto(product.usdPrice * quantity, product.cryptocurrency)}  {coinImages[product.cryptocurrency] && (
+            <img
+              src={coinImages[product.cryptocurrency]}
+              alt={product.cryptocurrency}
+              style={{
+                width: "24px",
+                height: "24px",
+                marginLeft: "8px",
+              }}
+            />
+          )} {product.cryptocurrency}
+        </h3>
+      ) : (
+        <h3 style={{ color: "gray" }}>Fetching crypto price...</h3>
+      )}
+      </div>
+       {/* Quantity Selector */}
+       <div style={{display: "flex", alignItems: "center", maxWidth: "200px", top: "0", marginBottom: "10px"}}>
+        <span style={{marginBottom: "5px", fontStyle: "italic"}}>Quantity</span>
+    <div style={{ display: "flex", alignItems: "center", border: "1px solid gray", borderRadius: "100px", marginLeft: "20px" }}>
+     
+      <div
+        onClick={() => handleQuantityChange(-1)}
+        style={{ padding: "5px 10px", marginRight: "5px", cursor: "pointer" }}
+      >
+        -
+      </div>
+      <span style={{ fontSize: "18px", fontWeight: "bold", color: "black" }}>
+        {quantity}
+      </span>
+      <div
+        onClick={() => handleQuantityChange(1)}
+        style={{ padding: "5px 10px", marginLeft: "5px", cursor: "pointer" }}
+      >
+        +
+      </div>
+      </div>
+    </div>
+        <div style={{display: "flex", alignItems: "center", justifyContent: "start", padding: "5px"}}>
+        
+        <button className="buy-now-button" onClick={() => handleBuyNowClick(id)}>
+          Buy Now
+        </button>
+     
+        <button className="add-to-basket" onClick={() => handleAddToBasket(product)}>Add to Basket</button>
+        <button className="like-botton" onClick={() => handleLikeItem(product)}>❤️ Like</button>
+        </div>
+        <p style={{color: "red", fontSize: "15px"}}>{product.sold} Items already sold 🔥</p>
+        </div>
+  </div>
+)}
+
 
 
 
