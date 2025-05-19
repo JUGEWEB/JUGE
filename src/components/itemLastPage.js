@@ -67,8 +67,8 @@ function ProductDetails({basketItems, country, user, address, auth, chainId}) {
   const [selectedImageNumber, setSelectedImageNumber] = useState(0); // Default to the first image
   const [quantity, setQuantity] = useState(1); // Quantity state
    const {isMobile, isDesktop, isTablet, isSmallMobile, isVerySmall, isVeryVerySmall} = useScreenSize()
-  console.log("Product videos:", product?.videos);
-  console.log("Rendered videos count:", product?.videos?.length);
+ 
+
 
   const validVideos = Array.isArray(product?.videos)
   ? product?.videos.filter((v) => typeof v === "string" && v.trim().toLowerCase().endsWith(".mp4"))
@@ -77,9 +77,7 @@ function ProductDetails({basketItems, country, user, address, auth, chainId}) {
 
 
 
-  console.log("itemsd:", itemsd)
-
-  console.log("chainId and address :", chainId, address)
+  
 
   const handleMouseEnterThumbnails = () => setIsHoveringThumbnails(true);
   const handleMouseLeaveThumbnails = () => setIsHoveringThumbnails(false);
@@ -90,7 +88,7 @@ function ProductDetails({basketItems, country, user, address, auth, chainId}) {
   const fetchZoomSetting = async (itemId, color, imageNumber) => {
     try {
       if (!itemId || !color) {
-        console.warn("Missing itemId or color, skipping zoom fetch.");
+       
         return;
       }
       const response = await fetch(`https://api.malidag.com/api/zoom-setting?itemId=${itemId}&color=${color}&imageNumber=${imageNumber}`);
@@ -443,7 +441,7 @@ const renderImageZoom = () => {
       <img
         src={selectedImage}
         alt="Selected product"
-        style={{ height: "auto", maxWidth: "500px", maxHeight: "550px" }}
+        style={{ height: "auto", maxWidth:(isTablet) ? "200px" : "400px", maxHeight:(isTablet) ? "300px" : "500px" }}
       />
     );
   }
@@ -537,6 +535,11 @@ const getNetworkName = (chainId) => {
   );
 };
 
+if (!product || !selectedColor) {
+  return <p>Loading product details...</p>; // ✅ GOOD for loading
+}
+
+
 // Function to handle Buy Now click
 const handleBuyNowClick = (itemId) => {
   if (!chainId) {
@@ -557,35 +560,105 @@ const handleQuantityChange = (amount) => {
 
   return (
     <div className="product-details"  >
-      <div className="product-layout"  style={{ marginRight: isBasketVisible && isDesktop && basketItems.length > 0 ? "150px" : "0"}}>
+      <div className="product-layout"  style={{ marginRight: isBasketVisible && isDesktop && basketItems.length > 0 ? "150px" : "0", display: (isDesktop || isTablet) ? "flex" : ""}}>
         {/* Left: Thumbnails for selected color */}
-        <div  
-        onMouseEnter={handleMouseEnterThumbnails}
-        onMouseLeave={handleMouseLeaveThumbnails}
-         className="left-thumbnails"
-         style={{display: (!(isDesktop || isTablet)) ? "none" : "" , width: isBasketVisible && basketItems.length > 0 ? "140px" : "165px"}}
-         >
-          {product.imagesVariants[selectedColor].map((image, index) => (
+       {/* Desktop / Tablet: Thumbnails + Zoomable Image */}
+{(isDesktop || isTablet) && (
+  <>
+    {/* Left Thumbnails */}
+    <div
+      onMouseEnter={handleMouseEnterThumbnails}
+      onMouseLeave={handleMouseLeaveThumbnails}
+      className="left-thumbnails"
+      style={{
+        width: isBasketVisible && basketItems.length > 0 ? "140px" : "165px"
+      }}
+    >
+      {product.imagesVariants[selectedColor].map((image, index) => (
+        <img
+          key={index}
+          src={image}
+          alt={`${selectedColor} variant`}
+          className={`thumbnail ${selectedImage === image ? "active" : ""}`}
+          onClick={() => handleImageChange(image, index)}
+        />
+      ))}
+    </div>
+
+    {/* Center: Main Zoomable Image */}
+    <div
+      onMouseEnter={handleMouseEnterImageCenter}
+      onMouseLeave={handleMouseLeaveImageCenter}
+      style={{
+        width: isTablet ? "200px" : "400px",
+        height: isTablet ? "300px" : "500px",
+        filter: "brightness(0.9)",
+        padding: "0px",
+        background: "white",
+        alignItems: "center",
+        display: "flex",
+        justifyContent: "center"
+      }}
+    >
+      {renderImageZoom()}
+    </div>
+  </>
+)}
+
+{/* Mobile: image slider */}
+{!isDesktop && !isTablet && (
+  <>
+    <div className="mobile-slider-wrapper" style={{ width: "100%", padding: "10px" }}>
+      <Slider dots={true} infinite={true} speed={500} slidesToShow={1} slidesToScroll={1}>
+        {product.imagesVariants[selectedColor].map((image, index) => (
+          <div key={index}>
             <img
-              key={index}
               src={image}
-              alt={`${selectedColor} variant`}
-              className={`thumbnail ${selectedImage === image ? "active" : ""}`}
+              alt={`Slide ${index}`}
+              style={{
+                width: "100%",
+                height: "400px",
+                objectFit: "contain"
+              }}
               onClick={() => handleImageChange(image, index)}
             />
-          ))}
-        </div>
+          </div>
+        ))}
+      </Slider>
+    </div>
+   {!isDesktop && !isTablet && product?.imagesVariants && Object.keys(product?.imagesVariants).length > 0 && (
+  <div
+    className=" mobile-color-thumbnails"
+    style={{
+      display: "flex",
+      justifyContent: "center",
+      flexWrap: "wrap",
+      marginTop: "10px",
+      gap: "10px",
+    }}
+  >
+    {Object.keys(product?.imagesVariants).map((color) => (
+      <img
+        key={color}
+        src={product?.imagesVariants[color][0]}
+        alt={`${color} option`}
+        className={`color-thumbnail ${color === selectedColor ? "selected" : ""}`}
+        onClick={() => handleColorChange(color)}
+        style={{
+          width: "50px",
+          height: "50px",
+          objectFit: "cover",
+          borderRadius: "50%",
+        }}
+      />
+    ))}
+  </div>
+)}
+  </>
+)}
 
-        {/* Center: Full-size image */}
-        <div style={{backgroundColor: "white", padding: (!(isTablet || isDesktop)) ? "1rem" : "", width:  (!(isTablet || isDesktop)) ? "100%" : ""}}>
-        <div
-        onMouseEnter={handleMouseEnterImageCenter}
-        onMouseLeave={handleMouseLeaveImageCenter}
-           style={{width:(isTablet) ? "200px" : isDesktop ? "400px" : "100%", height:(isDesktop) ? "500px" : (isTablet) ? "300px" : "auto", filter: "brightness(0.9)", padding: "0px", background: "white", alignItems: "center", display: "flex", justifyContent: "center"}}
-           >
-         {renderImageZoom()} {/* Render the zoomed image based on the zoomType */}
-        </div>
-        </div>
+
+
 
         {/* Right: Color options with images */}
         <div
@@ -749,21 +822,22 @@ const handleQuantityChange = (amount) => {
         </div>
        
         </div>
-        <div className="right-colors">
         
-          {Object.keys(product.imagesVariants).map((color) => (
-           
-           
-            <img
-              key={color}
-              src={product.imagesVariants[color][0]} // First image for the color
-              alt={`${color} option`}
-              className={`color-thumbnail ${color === selectedColor ? "selected" : ""}`}
-              onClick={() => handleColorChange(color)}
-            />
-           
-          ))}
-        </div>
+         {/* ✅ For desktop layout — place elsewhere in the layout */}
+{(isDesktop || isTablet) && (
+  <div className="right-colors desktop-color-thumbnails">
+    {Object.keys(product.imagesVariants).map((color) => (
+      <img
+        key={color}
+        src={product.imagesVariants[color][0]}
+        alt={`${color} option`}
+        className={`color-thumbnail ${color === selectedColor ? "selected" : ""}`}
+        onClick={() => handleColorChange(color)}
+      />
+    ))}
+  </div>
+)}
+        
         <h1 style={{color: "black", fontSize: "14px"}}> Size Name:{selectedSize}</h1>
 
         {product.size?.[selectedColor] && (
