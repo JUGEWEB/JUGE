@@ -108,7 +108,7 @@ function MalidagHeader({ user, isConnected, connect, address, disconnect, pendin
         marginTop: "0px",
         backgroundColor: (isTablet || isDesktop) ? "black" : "#333",
         width:"100%",
-        marginRight: isBasketVisible && basketItems.length > 0 ? "150px" : "0",
+        marginRight: isBasketVisible && isDesktop && basketItems.length > 0 ? "150px" : "0",
       
       }}
     >
@@ -301,7 +301,7 @@ function MalidagHeader({ user, isConnected, connect, address, disconnect, pendin
 
 
 {basketItems.length > 0 && (
-          <div style={{backgroundColor: "black"}}>
+          <div style={{backgroundColor: (isTablet || isDesktop) ? "black" : "#333",}}>
           <Link to="/basket">
         <div
           style={{
@@ -311,7 +311,7 @@ function MalidagHeader({ user, isConnected, connect, address, disconnect, pendin
             right: "25px",
             fontSize: "34px",
             display: "flex",
-            marginLeft: "20px",
+            marginLeft:"20px",
             alignItems: "center",
             marginRight: isCheckoutPage ? "150px" : "0px", // Adjust marginRight for checkout page
           }}
