@@ -441,7 +441,7 @@ const renderImageZoom = () => {
       <img
         src={selectedImage}
         alt="Selected product"
-        style={{ height: "auto", maxWidth:(isTablet) ? "200px" : "400px", maxHeight:(isTablet) ? "300px" : "500px" }}
+        style={{  width:(isTablet) ? "200px" : isDesktop ? "400px" : "", height:(isTablet) ? "300px" : "500px" }}
       />
     );
   }
@@ -609,7 +609,7 @@ const handleQuantityChange = (amount) => {
 {!isDesktop && !isTablet && (
   <>
     <div className="mobile-slider-wrapper" style={{ width: "100%", padding: "10px" }}>
-      <Slider dots={true} infinite={true} speed={500} slidesToShow={1} slidesToScroll={1}>
+      <Slider dots={true} infinite={false} speed={500} slidesToShow={1} slidesToScroll={1}>
         {product.imagesVariants[selectedColor].map((image, index) => (
           <div key={index}>
             <img
@@ -635,6 +635,7 @@ const handleQuantityChange = (amount) => {
       flexWrap: "wrap",
       marginTop: "10px",
       gap: "10px",
+      height: "auto"
     }}
   >
     {Object.keys(product?.imagesVariants).map((color) => (
