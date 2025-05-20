@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Doughnut } from "react-chartjs-2";
 import { Chart as ChartJS, Title, Tooltip, Legend, ArcElement, CategoryScale } from "chart.js";
 import useFinalRating from "./finalRating"; // ✅ Import the custom hook
+import useScreenSize from "./useIsMobile";
 import "./analyseReview.css"
 
 ChartJS.register(Title, Tooltip, Legend, ArcElement, CategoryScale);
@@ -10,6 +11,7 @@ ChartJS.register(Title, Tooltip, Legend, ArcElement, CategoryScale);
 const AnalyseReview = ({ productId, onRatingClick, id }) => {
   const [selectedRating, setSelectedRating] = useState(null);
   const { finalRating, loading, error, ratingPercentages } = useFinalRating(productId); // ✅ Use the hook
+  const {isMobile, isDesktop, isSmallMobile, isTablet, isVerySmall} = useScreenSize()
   const navigate = useNavigate();
 
   const handleStarClick = (rating) => {
@@ -55,7 +57,7 @@ const AnalyseReview = ({ productId, onRatingClick, id }) => {
             <span style={{ color: "#FFD700", fontSize: "24px" }}>{renderStars(finalRating)}</span>
           </h3>
 
-          <div style={{ width: "300px", height: "200px", margin: "20px auto" }}>
+          <div style={{display: ((isDesktop || isTablet)) ? "block" : "none", width: "300px", height: "200px", margin: "20px auto" }}>
             <Doughnut data={chartData} />
           </div>
 
