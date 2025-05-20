@@ -659,7 +659,7 @@ const handleQuantityChange = (amount) => {
 )}
 
 {(!(isDesktop || isTablet)) && (
-  <div>
+  <div style={{maxHeight: "auto", maxWidth: "100%", position: "relative"}}>
      <h1 style={{color: "black"}}>{product.name}</h1>
 
       {product.brand && product.brand.trim() !== "" && (
@@ -721,6 +721,30 @@ const handleQuantityChange = (amount) => {
     {getNetworkName(chainId)}
   </span>
 </div>
+
+ <h1 style={{color: "black", fontSize: "14px", marginTop: "10px"}}> Size Name:{selectedSize}</h1>
+
+        {product.size?.[selectedColor] && (
+          <div>
+            <label htmlFor="size-select" style={{ color: "black" }}>
+              Select Size:
+            </label>
+            <select
+              id="size-select"
+              value={selectedSize}
+              onChange={(e) => handleSizeChange(e.target.value)}
+              style={{ margin: "0px", padding: "5px" }}
+            >
+              {product.size[selectedColor][0]
+                .split(", ") // Split sizes into an array
+                .map((size, index) => (
+                  <option key={index} value={size.trim()}>
+                    {size.trim()}
+                  </option>
+                ))}
+            </select>
+          </div>
+        )}
 
             <div style={{display: "flex", justifyContent: "start", alignItems: "center"}}>
             
@@ -1022,6 +1046,14 @@ const handleQuantityChange = (amount) => {
     )}
   </div>
 )}
+
+{(!(isDesktop || isTablet) && (
+  <div>
+     <p style={{color: "black",  display: "flex"}}> <strong style={{marginRight: "20px"}}>product detail:</strong> {product.text}</p>
+        <p style={{color: "black",  display: "flex"}}> <strong style={{marginRight: "20px"}}>About this item:</strong> {product.productDetail01}</p>
+         <h1 style={{color: "black", fontSize: "14px"}}> ID: {itemsd}</h1>
+  </div>
+))}
 
 
        {/* Modal for Transaction Form */}
