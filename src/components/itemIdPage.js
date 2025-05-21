@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { Carousel } from "react-responsive-carousel";
-import "react-responsive-carousel/lib/styles/carousel.min.css"; // Import carousel CSS
+import useScreenSize from "./useIsMobile";
+import './ItemIdPage.css';
+import { Carousel } from "antd";
+
 
 const ItemIdPage = ({ id }) => {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const {isMobile, isDesktop, isTablet, isSmallMobile, isVerySmall, isVeryVerySmall} = useScreenSize()
 
   useEffect(() => {
     const fetchData = async () => {
@@ -32,33 +35,32 @@ const ItemIdPage = ({ id }) => {
   if (!data) return <div className="text-center">No data found</div>;
 
   return (
-    <div className="p-4" style={{padding: "20px"}}>
-      <h1 className="text-2xl font-bold mb-6 text-center" style={{color: "black"}}>From the brand</h1>
+    <div style={{width: "100%", maxWidth: "100%", overflow: "hidden"}} >
+      <h1 className="text-centerSlide">From the brand</h1>
 
-      <div className="grid gap-6">
         {data.media.map((item, index) => (
-          <div key={index} className="flex flex-col items-center">
+          <div key={index}  style={{width: "100%", maxWidth: "100%"}}>
             {/* Image with Text */}
             {item.type === "image_with_text" && (
-              <div className="flex flex-col md:flex-row items-center gap-6 bg-gray-100 p-4 rounded-lg" style={{display: "flex", alignItems: "center", justifyContent: "space-between", padding: "20px"}}>
+              <div className="flex-colSlide" style={{display:(isDesktop || isTablet) ? "grid" : "", alignItems:(isDesktop || isTablet) ? "center" : "start", justifyContent: "end", padding: "10px", gridTemplateColumns: (isDesktop || isTablet) ? "1fr 2fr" : undefined,}}>
                 <img
                   src={`https://api.malidag.com${item.filePath}`}
                   alt="With text"
-                  className="w-full md:w-1/3 h-auto rounded-lg shadow-md"
-                  style={{maxWidth: "500px", height: "auto"}}
+                  className="w-full-slide"
+                  style={{maxWidth: (isDesktop || isTablet) ? "500px" : "100%", height: "100%"}}
                 />
-                <p className="text-lg md:w-2/3" style={{color: "black", padding: "20px"}}>{item.text}</p>
+                <p className="text-l-hgeslid" style={{color: "black", padding: "5px"}}>{item.text}</p>
               </div>
             )}
 
             {item.type === "image-Left_with_text" && (
-              <div className="flex flex-col md:flex-row items-center gap-6 bg-gray-100 p-4 rounded-lg" style={{display: "flex", alignItems: "center", justifyContent: "space-between", padding: "20px"}}>
-                <p className="text-lg md:w-2/3" style={{color: "black", padding: "20px"}}>{item.text}</p>
+              <div className="f-grid-versionHsion" style={{display:(isDesktop || isTablet) ? "flex" : "", alignItems:(isDesktop || isTablet) ? "center" : "start", justifyContent: "end", padding: "20px",  width: "100%", maxWidth: "100%"}}>
+                <p className="text-lgGar" style={{color: "black", padding: "20px"}}>{item.text}</p>
                 <img
                   src={`https://api.malidag.com${item.filePath}`}
                   alt="With text"
-                  className="w-full md:w-1/3 h-auto rounded-lg shadow-md"
-                  style={{maxWidth: "500px", height: "auto"}}
+                  className="w-fullAdsfer"
+                  style={{maxWidth: (isDesktop || isTablet) ? "500px" : "100%", height: "100%"}}
                 />
               
               </div>
@@ -66,50 +68,89 @@ const ItemIdPage = ({ id }) => {
 
             {/* Video with Text */}
             {item.type === "video_with_text" && (
-              <div className="flex flex-col md:flex-row-reverse items-center gap-6 bg-gray-100 p-4 rounded-lg">
+              <div className="flexfgrts" style={{display:(isDesktop || isTablet) ? "grid" : "", alignItems:(isDesktop || isTablet) ? "center" : "start", justifyContent: "space-between", padding: "10px", gridTemplateColumns: (isDesktop || isTablet) ? "1fr 2fr" : undefined,}}>
                 <video
                   src={`https://api.malidag.com${item.filePath}`}
                   controls
-                  className="w-full md:w-1/2 h-auto rounded-lg shadow-md"
+                  className="w-fuldfreh"
+                  style={{maxWidth: (isDesktop || isTablet) ? "500px" : "100%", height: "100%"}}
                 />
-                <p className="text-lg md:w-1/2">{item.text}</p>
+                <p className="text-lgrdsea" style={{color: "black", padding: "20px"}}>{item.text}</p>
               </div>
             )}
 
-            {/* Slide Images */}
-            {item.type === "slide_images" && (
-              <div className="w-full max-w-3xl mx-auto">
-                <h2 className="text-xl font-semibold text-center mb-4" style={{color: "black"}}>{item.text}</h2>
-                <Carousel showThumbs={false} infiniteLoop autoPlay>
-                  {Array.isArray(item.filePath) &&
-                    item.filePath.map((slide, i) => (
-                      <div key={i}>
-                        <img
-                          src={`https://api.malidag.com${slide}`}
-                          alt={`Slide ${i + 1}`}
-                          className="rounded-lg shadow-md"
-                        />
-                      </div>
-                    ))}
-                </Carousel>
-                <p className="text-center mt-2">{item.text}</p>
-              </div>
-            )}
+           {/* Slide Images */}
+{item.type === "slide_images" && (
+  <div
+    className="fderslijd"
+    style={{
+      display: (isDesktop || isTablet) ? "" : "block",
+      alignItems: (isDesktop || isTablet) ? "start" : "start",
+      justifyContent: "space-between",
+      padding: "10px",
+      
+    }}
+  >
+    <h2
+      className="fgtbchwid"
+      style={{
+        color: "black",
+        marginBottom: "10px",
+        fontSize: "18px",
+        fontWeight: "bold",
+      }}
+    >
+      {item.text}
+    </h2>
+
+    <div style={{ width: "100%", maxWidth: "100%", margin: "0 auto" }}>
+      <Carousel
+        showThumbs={false}
+        infiniteLoop
+        autoPlay
+        interval={3000}
+        showStatus={false}
+        showIndicators={true}
+        dynamicHeight={false}
+      >
+        {Array.isArray(item.filePath) &&
+          item.filePath.map((slide, i) => (
+            <div key={i}>
+              <img
+                src={`https://api.malidag.com${slide}`}
+                alt={`Slide ${i + 1}`}
+                className="rounded-gfrtse"
+                style={{
+                  
+                  width: "100%",
+                  height: (isDesktop || isTablet) ? "400px" : "300px",
+                  objectFit: "cover",
+                  borderRadius: "8px",
+                }}
+              />
+            </div>
+          ))}
+      </Carousel>
+    </div>
+  </div>
+)}
+
 
             {/* Single Image (Full Width) */}
             {item.type === "single_image" && (
-              <div className="w-full flex justify-center">
+              <div className="w-fullDersir" style={{display: "", alignItems:"center" , justifyContent: "space-between", padding: "10px", width: "100%", objectFit: "cover"}}>
                 <img
                   src={`https://api.malidag.com${item.filePath}`}
                   alt="Full Image"
-                  className="w-full max-w-[1200px] h-[400px] object-cover rounded-lg shadow-md"
+                  className="w-fulGdertsion"
+                  style={{maxWidth: (isDesktop || isTablet) ? "100%" : "100%", height: "100%"}}
                 />
               </div>
             )}
           </div>
         ))}
       </div>
-    </div>
+    
   );
 };
 
