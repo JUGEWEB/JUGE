@@ -16,17 +16,13 @@ import ItemIdPage from "./itemIdPage";
 import ImageZoom from "./imageZoom";
 import ImageZoom1 from "./imageZoom1";
 import useScreenSize from "./useIsMobile";
+import AnalyseReviewSmallWidth from "./analyseReviewSmallwidth";
 
 const BASKET_API = "https://api.malidag.com/add-to-basket"
 const BASE_URL = "https://api.malidag.com";
 const TRANSACTION_API = "https://api.malidag.com/api/transaction";
 const PRICE_API = "https://api.malidag.com/crypto-prices"; // Your crypto price endpoint
 const LIKED_API = "https://api.malidag.com"; // Backend URL
-
-
-
-
-Modal.setAppElement("#root"); // For accessibility
 
 const coinImages = {
   ETH: "https://assets.coingecko.com/coins/images/279/large/ethereum.png?1595348880",
@@ -66,7 +62,18 @@ function ProductDetails({basketItems, country, user, address, auth, chainId}) {
   const [isZoomVisible, setIsZoomVisible] = useState(false);
   const [selectedImageNumber, setSelectedImageNumber] = useState(0); // Default to the first image
   const [quantity, setQuantity] = useState(1); // Quantity state
+  const [item, setItem] = useState(null);
    const {isMobile, isDesktop, isTablet, isSmallMobile, isVerySmall, isVeryVerySmall} = useScreenSize()
+   const [navigateToReview, setNavigateToReview] = useState(false);
+const [ratingToPass, setRatingToPass] = useState(null);
+const [openModalSmall, setOpenModalSmall] = useState(false);
+const [pendingRating, setPendingRating] = useState(null); // stores the rating only temporarily
+
+
+  
+
+ 
+
  
 
 
@@ -93,7 +100,7 @@ function ProductDetails({basketItems, country, user, address, auth, chainId}) {
       }
       const response = await fetch(`https://api.malidag.com/api/zoom-setting?itemId=${itemId}&color=${color}&imageNumber=${imageNumber}`);
       const result = await response.json();
-      console.log("resultzoom:", result)
+     
       if (response.ok) {
         setZoomType(result.zoomType); // Set the zoom type from the API response
       } else {
@@ -106,7 +113,7 @@ function ProductDetails({basketItems, country, user, address, auth, chainId}) {
 
   useEffect(() => {
     fetchZoomSetting(itemsd, selectedColor, selectedImageNumber); // Trigger the zoom setting fetch
-    console.log("selectedColor:", selectedColor)
+   
   }, [itemsd, selectedColor, selectedImageNumber]);
 
   const checkDetailsSectionPosition = () => {
@@ -235,6 +242,7 @@ function ProductDetails({basketItems, country, user, address, auth, chainId}) {
 
     // Find the product by its ID
     const foundProduct = items.find((item) => item.id === id);
+    setItem(foundProduct)
     if (foundProduct?.item) {
       const initialColor = Object.keys(foundProduct.item.imagesVariants)[0];
       setItemId(foundProduct.itemId);
@@ -256,7 +264,7 @@ function ProductDetails({basketItems, country, user, address, auth, chainId}) {
 useEffect(() => {
   // If the `reload` flag is passed in the state, re-fetch all products
   if (location.state?.reload) {
-    console.log('Force re-fetching all products!');
+   
     fetchAllProducts();  // Trigger the re-fetching of all products
   } else {
     // Initial fetch for the product details
@@ -281,6 +289,25 @@ useEffect(() => {
     const interval = setInterval(fetchCryptoPrices, 5000);
     return () => clearInterval(interval);
   }, []);
+
+useEffect(() => {
+  if (navigateToReview && ratingToPass !== null) {
+    navigate("/reviewPage", {
+      state: {
+        itemData: { id, itemId: itemsd, item: product },
+        authState: true,
+        ratingFilter: ratingToPass,
+      },
+    });
+
+    // Reset state after navigating
+    setNavigateToReview(false);
+    setRatingToPass(null);
+  }
+}, [navigateToReview, ratingToPass, id, itemsd, product, navigate]);
+
+
+
 
  
 
@@ -343,7 +370,7 @@ const handleSizeChange = (size) => {
     const currentUser = auth.currentUser; // Get the authenticated user
     if (!currentUser) {
         alert("Please log in to add items to your basket.");
-        console.log("User is not logged in.");
+       
         return;
     }
 
@@ -441,7 +468,7 @@ const renderImageZoom = () => {
       <img
         src={selectedImage}
         alt="Selected product"
-        style={{  width:(isTablet) ? "200px" : isDesktop ? "400px" : "", height:(isTablet) ? "300px" : "500px" }}
+        style={{  width:(isTablet) ? "200px" : isDesktop ? "400px" : "", height:(isTablet) ? "300px" : "500px" , objectFit: "contain"}}
       />
     );
   }
@@ -597,7 +624,8 @@ const handleQuantityChange = (amount) => {
         background: "white",
         alignItems: "center",
         display: "flex",
-        justifyContent: "center"
+        justifyContent: "center",
+        overflow: "hidden"
       }}
     >
       {renderImageZoom()}
@@ -685,36 +713,44 @@ const handleQuantityChange = (amount) => {
           })}
           
           <span ref={buttonRef}>
-  <FaChevronDown  onClick={toggleModal} style={{ cursor: "pointer", fontSize: "20px", marginLeft: "10px", marginTop: "5px" }} />
+  <FaChevronDown onClick={() => setOpenModalSmall(true)} style={{ cursor: "pointer", fontSize: "20px", marginLeft: "10px", marginTop: "5px" }} />
 </span>
 
               
           </div></p>
 
            <div style={{position: "relative"}}> 
-          {modalOpen && itemsd && (
-        <div
-        className="modal-content"
-        ref={modalRef}
-        style={{
-          position: "absolute",
-          top: `-20px`,
-          right: `40px`,
-          background: "white",
-          padding: "10px",
-          borderRadius: "8px",
-          boxShadow: "0px 4px 8px rgba(0,0,0,0.2)",
-         zIndex: 9999,
-          width: "300px", // Adjust width as needed
-          transition: "top 0.1s ease-out, left 0.1s ease-out", // Smooth position updates
-        }}
-        >
-        <span className="close-btn" onClick={closeModal}>&times;</span>
-    <AnalyseReview productId={itemsd} id={id} onRatingClick={setSelectedRating}  />
-  </div>
-            )}
+       {openModalSmall && itemsd && (
+  <div
+    className="modal-content"
+    style={{
+      position: "absolute",
+      top: `-20px`,
+      right: `40px`,
+      background: "white",
+      padding: "10px",
+      borderRadius: "8px",
+      boxShadow: "0px 4px 8px rgba(0,0,0,0.2)",
+      zIndex: 9999,
+      width: "300px",
+      transition: "top 0.1s ease-out, left 0.1s ease-out",
+    }}
+  >
+    <span className="close-btn" onClick={() => setOpenModalSmall(false)}>&times;</span>
 
-            {/* Display the network name dynamically */}
+    <AnalyseReviewSmallWidth
+      productId={itemsd}
+      id={id}
+      item={product}
+      onTriggerReviewNavigation={(rating) => {
+        setOpenModalSmall(false);       // use openModalSmall for consistency
+        setRatingToPass(rating);
+        setNavigateToReview(true);
+      }}
+    />
+  </div>
+)}
+
 <div style={{ display: "flex", alignItems: "center" }}>
   <span role="img" aria-label="network">🌐</span> {/* Keep the globe emoji for better UX */}
   <span style={{ marginLeft: "5px", fontWeight: "bold", color: "black" }}>
@@ -946,7 +982,7 @@ const handleQuantityChange = (amount) => {
         }}
         >
         <span className="close-btn" onClick={closeModal}>&times;</span>
-    <AnalyseReview productId={itemsd} id={id} onRatingClick={setSelectedRating}  />
+    <AnalyseReview productId={itemsd} id={id} onRatingClick={setSelectedRating}   />
   </div>
             )}
 
