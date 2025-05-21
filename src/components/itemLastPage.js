@@ -880,7 +880,7 @@ const handleQuantityChange = (amount) => {
   </div>
 
    {/* Modal for Transaction Form */}
-      <div style={{marginRight: isBasketVisible && basketItems.length > 0 ? "150px" : "0" }}>
+      <div  style={{width: "100%"}}>
       <ItemIdPage id={itemsd}/>
       </div>
       <div className="fetchRev" >
