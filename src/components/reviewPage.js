@@ -8,10 +8,11 @@ import './reviewPage.css'
 
 function ReviewPage({auth}) {
 
-    const location = useLocation()
-    const { itemData, authState = false } = location.state || {}; // Default authState to false
-    const [selectedRating, setSelectedRating] = useState(null); // Store the selected rating filter
     const navigate = useNavigate()
+    const location = useLocation();
+const { itemData, authState = false, ratingFilter = null } = location.state || {};
+const [selectedRating, setSelectedRating] = useState(ratingFilter);
+
    
 
      // Get the final rating and rating percentages using the custom hook
