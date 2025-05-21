@@ -16,8 +16,18 @@ const AnalyseReview = ({ productId, onRatingClick, id }) => {
 
   const handleStarClick = (rating) => {
     setSelectedRating((prev) => (prev === rating ? null : rating));
-    onRatingClick(rating);
-    navigate(`/product/${id}?rating=${rating}`);
+    if (isDesktop || isTablet) {
+  onRatingClick(rating);
+  navigate(`/product/${id}?rating=${rating}`);
+} else {
+  navigate("/reviewPage", {
+    state: {
+      itemData: { id, itemId: productId }, // 🟡 pass both IDs
+      ratingFilter: rating,                // ✅ pass selected rating
+    }
+  });
+}
+
   };
 
   const chartData = {
