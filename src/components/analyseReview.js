@@ -62,8 +62,8 @@ const AnalyseReview = ({ productId, onRatingClick, id }) => {
           </div>
 
           {[5, 4, 3, 2, 1].map((star) => (
-            <div key={star} className="Stars" style={{ marginBottom: "5px", display: "flex", alignItems: "center", height: "30px" }}  onClick={() => handleStarClick(star)}>
-              <h4
+            <div key={star} className="Stars" style={{ marginBottom: "5px", display: "flex", alignItems: "center", height:  ((isDesktop || isTablet)) ?  "30px" : "20px" }}  onClick={() => handleStarClick(star)}>
+              <div
              
                 style={{
                   cursor: "pointer",
@@ -74,7 +74,7 @@ const AnalyseReview = ({ productId, onRatingClick, id }) => {
                 <div style={{ display: "flex", marginRight: "5px" }}>
                   <div style={{ marginRight: "5px" }}>{star}</div> Stars:
                 </div>
-              </h4>
+              </div>
               <div
              
                 style={{
@@ -83,6 +83,7 @@ const AnalyseReview = ({ productId, onRatingClick, id }) => {
                   backgroundColor: "#ddd",
                   borderRadius: "5px",
                   cursor: "pointer",
+                 
                 }}
                
               >

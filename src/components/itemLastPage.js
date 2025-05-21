@@ -704,7 +704,7 @@ const handleQuantityChange = (amount) => {
           padding: "10px",
           borderRadius: "8px",
           boxShadow: "0px 4px 8px rgba(0,0,0,0.2)",
-         zIndex: 1000,
+         zIndex: 9999,
           width: "300px", // Adjust width as needed
           transition: "top 0.1s ease-out, left 0.1s ease-out", // Smooth position updates
         }}
@@ -804,6 +804,54 @@ const handleQuantityChange = (amount) => {
         </div>
         <p style={{color: "red", fontSize: "15px"}}>{product.sold} Items already sold 🔥</p>
         </div>
+
+         {/* Video Slider */}
+         <div>
+{validVideos?.length > 0 && (
+  <div className="product-videos" >
+    <h2 style={{ color: "black" }}>Product Videos</h2>
+
+    {validVideos?.length === 1 ? (
+      <div>
+        <video
+          src={validVideos[0]}
+          controls
+          style={{ width: "100%", maxWidth: "600px", height: "400px" }}
+        />
+      </div>
+    ) : (
+      <Slider {...videoSliderSettings}>
+        {validVideos.map((videoUrl, index) => (
+          <div key={index}>
+            <video
+              src={videoUrl}
+              controls
+              style={{ width: "100%", maxWidth: "600px", height: "400px" }}
+            />
+          </div>
+        ))}
+      </Slider>
+    )}
+  </div>
+)}
+</div>
+
+
+  <div>
+     <p style={{color: "black",  display: "flex"}}> <strong style={{marginRight: "20px"}}>product detail:</strong> {product.text}</p>
+        <p style={{color: "black",  display: "flex"}}> <strong style={{marginRight: "20px"}}>About this item:</strong> {product.productDetail01}</p>
+         <h1 style={{color: "black", fontSize: "14px"}}> ID: {itemsd}</h1>
+  </div>
+
+   {/* Modal for Transaction Form */}
+      <div style={{marginRight: isBasketVisible && basketItems.length > 0 ? "150px" : "0" }}>
+      <ItemIdPage id={itemsd}/>
+      </div>
+      <div className="fetchRev" >
+      <FetchReviews  productId={itemsd} selectedRating={selectedRating} />
+      </div>
+     
+
   </div>
 )}
 
@@ -1019,8 +1067,10 @@ const handleQuantityChange = (amount) => {
         </div>
       </div>
       {/* Video Slider */}
+      {(isDesktop || isTablet) && (
+        <div>
 {validVideos?.length > 0 && (
-  <div className="product-videos">
+  <div className="product-videos" >
     <h2 style={{ color: "black" }}>Product Videos</h2>
 
     {validVideos?.length === 1 ? (
@@ -1046,23 +1096,21 @@ const handleQuantityChange = (amount) => {
     )}
   </div>
 )}
-
-{(!(isDesktop || isTablet) && (
-  <div>
-     <p style={{color: "black",  display: "flex"}}> <strong style={{marginRight: "20px"}}>product detail:</strong> {product.text}</p>
-        <p style={{color: "black",  display: "flex"}}> <strong style={{marginRight: "20px"}}>About this item:</strong> {product.productDetail01}</p>
-         <h1 style={{color: "black", fontSize: "14px"}}> ID: {itemsd}</h1>
-  </div>
-))}
+</div>
+ )}
 
 
        {/* Modal for Transaction Form */}
+       {(isDesktop || isTablet) && (
+        <div>
       <div style={{marginRight: isBasketVisible && basketItems.length > 0 ? "150px" : "0" }}>
       <ItemIdPage id={itemsd}/>
       </div>
       <div className="fetchRev" >
       <FetchReviews  productId={itemsd} selectedRating={selectedRating} />
       </div>
+      </div>
+       )}
      
       
     </div>
