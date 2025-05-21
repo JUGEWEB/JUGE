@@ -617,15 +617,15 @@ const handleQuantityChange = (amount) => {
       onMouseEnter={handleMouseEnterImageCenter}
       onMouseLeave={handleMouseLeaveImageCenter}
       style={{
-        width: isTablet ? "200px" : "400px",
-        height: isTablet ? "300px" : "500px",
+        width: isTablet ? "300px" : "500px",
+        height: isTablet ? "400px" : "600px",
         filter: "brightness(0.9)",
         padding: "0px",
         background: "white",
         alignItems: "center",
         display: "flex",
         justifyContent: "center",
-        overflow: "hidden"
+        objectFit: "contain"
       }}
     >
       {renderImageZoom()}
