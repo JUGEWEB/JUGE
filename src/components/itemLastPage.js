@@ -463,12 +463,28 @@ const closeModal = () => {
 }
 
 const renderImageZoom = () => {
+
+   if (isTablet) {
+    // On tablets, show a static image only
+    return (
+      <img
+        src={selectedImage}
+        alt="Selected product"
+        style={{
+          width: "300px",
+          height: "400px",
+          objectFit: "contain",
+        }}
+      />
+    );
+  }
+
   if (zoomType === "nozoom") {
     return (
       <img
         src={selectedImage}
         alt="Selected product"
-        style={{  width:(isTablet) ? "200px" : isDesktop ? "400px" : "", height:(isTablet) ? "300px" : "500px" , objectFit: "contain"}}
+        style={{  width:(isTablet) ? "300px" : isDesktop ? "400px" : isDesktop && basketItems.length>0 ? "300px" : "", height:(isTablet) ? "400px" : "500px" , objectFit: "contain"}}
       />
     );
   }
@@ -479,6 +495,7 @@ const renderImageZoom = () => {
 
       <ImageZoom
         selectedImage={selectedImage}
+        basketItems={basketItems}
         alt="Selected product"
         style={{
           height: "auto",
@@ -497,9 +514,10 @@ const renderImageZoom = () => {
         selectedImage={selectedImage}
         onMouseMove={handleMouseMove}
         zoomedPosition={zoomedPosition}
-        style={{ height: "auto", maxWidth: "500px", maxHeight: "550px" }}
+        style={{ height: "auto", maxWidth:  "500px", maxHeight: "550px" }}
         onMouseEnter={handleMouseEnterImage}
         onMouseLeave={handleMouseLeaveImage}
+        basketItems={basketItems}
       />
     );
   }
@@ -587,52 +605,14 @@ const handleQuantityChange = (amount) => {
 
   return (
     <div className="product-details"  >
-      <div className="product-layout"  style={{ marginRight: isBasketVisible && isDesktop && basketItems.length > 0 ? "150px" : "0", display: (isDesktop || isTablet) ? "flex" : ""}}>
-        {/* Left: Thumbnails for selected color */}
-       {/* Desktop / Tablet: Thumbnails + Zoomable Image */}
-{(isDesktop || isTablet) && (
-  <>
-    {/* Left Thumbnails */}
-    <div
-      onMouseEnter={handleMouseEnterThumbnails}
-      onMouseLeave={handleMouseLeaveThumbnails}
-      className="left-thumbnails"
-      style={{
-        width: isBasketVisible && basketItems.length > 0 ? "140px" : "165px"
-      }}
-    >
-      {product.imagesVariants[selectedColor].map((image, index) => (
-        <img
-          key={index}
-          src={image}
-          alt={`${selectedColor} variant`}
-          className={`thumbnail ${selectedImage === image ? "active" : ""}`}
-          onClick={() => handleImageChange(image, index)}
-        />
-      ))}
-    </div>
-
-    {/* Center: Main Zoomable Image */}
-    <div
-      onMouseEnter={handleMouseEnterImageCenter}
-      onMouseLeave={handleMouseLeaveImageCenter}
-      style={{
-        width: isTablet ? "300px" : "500px",
-        height: isTablet ? "400px" : "600px",
-        filter: "brightness(0.9)",
-        padding: "0px",
-        background: "white",
-        alignItems: "center",
-        display: "flex",
-        justifyContent: "center",
-        objectFit: "contain"
-      }}
-    >
-      {renderImageZoom()}
-    </div>
-  </>
-)}
-
+      <div className="product-layout"  style={{
+    marginRight: isBasketVisible && isDesktop && basketItems.length > 0 ? "0px" : "0px",
+    display: isDesktop || isTablet ? "grid" : "block",
+    gridTemplateColumns: isDesktop || isTablet ? "1fr 1fr 2fr" : undefined,
+    alignItems: "start",
+    gap: "20px",
+  }}>
+  
 {/* Mobile: image slider */}
 {!isDesktop && !isTablet && (
   <>
@@ -892,16 +872,73 @@ const handleQuantityChange = (amount) => {
 )}
 
 
+<div>
+      {(isDesktop || isTablet) && (
+  <div>
+    <div
+     {...(isDesktop && {
+        onMouseEnter: handleMouseEnterThumbnails,
+        onMouseLeave: handleMouseLeaveThumbnails,
+      })}
+      className="left-thumbnails"
+      style={{
+        width: isBasketVisible && basketItems.length > 0 ? "90%" : "100%",
+        height: (isTablet) ? "400px" : "600px"
+      }}
+    >
+      {product.imagesVariants[selectedColor].map((image, index) => (
+        
+        <img
+          key={index}
+          src={image}
+          alt={`${selectedColor} variant`}
+          className={`thumbnail ${selectedImage === image ? "active" : ""}`}
+          onClick={() => handleImageChange(image, index)}
+        />
+        
+      ))}
+    </div>
+    </div>
+    )}
+    </div>
 
+<div>
+     {(isDesktop || isTablet) && (
+   
+    <div
+  
+  {...(isDesktop && {
+        onMouseEnter: handleMouseEnterThumbnails,
+        onMouseLeave: handleMouseLeaveThumbnails,
+      })}
+      style={{
+        width: isTablet ? "300px" : isDesktop && basketItems.length>0 ? "400px" : "500px",
+        height: isTablet ? "400px" : "600px",
+        filter: "brightness(0.9)",
+        padding: "0px",
+        background: "white",
+        alignItems: "center",
+        display: "flex",
+        justifyContent: "center",
+        objectFit: "contain"
+      }}
+    >
+      {renderImageZoom()}
+    </div>
+     )}
+     </div>
+ 
 
-        {/* Right: Color options with images */}
+       <div>
+        {(isDesktop || isTablet) && (
+
         <div
         
-       className={`details-section ${detailsSectionAtTop ? "at-top" : ""} ${detailsSectionAtBottom ? "at-bottom" : ""}`} style={{display: (isDesktop || isTablet) ? "block" : "none" , maxWidth: isBasketVisible && isDesktop && basketItems.length > 0 ? "350px" : isBasketVisible && isTablet && basketItems.length > 0 ? "250px" : "auto", padding: "20px", maxHeight: "600px", overflowY: "auto"}}  ref={detailsRef}
+       className={`details-section ${detailsSectionAtTop ? "at-top" : ""} ${detailsSectionAtBottom ? "at-bottom" : ""}`} style={{display: (isDesktop || isTablet) ? "block" : "none" , maxWidth: isBasketVisible && isDesktop && basketItems.length > 0 ? "65%" : isBasketVisible && isTablet && basketItems.length > 0 ? "100%" : "auto", padding: "20px", maxHeight: "600px", overflowY: "auto"}}  ref={detailsRef}
          >
         <div>
            {/* Conditionally render Zoomed Portion only when the cursor is inside the image */}
-           {isZoomVisible && zoomType === 'zoom1'&& (
+           {isZoomVisible && zoomType === 'zoom1'&& isDesktop && (
         <div
           className="zoomed-view"
           style={{
@@ -1100,9 +1137,19 @@ const handleQuantityChange = (amount) => {
         <p style={{color: "black",  display: "flex"}}> <strong style={{marginRight: "20px"}}>About this item:</strong> {product.productDetail01}</p>
         <h1 style={{color: "black", fontSize: "14px"}}> ID: {itemsd}</h1>
 
+
         </div>
+
+         )}
+
+         </div>
+
+
+
+
       </div>
-      {/* Video Slider */}
+
+       {/* Video Slider */}
       {(isDesktop || isTablet) && (
         <div>
 {validVideos?.length > 0 && (
@@ -1150,6 +1197,7 @@ const handleQuantityChange = (amount) => {
      
       
     </div>
+     
   );
 }
 
