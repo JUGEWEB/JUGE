@@ -1,12 +1,15 @@
 import React, { useState } from 'react';
+import useScreenSize from "./useIsMobile";
 
-const ImageZoom1 = ({ selectedImage, onMouseEnter, onMouseLeave, isZoomVisible, zoomedPosition, onMouseMove }) => {
+const ImageZoom1 = ({ selectedImage, onMouseEnter, onMouseLeave, isZoomVisible, zoomedPosition, onMouseMove, basketItems}) => {
+
+  const {isDesktop} = useScreenSize()
 
 
   return (
     <div
       className="image-container"
-      style={{ position: 'relative', width: '500px', height: '100%', alignItems: "center", display: "flex", justifyContent: "center" }}
+      style={{ position: 'relative', width: isDesktop && basketItems.length>0 ? "400px" : "500px", height: '100%', alignItems: "center", display: "flex", justifyContent: "center" }}
       onMouseMove={onMouseMove} // Use parent function
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
@@ -14,7 +17,7 @@ const ImageZoom1 = ({ selectedImage, onMouseEnter, onMouseLeave, isZoomVisible, 
       <img
         src={selectedImage}
         alt="Zoomable Product"
-        style={{ maxWidth: '500px', height: 'auto', maxHeight: "550px", alignItems: "center", justifyContent: "center", display: "flex" }}
+        style={{ maxWidth: isDesktop && basketItems.length>0 ? "400px" : "500px", height: 'auto', maxHeight: "550px", alignItems: "center", justifyContent: "center", display: "flex" }}
       />
 
  {/* Zoom Highlight (Only visible when parent state allows it) */}

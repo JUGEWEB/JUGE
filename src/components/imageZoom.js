@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
+import useScreenSize from "./useIsMobile";
 
-const ImageZoom = ({ selectedImage }) => {
+const ImageZoom = ({ selectedImage, basketItems }) => {
   const [zoomedPosition, setZoomedPosition] = useState({ x: 0, y: 0 });
   const [isHovered, setIsHovered] = useState(false);  // Track hover state
-
-  console.log("selected image", selectedImage);
+  const {isDesktop} = useScreenSize()
 
   const handleMouseMove = (e) => {
     const image = e.target;
@@ -30,7 +30,7 @@ const ImageZoom = ({ selectedImage }) => {
   return (
     <div
       className="image-container"
-      style={{ position: 'relative', width: '500px', height: '600px', display: "flex", justifyContent: "center" }}
+      style={{ position: 'relative', width: isDesktop && basketItems.length>0 ? "400px" : "500px", height: '600px', display: "flex", justifyContent: "center" }}
       onMouseMove={handleMouseMove}
       onMouseEnter={handleMouseEnter}  // Set hover to true when mouse enters
       onMouseLeave={handleMouseLeave}  // Set hover to false when mouse leaves
@@ -51,7 +51,7 @@ const ImageZoom = ({ selectedImage }) => {
             top: "50%",
             right: 0,
             transform: 'translateY(-50%)',
-            width: '500px',  // Adjust the zoom window size
+            width:  isDesktop && basketItems.length>0 ? "400px" : "500px",  // Adjust the zoom window size
             height: '600px',
             overflow: 'hidden',
             border: '2px solid #ccc',
