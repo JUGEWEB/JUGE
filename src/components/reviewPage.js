@@ -3,6 +3,7 @@ import FetchReviews from "./fetchReview";
 import LikedItems from "./likedItem";
 import { useLocation, useNavigate } from "react-router-dom";
 import useFinalRating from "./finalRating";
+import useScreenSize from "./useIsMobile";
 import './reviewPage.css'
 
 
@@ -12,6 +13,7 @@ function ReviewPage({auth}) {
     const location = useLocation();
 const { itemData, authState = false, ratingFilter = null } = location.state || {};
 const [selectedRating, setSelectedRating] = useState(ratingFilter);
+const {isMobile, isTablet, isSmallMobile, isDesktop, isVerySmall} = useScreenSize()
 
    
 
@@ -54,12 +56,24 @@ const [selectedRating, setSelectedRating] = useState(ratingFilter);
 
     return (
         <div>
-            <div style={{display: "flex", justifyContent: "space-between", width: "95%", padding: "20px", alignItems: "center"}}>
+          <div style={{display: "flex", alignItems: "center", justifyContent: "start", overflowX: "auto", width: "100%"}}>
+           {(!(isDesktop || isTablet)) && (
+               
+            <div className="productIDSmall" onClick={() => goToProduct(itemData?.id)} style={{border: "2px solid #222", borderRadius: "5px", marginTop: "20px", alignItems: "center", display: "flex", justifyContent: "center", maxWidth: "100%", marginRight: "20px", cursor: "pointer"}}>
+                <img style={{maxWidth: "100px"}} src={itemData?.item?.images[0]} alt={itemData?.item.name}/>
+                <div style={{color: "#222",  textOverflow: "ellipsis" , maxWidth: "100%"}}>{itemData?.item?.name}</div>
+            </div>
+               
+                )}
+                </div>
+            <div style={{display:(isDesktop || isTablet) ? "flex": "", justifyContent: "space-between", width: "95%", padding: "20px", alignItems: "center"}}>
                 <div>
+                 
                 <div style={{ color: "black", marginLeft: "10px", fontWeight: "bold", marginBottom: "10px" }}>
                      Rating: {finalRating} {renderStars(finalRating)}
       </div>
                 <div style={{color: "black", marginBottom: "20px", border: "2px solid #222", width: "100px", display: "flex", justifyContent: "center",  padding: "5px 10px",marginLeft: "10px"}}>filter review:</div>
+                
                 <div style={{ display: "flex", alignItems: "center" }}>
           {[5, 4, 3, 2, 1].map((rating) => (
             <div key={rating}>
@@ -100,17 +114,33 @@ const [selectedRating, setSelectedRating] = useState(ratingFilter);
           ))}
         </div>
                 </div>
+                {(isDesktop || isTablet) && (
+               
             <div className="productID" onClick={() => goToProduct(itemData?.id)} style={{border: "2px solid #222", borderRadius: "5px", marginTop: "20px", alignItems: "center", display: "flex", justifyContent: "center", maxWidth: "30%", marginRight: "20px", cursor: "pointer"}}>
                 <img style={{maxWidth: "100px"}} src={itemData?.item?.images[0]} alt={itemData?.item.name}/>
                 <div style={{color: "#222"}}>{itemData?.item?.name}</div>
             </div>
+               
+                )}
             </div>
-        <div style={{display: "flex",  width: "100%", justifyContent: "space-between"}} >
-            <div style={{marginLeft: "10px"}}><FetchReviews productId={itemData?.itemId} selectedRating={selectedRating} onRatingClick={setSelectedRating}/></div>
-            <div style={{height: "100%", width: "30%"}}>
+        <div style={{display:(isDesktop || isTablet) ? "flex" : "",  width: "100%", justifyContent: "space-between"}} >
+           {(!(isDesktop || isTablet)) && (
+           
+            <div style={{height: "100%", width: "100%"}}>
             <LikedItems  auth={auth}/>
                 <div onClick={goToLike} style={{color: "blue", textDecoration: "underline", fontSize: "14px", cursor: "pointer", marginLeft: "20px"}}>view more items you liked</div>
             </div>
+               
+            )}
+            <div style={{marginLeft: "10px"}}><FetchReviews productId={itemData?.itemId} selectedRating={selectedRating} onRatingClick={setSelectedRating}/></div>
+            {(isDesktop || isTablet) && (
+           
+            <div style={{height: "100%", width: "100%"}}>
+            <LikedItems  auth={auth}/>
+                <div onClick={goToLike} style={{color: "blue", textDecoration: "underline", fontSize: "14px", cursor: "pointer", marginLeft: "20px"}}>view more items you liked</div>
+            </div>
+               
+            )}
         </div>
         </div>
     )
