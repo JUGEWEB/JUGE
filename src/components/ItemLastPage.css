@@ -10,10 +10,12 @@ html, body {
 }
 
 .fetchRev{
+  width: 100% !important;
   display: flex !important;
-  align-items: flex-start !important;
-  justify-content: flex-start !important;
-  margin-right: 50% !important;
+  align-items: center !important;
+  justify-content: start !important;
+  margin-right: 5px !important;
+  margin-left: 5px !important;
 }
   
   

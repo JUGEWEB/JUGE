@@ -139,6 +139,7 @@ const likedCount = parseInt(localStorage.getItem("likedCount") || "0", 10);
       fontSize: "14px",
       cursor: "pointer",
       marginLeft: "20px",
+       marginBottom: "20px",
     }}
   >
     view more items you liked
@@ -162,6 +163,7 @@ const likedCount = parseInt(localStorage.getItem("likedCount") || "0", 10);
       fontSize: "14px",
       cursor: "pointer",
       marginLeft: "20px",
+      marginBottom: "20px",
     }}
   >
     view more items you liked
