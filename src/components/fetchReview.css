@@ -55,3 +55,12 @@
   border-radius: 50%;
   object-fit: cover;
 }
+
+.show-more-btn {
+  color: blue;
+  text-decoration: underline;
+  font-size: 14px;
+  margin-top: 10px;
+  cursor: pointer;
+}
+

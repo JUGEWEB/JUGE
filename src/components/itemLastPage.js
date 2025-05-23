@@ -866,7 +866,33 @@ const handleQuantityChange = (amount) => {
       <div className="fetchRev" >
       <FetchReviews  productId={itemsd} selectedRating={selectedRating} />
       </div>
-     
+      {/* ✅ Show "See All Reviews" only if reviewCount > 11 */}
+    {parseInt(localStorage.getItem("reviewCount") || "0", 10) > 11 && (
+      <div
+        onClick={() => navigate("/reviewPage", {
+          state: {
+            itemData: {
+              id: itemsd,
+              itemId: itemsd,
+              item: product
+            },
+            authState: true,
+            ratingFilter: selectedRating
+          }
+        })}
+        style={{
+          cursor: "pointer",
+          color: "blue",
+          textDecoration: "underline",
+          marginLeft: "20px",
+          marginTop: "10px",
+          fontSize: "14px"
+        }}
+      >
+        See all reviews →
+      </div>
+    )}
+  
 
   </div>
 )}
@@ -1192,6 +1218,33 @@ const handleQuantityChange = (amount) => {
       <div className="fetchRev" >
       <FetchReviews  productId={itemsd} selectedRating={selectedRating} />
       </div>
+
+       {/* ✅ Show "See All Reviews" only if reviewCount > 11 */}
+    {parseInt(localStorage.getItem("reviewCount") || "0", 10) > 11 && (
+      <div
+        onClick={() => navigate("/reviewPage", {
+          state: {
+            itemData: {
+              id: itemsd,
+              itemId: itemsd,
+              item: product
+            },
+            authState: true,
+            ratingFilter: selectedRating
+          }
+        })}
+        style={{
+          cursor: "pointer",
+          color: "blue",
+          textDecoration: "underline",
+          marginLeft: "20px",
+          marginTop: "10px",
+          fontSize: "14px"
+        }}
+      >
+        See all reviews →
+      </div>
+    )}
       </div>
        )}
      

@@ -14,6 +14,8 @@ function ReviewPage({auth}) {
 const { itemData, authState = false, ratingFilter = null } = location.state || {};
 const [selectedRating, setSelectedRating] = useState(ratingFilter);
 const {isMobile, isTablet, isSmallMobile, isDesktop, isVerySmall} = useScreenSize()
+const likedCount = parseInt(localStorage.getItem("likedCount") || "0", 10);
+
 
    
 
@@ -128,16 +130,44 @@ const {isMobile, isTablet, isSmallMobile, isDesktop, isVerySmall} = useScreenSiz
            
             <div style={{height: "100%", width: "100%"}}>
             <LikedItems  auth={auth}/>
-                <div onClick={goToLike} style={{color: "blue", textDecoration: "underline", fontSize: "14px", cursor: "pointer", marginLeft: "20px"}}>view more items you liked</div>
+               {likedCount > 5 && (
+  <div
+    onClick={goToLike}
+    style={{
+      color: "blue",
+      textDecoration: "underline",
+      fontSize: "14px",
+      cursor: "pointer",
+      marginLeft: "20px",
+    }}
+  >
+    view more items you liked
+  </div>
+)}
+
             </div>
                
             )}
             <div style={{marginLeft: "10px"}}><FetchReviews productId={itemData?.itemId} selectedRating={selectedRating} onRatingClick={setSelectedRating}/></div>
             {(isDesktop || isTablet) && (
            
-            <div style={{height: "100%", width: "100%"}}>
+            <div style={{height: "100%", width: "400px"}}>
             <LikedItems  auth={auth}/>
-                <div onClick={goToLike} style={{color: "blue", textDecoration: "underline", fontSize: "14px", cursor: "pointer", marginLeft: "20px"}}>view more items you liked</div>
+                {likedCount > 5 && (
+  <div
+    onClick={goToLike}
+    style={{
+      color: "blue",
+      textDecoration: "underline",
+      fontSize: "14px",
+      cursor: "pointer",
+      marginLeft: "20px",
+    }}
+  >
+    view more items you liked
+  </div>
+)}
+
             </div>
                
             )}

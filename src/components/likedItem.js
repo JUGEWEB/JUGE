@@ -25,6 +25,7 @@ const LikedItems = ({ auth }) => {
     try {
       const response = await axios.get(`${BASE_URL}/liked-items/${userId}`);
       setLikedItems(response.data.likedItems || []);
+      localStorage.setItem("likedCount", (response.data.likedItems || []).length);
     } catch (error) {
       console.error("Error fetching liked items:", error);
     }
@@ -55,7 +56,7 @@ const LikedItems = ({ auth }) => {
         (isLikedPage ? likedItems : likedItems.slice(0, 5)).map((item) => (
           <div key={item.id} className="liked-item" style={{ display: isLikedPage ? "flex" : "", padding: "2px" }}>
             {/* Clicking image navigates to product page */}
-            <div style={{ height:(!(isDesktop || isTablet || isLikedPage)) ? "100px" : "300px", width:(!(isDesktop || isTablet || isLikedPage)) ? "100px" : "300px", filter: "brightness(0.95)", backgroundColor: "white" }}>
+            <div style={{ height:(!(isDesktop || isTablet || isLikedPage)) ? "100px" : "300px", width:(!(isDesktop || isTablet || isLikedPage)) ? "100px" : "400px", filter: "brightness(0.95)", backgroundColor: "white" }}>
               <img
                 src={item.image}
                 alt={item.name}
@@ -66,7 +67,7 @@ const LikedItems = ({ auth }) => {
             </div>
 
             {/* Clicking name navigates to product page */}
-            <p className="liked-item-name" style={{maxWidth:(!(isDesktop || isTablet || isLikedPage)) ? "100px" : "300px", maxHeight:(!(isDesktop || isTablet || isLikedPage)) ? "100px" : "300px",  textOverflow: "ellipsis",whiteSpace: "nowrap",
+            <p className="liked-item-name" style={{maxWidth:(!(isDesktop || isTablet || isLikedPage)) ? "100px" : "300px", maxHeight:(!(isDesktop || isTablet || isLikedPage)) ? "100px" : "300px",  textOverflow:(!(isDesktop || isTablet || isLikedPage)) ? "ellipsis" : "ellipsis" , whiteSpace: "nowrap",
     overflow: "hidden",  }} onClick={() => handleNavigate(item.id)}>
               {item.name} - ${item.price}
             </p>
