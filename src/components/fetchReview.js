@@ -1,32 +1,30 @@
 import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
 import "./fetchReview.css";
+import { useLocation } from "react-router-dom";
 
 const BASE_URL = "https://api.malidag.com";
 
-// Sample first & last names for generating real names
 const firstNames = ["James", "Sophia", "Liam", "Olivia", "Noah", "Emma", "Ethan", "Ava", "Mason", "Isabella"];
 const lastNames = ["Smith", "Johnson", "Brown", "Davis", "Wilson", "Moore", "Taylor", "Anderson", "Thomas", "Harris"];
 
-// Function to generate a random name
 const generateRandomName = () => {
   const firstName = firstNames[Math.floor(Math.random() * firstNames.length)];
   const lastName = lastNames[Math.floor(Math.random() * lastNames.length)];
   return `${firstName} ${lastName}`;
 };
 
- // Function to process rating
- const processRating = (rating) => {
+const processRating = (rating) => {
   if (!rating || rating.toLowerCase() === "n/a" || /[a-zA-Z]/.test(rating)) {
-    return 5; // If rating is "N/A" or contains letters, set it to 5
+    return 5;
   }
-  const parsedRating = parseFloat(rating);
-  return isNaN(parsedRating) ? 5 : parsedRating; // If it's NaN, return 5
+  const parsed = parseFloat(rating);
+  return isNaN(parsed) ? 5 : parsed;
 };
 
 const processName = (name) => {
   if (!name || name.length > 15 || name === "Unknown" || /[*@#$%^&()_+=]/.test(name)) {
-    return generateRandomName();  // ✅ Call the function to return a valid name
+    return generateRandomName();
   }
   return name;
 };
@@ -35,8 +33,9 @@ const FetchReviews = ({ productId, selectedRating, onRatingClick }) => {
   const [reviews, setReviews] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const reviewsRef = useRef(null); // 🔹 Create a ref
-
+  const reviewsRef = useRef(null);
+  const location = useLocation();
+  const isReviewPage = location.pathname === "/reviewPage";
 
   useEffect(() => {
     if (!productId) return;
@@ -45,17 +44,20 @@ const FetchReviews = ({ productId, selectedRating, onRatingClick }) => {
       try {
         const response = await axios.get(`${BASE_URL}/get-reviews/${productId}`);
         if (response.data.success) {
-          const processedReviews = response.data.reviews.map((review, index) => ({
-            ...review,
-            rating: processRating(review.rating),
-            name: processName(review.name, index), // Ensure unique fallback names
+          const processed = response.data.reviews.map((r, i) => ({
+            ...r,
+            rating: processRating(r.rating),
+            name: processName(r.name),
           }));
-          setReviews(processedReviews);
+          setReviews(processed);
+
+          // ✅ Store count in localStorage for use elsewhere
+          localStorage.setItem("reviewCount", processed.length);
         } else {
           throw new Error("Failed to fetch reviews.");
         }
-      } catch (error) {
-        console.error("Error fetching reviews:", error);
+      } catch (err) {
+        console.error("Error:", err);
         setError("Failed to load reviews.");
       } finally {
         setLoading(false);
@@ -65,26 +67,23 @@ const FetchReviews = ({ productId, selectedRating, onRatingClick }) => {
     fetchReviews();
   }, [productId]);
 
-  // 🔹 Scroll to reviews when a rating is clicked
   useEffect(() => {
     if (selectedRating !== null && reviewsRef.current) {
       reviewsRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
     }
   }, [selectedRating]);
 
-  // Sorting logic: Move selected rating to the top
   const sortedReviews = [...reviews].sort((a, b) => {
     if (selectedRating) {
-      if (parseFloat(a.rating) === selectedRating) return -1;
-      if (parseFloat(b.rating) === selectedRating) return 1;
+      return parseFloat(a.rating) === selectedRating ? -1 : 1;
     }
     return 0;
   });
 
- 
+  const visibleReviews = isReviewPage ? sortedReviews : sortedReviews.slice(0, 11);
 
   return (
-    <div ref={reviewsRef} className="reviews-container"> {/* 🔹 Attach ref here */}
+    <div ref={reviewsRef} className="reviews-container">
       <h2 className="reviews-title">Customer Reviews</h2>
 
       {loading ? (
@@ -94,28 +93,17 @@ const FetchReviews = ({ productId, selectedRating, onRatingClick }) => {
       ) : reviews.length === 0 ? (
         <p className="no-reviews-text">No reviews yet. Be the first to review!</p>
       ) : (
-        sortedReviews.map((review, index) => {
-          const processedName = processName(review.name, index); // ✅ Store processed name once
-
-          return (
-            <div
-              key={index}
-              className="review-card"
-              style={{
-                border: selectedRating === parseFloat(review.rating) ? "0px solid #ddd" : "0px solid #ddd",
-                backgroundColor: selectedRating === parseFloat(review.rating) ? "#fff" : "#fff",
-              }}
-            >
-              {/* Profile Section */}
+        <>
+          {visibleReviews.map((review, index) => (
+            <div key={index} className="review-card">
               <div className="review-header">
-                <img 
-                  className="profile-logo" 
-                  src={`https://ui-avatars.com/api/?name=${encodeURIComponent(processedName)}&background=random`} 
+                <img
+                  className="profile-logo"
+                  src={`https://ui-avatars.com/api/?name=${encodeURIComponent(review.name)}&background=random`}
                   alt="Profile"
                 />
-                <h3 className="review-author">{processedName}</h3> {/* ✅ Use stored name */}
+                <h3 className="review-author">{review.name}</h3>
               </div>
-
               <p
                 className="review-rating"
                 style={{
@@ -123,18 +111,14 @@ const FetchReviews = ({ productId, selectedRating, onRatingClick }) => {
                   color: selectedRating === parseFloat(review.rating) ? "#ffcc00" : "#000",
                   fontWeight: selectedRating === parseFloat(review.rating) ? "bold" : "normal",
                 }}
-                onClick={() => {
-                  if (typeof onRatingClick === "function") {
-                    onRatingClick(processRating(review.rating));
-                  }
-                }}
+                onClick={() => onRatingClick?.(processRating(review.rating))}
               >
                 Rating: {review.rating} ⭐
               </p>
               <p className="review-comment">{review.comment}</p>
             </div>
-          );
-        })
+          ))}
+        </>
       )}
     </div>
   );
