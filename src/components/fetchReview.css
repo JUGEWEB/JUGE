@@ -1,10 +1,9 @@
 /* fetchReview.css */
-
 .reviews-container {
   max-width: 600px;
-  margin: auto;
   padding: 0px;
-  font-family: Arial, sans-serif;
+  margin-left: 10px;
+ 
 }
 
 .reviews-title {

@@ -863,9 +863,10 @@ const handleQuantityChange = (amount) => {
       <div  style={{width: "100%"}}>
       <ItemIdPage id={itemsd}/>
       </div>
-      <div className="fetchRev" >
+     
       <FetchReviews  productId={itemsd} selectedRating={selectedRating} />
-      </div>
+      
+      
       {/* ✅ Show "See All Reviews" only if reviewCount > 11 */}
     {parseInt(localStorage.getItem("reviewCount") || "0", 10) > 11 && (
       <div
@@ -886,7 +887,8 @@ const handleQuantityChange = (amount) => {
           textDecoration: "underline",
           marginLeft: "20px",
           marginTop: "10px",
-          fontSize: "14px"
+          fontSize: "14px",
+           marginBottom: "20px"
         }}
       >
         See all reviews →
@@ -969,10 +971,10 @@ const handleQuantityChange = (amount) => {
           className="zoomed-view"
           style={{
             position: 'fixed',
-            top: "0",
-            right: "50px",
-            width: '500px',
-            height: '550px',
+            bottom: "0",
+            right: "0px",
+            width: '400px',
+            height: '500px',
             overflow: 'hidden',
             border: '2px solid #ddd',
             backgroundColor: '#fff',
@@ -987,8 +989,8 @@ const handleQuantityChange = (amount) => {
               position: 'absolute',
               width: '1500px', // Large zoomed version
               height: '1600px',
-              transform: `translate(-${(zoomedPosition.x / 100) * (1500 - 500)}px, 
-                          -${(zoomedPosition.y / 100) * (1600 - 550)}px)`, // Correct scaling
+              transform: `translate(-${(zoomedPosition.x / 100) * (1500 - 400)}px, 
+                          -${(zoomedPosition.y / 100) * (1600 - 500)}px)`, // Correct scaling
               transition: 'transform 0.1s ease-out',
             
               filter: "brightness(0.9)"
@@ -1175,7 +1177,7 @@ const handleQuantityChange = (amount) => {
 
       </div>
 
-       {/* Video Slider */}
+      
       {(isDesktop || isTablet) && (
         <div>
 {validVideos?.length > 0 && (
@@ -1215,9 +1217,9 @@ const handleQuantityChange = (amount) => {
       <div style={{marginRight: isBasketVisible && basketItems.length > 0 ? "150px" : "0" }}>
       <ItemIdPage id={itemsd}/>
       </div>
-      <div className="fetchRev" >
+     
       <FetchReviews  productId={itemsd} selectedRating={selectedRating} />
-      </div>
+     
 
        {/* ✅ Show "See All Reviews" only if reviewCount > 11 */}
     {parseInt(localStorage.getItem("reviewCount") || "0", 10) > 11 && (
@@ -1239,7 +1241,8 @@ const handleQuantityChange = (amount) => {
           textDecoration: "underline",
           marginLeft: "20px",
           marginTop: "10px",
-          fontSize: "14px"
+          fontSize: "14px",
+          marginBottom: "20px"
         }}
       >
         See all reviews →

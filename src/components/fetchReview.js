@@ -33,6 +33,7 @@ const FetchReviews = ({ productId, selectedRating, onRatingClick }) => {
   const [reviews, setReviews] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [visibleCount, setVisibleCount] = useState(11);
   const reviewsRef = useRef(null);
   const location = useLocation();
   const isReviewPage = location.pathname === "/reviewPage";
@@ -44,14 +45,12 @@ const FetchReviews = ({ productId, selectedRating, onRatingClick }) => {
       try {
         const response = await axios.get(`${BASE_URL}/get-reviews/${productId}`);
         if (response.data.success) {
-          const processed = response.data.reviews.map((r, i) => ({
+          const processed = response.data.reviews.map((r) => ({
             ...r,
             rating: processRating(r.rating),
             name: processName(r.name),
           }));
           setReviews(processed);
-
-          // ✅ Store count in localStorage for use elsewhere
           localStorage.setItem("reviewCount", processed.length);
         } else {
           throw new Error("Failed to fetch reviews.");
@@ -80,9 +79,10 @@ const FetchReviews = ({ productId, selectedRating, onRatingClick }) => {
     return 0;
   });
 
-  const visibleReviews = isReviewPage ? sortedReviews : sortedReviews.slice(0, 11);
+  const visibleReviews = sortedReviews.slice(0, visibleCount);
 
   return (
+    <div style={{width: "100%", maxWidth: "100%", display: "flex", justifyContent: "start"}}>
     <div ref={reviewsRef} className="reviews-container">
       <h2 className="reviews-title">Customer Reviews</h2>
 
@@ -118,8 +118,27 @@ const FetchReviews = ({ productId, selectedRating, onRatingClick }) => {
               <p className="review-comment">{review.comment}</p>
             </div>
           ))}
+
+          {isReviewPage && visibleCount < reviews.length && (
+            <div
+              className="show-more-btn"
+              onClick={() => setVisibleCount((prev) => prev + 11)}
+              style={{
+                marginTop: "20px",
+                cursor: "pointer",
+                color: "blue",
+                textDecoration: "underline",
+                fontSize: "14px",
+                textAlign: "center",
+                 marginBottom: "20px",
+              }}
+            >
+              Show more reviews →
+            </div>
+          )}
         </>
       )}
+    </div>
     </div>
   );
 };
