@@ -3,7 +3,7 @@
     max-width: 100%;
     width: 100%;
     margin: 0 auto;
-    padding: 20px;
+    padding: 0px;
     background: #ffffff;
     border-radius: 10px;
     text-align: center;
@@ -26,10 +26,10 @@
 
 .liked-item {
     align-items: center;
-    justify-content: space-between;
+    justify-content: start;
     background: #ffff;
-    padding: 15px;
-    margin: 10px 0;
+    padding: 0px;
+    margin: 0;
     border-radius: 8px;
     transition: transform 0.2s ease-in-out;
 }
@@ -37,7 +37,6 @@
 
 .liked-item-image {
     width: auto;
-    height: 300px;
     object-fit: cover;
     border-radius: 5px;
     cursor: pointer;
