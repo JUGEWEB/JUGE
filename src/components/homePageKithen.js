@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom"; // Import useNavigate for navigation
 import axios from "axios";
 import './itemPage.css';
+import useScreenSize from "./useIsMobile";
 
 function ItemHomePage() {
   const [items, setItems] = useState([]);
@@ -11,7 +12,9 @@ function ItemHomePage() {
   const [loading, setLoading] = useState(true);
   const [dropdownOpen, setDropdownOpen] = useState({});
   const [activeVideoId, setActiveVideoId] = useState(null);
-  const navigate = useNavigate(); // Initialize the useNavigate hook
+  const [reviews, setReviews] = useState({}); // Store reviews data
+             const {isMobile, isDesktop, isTablet, isSmallMobile, isVerySmall, isVeryVerySmall} = useScreenSize()
+   const navigate = useNavigate();
 
   console.log('video', activeVideoId)
 
@@ -118,78 +121,38 @@ function ItemHomePage() {
 
   return (
     <>
-    <div className="item-page-title">
-        <div>Fashion for all.</div>
-        <div style={{ marginLeft: "20px" }}>Related Categories:</div>
-        <div className="related-info">
-          <div className="related-categories">
-            {categories.map((category, index) => (
-              <div key={index}>
-                <div
-                  className="related-category"
-                  onClick={() => toggleDropdown(category)}
-                >
-                  {category}
-                <span
-                className={`dropdown-arrow ${
-                dropdownOpen[category] ? "arrow-open" : "arrow-closed"
-                }`}
-            >
-                ▼
-            </span>
-                </div>
-               
-                {dropdownOpen[category] && (
-                  <div className="stable-category-dropdown">
-                    <div className="stable-category-types">
-                      <strong>malidag {category}</strong>
-                      {categorizedItems[category]
-                        .map((item) => item.item.type)
-                        .filter((type, idx, arr) => arr.indexOf(type) === idx)
-                        .map((type, idx) => (
-                          <div key={idx} className="stable-type-item">
-                            {type}
-                          </div>
-                        ))}
-                    </div>
-                    <div>
-                    <strong style={{marginLeft: '50%'}}>Hot 🔥:</strong>
-                    <div className="stable-hot-items">
-                      {getHotItems(categorizedItems[category]).map(
-                        (hotItem, idx) => (
-                          <div key={idx} className="stable-hot-item">
-                            <img
-                              src={hotItem.item.images[0]}
-                              alt={hotItem.item.name}
-                              onClick={() => handleItemClick(hotItem.id)} // Attach the click handle
-                              className="stable-hot-item-image"
-                            />
-                            <div  onClick={() => handleItemClick(hotItem.id)}  className="stable-hot-item-name">
-                              {hotItem.item.name}
-                            </div>
-                            <div className="stable-hot-item-sold">
-                              {hotItem.item.sold} sold
-                            </div>
-                          </div>
-                        )
-                      )}
-                    </div>
-                    </div>
-                  </div>
-                )}
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-    <div className="item-page-container">
-      <div className="search-results-container">
+
+    <div style={{width: "100%", height: "auto", maxWidth: "100%", overflow: "hidden"}}>
+      <img src="https://firebasestorage.googleapis.com/v0/b/benege-93e7c.appspot.com/o/uploads%2Fsteptodown.com479163.jpg?alt=media&token=0abc0129-3e54-4b9c-ba3d-ed4d9e61e960" alt="home and kitchen page" style={{width: "100%", padding: "10px", height: "400px", objectFit: "cover", overflow: "hidden"}} />
+    </div>
+   
+    <div style={{
+  display: "grid",
+  width: "100%",
+  maxWidth: "100%",
+  gap: "5px",
+  padding: "5px",
+  gridTemplateColumns:
+    isVerySmall
+      ? "repeat(2, 1fr)"
+      : isVeryVerySmall
+      ? "repeat(1, 1fr)"
+      : isSmallMobile
+      ? "repeat(2, 1fr)"
+      : isMobile
+      ? "repeat(3, 1fr)"
+      : isTablet
+      ? "repeat(3, 1fr)"
+      : "repeat(3, 1fr)"}}>
+
+      
         {items.map((itemData) => {
-          const { id, item } = itemData;
+          const {itemId, id, item } = itemData;
           const { name, usdPrice, originalPrice, cryptocurrency, sold, videos } = item;
           const cryptoSymbol = `${cryptocurrency}`;
           const crypto = String(cryptocurrency);
-          const stars = Math.floor(Math.random() * 5) + 1; // Random stars for now
+          const reviewsData = reviews[itemId] || {}; // Ensure it exists
+            const finalRating = reviewsData ? reviewsData.averageRating : "No rating";
           const cryptoPriceInUSD = cryptoPrices[cryptoSymbol] || 0;
           const itemPriceInCrypto =
             cryptoPriceInUSD > 0 ? (usdPrice / cryptoPriceInUSD).toFixed(6) : "N/A";
@@ -200,14 +163,15 @@ function ItemHomePage() {
             );
 
           return (
-            <div key={id} className="item-card">
+            <div key={id} >
               <div
                 style={{
                   background: 'white',
                   zIndex: '1',
-                  filter: "brightness(0.93)",
-                  width: '230px',
-                  height: '230px',
+                 paddingTop: "20px",
+                 filter: "brightness(0.880000000) contrast(1.2)",
+                  width: '100%',
+                  height:(isVerySmall) ? "230px" :  "300px",
                   marginBottom: '10px',
                   marginTop: '10px',
                   position: 'relative',
@@ -219,7 +183,9 @@ function ItemHomePage() {
                     controls
                     autoPlay
                     onEnded={handleVideoStop}
-                    style={{ width: '230px', height: '230px', objectFit: 'cover' }}
+                    style={{ width: "100%",
+                      height: (isVerySmall) ? "230px" :  "300px",
+                      objectFit: "contain" }}
                   />
                 ) : (
                   <>
@@ -228,6 +194,9 @@ function ItemHomePage() {
                       src={item.images[0]}
                       onClick={() => handleItemClick(id)} // Attach the click handle
                       alt={name}
+                       style={{ width: "100%",
+                        height:(isVerySmall) ? "230px" :  "300px",
+                        objectFit: "contain"}}
                     />
                      {firstVideoUrl && ( 
                       <div
@@ -288,14 +257,17 @@ function ItemHomePage() {
                     </span>
                   </div>
                 </div>
-                <div className="item-stars">
-                  {"★".repeat(stars)}{"☆".repeat(5 - stars)}
+                 <div className="item-type-stars" onClick={() =>
+   navigate('/reviewPage', { 
+    state: { itemData: itemData}
+ }) } title="View reviews of this item">
+                {finalRating ? "★".repeat(Math.round(finalRating)) + "☆".repeat(5 - Math.round(finalRating)) : "No rating"}
                 </div>
               </div>
             </div>
           );
         })}
-      </div>
+     
     </div>
     </>
     
