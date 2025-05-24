@@ -120,10 +120,10 @@ function ItemHomePage() {
   };
 
   return (
-    <>
+    <div style={{maxWidth: "100%", width: "100%",  overflow: "hidden"}}>
 
     <div style={{width: "100%", height: "auto", maxWidth: "100%", overflow: "hidden"}}>
-      <img src="https://firebasestorage.googleapis.com/v0/b/benege-93e7c.appspot.com/o/uploads%2Fsteptodown.com479163.jpg?alt=media&token=0abc0129-3e54-4b9c-ba3d-ed4d9e61e960" alt="home and kitchen page" style={{width: "100%", padding: "10px", height: "400px", objectFit: "cover", overflow: "hidden"}} />
+      <img src="https://firebasestorage.googleapis.com/v0/b/benege-93e7c.appspot.com/o/uploads%2Fsteptodown.com479163.jpg?alt=media&token=0abc0129-3e54-4b9c-ba3d-ed4d9e61e960" alt="home and kitchen page" style={{width: "100%", height: "400px", objectFit: "cover", overflow: "hidden"}} />
     </div>
    
     <div style={{
@@ -269,7 +269,7 @@ function ItemHomePage() {
         })}
      
     </div>
-    </>
+    </div>
     
   );
 }
