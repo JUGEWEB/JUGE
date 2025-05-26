@@ -273,7 +273,8 @@ function ItemOfHome() {
       : "repeat(3, 1fr)",
 }}>
         {displayedItems.map((itemData) => {
-          const {itemId, id, item } = itemData;
+          const item = itemData.item;
+          const {itemId, id } = itemData;
           const { name, usdPrice, originalPrice, cryptocurrency, sold, videos } = item;
           const cryptoSymbol = `${cryptocurrency}`;
           const crypto = String(cryptocurrency);
@@ -385,7 +386,7 @@ function ItemOfHome() {
                 </div>
                  <div className="item-type-stars" onClick={() =>
    navigate('/reviewPage', { 
-    state: { itemData: itemData}
+    state: { itemData: {itemId, id, item}}
  }) } title="View reviews of this item">
                 {finalRating ? "★".repeat(Math.round(finalRating)) + "☆".repeat(5 - Math.round(finalRating)) : "No rating"}
                 </div>
