@@ -6,6 +6,7 @@ const ThemeForFashionKick = () => {
   const { isDesktop, isMobile, isTablet, isSmallMobile, isVerySmall } = useScreenSize();
   const navigate = useNavigate();
   const [loadedImages, setLoadedImages] = useState({});
+ 
 
   useEffect(() => {
     const img = new Image();
@@ -24,7 +25,10 @@ const ThemeForFashionKick = () => {
 
   const brandCount = parseInt(localStorage.getItem('brandCount')) || 0;
   if (isDesktop && brandCount === 2) return null;
+  
 
+
+   console.log("brandCount:", brandCount)
   
 
   const handleDiscoverClick = () => {

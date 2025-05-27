@@ -79,6 +79,22 @@ const ItemIdPage = ({ id }) => {
               </div>
             )}
 
+             {/* Video with Text */}
+            {item.type === "single_video" && (
+              <div className="flexfgrts" style={{display:(isDesktop || isTablet) ? "grid" : "", alignItems:(isDesktop || isTablet) ? "center" : "start", justifyContent: "space-between", padding: "10px", gridTemplateColumns: (isDesktop || isTablet) ? "1fr 1fr" : undefined,}}>
+                <video
+                  src={`https://api.malidag.com${item.filePath}`}
+                  controls
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                  className="w-fuldfreh"
+                  style={{maxWidth: (isDesktop || isTablet) ? "100%" : "100%", height: "auto", objectFit: "cover"}}
+                />
+              </div>
+            )}
+
            {/* Slide Images */}
 {item.type === "slide_images" && (
   <div

@@ -101,14 +101,18 @@ function MalidagCategory({ user, auth }) {
   return (
     <div className="categories-container">
        {(isTablet || isDesktop || isMobile) && (
+       
       <SearchSuggestions/>
+     
        )}
 
 {(isTablet || isDesktop || isMobile) && (
       <ThemeForPersonnalCare/>
     )}
      {(isTablet || isDesktop || isMobile) && (
+      <div>
       <ThemeForFashionKick/>
+      </div>
     )}
       {(isTablet || isDesktop || isMobile) && (
       <ThemeForMenFashion/>

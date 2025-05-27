@@ -26,7 +26,7 @@ const ThemeForMenFashion = () => {
   const brandCount = parseInt(localStorage.getItem('brandCount')) || 0;
 
   // ❌ On desktop, hide if brandCount is 3 or more
-  if (isDesktop && brandCount === 1) return null;
+  if (isDesktop && brandCount >= 1) return null;
 
   if (!theme) return null;
 

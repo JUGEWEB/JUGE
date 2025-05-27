@@ -77,9 +77,15 @@ const [pendingRating, setPendingRating] = useState(null); // stores the rating o
  
 
 
-  const validVideos = Array.isArray(product?.videos)
-  ? product?.videos.filter((v) => typeof v === "string" && v.trim().toLowerCase().endsWith(".mp4"))
+ const validVideos = Array.isArray(product?.videos)
+  ? product.videos.filter((v) => {
+      return (
+        typeof v === "string" &&
+        v.trim().toLowerCase().match(/\.(mp4|webm)$/)
+      );
+    })
   : [];
+
 
 
 

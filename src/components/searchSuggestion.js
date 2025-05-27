@@ -72,7 +72,7 @@ const SearchSuggestions = ({ userId }) => {
 
   return (
     <div style={{ padding:(isDesktop || isMobile || isTablet) ? '1rem' : ""}}>
-      <div style={{ display:(isDesktop || isMobile || isTablet) ? 'flex' : "", flexWrap:(isDesktop || isMobile || isTablet) ? 'wrap' : "none", gap: '1.5rem' }}>
+      <div style={{ display:(isDesktop || isMobile || isTablet) ? 'flex' : "", flexWrap:(isDesktop || isMobile || isTablet) ? '' : "none", gap: '1.5rem' }}>
         {suggestions.length > 0 ? (
           suggestions.map(({ brand, items }) => (
             <div key={brand} style={{

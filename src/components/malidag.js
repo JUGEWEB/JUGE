@@ -176,7 +176,7 @@ const Malidag = ({ user, gra, slides }) => {
         <div style={{ backgroundColor: "white", width: "100%", position: "relative", height: "auto", paddingBottom: "20px"}}>
         <div style={{display: "flex", alignItems: "center", justifyContent: "start",}}>
           <h1 style={{marginLeft: "20px", height: "auto"}}>Home & Office Tech</h1>
-          <div style={{color: "green", fontSize: "14px", fontWeight: "bold", cursor: "pointer", marginLeft: "20px", marginTop: "10px"}} onClick={onclickIFP}>View more</div>
+          <div style={{color: "green", fontSize: "14px", fontWeight: "bold", cursor: "pointer", marginLeft: "20px", marginTop: "10px"}} onClick={onclickElPage}>View more</div>
           </div>
           <Electronic />
           </div>
