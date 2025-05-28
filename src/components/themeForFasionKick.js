@@ -24,7 +24,7 @@ const ThemeForFashionKick = () => {
   };
 
   const brandCount = parseInt(localStorage.getItem('brandCount')) || 0;
-  if (isDesktop && brandCount === 2) return null;
+  if (isDesktop && brandCount >= 2) return null;
   
 
 

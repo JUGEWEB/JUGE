@@ -1,36 +1,64 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom"; // ✅ Import useNavigate
-import headerImg from "./images/headerImage/headerImage.png";
-import log from "./images/logo/logo.png";
-import logvide from "./images/video.webp";
+import { useLocation } from "react-router-dom";
 import useFinalRating from "../../finalRating";
 import "./Baasploa.css";
 
-function Baasploa() {
+function Theme1() {
     const [departments, setDepartments] = useState([]);
     const [topItems, setTopItems] = useState([]);
     const [bestSeller, setBestSeller] = useState(null);
     const { finalRating, loading, error } = useFinalRating(topItems?.itemId || 0);
+    const location = useLocation();
+    const brandName = location.state?.brandName || "default-brand"; // fallback
+    const [brandDetails, setBrandDetails] = useState({ headerImage: "", logo: "" });
+
 
     console.log("topitems:", topItems)
+    
+
 
     const navigate = useNavigate(); // ✅ Initialize navigation function
 
     useEffect(() => {
-        fetch("https://api.malidag.com/api/brands/blaasploa")
+    const fetchBrandDetails = async () => {
+        try {
+            const res = await fetch("https://api.malidag.com/api/brands/themes");
+            const data = await res.json();
+
+            const brand = data.find(
+                b => b.brandName.trim().toLowerCase() === brandName.trim().toLowerCase()
+            );
+
+            if (brand) {
+                setBrandDetails({
+                    headerImage: brand.headerImage,
+                    logo: brand.logo,
+                });
+            }
+        } catch (err) {
+            console.error("Error fetching brand theme:", err);
+        }
+    };
+
+    fetchBrandDetails();
+}, [brandName]);
+
+    useEffect(() => {
+        fetch(`https://api.malidag.com/api/brands/${brandName}`)
             .then((response) => response.json())
             .then((data) => setDepartments(data.departments || []));
     }, []);
 
     useEffect(() => {
-        fetch("https://api.malidag.com/api/brands/blaasploa/top-items")
+        fetch(`https://api.malidag.com/api/brands/${brandName}/top-items`)
             .then((response) => response.json())
             .then((data) => setTopItems(data))
             .catch((error) => console.error("Error fetching top items:", error));
     }, []);
 
     useEffect(() => {
-        fetch("https://api.malidag.com/api/brands/blaasploa/best-seller")
+        fetch(`https://api.malidag.com/api/brands/${brandName}/best-seller`)
             .then((response) => response.json())
             .then((data) => setBestSeller(data))
             .catch((error) => console.error("Error fetching best seller:", error));
@@ -38,7 +66,10 @@ function Baasploa() {
 
     const handleBrandTypeClick = (department, brandType) => {
         // ✅ Navigate to `BrandDepartment.js` and pass `department` & `brandType`
-        navigate(`/brand-department?department=${department}&brandType=${brandType}`);
+       navigate(`/theme1department?department=${department}&brandType=${brandType}`, {
+        state: { brandName } // ✅ Pass brandName as state
+});
+
     };
 
     return (
@@ -48,7 +79,7 @@ function Baasploa() {
                 <div className="blaDepartement">
                     <div className="bladeprt">
                         <div>
-                            <img src={log} alt="Baasploa Logo" className="logoImage" />
+                            <img src={brandDetails.logo} alt={`${brandName} Logo`} className="logoImage" />
                             <div className="departementTitle">Departments</div>
                             <div className="departmentCategories">
                                 <ul>
@@ -77,8 +108,8 @@ function Baasploa() {
                 {/* Content Section */}
                 <div className="blaStyle">
                     <div className="headerImage">
-                        <img src={headerImg} alt="Header" className="headerImgStyle" />
-                        <div className="baasploaT">Baasploa</div>
+                       <img src={brandDetails.headerImage} alt={`${brandName} Header`} className="headerImgStyle" />
+                       <div className="baasploaT">{brandName}</div>
                     </div>
 
               {/* Top-Selling Items Section */}
@@ -121,7 +152,7 @@ function Baasploa() {
                             {bestSeller.item.videos?.length > 0 ? (
                                 <div className="videoContainer">
                                     <video autoPlay muted loop playsInline controls>
-                                        <source src={bestSeller.item.videos} type="video/mp4" />
+                                        <source src={bestSeller?.item?.videos[0]} type="video/mp4" />
                                         Your browser does not support the video tag.
                                     </video>
                                 </div>
@@ -174,12 +205,13 @@ function Baasploa() {
             </div>
 
 
-            {/* Footer Video */}
+            {/* Footer Video
             <div style={{ width: "100%", height: "auto" }}>
                 <img src={logvide} alt="Video" style={{ width: "100%" }} />
             </div>
+             */}
         </div>
     );
 }
 
-export default Baasploa;
+export default Theme1;

@@ -606,6 +606,29 @@ const handleQuantityChange = (amount) => {
   setQuantity((prev) => Math.max(1, prev + amount)); // Ensure it stays at least 1
 };
 
+const handleVisitBrand = async () => {
+    if (!product.brand || product.brand.trim() === "") return;
+
+    try {
+      const response = await axios.get("https://api.malidag.com/api/brands/themes");
+      const themes = response.data;
+
+      // Find the theme for the current brand
+      const matchedBrand = themes.find(
+        (b) => b.brandName.trim().toLowerCase() === product.brand.trim().toLowerCase()
+      );
+
+      if (matchedBrand && matchedBrand.theme) {
+        const themeRoute = matchedBrand.theme.toLowerCase(); // e.g. "theme1"
+        navigate(`/${themeRoute}`, { state: { brandName: product.brand } });
+      } else {
+        console.warn("Theme not found for brand:", product.brand);
+      }
+    } catch (error) {
+      console.error("Failed to fetch brand themes:", error);
+    }
+  };
+
 
 
 
@@ -677,7 +700,9 @@ const handleQuantityChange = (amount) => {
      <h1 style={{color: "black"}}>{product.name}</h1>
 
       {product.brand && product.brand.trim() !== "" && (
-        <Link to={`/${product.brand}Brand`} > visit the {product.brand} brand</Link>
+        <button onClick={handleVisitBrand}>
+          Visit the {product.brand} brand
+        </button>
       )}
 
        <p style={{color: "black"}}> <div className="rating-dropdown" style={{ display: "flex", alignItems: "center" }}>
@@ -1006,8 +1031,10 @@ const handleQuantityChange = (amount) => {
       )}
         <h1 style={{color: "black"}}>{product.name}</h1>
         {/* Check if the product brand exists and is not empty */}
-      {product.brand && product.brand.trim() !== "" && (
-        <Link to={`/${product.brand}Brand`} > visit the {product.brand} brand</Link>
+       {product.brand && product.brand.trim() !== "" && (
+        <button onClick={handleVisitBrand}>
+          Visit the {product.brand} brand
+        </button>
       )}
         <div className="product-info">
         <p style={{color: "black"}}> <div className="rating-dropdown" style={{ display: "flex", alignItems: "center" }}>

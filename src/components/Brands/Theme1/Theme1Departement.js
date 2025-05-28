@@ -1,30 +1,55 @@
 import React, { useState, useEffect } from "react";
 import "./BrandDepartment.css";
-import axios from 'axios'
-import { useLocation, useNavigate } from "react-router-dom"; // ✅ Import useLocation & useNavigate
-import log from "./images/logo/logo.png";
+import axios from 'axios';
+import { useLocation, useNavigate } from "react-router-dom";
 
-function BrandDepartment() {
-    const location = useLocation(); // ✅ Get current URL location
-    const navigate = useNavigate(); // ✅ For navigation
+function Theme1Department() {
+    const location = useLocation();
+    const navigate = useNavigate();
 
     const [items, setItems] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [departments, setDepartments] = useState([]);
+    const [brandDetails, setBrandDetails] = useState({ logo: "", headerImage: "" });
 
-    // ✅ Extract department & brandType from URL query parameters
     const params = new URLSearchParams(location.search);
     const department = params.get("department");
     const brandType = params.get("brandType");
 
-    console.log("department & brandType:", department, brandType); // Debugging
+    const brandName = location.state?.brandName || "default-brand";
 
     useEffect(() => {
-        fetch("https://api.malidag.com/api/brands/blaasploa")
-            .then((response) => response.json())
-            .then((data) => setDepartments(data.departments || []));
-    }, []);
+    const fetchBrandTheme = async () => {
+        try {
+            const res = await fetch("https://api.malidag.com/api/brands/themes");
+            const data = await res.json();
+            const brand = data.find(
+                b => b.brandName.trim().toLowerCase() === brandName.trim().toLowerCase()
+            );
+            if (brand) {
+                setBrandDetails({
+                    logo: brand.logo,
+                    headerImage: brand.headerImage,
+                    theme: brand.theme // ✅ Add this
+                });
+            }
+        } catch (err) {
+            console.error("Theme fetch error:", err);
+        }
+    };
+
+    fetchBrandTheme();
+}, [brandName]);
+
+
+    useEffect(() => {
+        // Fetch department structure
+        fetch(`https://api.malidag.com/api/brands/${brandName}`)
+            .then((res) => res.json())
+            .then((data) => setDepartments(data.departments || []))
+            .catch((err) => console.error("Department fetch error:", err));
+    }, [brandName]);
 
     useEffect(() => {
         if (!department || !brandType) return;
@@ -32,32 +57,27 @@ function BrandDepartment() {
         setLoading(true);
         setError(null);
 
-        axios.get("https://api.malidag.com/api/brands/blaasploa/items")
-            .then((response) => {
-                const allItems = response.data;
-
-                // ✅ Filter items in JavaScript
-                const filteredItems = allItems.filter(item =>
-                    item.item?.department === department && 
+        axios.get(`https://api.malidag.com/api/brands/${brandName}/items`)
+            .then((res) => {
+                const filtered = res.data.filter(item =>
+                    item.item?.department === department &&
                     item.item?.brandType === brandType
                 );
-
-                setItems(filteredItems);
+                setItems(filtered);
                 setLoading(false);
             })
             .catch((err) => {
                 setError(err.message);
                 setLoading(false);
             });
-    }, [department, brandType]);
+    }, [department, brandType, brandName]);
 
     return (
         <div className="brandDepartmentContainer">
-            {/* Sidebar - Departments List */}
             <div className="blaDepartement" style={{ color: "black" }}>
                 <div className="bladeprt">
                     <div>
-                        <img src={log} alt="Baasploa Logo" className="logoImage" />
+                        <img src={brandDetails.logo} alt={`${brandName} Logo`} className="logoImage" />
                         <div className="departementTitle">Departments</div>
                         <div className="departmentCategories">
                             <ul>
@@ -66,10 +86,14 @@ function BrandDepartment() {
                                         <strong>{dep.name}</strong>
                                         <ul>
                                             {dep.brandTypes.map((brand, bIndex) => (
-                                                <li 
-                                                    key={bIndex} 
+                                                <li
+                                                    key={bIndex}
                                                     className={`clickableBrandType ${brand === brandType && dep.name === department ? "selectedBrandType" : ""}`}
-                                                    onClick={() => navigate(`/brand-department?department=${dep.name}&brandType=${brand}`)}
+                                                    onClick={() =>
+              navigate(`/${brandDetails.theme?.toLowerCase()}department?department=${dep.name}&brandType=${brand}`, {
+                state: { brandName }
+              })
+            }
                                                 >
                                                     {brand}
                                                 </li>
@@ -83,9 +107,7 @@ function BrandDepartment() {
                 </div>
             </div>
 
-            {/* Right column: items display */}
             <div className="rightColumn">
-
                 {loading && <p className="loadingMessage">Loading items...</p>}
                 {error && <p className="errorMessage">Error: {error}</p>}
 
@@ -96,7 +118,12 @@ function BrandDepartment() {
                             <div className="itemDetails">
                                 <h3 className="itemTitle">{item.item.name}</h3>
                                 <p className="itemPrice">Price: ${item.item.usdPrice}</p>
-                                <a href={item.item.link} target="_blank" rel="noopener noreferrer" className="viewItemButton">
+                                <a
+                                    href={item.item.link}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="viewItemButton"
+                                >
                                     View Item
                                 </a>
                             </div>
@@ -108,4 +135,4 @@ function BrandDepartment() {
     );
 }
 
-export default BrandDepartment;
+export default Theme1Department;

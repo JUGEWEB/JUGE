@@ -13,6 +13,8 @@ function ElectronicPage() {
   const { isMobile, isTablet, isSmallMobile, isVerySmall, isVeryVerySmall } = useScreenSize();
    const [reviews, setReviews] = useState({}); // Store reviews data
   const navigate = useNavigate();
+  const [brandThemes, setBrandThemes] = useState([]);
+
 
   // Fetch reviews from the endpoint
                 const fetchReviews = async (productId) => {
@@ -37,6 +39,20 @@ function ElectronicPage() {
                     console.error("Error fetching reviews:", error);
                   }
                 };
+
+                useEffect(() => {
+  const fetchBrandThemes = async () => {
+    try {
+      const res = await fetch("https://api.malidag.com/api/brands/themes");
+      const data = await res.json();
+      setBrandThemes(data || []);
+    } catch (err) {
+      console.error("Failed to fetch brand themes", err);
+    }
+  };
+  fetchBrandThemes();
+}, []);
+
 
   // Fetch brands from clothing, shoes, and bags
   useEffect(() => {
@@ -143,9 +159,32 @@ function ElectronicPage() {
 
   return (
     <div style={{ width: "100%" }}>
-      <div style={{marginTop: "20px", marginBottom: "20px", marginLeft: "20px", marginRight: "20px", maxWidth: "100%"}}>
-      <img onClick={()=> {navigate("/blaasploaBrand")}} style={{width: "300px", height: "100px", cursor: "pointer"}} src="https://firebasestorage.googleapis.com/v0/b/benege-93e7c.appspot.com/o/uploads%2Flogo.png?alt=media&token=482c1938-569c-4d6e-9838-38b84098115e " alt="blaasploa logo" />
-      </div>
+     <div style={{ display: "flex", flexWrap: "wrap", gap: "20px", margin: "20px" }}>
+  {brandThemes
+    .filter((b) =>
+      Object.keys(topItemsPerBrand).some(
+        (brandName) => brandName.trim().toLowerCase() === b.brandName.trim().toLowerCase()
+      )
+    )
+    .map((brand) => (
+      <img
+        key={brand.brandName}
+        src={brand.logo}
+        alt={`${brand.brandName} logo`}
+        style={{
+          width: "150px",
+          height: "80px",
+          objectFit: "contain",
+          cursor: "pointer",
+        }}
+        onClick={() =>
+          navigate(`/${brand.theme.toLowerCase()}`, {
+            state: { brandName: brand.brandName },
+          })
+        }
+      />
+    ))}
+</div>
       <div style={{maxWidth: "100%", maxWidth: "100%", overflow: "hidden"}}>
       {Object.entries(topItemsPerBrand).map(([brand, items]) => (
         <div style={{maxWidth: "100%", maxWidth: "100%", overflow: "hidden"}}>

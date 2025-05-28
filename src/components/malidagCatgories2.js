@@ -109,6 +109,12 @@ function MalidagCategories2({ user, auth }) {
       {(isDesktop) && (
       <ThemeForMenFashion2/>
     )}
+
+     {(isDesktop) && (
+      <div style={{marginLeft: "1rem"}}>
+      <ThemeForPersonnalCare2/>
+      </div>
+    )}
      
     </div>
   );

@@ -7,7 +7,7 @@ import AuthForm from "./components/AuthForm";
 import Profile from "./components/profile";
 import { auth } from "./components/firebaseConfig";
 import MalidagHeader from "./components/malidagHeader";
-import { Modal, Spin } from "antd";
+import { Modal, Spin, theme } from "antd";
 import ItemPage from "./components/itemPage";
 import TypePage from "./components/typePage";
 import CoinPage from "./components/coinPage";
@@ -37,7 +37,6 @@ import FetchReviews from "./components/fetchReview";
 import ReviewPage from "./components/reviewPage";
 import LikedItems from "./components/likedItem";
 import MalidagFooter from "./components/malidagFooter";
-import Baasploa from "./components/Brands/BaasploaBrand/Baasploa";
 import useScreenSize from "./components/useIsMobile";
 
 import { useConnect,  useAccount, useDisconnect } from 'wagmi'
@@ -49,7 +48,8 @@ import WomenTopTopic from "./components/womentoptopic";
 import ItemOfShoes from "./components/itemsOfShoes";
 import ShoesTopTopic from "./components/shoesTopTopic";
 import MalidagCategory from "./components/malidagCategory";
-import BrandDepartment from "./components/Brands/BaasploaBrand/brandDepartment";
+import Theme1Department from "./components/Brands/Theme1/Theme1Departement";
+import Theme1 from "./components/Brands/Theme1/Theme1";
 import InputSearch from "./components/inputSearch";
 import Location from "./components/location";
 import All from "./components/All";
@@ -260,8 +260,8 @@ const App = () => {
             <Route path="/topitem" element={<TopItem user={user} />} />
             <Route path="/50off" element={<PayBBE />} />
             <Route path="/savebig" element={<SaveBig />} />
-            <Route path="/blaasploaBrand" element={<Baasploa />} />
-            <Route path="/brand-department" element={<BrandDepartment />} />
+            <Route path="/theme1" element={<Theme1 />} />
+            <Route path="/theme1Department" element={<Theme1Department/>} />
             <Route path="/viewreview" element={<FetchReviews />} />
             <Route path="/30off" element={<Bnboff />} />
             <Route path="/likeditem" element={<LikedItems auth={auth} />} />
