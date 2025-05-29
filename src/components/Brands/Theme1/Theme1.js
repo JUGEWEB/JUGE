@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom"; // ✅ Import useNavigate
 import { useLocation } from "react-router-dom";
 import useFinalRating from "../../finalRating";
+import useScreenSize from "../../useIsMobile";
 import "./Baasploa.css";
 
 function Theme1() {
@@ -12,6 +13,9 @@ function Theme1() {
     const location = useLocation();
     const brandName = location.state?.brandName || "default-brand"; // fallback
     const [brandDetails, setBrandDetails] = useState({ headerImage: "", logo: "" });
+    const {isMobile, isDesktop, isSmallMobile, isTablet, isVerySmall, isVeryVerySmall} = useScreenSize()
+    const [expandedDeptIndex, setExpandedDeptIndex] = useState(null);
+
 
 
     console.log("topitems:", topItems)
@@ -74,6 +78,8 @@ function Theme1() {
 
     return (
         <div>
+            {(isDesktop) && (
+           
             <div className="blaasploaContainer">
                 {/* Sidebar - Departments List */}
                 <div className="blaDepartement">
@@ -203,6 +209,208 @@ function Theme1() {
                 </div>
 
             </div>
+
+                 
+            )}
+
+             {!isDesktop && (
+  <div style={{ color: "black", padding: "10px" }}>
+    {/* Header Section */}
+    <div className="headerImage">
+      <img
+        src={brandDetails.headerImage}
+        alt={`${brandName} Header`}
+        className="headerImgStyle"
+      />
+      <div className="baasploaT">{brandName}</div>
+    </div>
+
+    {/* Mobile Department Selection */}
+    <div className="blaDepartementforSmall">
+      <div className="bladeprtforSmall">
+        <img
+          src={brandDetails.logo}
+          alt={`${brandName} Logo`}
+          className="logoImage"
+        />
+
+        <div className="departmentCategoriesForSmall">
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              overflowX: "auto",
+              gap: "16px",
+              padding: "10px 0",
+            }}
+          >
+            {departments.map((department, index) => (
+              <div key={index} style={{ minWidth: "120px" }}>
+                <div
+                  onClick={() =>
+                    setExpandedDeptIndex(
+                      index === expandedDeptIndex ? null : index
+                    )
+                  }
+                  style={{
+                    fontWeight: "bold",
+                    cursor: "pointer",
+                    color: "#333",
+                    padding: "6px 10px",
+                    borderRadius: "4px",
+                    backgroundColor: "#f0f0f0",
+                    textAlign: "center",
+                  }}
+                >
+                  {department.name}
+                </div>
+
+                {expandedDeptIndex === index && (
+                  <div style={{ paddingTop: "8px" }}>
+                    {department.brandTypes.map((brandType, bIndex) => (
+                      <div
+                        key={bIndex}
+                        className="clickableBrandTypeforsmall"
+                        onClick={() =>
+                          handleBrandTypeClick(department.name, brandType)
+                        }
+                        style={{
+                          marginTop: "4px",
+                          cursor: "pointer",
+                          backgroundColor: "#fff",
+                          border: "1px solid #ddd",
+                          padding: "5px",
+                          borderRadius: "3px",
+                        }}
+                      >
+                        {brandType}
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {/* Best Seller Section */}
+    {bestSeller && (
+      <div style={{ marginTop: "20px", display: (isTablet) ? "grid" : "block", gridTemplateColumns: (isTablet) ? "1fr 2fr" : "", width: (isTablet) ? "100%" : "" }}>
+        <div  style={{width:(isTablet) ? "400px" : "100%", height: (isTablet) ? "300px" : "300px"}}>
+          {bestSeller.item.videos?.length > 0 ? (
+            <video autoPlay muted loop playsInline controls style={{ width: "100%", height: "100%", objectFit: "cover" }}>
+              <source
+                src={bestSeller.item.videos[0]}
+                type="video/mp4"
+              />
+              Your browser does not support the video tag.
+            </video>
+          ) : (
+            <p>No video available</p>
+          )}
+        </div>
+
+        <div style={{ padding: "10px 0",  position: "relative", width: "100%", marginTop: "10px"  }}>
+          <img
+            src={bestSeller.item.images[0]}
+            alt={bestSeller.item.name}
+            style={{
+              width: "100%",
+              height: isVerySmall ? "230px" : "300px",
+              objectFit: "contain",
+              marginTop: "10px",
+            }}
+          />
+          <div className="bestSellerBadge">Best Seller</div>
+          <div className="bestSellerTitle">{bestSeller.item.name}</div>
+        </div>
+      </div>
+    )}
+
+    {/* Top-Selling Items: Shoes */}
+    <div  style={{
+    display: "grid",
+    gridTemplateColumns:
+      isVeryVerySmall ? "repeat(1, 1fr)" : "repeat(2, 1fr)",
+    gap: "10px",
+    padding: "10px",
+  }}>
+      {topItems
+        .filter(
+          (item) =>
+            item.department?.toLowerCase() === "men-shoes" ||
+            item.department?.toLowerCase() === "women-shoes"
+        )
+        .map((item) => (
+          <div key={item.id} style={{ position: "relative", width: "100%", marginTop: "10px" }} >
+            <div className="topLabel" >Top</div>
+            <div >
+              <img
+                src={item.images?.[0]}
+                alt={item.name}
+                style={{height: isVerySmall ? "230px" : "300px",  width: "100%",objectFit: "contain",}}
+              />
+            </div>
+            <div >
+              <div >{item.name}</div>
+              <div >
+                {loading ? (
+                  <span>Loading...</span>
+                ) : error ? (
+                  <span>Error loading rating</span>
+                ) : (
+                  <span className="stars">⭐ {finalRating || "No Rating"}</span>
+                )}
+              </div>
+            </div>
+          </div>
+        ))}
+    </div>
+
+    {/* Top-Selling Items: Other */}
+    <div style={{
+    display: "grid",
+    gridTemplateColumns:
+      isVeryVerySmall ? "repeat(1, 1fr)" : "repeat(2, 1fr)",
+    gap: "10px",
+    padding: "10px",
+  }}>
+      {topItems
+        .filter(
+          (item) =>
+            item.department?.toLowerCase() !== "men-shoes" &&
+            item.department?.toLowerCase() !== "women-shoes"
+        )
+        .map((item) => (
+          <div key={item.id} style={{ position: "relative", width: "100%", marginTop: "10px" }} >
+            <div className="topLabel" >Top</div>
+            <div >
+              <img
+                src={item.images?.[0]}
+                alt={item.name}
+                style={{height: isVerySmall ? "230px" : "300px",  width: "100%",objectFit: "contain",}}
+              />
+            </div>
+            <div >
+              <div >{item.name}</div>
+              <div >
+                {loading ? (
+                  <span>Loading...</span>
+                ) : error ? (
+                  <span>Error loading rating</span>
+                ) : (
+                  <span className="stars">⭐ {finalRating || "No Rating"}</span>
+                )}
+              </div>
+            </div>
+          </div>
+        ))}
+    </div>
+  </div>
+)}
+
 
 
             {/* Footer Video
