@@ -297,8 +297,8 @@ function Theme1() {
 
     {/* Best Seller Section */}
     {bestSeller && (
-      <div style={{ marginTop: "20px", display: (isTablet) ? "grid" : "block", gridTemplateColumns: (isTablet) ? "1fr 2fr" : "", width: (isTablet) ? "100%" : "" }}>
-        <div  style={{width:(isTablet) ? "400px" : "100%", height: (isTablet) ? "300px" : "300px"}}>
+      <div style={{ marginTop: "20px", display: (isTablet) ? "grid" : (isVeryVerySmall) ? "" : "grid", gridTemplateColumns: (isTablet) ? "1fr 2fr" : "1fr 1fr", width: (isTablet) ? "100%" : "", margin: "1rem" }}>
+        <div  style={{width:(isTablet) ? "400px" : "100%", height: (isTablet) ? "300px" : "300px", position: "relative"}}>
           {bestSeller.item.videos?.length > 0 ? (
             <div style={{cursor: "pointer"}} onClick={() => navigate(`/product/${bestSeller.id}`)}>
             <video autoPlay muted loop playsInline controls style={{ width: "100%", height: "100%", objectFit: "cover" }}>
@@ -314,7 +314,7 @@ function Theme1() {
           )}
         </div>
 
-        <div onClick={() => navigate(`/product/${bestSeller.id}`)} style={{ padding: "10px 0",  position: "relative", width: "100%", marginTop: "10px" , cursor: "pointer" }}>
+        <div onClick={() => navigate(`/product/${bestSeller.id}`)} style={{ position: "relative", width: "100%", cursor: "pointer" }}>
           <img
             src={bestSeller.item.images[0]}
             alt={bestSeller.item.name}
