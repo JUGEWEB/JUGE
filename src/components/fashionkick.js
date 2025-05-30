@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "./woFashion.css";
 import { useNavigate } from "react-router-dom";
-import RecommendedItem from "./personalRecommend";
+import RecommendedItem from "./recomendeItem";
 
 const BASE_URLs = "https://api.malidag.com";
 const BASE_URL = "https://api.malidag.com";
@@ -89,7 +89,8 @@ function FashionKick() {
   if (loading) return <div className="loading-message">Loading FashionKick Items...</div>;
 
   return (
-    <div className="personal-care-container">
+    <div>
+   
       <h2 className="personal-care-title">Fashion kick</h2>
 
       <div className="beauty-category">
@@ -134,26 +135,26 @@ function FashionKick() {
           scrollbarWidth: "none"
         }}
       >
-        {Object.entries(types).flatMap(([type, genres]) =>
-          Object.keys(genres).map((genre, idx) => (
-            <div
-              key={idx}
-             
-              style={{
-                flex: "0 0 auto",
-                background: "#f0f0f0",
-                padding: "10px 20px",
-                borderRadius: "8px",
-                cursor: "pointer",
-                fontWeight: "bold",
-                color: "#333",
-                whiteSpace: "nowrap"
-              }}
-            >
-              Top {type}
-            </div>
-          ))
-        )}
+       {Object.entries(types).flatMap(([type, genres]) =>
+  Object.keys(genres).map((genre) => (
+    <div
+      key={`${type}-${genre}`}  // ✅ Unique key
+      style={{
+        flex: "0 0 auto",
+        background: "#f0f0f0",
+        padding: "10px 20px",
+        borderRadius: "8px",
+        cursor: "pointer",
+        fontWeight: "bold",
+        color: "#333",
+        whiteSpace: "nowrap"
+      }}
+    >
+      Top {type}
+    </div>
+  ))
+)}
+
       </div>
 
       <div
@@ -217,9 +218,10 @@ function FashionKick() {
           ))}
       </div>
 
-      <div style={{ width: "100%" }}>
-        <RecommendedItem />
-      </div>
+     
+       
+  <RecommendedItem />
+    
     </div>
   );
 }
