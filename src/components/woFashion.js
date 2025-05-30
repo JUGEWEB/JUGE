@@ -219,8 +219,9 @@ function WoFashion() {
 </div>
 
 
-
+<div style={{width: "100%"}}>
       < RecommendedItem />
+      </div>
     </div>
   );
 }
