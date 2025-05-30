@@ -118,21 +118,34 @@ function Theme1Department() {
                 {loading && <p className="loadingMessage">Loading items...</p>}
                 {error && <p className="errorMessage">Error: {error}</p>}
 
-                <div className="itemsGrid">
+                <div  style={{
+  display: "grid",
+  gap: "5px",
+ 
+  padding: "5px",
+  gridTemplateColumns: "repeat(3, 1fr)",
+}}>
                     {items.map((item) => (
-                        <div key={item.id} className="itemCard">
-                            <img src={item.item.images[0]} alt={item.item.name} className="itemImage" />
-                            <div className="itemDetails">
-                                <h3 className="itemTitle">{item.item.name}</h3>
+                        <div key={item.id} >
+                            <div style={{filter: "brightness(0.9) contrast(1.2)", cursor: "pointer"}} onClick={() => navigate(`/product/${item.id}`, { state: { brandName } })}>
+                            <img src={item.item.images[0]} alt={item.item.name} style={{ width: "100%", height: "250px", backgroundColor: "white", objectFit: "contain"}} />
+                            </div>
+                            <div className="itemDetails"  onClick={() => navigate(`/product/${item.id}`, { state: { brandName } })}
+  style={{ cursor: "pointer" }}>
+                                <h3 className="itemTitle" style={{color: "black"}}>{item.item.name}</h3>
                                 <p className="itemPrice">Price: ${item.item.usdPrice}</p>
-                                <a
-                                    href={item.item.link}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="viewItemButton"
-                                >
-                                    View Item
-                                </a>
+                               <div
+  onClick={() => navigate(`/product/${item.id}`, { state: { brandName } })}
+  style={{
+    color: "#007bff",
+    textDecoration: "underline",
+    cursor: "pointer",
+    marginTop: "5px"
+  }}
+>
+  View
+</div>
+
                             </div>
                         </div>
                     ))}
@@ -144,41 +157,85 @@ function Theme1Department() {
         {!isDesktop && (
   <div style={{ padding: "10px", maxWidth: "100%", overflow: "hidden" }}>
     {/* Department List */}
-    <div>
+    <div style={{position: "relative"}}>
       <img src={brandDetails.logo} alt={`${brandName} Logo`} style={{ width: "150px" }} />
-      <div style={{display: "flex", alignItems: "center", justifyContent: "start", width: "100%", color: "black", marginLeft: "10px", overflowX: "auto", maxWidth: "100%"}}>
+      {/* Department Scroll Row */}
+   <div style={{ position: "relative" }}>
+  {/* This container floats above the rest */}
+  <div
+    style={{
+      position: "absolute",
+      top: 0,
+      width: "100%",
+      zIndex: 1000,
+      padding: "10px",
+     
+    }}
+  >
+    <div
+      style={{
+        display: "flex",
+        overflowX: "auto",
+        gap: "16px",
+        color: "black",
+      }}
+    >
       {departments.map((dep, index) => (
-        <div key={index} style={{margin: "10px", width: "100%"}} >
+        <div
+          key={index}
+          style={{
+            minWidth: "140px",
+            position: "relative", // required for dropdown inside
+            flexShrink: 0,
+          }}
+        >
           <div
             onClick={() =>
               setExpandedDeptIndex(expandedDeptIndex === index ? null : index)
             }
             style={{
               fontWeight: "bold",
-              padding: "5px",
-              background: "#f5f5f5",
-              border: "1px solid #ddd",
               cursor: "pointer",
-              width: "100%",
-              borderRadius: "10px",
+              textAlign: "center",
+              border: "1px solid #222",
+              borderRadius: "4px",
+              padding: "8px",
+             
             }}
           >
             {dep.name}
           </div>
+
+          {/* Dropdown appears on top of lower content */}
           {expandedDeptIndex === index && (
-            <div style={{ paddingLeft: "15px" }}>
+            <div
+              style={{
+               
+                top: "100%",
+                left: 0,
+                width: "100%",
+                background: "white",
+                border: "1px solid #ccc",
+                boxShadow: "0px 4px 8px rgba(0,0,0,0.1)",
+                maxHeight: "300px",
+                overflowY: "auto",
+              
+              }}
+            >
               {dep.brandTypes.map((brand, bIndex) => (
                 <div
                   key={bIndex}
                   onClick={() =>
-                    navigate(`/${brandDetails.theme?.toLowerCase()}department?department=${dep.name}&brandType=${brand}`, {
-                      state: { brandName },
-                    })
+                    navigate(
+                      `/${brandDetails.theme?.toLowerCase()}department?department=${dep.name}&brandType=${brand}`,
+                      { state: { brandName } }
+                    )
                   }
                   style={{
-                    padding: "8px 5px",
+                    padding: "8px",
+                    borderBottom: "1px solid #eee",
+                    textAlign: "center",
                     cursor: "pointer",
-                    borderBottom: "1px solid #ccc"
                   }}
                 >
                   {brand}
@@ -189,12 +246,18 @@ function Theme1Department() {
         </div>
       ))}
     </div>
+  </div>
+</div>
+
+
 
     {/* Item Grid */}
+    <div style={{position: "relative", marginTop: "50px"}}>
     <div
      style={{
   display: "grid",
   gap: "5px",
+ 
   padding: "5px",
   gridTemplateColumns:
     isVerySmall
@@ -212,22 +275,23 @@ function Theme1Department() {
     >
       {items.map((item) => (
         <div key={item.id} style={{ padding: "10px" }}>
-            <div style={{ filter: "brightness(0.880000000) contrast(1.2)", width: "100%", height:(isVerySmall) ? "230px" :  "250px", backgroundColor: "white"}}>
+            <div style={{cursor: "pointer", filter: "brightness(0.880000000) contrast(1.2)", width: "100%", height:(isVerySmall) ? "230px" :  "250px", backgroundColor: "white"}}  onClick={() => navigate(`/product/${item.id}`, { state: { brandName } })}>
           <img
             src={item.item.images[0]}
             alt={item.item.name}
             style={{ width: "100%", height:(isVerySmall) ? "230px" :  "250px", objectFit: "contain" }}
           />
           </div>
-          <div style={{ marginTop: "10px", color: "black" }}>
-            <div>{item.item.name}</div>
+          <div style={{ marginTop: "10px", color: "black" }} onClick={() => navigate(`/product/${item.id}`, { state: { brandName } })}>
+            <div style={{cursor: "pointer"}}  >{item.item.name}</div>
             <div style={{ fontWeight: "bold" }}>${item.item.usdPrice}</div>
-            <a href={item.item.link} target="_blank" rel="noopener noreferrer">
+            <a  target="_blank" rel="noopener noreferrer">
               View
             </a>
           </div>
         </div>
       ))}
+      </div>
       </div>
     </div>
   </div>

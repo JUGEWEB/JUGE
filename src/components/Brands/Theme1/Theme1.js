@@ -129,7 +129,7 @@ function Theme1() {
             );
         })
         .map((item) => (
-            <div key={item.id} className="topItemCard">
+            <div key={item.id} className="topItemCard" style={{cursor: "pointer"}} onClick={() => navigate(`/product/${item.id}`)}>
                 <div className="topLabel">Top</div>
                 <div className="imageContainIm">
                     <img src={item.images?.[0]} alt={item.name} className="topItemImage" />
@@ -156,7 +156,7 @@ function Theme1() {
                     {bestSeller && (
                         <div className="bestSellerSection">
                             {bestSeller.item.videos?.length > 0 ? (
-                                <div className="videoContainer">
+                                <div style={{cursor: "pointer"}} className="videoContainer" onClick={() => navigate(`/product/${bestSeller.id}`)}>
                                     <video autoPlay muted loop playsInline controls>
                                         <source src={bestSeller?.item?.videos[0]} type="video/mp4" />
                                         Your browser does not support the video tag.
@@ -166,7 +166,7 @@ function Theme1() {
                                 <p>No video available</p>
                             )}
 
-                            <div className="bestSellerContainer">
+                            <div className="bestSellerContainer" onClick={() => navigate(`/product/${bestSeller.id}`)} style={{cursor: "pointer"}}>
                                 <img src={bestSeller.item.images[0]} alt={bestSeller.item.name} className="bestSellerImage" />
                                 <div className="bestSellerBadge">Best Seller</div>
                                 <div className="bestSellerTitle">{bestSeller.item.name}</div>
@@ -185,7 +185,7 @@ function Theme1() {
             );
         })
         .map((item) => (
-            <div key={item.id} className="topItemCard">
+            <div key={item.id} className="topItemCard" style={{cursor: "pointer"}} onClick={() => navigate(`/product/${item.id}`)}>
                 <div className="topLabel">Top</div>
                 <div className="imageContainIm">
                     <img src={item.images?.[0]} alt={item.name} className="topItemImage" />
@@ -300,6 +300,7 @@ function Theme1() {
       <div style={{ marginTop: "20px", display: (isTablet) ? "grid" : "block", gridTemplateColumns: (isTablet) ? "1fr 2fr" : "", width: (isTablet) ? "100%" : "" }}>
         <div  style={{width:(isTablet) ? "400px" : "100%", height: (isTablet) ? "300px" : "300px"}}>
           {bestSeller.item.videos?.length > 0 ? (
+            <div style={{cursor: "pointer"}} onClick={() => navigate(`/product/${bestSeller.id}`)}>
             <video autoPlay muted loop playsInline controls style={{ width: "100%", height: "100%", objectFit: "cover" }}>
               <source
                 src={bestSeller.item.videos[0]}
@@ -307,12 +308,13 @@ function Theme1() {
               />
               Your browser does not support the video tag.
             </video>
+            </div>
           ) : (
             <p>No video available</p>
           )}
         </div>
 
-        <div style={{ padding: "10px 0",  position: "relative", width: "100%", marginTop: "10px"  }}>
+        <div onClick={() => navigate(`/product/${bestSeller.id}`)} style={{ padding: "10px 0",  position: "relative", width: "100%", marginTop: "10px" , cursor: "pointer" }}>
           <img
             src={bestSeller.item.images[0]}
             alt={bestSeller.item.name}
@@ -344,7 +346,7 @@ function Theme1() {
             item.department?.toLowerCase() === "women-shoes"
         )
         .map((item) => (
-          <div key={item.id} style={{ position: "relative", width: "100%", marginTop: "10px" }} >
+          <div onClick={() => navigate(`/product/${item.id}`)} key={item.id} style={{ position: "relative", width: "100%", marginTop: "10px", cursor: "pointer" }} >
             <div className="topLabel" >Top</div>
             <div >
               <img
@@ -384,7 +386,7 @@ function Theme1() {
             item.department?.toLowerCase() !== "women-shoes"
         )
         .map((item) => (
-          <div key={item.id} style={{ position: "relative", width: "100%", marginTop: "10px" }} >
+          <div onClick={() => navigate(`/product/${item.id}`)} key={item.id} style={{ position: "relative", width: "100%", marginTop: "10px", cursor: "pointer" }} >
             <div className="topLabel" >Top</div>
             <div >
               <img
