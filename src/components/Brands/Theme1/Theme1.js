@@ -297,10 +297,10 @@ function Theme1() {
 
     {/* Best Seller Section */}
     {bestSeller && (
-      <div style={{ marginTop: "20px", display: (isTablet) ? "grid" : (isVeryVerySmall) ? "" : "grid", gridTemplateColumns: (isTablet) ? "1fr 2fr" : "1fr 1fr", width: (isTablet) ? "100%" : "", margin: "1rem" }}>
+      <div style={{ marginTop: "20px", display: (isTablet) ? "grid" : (isVeryVerySmall || isVerySmall) ? "" : "grid", gridTemplateColumns: (isTablet) ? "1fr 2fr" : "1fr 1fr", width: (isTablet) ? "100%" : "", margin: "1rem" }}>
         <div  style={{width:(isTablet) ? "400px" : "100%", height: (isTablet) ? "300px" : "300px", position: "relative"}}>
           {bestSeller.item.videos?.length > 0 ? (
-            <div style={{cursor: "pointer"}} onClick={() => navigate(`/product/${bestSeller.id}`)}>
+            <div style={{cursor: "pointer", marginBottom:(isVeryVerySmall || isVerySmall) ? "0px" : "", width: (isVeryVerySmall || isVerySmall) ? "100%" : "auto", height: (isVeryVerySmall || isVerySmall) ? "300px" : "auto"}} onClick={() => navigate(`/product/${bestSeller.id}`)}>
             <video autoPlay muted loop playsInline controls style={{ width: "100%", height: "100%", objectFit: "cover" }}>
               <source
                 src={bestSeller.item.videos[0]}
@@ -322,7 +322,7 @@ function Theme1() {
               width: "100%",
               height: isVerySmall ? "230px" : "300px",
               objectFit: "contain",
-              marginTop: "10px",
+              marginTop: "0px",
             }}
           />
           <div className="bestSellerBadge">Best Seller</div>
