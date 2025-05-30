@@ -1,198 +1,162 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "./woFashion.css";
-import { useNavigate } from "react-router-dom"; // Import useNavigate
+import { useNavigate } from "react-router-dom";
 import RecommendedItem from "./personalRecommend";
 
-const BASE_URLs = "https://api.malidag.com"; // Replace with the new API URL for categories (the server you provided)
-const BASE_URL = "https://api.malidag.com"; // Replace with your actual API URL
-const CRYPTO_URL = "https://api.malidag.com/crypto-prices"; // Your crypto prices endpoint
+const BASE_URLs = "https://api.malidag.com";
+const BASE_URL = "https://api.malidag.com";
+const CRYPTO_URL = "https://api.malidag.com/crypto-prices";
 
 function MenFashion() {
   const [types, setTypes] = useState({});
-  const [mtypes, setMTypes] = useState({})
+  const [mtypes, setMTypes] = useState({});
   const [cryptoPrices, setCryptoPrices] = useState({});
   const [loading, setLoading] = useState(true);
-  const navigate = useNavigate(); // Initialize navigate
+  const navigate = useNavigate();
 
   useEffect(() => {
-    // Fetch types and images for the Beauty category
-    const fetchBeautyItems = async () => {
+    const fetchMenFashionTypes = async () => {
       try {
-        const response = await axios.get(`${BASE_URLs}/categories/MenFashion`);
-        const data = response.data; // Should return the array of types with images
-
-        setMTypes(data); // Update state with the types and images
+        const res = await axios.get(`${BASE_URLs}/categories/MenFashion`);
+        setMTypes(res.data);
       } catch (error) {
-        console.error("Error fetching Beauty category items:", error);
+        console.error("Error fetching men fashion types:", error);
       } finally {
         setLoading(false);
       }
     };
-
-    fetchBeautyItems();
-}, []);
-
-  useEffect(() => {
-    const fetchBeautyItems = async () => {
-      try {
-        const response = await axios.get(`${BASE_URL}/items`);
-        const data = response.data.items;
-
-    // Filter items where genre includes "women" and category is not "Beauty"
-    const filteredData = data.filter(
-        (item) =>
-          item.item.genre.includes("men") && item.category !== "Beauty"
-      );
-
-      // Group filtered items by type
-      const groupedData = filteredData.reduce((acc, item) => {
-        const type = item.item.type || "Other"; // Use "Other" if type is missing
-        if (!acc[type]) acc[type] = [];
-        acc[type].push(item);
-        return acc;
-      }, {});
-
-      setTypes(groupedData);
-    } catch (error) {
-      console.error("Error fetching items:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-    fetchBeautyItems();
-
-     // Fetch crypto prices
-     const fetchCryptoPrices = async () => {
-        try {
-          const response = await axios.get(CRYPTO_URL);
-          setCryptoPrices(response.data);
-        } catch (error) {
-          console.error("Error fetching crypto prices:", error);
-        }
-      };
-  
-      fetchCryptoPrices();
-       // Optionally, refresh crypto prices at intervals
-    const intervalId = setInterval(fetchCryptoPrices, 5000); // Refresh every 5 seconds
-    return () => clearInterval(intervalId); // Cleanup interval on unmount
+    fetchMenFashionTypes();
   }, []);
 
-  const renderStars = (rating) => {
-    const stars = Array.from({ length: 5 }, (_, index) => (
-      <span
-        key={index}
-        className={`star ${index < rating ? "filled" : "empty"}`}
-      >
-        ★
-      </span>
-    ));
-    return <div className="stars-container">{stars}</div>;
-  };
+  useEffect(() => {
+    const fetchItems = async () => {
+      try {
+        const res = await axios.get(`${BASE_URL}/items`);
+        const menItems = res.data.items.filter(
+          (item) => item.item.genre.includes("men") && item.category !== "Beauty"
+        );
 
-  const convertToCrypto = (usdPrice, cryptocurrency) => {
-    if (!cryptoPrices[cryptocurrency]) return null;
-    return (usdPrice / cryptoPrices[cryptocurrency]).toFixed(2);
-  };
+        const grouped = menItems.reduce((acc, item) => {
+          const type = item.item.type || "Other";
+          if (!acc[type]) acc[type] = [];
+          acc[type].push(item);
+          return acc;
+        }, {});
 
-  const getCryptoIcon = (cryptocurrency) => {
-    const cryptoIcons = {
-        USDT: "https://cryptologos.cc/logos/tether-usdt-logo.png",
-        ETH: "https://cryptologos.cc/logos/ethereum-eth-logo.png",
-        BNB: "https://cryptologos.cc/logos/binance-coin-bnb-logo.png",
-        SOL: "https://cryptologos.cc/logos/solana-sol-logo.png",
-        BUSD: "https://cryptologos.cc/logos/binance-usd-busd-logo.png",
-        USDC: "https://cryptologos.cc/logos/usd-coin-usdc-logo.png", // Updated URL
+        setTypes(grouped);
+      } catch (err) {
+        console.error("Error fetching items:", err);
+      }
     };
-    return cryptoIcons[cryptocurrency] || "/crypto-icons/default.png";
+
+    const fetchCryptoPrices = async () => {
+      try {
+        const res = await axios.get(CRYPTO_URL);
+        setCryptoPrices(res.data);
+      } catch (err) {
+        console.error("Crypto price fetch failed:", err);
+      }
+    };
+
+    fetchItems();
+    fetchCryptoPrices();
+
+    const interval = setInterval(fetchCryptoPrices, 5000);
+    return () => clearInterval(interval);
+  }, []);
+
+  const convertToCrypto = (usd, crypto) => {
+    return cryptoPrices[crypto] ? (usd / cryptoPrices[crypto]).toFixed(2) : null;
   };
 
-  if (loading) return <div className="loading-message">Loading Beauty Items...</div>;
-
-  // Handle item click to navigate to product details page
   const handleItemClick = (id) => {
-    if (id) {
-      navigate(`/product/${id}`); // Navigate to the product details page
-    }
+    navigate(`/product/${id}`);
   };
+
+  if (loading) return <div className="loading-message">Loading Men Fashion...</div>;
 
   return (
     <div className="personal-care-container">
-      <h2 className="personal-care-title">Women fashion</h2>
-      <div>
-          {/* Display categories and images */}
-      <div className="beauty-category">
-        {Object.values(mtypes).length === 0 ? (
-          <div>No types found for Beauty category</div>
-        ) : (
-          Object.values(mtypes).map((typeObj, index) => (
-            <div key={index} className="type-section">
-             
-              <div className="type-image-id">
-                <img
-                  src={typeObj.image}
-                  alt={typeObj.type}
-                  className="type-image-imgid"
-                />
-              </div>
-              <h3 className="type-title"style={{color: 'green', fontSize: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', marginLeft: '20px'}}>{typeObj.type}</h3>
-            </div>
-          ))
-        )}
-      </div>
-      </div>
-
-      {Object.entries(types).map(([type, items]) => (
-        <div className="type-secti" key={type}>
-          <h3 className="type-tit" style={{display: 'flex', }}>{type} Top topic <div style={{marginLeft: '10px', fontSize: '14px', fontWeight: 'bold', color: 'green', marginTop: '10px', cursor: 'pointer'}}>see more</div></h3>
-          <div className="items-contain">
-            {items.map(({ id, item }) => (
-                <div className="c">
-                <div className="ca">
-              <div className="item-ca" key={id}>
-                <img
-                  src={item.images[0]}
-                  alt={item.name}
-                  className="item-ima"
-                  onClick={() => handleItemClick(id)} // Pass the correct id
-                />
-                  
-              </div>
-             
-              <div  onClick={() => handleItemClick(id)}  className="item-">
-                <div style={{display: 'flex', alignItems: 'center'}}>
-              <div className="item-pri">${item.usdPrice}</div>
-              <div className="item-crypto-pri">
-            
-                    {convertToCrypto(item.usdPrice, item.cryptocurrency)
-                      ? `${convertToCrypto(item.usdPrice, item.cryptocurrency)} ${item.cryptocurrency}`
-                      : "Loading..."}
-
-                    <img
-                      src={getCryptoIcon(item.cryptocurrency)}
-                      alt={item.cryptocurrency}
-                      className="crypto-icon"
-                    />
-                  </div>
-                  </div>
-              {item.name.length > 150
-                ? `${item.name.substring(0, 150)}...`
-                : item.name}
-                 <div className="item-rating">
-                    {renderStars(item.rating || 0)} {/* Default rating: 0 */}
-                  </div>
-            </div>
-            </div>
-           
-            </div>
-            
-            ))}
+      {/* Horizontal scroll of types */}
+      <div
+        style={{
+          display: "flex",
+          overflowX: "auto",
+          gap: "12px",
+          padding: "10px 15px",
+          marginBottom: "20px",
+          scrollbarWidth: "none",
+        }}
+        className="top-type-scroll"
+      >
+        {Object.keys(types).map((type, idx) => (
+          <div
+            key={idx}
+            onClick={() => navigate(`/men-top-topic/${type.toLowerCase()}`)}
+            style={{
+              flex: "0 0 auto",
+              background: "#f0f0f0",
+              padding: "10px 20px",
+              borderRadius: "8px",
+              cursor: "pointer",
+              fontWeight: "bold",
+              color: "#333",
+              whiteSpace: "nowrap",
+            }}
+          >
+            Top {type}
           </div>
-        </div>
-       
-      ))}
-      < RecommendedItem />
+        ))}
+      </div>
+
+      {/* Product grid */}
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fill, minmax(160px, 1fr))",
+          gap: "12px",
+          padding: "10px 15px",
+        }}
+      >
+        {Object.values(types).flat().map(({ id, item }) => (
+          <div
+            key={id}
+            onClick={() => handleItemClick(id)}
+            style={{
+              background: "#fff",
+              padding: "10px",
+              border: "1px solid #eee",
+              borderRadius: "8px",
+              cursor: "pointer",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
+            <img
+              src={item.images[0]}
+              alt={item.name}
+              style={{
+                width: "100%",
+                height: "180px",
+                objectFit: "contain",
+                marginBottom: "8px",
+              }}
+            />
+            <div style={{ fontWeight: "bold", fontSize: "14px", marginBottom: "4px", color: "#333" }}>
+              ${item.usdPrice}
+            </div>
+            <div style={{ fontSize: "12px", color: "#555", textAlign: "center" }}>
+              {item.name.length > 60 ? `${item.name.substring(0, 60)}...` : item.name}
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <div style={{ width: "100%" }}>
+        <RecommendedItem />
+      </div>
     </div>
   );
 }
