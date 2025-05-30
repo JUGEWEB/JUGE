@@ -134,7 +134,6 @@ function WoFashion() {
 
   return (
     <div className="personal-care-container">
-      <h2 className="personal-care-title">Women fashion</h2>
       <div>
           {/* Display categories and images */}
       <div className="beauty-category">
@@ -159,55 +158,68 @@ function WoFashion() {
       </div>
       </div>
 
-      {Object.entries(types).map(([type, items]) => (
-        <div className="type-secti" key={type}>
-          <h3 className="type-tit" style={{display: 'flex', }}>{type} Top topic <div style={{marginLeft: '10px', fontSize: '14px', fontWeight: 'bold', color: 'green', marginTop: '10px', cursor: 'pointer'}} onClick={() => navigate(`/women-top-topic/${type.toLowerCase()}`)}>see more</div></h3>
-          <div className="items-contain">
-            {items.map(({ id, item }) => (
-                <div className="c">
-                <div className="ca">
-              <div className="item-ca" key={id}>
-                <img
-                  src={item.images[0]}
-                  alt={item.name}
-                  className="item-ima"
-                  onClick={() => handleItemClick(id)} // Pass the correct id
-                />
-                  
-              </div>
-             
-              <div   onClick={() => handleItemClick(id)}  className="item-">
-                <div style={{display: 'flex', alignItems: 'center'}}>
-              <div className="item-pri">${item.usdPrice}</div>
-              <div className="item-crypto-pri">
-            
-                    {convertToCrypto(item.usdPrice, item.cryptocurrency)
-                      ? `${convertToCrypto(item.usdPrice, item.cryptocurrency)} ${item.cryptocurrency}`
-                      : "Loading..."}
+    {/* Horizontal scroll of type names (Top Topics) */}
+<div style={{
+  display: 'flex',
+  overflowX: 'auto',
+  gap: '16px',
+  padding: '10px',
+  marginBottom: '20px'
+}}>
+  {Object.keys(types).map((type, index) => (
+    <div
+      key={index}
+      onClick={() => navigate(`/women-top-topic/${type.toLowerCase()}`)}
+      style={{
+        flex: '0 0 auto',
+        background: '#f0f0f0',
+        padding: '10px 20px',
+        borderRadius: '8px',
+        cursor: 'pointer',
+        fontWeight: 'bold',
+        color: '#333',
+        whiteSpace: 'nowrap'
+      }}
+    >
+      Top {type}
+    </div>
+  ))}
+</div>
 
-                    <img
-                      src={getCryptoIcon(item.cryptocurrency)}
-                      alt={item.cryptocurrency}
-                      className="crypto-icon"
-                    />
-                  </div>
-                  </div>
-              {item.name.length > 150
-                ? `${item.name.substring(0, 150)}...`
-                : item.name}
-                 <div className="item-rating">
-                    {renderStars(item.rating || 0)} {/* Default rating: 0 */}
-                  </div>
-            </div>
-            </div>
-           
-            </div>
-            
-            ))}
-          </div>
-        </div>
-       
-      ))}
+{/* All images grid (merged across types) */}
+<div style={{
+  display: 'grid',
+  gridTemplateColumns: 'repeat(auto-fill, minmax(160px, 1fr))',
+  gap: '12px',
+  padding: '10px'
+}}>
+  {Object.values(types).flat().map(({ id, item }) => (
+    <div
+      key={id}
+      onClick={() => handleItemClick(id)}
+      style={{
+        background: '#fff',
+        padding: '10px',
+        border: '1px solid #eee',
+        borderRadius: '6px',
+        cursor: 'pointer'
+      }}
+    >
+      <img
+        src={item.images[0]}
+        alt={item.name}
+        style={{ width: '100%', height: '160px', objectFit: 'contain', marginBottom: '8px' }}
+      />
+      <div style={{ fontWeight: 'bold', fontSize: '14px', marginBottom: '4px' }}>${item.usdPrice}</div>
+      <div style={{ fontSize: '12px', color: '#555' }}>
+        {item.name.length > 50 ? `${item.name.substring(0, 50)}...` : item.name}
+      </div>
+    </div>
+  ))}
+</div>
+
+
+
       < RecommendedItem />
     </div>
   );
