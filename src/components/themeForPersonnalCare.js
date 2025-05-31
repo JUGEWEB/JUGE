@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import useScreenSize from './useIsMobile';
 import personalCareThemes from './personnalCareThemes'; // ✅ Correctly imported theme data
+import { useNavigate } from 'react-router-dom'; // ✅ Import navigate
 
 const ThemeForPersonnalCare = () => {
   const { isDesktop, isMobile, isSmallMobile, isTablet, isVerySmall } = useScreenSize();
   const [loadedImages, setLoadedImages] = useState({});
+  const navigate = useNavigate(); // ✅ Initialize navigate
 
   useEffect(() => {
     personalCareThemes.forEach((theme) => {
@@ -49,10 +51,11 @@ const ThemeForPersonnalCare = () => {
         alignItems: "center",
       }}>
         {personalCareThemes.map((theme) => (
-          <div key={theme.id} style={{
+          <div key={theme.id} onClick={() => navigate(`/items/${encodeURIComponent(theme.type)}`)} style={{
             width:(isSmallMobile || isVerySmall) ? "100%" : '100px',
             textAlign: 'center',
             minHeight: '100%',
+              
           }}>
             <img
               src={theme.url}
@@ -82,7 +85,7 @@ const ThemeForPersonnalCare = () => {
         ))}
       </div>
 
-      <div style={{
+      <div onClick={() => navigate('/personal')}  style={{
         fontSize: '0.8rem',
         fontWeight: 'bold',
         color: 'blue',

@@ -1,5 +1,6 @@
 .personal-care-container {
-    margin: 20px;
+    margin: 0px;
+    width: 100%;
     font-family: Arial, sans-serif;
   }
   
@@ -40,31 +41,24 @@
   }
   
   .items-contain {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0px;
-    justify-content: start;
+    display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(2, 1fr); /* default: 2 columns */
+  padding: 10px 0;
   }
-  
-  .item-ca {
-    width: 235px;
-    
-    background: #dddddd53;
-    height: 260px;
-    overflow: hidden;
-   
-    transition: transform 0.3s ease;
-    align-items: center;
-    margin-bottom: 10px;
-   
+
+  @media (min-width: 768px) {
+  .items-contain {
+    grid-template-columns: repeat(3, 1fr); /* 3 columns on tablets/desktop */
   }
+}
   
   .item-ima {
-    width: 235px;
+   
     height: 240px;
     object-fit: cover;
     align-items: center;
-    object-fit: cover;
+    object-fit: contain;
     margin-top: 10px;
    cursor: pointer;
   }
@@ -90,9 +84,6 @@
     color: black;
     background-color: white;
    
-    max-width: 235px;
-    max-height: 200px;
-    height: 150px;
     margin: 0 !important;
     cursor: pointer;
    
@@ -179,33 +170,19 @@
 
   }
 
-  .type-image-img{
-    width: 200px;
-    height: 200px;
-    border-radius: 50%;
-    object-fit: cover;
-    align-items: center;
-   
-  }
+  
 
   .type-image-i{
     background-color: #ccc;
-    max-width: 200px;
-    height: 200px;
-    border-radius: 100px;
-    align-items: center;
-    justify-content: center;
-    display: flex;
-    flex-wrap: wrap;
-    object-fit: cover;
   }
 
   .beauty-category{
     display: flex;
-    margin: 20px;
+    width: 100%;
+    margin: 0px;
     flex-wrap: wrap;
     align-items: center;
-    justify-content: center;
+    justify-content: end;
 
   }
 
