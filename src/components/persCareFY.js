@@ -129,7 +129,7 @@ function PersonalCare() {
   return (
     <div className="personal-care-container">
       <h2 className="personal-care-title">Malidag Beauty</h2>
-      <div>
+      <div style={{width: "100%", alignItems: "center", display: "flex", justifyContent: "center"}}>
           {/* Display categories and images */}
       <div className="beauty-category">
         {Object.values(mtypes).length === 0 ? (
@@ -187,27 +187,27 @@ function PersonalCare() {
 
 
      {Object.entries(types).map(([type, items]) => (
-  <div key={type}>
+  <div key={type} style={{margin: "10px"}}>
     <h3 style={{ marginBottom: "10px", fontWeight: "bold" }}>{type} Top Items</h3>
 
     <div
       style={{
         display: "grid",
-        gap: "12px",
-        padding: "10px 0",
+        gap: "5px",
+        padding: "0px 0",
         gridTemplateColumns: isDesktop || isTablet ? "repeat(3, 1fr)" : "repeat(2, 1fr)",
       }}
     >
       {items.slice(0, 5).map(({ id, item }) => (
-        <div key={id} style={{ background: "#fff", borderRadius: "6px", overflow: "hidden", border: "1px solid #eee" }}>
-          <div>
+        <div key={id} style={{ background: "#fff", overflow: "hidden",  }}>
+          <div style={{filter: "brightness(0.880000000) contrast(1.2)", backgroundColor: "white"}}>
             <img
               src={item.images[0]}
               alt={item.name}
               onClick={() => handleItemClick(id)}
               style={{
                 width: "100%",
-                height: (isDesktop || isTablet) ? "200px" : "150px",
+                height: (isDesktop || isTablet) ? "200px" : "200px",
                 objectFit: "contain",
                 cursor: "pointer",
               }}
