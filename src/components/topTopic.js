@@ -96,12 +96,12 @@ function TopTopic() {
   };
 
   return (
-    <div className="top-topic-carou">
+    <div className="top-topic-caou">
       <div
   className="carousel-sli"
   style={{
     overflowX: (isMobile || isSmallMobile || isVerySmall || isTablet) ? 'auto' : 'hidden',
-    flexWrap: (isMobile || isSmallMobile || isVerySmall || isTablet) ? 'nowrap' : 'wrap',
+   
   }}
 >
 

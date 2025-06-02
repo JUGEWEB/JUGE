@@ -16,20 +16,26 @@ function InputSearch({ isBasketVisible, basketItems, user }) {
   const location = useLocation();
 
   const handleSearch = (searchTerm) => {
-    const userId = user?.uid || "guest";
+  const userId = user?.uid ; // fallback to 'guest' if user is not logged in
 
-    const searchEntry = {
-      userId: userId,
-      userSearch: searchTerm,
-    };
+  // 🚫 Skip API call if searchTerm is empty
+  if (!searchTerm.trim()) return;
 
-    axios
-      .post("https://api.malidag.com/search-item", searchEntry)
-      .then(() => console.log("Search saved successfully"))
-      .catch((error) => console.error("Error saving search:", error));
-
-    navigate(`/item/${searchTerm}`);
+  const searchEntry = {
+    userId,
+    userSearch: searchTerm,
   };
+
+  console.log("Sending to backend:", searchEntry); // 🔍 debugging
+
+  axios
+    .post("https://api.malidag.com/search-item", searchEntry)
+    .then(() => console.log("Search saved successfully"))
+    .catch((error) => console.error("Error saving search:", error));
+
+  navigate(`/item/${searchTerm}`);
+};
+
 
   const fetchItems = async () => {
     try {

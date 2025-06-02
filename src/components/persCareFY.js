@@ -138,13 +138,13 @@ function PersonalCare() {
           Object.values(mtypes).map((typeObj, index) => (
             <div key={index} style={{margin: "10px"}} >
              
-              <div className="type-image-i" style={{width: (isDesktop || isTablet) ? "200px" : "150px", height: (isDesktop || isTablet) ? "200px" : "150px", borderRadius: (isDesktop || isTablet) ? "200px" : "150px", overflow: "hidden"}}>
+              <div className="type-image-i" style={{width: (isDesktop || isTablet) ? "200px" : "100px", height: (isDesktop || isTablet) ? "200px" : "100px", borderRadius: (isDesktop || isTablet) ? "200px" : "100px", overflow: "hidden"}}>
                 <img
                   src={typeObj.image}
                   alt={typeObj.type}
                  
                   onClick={() => handleCategoryClick(typeObj.type)}
-                  style={{width: "100%", height: (isDesktop || isTablet) ? "200px" : "150px", objectFit: "contain"}}
+                  style={{width: "100%", height: (isDesktop || isTablet) ? "200px" : "100px", objectFit: "contain"}}
                 />
               </div>
               <h3 className="type-title"style={{color: 'green', fontSize: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>{typeObj.type}</h3>

@@ -33,6 +33,9 @@ import { useQuery } from '@tanstack/react-query'; // 👈 Import useQuery
 import { Helmet } from "react-helmet";
 import ThemeForWomenFashion from "./themeForWomenFashion";
 import ThemeForHomeAndKitchen from "./themeForHomeAndKitchen";
+import MalidagCategories3 from "./malidagCategory3";
+import ThemeForKidsFashion from "./themeForKidFashion";
+import ThemeForKidToy from "./themeForKidsToy";
 
 
 const ITEMS_PER_SLIDE = 6; // Number of items to display per slide
@@ -155,6 +158,22 @@ const Malidag = ({ user, gra, slides }) => {
                   
                     </div>
                   )}
+
+                  {(isSmallMobile || isVerySmall) && (
+                    <div style={{width: "100%", display: "flex", alignItems: "center", justifyContent: "center", marginTop: "2px"}}>
+                      
+                    <ThemeForKidsFashion/>
+                  
+                    </div>
+                  )}
+
+                  {(isSmallMobile || isVerySmall) && (
+                    <div style={{width: "100%", display: "flex", alignItems: "center", justifyContent: "center", marginTop: "2px"}}>
+                      
+                    <ThemeForKidToy/>
+                  
+                    </div>
+                  )}
            </div>
 
                   {(isSmallMobile || isVerySmall) && brandCount > 0 && (
@@ -198,7 +217,7 @@ const Malidag = ({ user, gra, slides }) => {
   </div>
 </div>
        
-        
+        <MalidagCategories3/>
         <div >
         <RecommendedItem />
         </div>

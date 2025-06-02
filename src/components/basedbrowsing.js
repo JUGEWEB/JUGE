@@ -1,30 +1,19 @@
 import React, { useState, useEffect } from "react";
 import "./recomendedItem.css";
-import { useNavigate } from "react-router-dom"; // Import useNavigate for navigation
+import { useNavigate } from "react-router-dom";
 
-const BASE_URL = "https://api.malidag.com"; // Replace with your actual API URL
-const BASE_URLs = "https://api.malidag.com"; // Replace with your actual API URL
+const BASE_URL = "https://api.malidag.com";
 
 function Browsing({ user }) {
   const [userSearchHistory, setUserSearchHistory] = useState([]);
   const [suggestedItems, setSuggestedItems] = useState([]);
   const [cryptoPrices, setCryptoPrices] = useState({});
-  const [expandedItemId, setExpandedItemId] = useState(null); // Track expanded item
-  const [loading, setLoading] = useState(true); // Loading state
-  const stars = Math.floor(Math.random() * 5) + 1; // Random stars for now
-  const navigate = useNavigate(); // Initialize the useNavigate hook
+  const [expandedItemId, setExpandedItemId] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const stars = Math.floor(Math.random() * 5) + 1;
+  const navigate = useNavigate();
 
-  // Fetch cryptocurrency prices
-  const fetchCryptoPrices = async (symbols) => {
-    try {
-      const response = await fetch(`${BASE_URLs}/crypto-prices`);
-      const prices = await response.json();
-      setCryptoPrices(prices);
-    } catch (error) {
-      console.error("Error fetching crypto prices:", error);
-    }
-  };
-
+  // Fetch user search history
   useEffect(() => {
     const fetchUserSearchHistory = async () => {
       try {
@@ -36,20 +25,30 @@ function Browsing({ user }) {
       }
     };
 
+    if (user?.uid) {
+      fetchUserSearchHistory();
+    }
+  }, [user?.uid]);
+
+  // Fetch suggested items and crypto prices after history is available
+  useEffect(() => {
     const fetchSuggestedItems = async () => {
       try {
         const response = await fetch(`${BASE_URL}/items`);
         const data = await response.json();
 
-        // Extract categories from search history
-        const searchedCategories = userSearchHistory.map((search) =>
-          search.search?.toLowerCase()
+        const terms = userSearchHistory.map(s => s.search.toLowerCase());
+
+        const matchedItems = data.items.filter(item =>
+          terms.some(term =>
+            item.item.name?.toLowerCase().includes(term) ||
+            item.item.type?.toLowerCase().includes(term) ||
+            item.category?.toLowerCase().includes(term) ||
+            item.item.theme?.toLowerCase().includes(term)
+          )
         );
 
-        // Filter items based on search history categories
-        const matchedItems = data.items.filter((item) =>
-          searchedCategories.includes(item.category?.toLowerCase())
-        );
+        setSuggestedItems(matchedItems);
 
         const symbols = [
           ...new Set(
@@ -60,44 +59,41 @@ function Browsing({ user }) {
         ];
 
         await fetchCryptoPrices(symbols);
-
-        setSuggestedItems(matchedItems);
       } catch (error) {
         console.error("Error fetching suggested items:", error);
       } finally {
-        setLoading(false); // Stop loading after data fetch
+        setLoading(false);
       }
     };
 
-    if (user?.uid) {
-      fetchUserSearchHistory().then(() => {
-        if (userSearchHistory.length > 0) {
-          fetchSuggestedItems();
-        } else {
-          setLoading(false); // Stop loading if no search history
-        }
-      });
-    } else {
-      setLoading(false); // Stop loading if user not logged in
-    }
-  }, [user?.uid, userSearchHistory]);
+    const fetchCryptoPrices = async () => {
+      try {
+        const response = await fetch(`${BASE_URL}/crypto-prices`);
+        const prices = await response.json();
+        setCryptoPrices(prices);
+      } catch (error) {
+        console.error("Error fetching crypto prices:", error);
+      }
+    };
 
-  // Helper function to convert USD price to cryptocurrency price
+    if (userSearchHistory.length > 0) {
+      fetchSuggestedItems();
+    } else {
+      setLoading(false);
+    }
+  }, [userSearchHistory]);
+
   const convertToCrypto = (usdPrice, crypto) => {
-    if (!cryptoPrices[crypto]) return null; // If the price isn't available
-    const cryptoPrice = parseFloat(cryptoPrices[crypto]); // Price in USD per 1 unit of crypto
-    return (usdPrice / cryptoPrice).toFixed(2); // USD to crypto conversion
+    if (!cryptoPrices[crypto]) return null;
+    return (usdPrice / parseFloat(cryptoPrices[crypto])).toFixed(2);
   };
 
   const toggleDetails = (itemId) => {
-    setExpandedItemId(expandedItemId === itemId ? null : itemId); // Toggle view
+    setExpandedItemId(expandedItemId === itemId ? null : itemId);
   };
 
-  // Handle item click to navigate to product details page
   const handleItemClick = (id) => {
-    if (id) {
-      navigate(`/product/${id}`); // Navigate to the product details page
-    }
+    if (id) navigate(`/product/${id}`);
   };
 
   return (
@@ -111,14 +107,16 @@ function Browsing({ user }) {
             <div className="recommended-item" key={item.id}>
               <div className="rec-img">
                 <img
-                  src={item.item.images[0]} // Assuming the first image is the main image
+                  src={item.item.images[0]}
                   alt={item.item.name}
-                  onClick={() => handleItemClick(item.id)} // Attach the click handle
+                  onClick={() => handleItemClick(item.id)}
                   className="recommended-image"
                 />
               </div>
               <div className="recommended-info">
-                <p  onClick={() => handleItemClick(item.id)}  className="recommended-name">{item.item.name}</p>
+                <p className="recommended-name" onClick={() => handleItemClick(item.id)}>
+                  {item.item.name}
+                </p>
                 <div className="item-sta">
                   {"★".repeat(stars)}{"☆".repeat(5 - stars)}
                 </div>
@@ -126,10 +124,7 @@ function Browsing({ user }) {
                 <div style={{ display: "flex", alignItems: "center" }}>
                   <div className="recommended-price">
                     {item.item.usdPrice && item.item.cryptocurrency
-                      ? `${convertToCrypto(
-                          Number(item.item.usdPrice),
-                          item.item.cryptocurrency
-                        )} ${item.item.cryptocurrency}`
+                      ? `${convertToCrypto(item.item.usdPrice, item.item.cryptocurrency)} ${item.item.cryptocurrency}`
                       : "Price in crypto N/A"}
                   </div>
                   <div
@@ -147,9 +142,7 @@ function Browsing({ user }) {
                 {expandedItemId === item.id && (
                   <div className="recommended-pi">
                     {cryptoPrices[item.item.cryptocurrency]
-                      ? `1 ${item.item.cryptocurrency} = $${cryptoPrices[
-                          item.item.cryptocurrency
-                        ].toFixed(5)}`
+                      ? `1 ${item.item.cryptocurrency} = $${cryptoPrices[item.item.cryptocurrency].toFixed(5)}`
                       : "N/A"}
                   </div>
                 )}

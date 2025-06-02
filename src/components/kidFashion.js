@@ -119,7 +119,7 @@ function KidFashion() {
 
   return (
     <div className="personal-care-container">
-      <h2 className="personal-care-title">Fashion kick</h2>
+      <h2 className="personal-care-title">Kids fashion</h2>
       <div>
           {/* Display categories and images */}
       <div className="beauty-category">

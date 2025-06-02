@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import useScreenSize from './useIsMobile';
+import { useNavigate } from 'react-router-dom';
 
 const ThemeForPersonnalCare2 = () => {
   const [themes, setThemes] = useState([]);
   const { isDesktop, isMobile, isTablet } = useScreenSize();
+   const navigate = useNavigate(); // ✅ Initialize navigate
 
   useEffect(() => {
     const fetchThemes = async () => {
@@ -63,6 +65,7 @@ const ThemeForPersonnalCare2 = () => {
             textAlign: 'center',
           }}>
             <img
+            onClick={() => navigate(`/items/${encodeURIComponent(theme.types)}`)}
               src={theme.image}
               alt={theme.types?.[0] || 'Type'}
               style={{
@@ -70,6 +73,7 @@ const ThemeForPersonnalCare2 = () => {
                 height: '100px',
                 objectFit: 'cover',
                 marginTop: '1rem',
+                cursor: "pointer"
               }}
             />
             <div style={{
@@ -82,13 +86,14 @@ const ThemeForPersonnalCare2 = () => {
           </div>
         ))}
       </div>
-      <div style={{
+      <div onClick={() => navigate('/personal')} style={{
         fontSize: '0.8rem',
         fontWeight: 'bold',
         color: 'blue',
         marginTop: "5rem",
         textAlign: 'start',
-        textDecoration: "underline"
+        textDecoration: "underline",
+        cursor: "pointer"
       }}>
         Discover Now
       </div>

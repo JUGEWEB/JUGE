@@ -10,11 +10,12 @@ import ThemeForGamers from "./themeForGamers";
 import ThemeForWomenFashion from "./themeForWomenFashion";
 import ThemeForKidsFashion from "./themeForKidFashion";
 import ThemeForKidToy from "./themeForKidsToy";
+import ThemeForHomeAndKitchen from "./themeForHomeAndKitchen";
 
 const BASE_URL = "https://api.malidag.com";
 const BASE_URLs = "https://api.malidag.com";
 
-function MalidagCategories2({ user, auth }) {
+function MalidagCategories3({ user, auth }) {
   const [categories, setCategories] = useState([]);
   const [searchedItems, setSearchedItems] = useState([]);
   const navigate = useNavigate();
@@ -103,21 +104,25 @@ function MalidagCategories2({ user, auth }) {
 
   return (
     <div className="categories-container">
-       {(isDesktop) && (
-      <ThemeForGamers/>
-       )}
-        {(isDesktop) && (
-      <ThemeForWomenFashion/>
-       )}
-        {(isDesktop) && (
-      <ThemeForKidsFashion/>
-       )}
-        {(isDesktop) && (
-      <ThemeForKidToy/>
-       )}
+     {(isDesktop) && (
+      <ThemeForFashionKick2/>
+    )}
+      {(isDesktop) && (
+      <ThemeForMenFashion2/>
+    )}
+
+     {(isDesktop) && (
+      <div style={{marginLeft: "1rem"}}>
+      <ThemeForPersonnalCare2/>
+      </div>
+    )}
+
+     {(isDesktop) && (
+      <ThemeForHomeAndKitchen/>
+    )}
      
     </div>
   );
 }
 
-export default MalidagCategories2;
+export default MalidagCategories3;

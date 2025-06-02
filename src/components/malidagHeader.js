@@ -176,7 +176,7 @@ function MalidagHeader({ user, isConnected, connect, address, disconnect, pendin
       <div style={{width: "100%", marginRight: "5px"}}>
 
       {(isDesktop) && (
-        <InputSearch/>
+        <InputSearch user={user}/>
       )}
 
       </div>

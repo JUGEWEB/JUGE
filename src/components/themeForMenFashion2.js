@@ -61,7 +61,10 @@ const ThemeForMenFashion2 = () => {
       <img
         src={theme.image}
         alt={theme.theme}
+        onClick={() => navigate(`/menfa`)}
+
         style={{
+          cursor: "pointer",
           width: '100%',
           height: 'auto',
           display: 'block',
@@ -69,7 +72,8 @@ const ThemeForMenFashion2 = () => {
         }}
       />
 
-      <div style={{color: "blue", marginTop: "4rem", fontSize: "0.8rem", textDecoration: "underline", marginLeft: "1rem"}}>discover now</div>
+      <div onClick={() => navigate('/menfa')}
+ style={{cursor: "pointer" , color: "blue", marginTop: "4rem", fontSize: "0.8rem", textDecoration: "underline", marginLeft: "1rem"}}>discover now</div>
     </div>
   );
 };
