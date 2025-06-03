@@ -8,77 +8,89 @@ const SearchSuggestions = ({ userId }) => {
   const {isMobile, isDesktop, isSmallMobile, isTablet, isVerySmall} = useScreenSize()
 
   useEffect(() => {
-    const fetchSuggestions = async () => {
-      try {
-        const res = await axios.get('https://api.malidag.com/search-items', {
-          params: { userId },
-        });
-
-        const allSearches = userId ? res.data.userSearches : res.data.flatMap(u => u.userSearches);
-        const sorted = allSearches
-          .map(entry => ({
-            search: entry.search,
-            timestamp: new Date(entry.timestamp),
-          }))
-          .sort((a, b) => b.timestamp - a.timestamp);
-
-        const uniqueSearches = [];
-        const seen = new Set();
-        for (const item of sorted) {
-          const lower = item.search.toLowerCase();
-          if (!seen.has(lower)) {
-            seen.add(lower);
-            uniqueSearches.push(item);
-          }
-          if (uniqueSearches.length === 10) break;
+  const fetchSuggestions = async () => {
+    try {
+      const lastFetched = localStorage.getItem('brandSuggestionsFetchedAt');
+      if (lastFetched) {
+        const now = new Date();
+        const lastFetchedDate = new Date(lastFetched);
+        const diffInDays = (now - lastFetchedDate) / (1000 * 60 * 60 * 24);
+        if (diffInDays > 7) {
+          localStorage.removeItem('brandSuggestionsFetchedAt');
+          localStorage.removeItem('brandCount');
+          return; // 🔒 Stop displaying after 7 days
         }
-
-        setSearches(uniqueSearches);
-
-        const matchedBrands = new Set();
-
-        // Get brand suggestions
-        await Promise.all(
-          uniqueSearches.map(async ({ search }) => {
-            const response = await axios.get('https://api.malidag.com/api/brand-suggestions', {
-              params: { searchTerm: search },
-            });
-            response.data.forEach(brand => matchedBrands.add(brand));
-          })
-        );
-
-        // Get items per brand
-        const suggestionData = await Promise.all(
-          [...matchedBrands].map(async (brand) => {
-            const res = await axios.get(`https://api.malidag.com/api/brands/${encodeURIComponent(brand)}/items`);
-            return {
-              brand,
-              items: res.data.slice(0, 4),
-            };
-          })
-        );
-
-        setSuggestions(suggestionData.filter(s => s.items.length));
-
-        localStorage.setItem('brandCount', suggestionData.filter(s => s.items.length).length);
-
-      } catch (err) {
-        console.error('Error fetching suggestions:', err);
       }
-    };
 
-    fetchSuggestions();
-  }, [userId]);
+      const res = await axios.get('https://api.malidag.com/search-items', {
+        params: { userId },
+      });
+
+      localStorage.setItem('searchHistoryLength', (res.data.userSearches || []).length);
+
+      const allSearches = userId ? res.data.userSearches : res.data.flatMap(u => u.userSearches);
+      const sorted = allSearches
+        .map(entry => ({
+          search: entry.search,
+          timestamp: new Date(entry.timestamp),
+        }))
+        .sort((a, b) => b.timestamp - a.timestamp);
+
+      const uniqueSearches = [];
+      const seen = new Set();
+      for (const item of sorted) {
+        const lower = item.search.toLowerCase();
+        if (!seen.has(lower)) {
+          seen.add(lower);
+          uniqueSearches.push(item);
+        }
+        if (uniqueSearches.length === 10) break;
+      }
+
+      setSearches(uniqueSearches);
+
+      const matchedBrands = new Set();
+
+      await Promise.all(
+        uniqueSearches.map(async ({ search }) => {
+          const response = await axios.get('https://api.malidag.com/api/brand-suggestions', {
+            params: { searchTerm: search },
+          });
+          response.data.forEach(brand => matchedBrands.add(brand));
+        })
+      );
+
+      const suggestionData = await Promise.all(
+        [...matchedBrands].map(async (brand) => {
+          const res = await axios.get(`https://api.malidag.com/api/brands/${encodeURIComponent(brand)}/items`);
+          return {
+            brand,
+            items: res.data.slice(0, 4),
+          };
+        })
+      );
+
+      setSuggestions(suggestionData.filter(s => s.items.length));
+      localStorage.setItem('brandCount', suggestionData.filter(s => s.items.length).length);
+      localStorage.setItem('brandSuggestionsFetchedAt', new Date().toISOString());
+
+    } catch (err) {
+      console.error('Error fetching suggestions:', err);
+    }
+  };
+
+  fetchSuggestions();
+}, [userId]);
+
 
   return (
     <div style={{ padding:(isDesktop || isMobile || isTablet) ? '1rem' : ""}}>
-      <div style={{ display:(isDesktop || isMobile || isTablet) ? 'flex' : "", flexWrap:(isDesktop || isMobile || isTablet) ? '' : "none", gap: '1.5rem' }}>
+      <div style={{ display:(isDesktop || isMobile || isTablet) ? 'flex' : "", flexWrap:(isDesktop || isMobile || isTablet) ? '' : "none", gap: '1.5rem', width: (isDesktop || isMobile || isTablet) ? '100%' : "100%", }}>
         {suggestions.length > 0 ? (
   suggestions.slice(0, 3).map(({ brand, items }) => ( // ✅ Limit to 3 brands
     <div key={brand} style={{
       border: '1px solid #ddd',
       borderRadius: '0px',
-      padding: '1rem',
       color: "black",
       width: (isDesktop || isMobile || isTablet) ? '270px' : "100%",
       flex: '1 1 300px',
@@ -91,14 +103,15 @@ const SearchSuggestions = ({ userId }) => {
           <div key={item.itemId} style={{
             borderRadius: '0px',
             padding: (isDesktop || isMobile || isTablet) ? '0.5rem' : "0rem",
-            width: '100px',
+            width: (isDesktop || isMobile || isTablet) ? '100px' : "300px",
+           
             textAlign: 'center',
             backgroundColor: 'white'
           }}>
             <img
               src={item?.item?.images?.[0] || 'https://via.placeholder.com/150'}
               alt={item?.item?.name || 'Product'}
-              style={{ width: '100%', height: '100px', objectFit: 'contain', marginBottom: (isDesktop || isMobile || isTablet) ? '0.5rem' : "0rem" }}
+              style={{ width: (isDesktop || isMobile || isTablet) ? '100%' : "300px", height: (isDesktop || isMobile || isTablet) ? '100px' : "200px", objectFit: (isDesktop || isMobile || isTablet) ? 'contain' : "contain", marginBottom: (isDesktop || isMobile || isTablet) ? '0.5rem' : "0rem" }}
             />
             <div style={{
               fontWeight: 'bold',

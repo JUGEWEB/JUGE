@@ -16,6 +16,7 @@ function MalidagCategory({ user, auth }) {
   const [searchedItems, setSearchedItems] = useState([]);
   const navigate = useNavigate();
   const {isMobile, isDesktop, isSmallMobile, isTablet, isVerySmall} = useScreenSize()
+   const brandCount = parseInt(localStorage.getItem('brandCount')) || 0;
 
   const userId = user?.uid;
 
@@ -100,7 +101,7 @@ function MalidagCategory({ user, auth }) {
 
   return (
     <div className="categories-container">
-       {(isTablet || isDesktop || isMobile) && (
+       {(isTablet || isDesktop || isMobile)  && (
        
       <SearchSuggestions/>
      

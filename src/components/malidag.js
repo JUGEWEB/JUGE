@@ -176,9 +176,11 @@ const Malidag = ({ user, gra, slides }) => {
                   )}
            </div>
 
-                  {(isSmallMobile || isVerySmall) && brandCount > 0 && (
-          <div style={{ marginBottom: "10px" }}>
+                  {(isSmallMobile || isVerySmall)  &&  (
+          <div style={{ marginBottom: "10px", backgroundColor: "white" , width: "100%", height: "auto"}}>
+           
             <SearchSuggestions />
+           
           </div>
         )}
 
@@ -203,7 +205,7 @@ const Malidag = ({ user, gra, slides }) => {
 
 { user && (
 <div className="container1">
-  <h1  style={{display: "flex", alignItems: "center", width: "100%"}} >Based on your browsing history  <div style={{fontSize: "14px", color: "green", marginLeft: "10px", fontWeight: "bold", marginTop: "10px", cursor: "pointer"}}  onClick={onclickbrowsing} >Explore now</div> </h1>
+  <div  style={{display: "flex", alignItems: "center", width: "100%", fontSize: "24px", fontWeight: "bold"}} >Based on your browsing history  <div style={{fontSize: "14px", color: "green", marginLeft: "10px", fontWeight: "bold", marginTop: "10px", cursor: "pointer"}}  onClick={onclickbrowsing} >Explore now</div> </div>
   <div style={{width: "100%"}}>
   <YouMayLike user={user} />
   </div>

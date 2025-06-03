@@ -7,6 +7,7 @@ const ThemeForHomeAndKitchen = () => {
   const navigate = useNavigate();
   const [loadedImages, setLoadedImages] = useState({});
 
+
   useEffect(() => {
     const img = new Image();
     img.src = theme.image;
@@ -23,7 +24,7 @@ const ThemeForHomeAndKitchen = () => {
   };
 
   const brandCount = parseInt(localStorage.getItem('brandCount')) || 0;
-  if (isDesktop && brandCount === 2) return null;
+  
 
   
 
@@ -34,9 +35,14 @@ const ThemeForHomeAndKitchen = () => {
   return (
     <div style={{
      padding: (isSmallMobile || isVerySmall) ? "0.5rem" : "1rem",
-      marginLeft: (isSmallMobile || isVerySmall) ? "" : '1rem',
+      marginLeft:  (isDesktop || isTablet || isMobile)
+    ? (brandCount === 0 ? "" : "1rem")
+    : "",
       overflow: 'hidden',
-      width: (isDesktop || isTablet || isMobile) ? '270px' : "100%",
+      width:
+  (isDesktop || isTablet || isMobile)
+    ? (brandCount === 0 ? "100%" : "270px")
+    : "100%",
       boxShadow: '0 2px 10px rgba(0, 0, 0, 0.05)',
       backgroundColor: '#fdfdfd',
       borderRadius: (isDesktop || isMobile || isTablet) ? "0px" : "0px",
@@ -63,10 +69,14 @@ const ThemeForHomeAndKitchen = () => {
             onClick={handleDiscoverClick}
             style={{
               width: '100%',
-              height: (isSmallMobile || isVerySmall) ? "auto" : 'auto',
+              height: (isDesktop || isTablet || isMobile)
+    ? (brandCount === 0 ? "400px" : "auto")
+    : "auto",
               display: 'block',
               opacity: loadedImages[theme.id] ? 1 : 1,
-              objectFit: 'cover',
+              objectFit:  (isDesktop || isTablet || isMobile)
+    ? (brandCount === 0 ? "cover" : "cover")
+    : "cover",
               transition: 'opacity 0.3s ease-in-out'
             }}
           />

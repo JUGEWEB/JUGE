@@ -16,7 +16,7 @@ function InputSearch({ isBasketVisible, basketItems, user }) {
   const location = useLocation();
 
   const handleSearch = (searchTerm) => {
-  const userId = user?.uid ; // fallback to 'guest' if user is not logged in
+  const userId = user?.uid || "guest" ; // fallback to 'guest' if user is not logged in
 
   // 🚫 Skip API call if searchTerm is empty
   if (!searchTerm.trim()) return;
