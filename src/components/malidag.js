@@ -57,7 +57,7 @@ const Malidag = ({ user, gra, slides }) => {
   const {isMobile, isDesktop, isSmallMobile, isTablet, isVerySmall} = useScreenSize()
   const [prevType, setPrevType] = useState(currentSlideType);
   const [animate, setAnimate] = useState(false);
-  const brandCount = parseInt(localStorage.getItem('brandCount')) || 0;
+
 
   
 
@@ -176,13 +176,17 @@ const Malidag = ({ user, gra, slides }) => {
                   )}
            </div>
 
-                  {(isSmallMobile || isVerySmall)  &&  (
-          <div style={{ marginBottom: "10px", backgroundColor: "white" , width: "100%", height: "auto"}}>
+                 
+          
            
-            <SearchSuggestions />
+            {(isSmallMobile || isVerySmall)  && (
+              <div style={{ marginBottom: "10px", backgroundColor: "white" , width: "100%", height: "auto"}}>
+  <SearchSuggestions userId={user?.uid}  />
+   </div>
+)}
+
            
-          </div>
-        )}
+         
 
           <div className="container">
             <div style={{ backgroundColor: "white", width: "100%", position: "relative", height: "auto", paddingBottom: "10px"}}>
