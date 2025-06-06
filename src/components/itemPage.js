@@ -3,6 +3,8 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import './itemPage.css';
 import { useNavigate } from "react-router-dom"; // Import useNavigate for navigation
+import { DownOutlined, UpOutlined } from "@ant-design/icons";
+import useScreenSize from "./useIsMobile";
 
 function ItemPage() {
   const { searchTerm } = useParams();
@@ -13,6 +15,7 @@ function ItemPage() {
   const [dropdownOpen, setDropdownOpen] = useState({});
   const [activeVideoId, setActiveVideoId] = useState(null);
   const navigate = useNavigate(); // Initialize the useNavigate hook
+  const {isMobile, isDesktop, isTablet, isSmallMobile, isVerySmall, isVeryVerySmall} = useScreenSize()
 
   console.log('video', activeVideoId)
 
@@ -80,12 +83,22 @@ function ItemPage() {
     acc[category] = items.filter((item) => item.category === category);
     return acc;
   }, {});
+  // Create a list of unique item types from the fetched items
+const categoryTypes = Array.from(
+  new Set(items.map((item) => item.item.type).filter(Boolean))
+);
+
+
 
   const getHotItems = (categoryItems) => {
     return [...categoryItems]
       .sort((a, b) => b.item.sold - a.item.sold)
       .slice(0, 4); // Top 3 sold items
   };
+
+  const getItemsByType = (type) => {
+  return items.filter(item => item.item.type === type);
+};
 
 
   const handleVideoPlay = (id, videoUrl) => {
@@ -112,72 +125,77 @@ function ItemPage() {
 
   return (
     <>
-    <div className="item-page-title"  style={{color: "black"}}>
-        <div>Search Results for "{searchTerm}".</div>
-        <div style={{ marginLeft: "20px" }}>Related Categories:</div>
-        <div className="related-info">
-          <div className="related-categories"  style={{color: "black"}}>
-            {categories.map((category, index) => (
-              <div key={index}>
-                <div
-                  className="related-category"
-                  onClick={() => toggleDropdown(category)}
-                >
-                  {category}
-                <span
-                className={`dropdown-arrow ${
-                dropdownOpen[category] ? "arrow-open" : "arrow-closed"
-                }`}
-            >
-                ▼
-            </span>
-                </div>
-               
-                {dropdownOpen[category] && (
-                  <div className="stable-category-dropdown"  style={{color: "black"}}>
-                    <div className="stable-category-types" style={{color: "black"}}>
-                      <strong>malidag {category}</strong>
-                      {categorizedItems[category]
-                        .map((item) => item.item.type)
-                        .filter((type, idx, arr) => arr.indexOf(type) === idx)
-                        .map((type, idx) => (
-                          <div key={idx} className="stable-type-item">
-                            {type}
-                          </div>
-                        ))}
-                    </div>
-                    <div>
-                    <strong style={{marginLeft: '50%'}}>Hot 🔥:</strong>
-                    <div className="stable-hot-items">
-                      {getHotItems(categorizedItems[category]).map(
-                        (hotItem, idx) => (
-                          <div key={idx} className="stable-hot-item">
-                            <img
-                              src={hotItem.item.images[0]}
-                              alt={hotItem.item.name}
-                              onClick={() => handleItemClick(hotItem.id)} // Attach the click handle
-                              
-                              className="stable-hot-item-image"
-                            />
-                            <div  onClick={() => handleItemClick(hotItem.id)}  className="stable-hot-item-name">
-                              {hotItem.item.name}
-                            </div>
-                            <div className="stable-hot-item-sold">
-                              {hotItem.item.sold} sold
-                            </div>
-                          </div>
-                        )
-                      )}
-                    </div>
-                    </div>
-                  </div>
-                )}
-              </div>
-            ))}
-          </div>
-        </div>
+   {/* ✅ 1. HEADER SECTION - Titles and Types */}
+       <div style={{width: "100%", maxWidth: "100%"}}>
+   <div className="item-type-title">
+     
+     <div style={{ whiteSpace: "nowrap" }}>Related Types:</div>
+   
+     <div  className="related-type-info" >
+     {categoryTypes.map((relatedType, index) => (
+      
+         <div key={index}
+           className="related-type-type"
+           onClick={() => toggleDropdown(relatedType)}
+         >
+           {relatedType}
+           <div>
+           {dropdownOpen[relatedType] ? (
+       <UpOutlined style={{ marginLeft: "5px" }} />
+     ) : (
+       <DownOutlined style={{ marginLeft: "5px" }} />
+     )}
+     </div>
+         </div>
+         
+      
+     ))}
       </div>
-    <div className="item-page-container">
+     
+   </div>
+   </div>
+   
+   {/* ✅ 2. DROPDOWN SECTION (Separate) */}
+   <div className="dropdown-section" style={{ marginTop: "-20px", position: "relative" }}>
+     {categoryTypes.map((relatedType, index) => (
+       dropdownOpen[relatedType] && (
+         <div
+           key={index}
+           className="stable-type-dropdown"
+         >
+           <div className="circular-items" style={{ display: "flex", gap: "15px", flexWrap:(isDesktop || isTablet || isMobile) ? "wrap" : undefined, overflowX: (isSmallMobile || isVerySmall) ? "auto" : undefined, overflowY: (isDesktop || isMobile || isTablet) ? "auto" : undefined, height: (isDesktop || isMobile || isTablet) ? "100%" : "auto",  }}>
+             <div style={{ display: "flex", flexWrap:(isDesktop || isTablet || isMobile) ? "wrap" : undefined , gap: "15px" }}>
+             {getItemsByType(relatedType).map((item, idx) => (
+               <div key={idx} className="circular-item">
+                 <div
+                   className="hovitem"
+                 >
+                   <img
+                     src={item.item.images[0] || "/path/to/placeholder.jpg"}
+                     alt={item.item.name}
+                     className="circular-item-image"
+                     onClick={() => handleItemClick(item.id)}
+                     onError={(e) => {
+                       e.target.onerror = null;
+                       e.target.src = "/path/to/placeholder.jpg";
+                     }}
+                   />
+                 </div>
+                 <div className="circular-item-name">
+                   {item.item.name.length > 20 ? `${item.item.name.substring(0, 20)}...` : item.item.name}
+                 </div>
+                
+               </div>
+             ))}
+           </div>
+             </div>
+           <div style={{color: "blue", textDecoration: "underline", cursor: "pointer"}}> view {relatedType} page</div>
+         </div>
+   
+       )
+     ))}
+   </div>
+    <div className="item-page-container" style={{marginTop: "80px"}}>
       <div className="search-results-container">
         {items.map((itemData) => {
           const { id, item } = itemData;
@@ -200,7 +218,7 @@ function ItemPage() {
                 style={{
                   background: 'white',
                   zIndex: '1',
-                  filter: "brightness(0.93)",
+                  filter: "brightness(0.880000000) contrast(1.2)",
                   width: '100%',
                   height: '230px',
                   marginBottom: '10px',
