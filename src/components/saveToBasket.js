@@ -120,7 +120,13 @@ const AddToBasket = ({auth}) => {
   };
 
   return (
-    <div className="basket-container" style={{display: "flex", justifyContent: "space-between", padding: "20px"}}>
+    <div className="basket-container" style={{
+    display: "flex",
+    flexWrap: "wrap",
+    justifyContent: "space-between",
+    padding: "20px",
+    gap: "20px",
+  }}>
       <div>
       <h2>🛒 Your Basket</h2>
       {basket.length === 0 ? (

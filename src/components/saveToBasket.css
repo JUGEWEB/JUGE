@@ -67,4 +67,40 @@
     margin-right: 5px;
   }
  
+  /* Mobile optimizations */
+@media (max-width: 768px) {
+  .basket-container {
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+  }
+
+  .basket-items-section,
+  .basket-summary-section {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .basket-item {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .basket-item-image {
+    width: 100px;
+    height: auto;
+  }
+
+  .basket-item-name {
+    font-size: 16px;
+  }
+
+  .quantity-btn {
+    font-size: 28px;
+  }
+
+  .remove-btn {
+    margin-top: 5px;
+  }
+}
   

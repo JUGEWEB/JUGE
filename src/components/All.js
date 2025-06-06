@@ -3,6 +3,8 @@ import { Button, Modal, Spin } from "antd";
 import { DownOutlined, UpOutlined, MenuOutlined } from "@ant-design/icons"; // Dropdown Icons
 import axios from "axios";
 import useScreenSize from "./useIsMobile";
+import { useNavigate } from "react-router-dom";
+
 import "./All.css";
 
 const BASE_URL = "https://api.malidag.com"; // Update with your API URL
@@ -13,6 +15,7 @@ const All = () => {
   const [modalData, setModalData] = useState(null);
   const [imageIndexes, setImageIndexes] = useState({}); // Track current image index per type
   const [expandedCategories, setExpandedCategories] = useState({}); // Track expanded categories
+  const navigate = useNavigate();
   const {isMobile, isDesktop, isSmallMobile, isTablet, isVerySmall} = useScreenSize()
 
   // ✅ Fetch and organize data by category and type
@@ -155,7 +158,7 @@ const All = () => {
                         return (
                           <div key={type} className="type-container">
                             {/* Type Header */}
-                            <div className="type-header" style={{ fontWeight: "bold", marginBottom: "5px" }}>
+                            <div className="type-header" onClick={() => navigate(`/items/${type.toLowerCase()}`)} style={{ fontWeight: "bold", marginBottom: "5px" }}>
                               {type}
                             </div>
 
@@ -166,6 +169,7 @@ const All = () => {
                                   src={currentItem.item.images[0]}
                                   alt={type}
                                   style={{ width: "100%", height: "auto", borderRadius: "8px" }}
+                                  onClick={() => navigate(`/items/${type.toLowerCase()}`)}
                                 />
                               </div>
                             ) : (
