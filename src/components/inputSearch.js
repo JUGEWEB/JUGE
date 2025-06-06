@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios"; // Don't forget to import axios
 import { FaSearch } from "react-icons/fa"; // ✅ Import the real search icon
+import useScreenSize from "./useIsMobile";
 
 function InputSearch({ isBasketVisible, basketItems, user }) {
   const [filteredItems, setFilteredItems] = useState([]);
@@ -11,6 +12,8 @@ function InputSearch({ isBasketVisible, basketItems, user }) {
   const [suggestions, setSuggestions] = useState([]);
   const [isFocused, setIsFocused] = useState(false);
   const [items, setItems] = useState([]);
+  const {isMobile, isDesktop, isTablet, isSmallMobile, isVerySmall, isVeryVerySmall} = useScreenSize()
+
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -64,50 +67,75 @@ function InputSearch({ isBasketVisible, basketItems, user }) {
   }, [selectedCategory, searchTerm, items]);
 
   const updateSuggestions = (term) => {
-    const lowerTerm = term.toLowerCase();
-    let matches = [];
+  const lowerTerm = term.toLowerCase();
+  let matches = [];
 
-    if (lowerTerm) {
-      matches = items.filter((item) => {
-        return (
-          (item.item.name && item.item.name.toLowerCase().includes(lowerTerm)) ||
-          (item.item.type && typeof item.item.type === "string" && item.item.type.toLowerCase().includes(lowerTerm)) ||
-          (item.category && typeof item.category === "string" && item.category.toLowerCase().includes(lowerTerm)) ||
-          (item.item.theme && typeof item.item.theme === "string" && item.item.theme.toLowerCase().includes(lowerTerm)) ||
-          (item.item.productDetail02 && typeof item.item.productDetail02 === "string" && item.item.productDetail02.toLowerCase().includes(lowerTerm))
-        );
-      });
+  if (lowerTerm) {
+    matches = items.filter((item) => {
+      const nameMatch = item.item.name?.toLowerCase().includes(lowerTerm);
+      const typeMatch = item.item.type?.toLowerCase().includes(lowerTerm);
+      const genderMatch = item.item.gender?.toLowerCase().includes(lowerTerm);
+      return nameMatch || typeMatch || genderMatch;
+    });
 
-      const flattenedMatches = matches.flatMap((item) => [
-        ...(item.item.name?.toLowerCase().includes(lowerTerm)
-          ? [{ value: item.item.name, type: "name" }]
-          : []),
-        ...(item.item.type?.toLowerCase().includes(lowerTerm)
-          ? [{ value: item.item.type, type: "type" }]
-          : []),
-        ...(item.category?.toLowerCase().includes(lowerTerm)
-          ? [{ value: item.category, type: "category" }]
-          : []),
-        ...(item.item.theme?.toLowerCase().includes(lowerTerm)
-          ? [{ value: item.item.theme, type: "theme" }]
-          : []),
-        ...(item.item.productDetail02?.toLowerCase().includes(lowerTerm)
-          ? [{ value: item.item.productDetail02, type: "productDetail02" }]
-          : []),
-      ]);
+    const validSuggestions = matches.flatMap((item) => {
+      const category = item.category?.toLowerCase();
+      const type = item.item.type?.trim();
+      const gender = item.item.gender?.trim();
 
-      setSuggestions(flattenedMatches.slice(0, 5));
-    } else {
-      setSuggestions([]);
-    }
-  };
+      if (!type) return [];
+
+      // For clothing, shoes, bags: gender + type
+      if (["clothing", "shoes", "bags"].includes(category)) {
+        if (gender) {
+          return [{
+            value: `${gender} ${type}`,
+            type: "combined"
+          }];
+        }
+        return [{
+          value: type,
+          type: "type"
+        }];
+      }
+
+      // For electronic, home: just type
+      if (["electronic", "home"].includes(category)) {
+        return [{
+          value: type,
+          type: "type"
+        }];
+      }
+
+      return [];
+    });
+
+    // Deduplicate suggestions by value and limit to 5
+    const uniqueSuggestions = Array.from(
+      new Map(validSuggestions.map((s) => [s.value.toLowerCase(), s])).values()
+    );
+
+    setSuggestions(uniqueSuggestions.slice(0, 5));
+  } else {
+    setSuggestions([]);
+  }
+};
+
 
   useEffect(() => {
     updateSuggestions(searchTerm);
   }, [searchTerm, items]);
 
   return (
-    <div className="input-search-wrapper" style={{ display: "flex", alignItems: "center", position: "relative", marginLeft: "10px", marginRight: "10px"}}>
+    <div   style={{
+    display: "flex",
+    alignItems: "center",
+    position: "relative",
+    width: isVeryVerySmall || isVerySmall ? "95%" : isSmallMobile ? "90%" : isMobile ? "85%" : "100%",
+    margin: "0 auto",
+    padding: "0 5px",
+    boxSizing: "border-box",
+  }}>
 
 <div style={{ display: "flex", alignItems: "center", width: "100%", backgroundColor: "white", border: `2px solid ${isFocused ? "#0078ff" : "white"}`,  borderRadius: "0 5px 5px 0", overflow: "hidden" }}>
   
@@ -118,6 +146,12 @@ function InputSearch({ isBasketVisible, basketItems, user }) {
     onFocus={() => setIsFocused(true)}
     onBlur={() => setTimeout(() => setIsFocused(false), 200)}
     placeholder="Search by name, ID, or category"
+    onKeyDown={(e) => {
+    if (e.key === "Enter" && searchTerm.trim()) {
+      handleSearch(searchTerm);
+      setIsFocused(false);
+    }
+  }}
     style={{
       flex: 1, 
       height: "35px",
@@ -153,22 +187,24 @@ function InputSearch({ isBasketVisible, basketItems, user }) {
 
 
       {suggestions.length > 0 && isFocused && (
-        <div
-          style={{
-            position: "absolute",
-            top: "55px",
-            left: "5px",
-            width: "calc(100% - 10px)",
-            backgroundColor: "#fff",
-            border: "1px solid #ccc",
-            borderRadius: "5px",
-            boxShadow: "0 2px 5px rgba(0, 0, 0, 0.1)",
-            color: "black",
-            zIndex: 1000,
-            maxHeight: "200px",
-            overflowY: "auto",
-          }}
-        >
+       <div
+  style={{
+    position: "absolute",
+    top: "45px",
+    left: 0,
+    width: "100%",
+    backgroundColor: "#fff",
+    border: "1px solid #ccc",
+    borderRadius: "5px",
+    boxShadow: "0 2px 5px rgba(0, 0, 0, 0.1)",
+    color: "black",
+    zIndex: 1000,
+    maxHeight: "200px",
+    overflowY: "auto",
+    fontSize: isVeryVerySmall || isVerySmall ? "12px" : "14px",
+  }}
+>
+
           {suggestions.map((suggestion, index) => (
             <div
               key={index}
@@ -176,6 +212,7 @@ function InputSearch({ isBasketVisible, basketItems, user }) {
                 setSearchTerm(suggestion.value);
                 setSuggestions([]);
                 setIsFocused(false);
+                handleSearch(suggestion.value); // 🔍 Trigger search immediately
               }}
               style={{
                 padding: "10px",

@@ -112,11 +112,11 @@ function ItemPage() {
 
   return (
     <>
-    <div className="item-page-title">
+    <div className="item-page-title"  style={{color: "black"}}>
         <div>Search Results for "{searchTerm}".</div>
         <div style={{ marginLeft: "20px" }}>Related Categories:</div>
         <div className="related-info">
-          <div className="related-categories">
+          <div className="related-categories"  style={{color: "black"}}>
             {categories.map((category, index) => (
               <div key={index}>
                 <div
@@ -134,8 +134,8 @@ function ItemPage() {
                 </div>
                
                 {dropdownOpen[category] && (
-                  <div className="stable-category-dropdown">
-                    <div className="stable-category-types">
+                  <div className="stable-category-dropdown"  style={{color: "black"}}>
+                    <div className="stable-category-types" style={{color: "black"}}>
                       <strong>malidag {category}</strong>
                       {categorizedItems[category]
                         .map((item) => item.item.type)
@@ -214,7 +214,7 @@ function ItemPage() {
                     controls
                     autoPlay
                     onEnded={handleVideoStop}
-                    style={{ width: '230px', height: '230px', objectFit: 'cover' }}
+                    style={{ width: '230px', height: '230px', objectFit: 'contain' }}
                   />
                 ) : (
                   <>
@@ -223,6 +223,7 @@ function ItemPage() {
                       src={item.images[0]}
                       onClick={() => handleItemClick(id)} // Attach the click handle
                       alt={name}
+                     style={{ width: '230px', height: '230px', objectFit: 'contain' }}
                     />
                      {firstVideoUrl && ( 
                       <div
