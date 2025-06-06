@@ -201,7 +201,7 @@ function ItemPage() {
                   background: 'white',
                   zIndex: '1',
                   filter: "brightness(0.93)",
-                  width: '230px',
+                  width: '100%',
                   height: '230px',
                   marginBottom: '10px',
                   marginTop: '10px',
@@ -214,7 +214,7 @@ function ItemPage() {
                     controls
                     autoPlay
                     onEnded={handleVideoStop}
-                    style={{ width: '230px', height: '230px', objectFit: 'contain' }}
+                    style={{ width: '100%x', height: '230px', objectFit: 'contain' }}
                   />
                 ) : (
                   <>
@@ -223,7 +223,7 @@ function ItemPage() {
                       src={item.images[0]}
                       onClick={() => handleItemClick(id)} // Attach the click handle
                       alt={name}
-                     style={{ width: '230px', height: '230px', objectFit: 'contain' }}
+                     style={{ width: '100%', height: '230px', objectFit: 'contain' }}
                     />
                      {firstVideoUrl && ( 
                       <div
