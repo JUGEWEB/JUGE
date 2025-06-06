@@ -1,47 +1,18 @@
 import React, { useState } from "react";
-import { auth, storage, db } from "./firebaseConfig"; // Firebase storage & Firestore
-import { updateProfile } from "firebase/auth"; // Firebase update profile
-import { ref, uploadBytes, getDownloadURL } from "firebase/storage"; // For uploading files to Firebase storage
-import { doc, updateDoc } from "firebase/firestore"; // Firestore database to store profile info
-import { useNavigate } from "react-router-dom"; // For navigation
-import { message } from "antd"; // Import Ant Design's message component
-import AddToBasket from "./saveToBasket"
-import LikedItems from "./likedItem";
-import likedp from "./likedProfile/likedp.jpg"
-import savetob from "./likedProfile/savetob.jpg"
+import { auth, storage, db } from "./firebaseConfig";
+import { updateProfile } from "firebase/auth";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { doc, updateDoc } from "firebase/firestore";
+import { useNavigate } from "react-router-dom";
+import { message } from "antd";
+import likedp from "./likedProfile/likedp.jpg";
+import savetob from "./likedProfile/savetob.jpg";
 import "./profile.css";
 
 const Profile = ({ user, auth }) => {
   const navigate = useNavigate();
-
-  // Ensure safe access to user properties
-  const [username, setUsername] = useState(user?.displayName || "");
   const [profilePicUrl, setProfilePicUrl] = useState(user?.photoURL || "");
 
-  // Update username and photo in Firebase
-  const handleProfileUpdate = async () => {
-    try {
-      if (!user) throw new Error("User is not logged in");
-
-      await updateProfile(user, {
-        displayName: username,
-        photoURL: profilePicUrl,
-      });
-
-      const userRef = doc(db, "users", user.uid);
-      await updateDoc(userRef, {
-        displayName: username,
-        photoURL: profilePicUrl,
-      });
-
-      message.success("Profile updated successfully!"); // Show success message
-    } catch (error) {
-      message.error("Error updating profile."); // Show error message
-      console.error("Error updating profile:", error);
-    }
-  };
-
-  // Handle profile picture change
   const handleProfilePicChange = async (e) => {
     const file = e.target.files[0];
     if (file && user) {
@@ -52,70 +23,73 @@ const Profile = ({ user, auth }) => {
     }
   };
 
+  const handleProfileUpdate = async () => {
+    try {
+      if (!user) throw new Error("User is not logged in");
+
+      await updateProfile(user, {
+        photoURL: profilePicUrl,
+      });
+
+      const userRef = doc(db, "users", user.uid);
+      await updateDoc(userRef, {
+        photoURL: profilePicUrl,
+      });
+
+      message.success("Profile updated successfully!");
+    } catch (error) {
+      message.error("Error updating profile.");
+      console.error("Error updating profile:", error);
+    }
+  };
+
   const handleLogout = async () => {
     try {
       await auth.signOut();
       sessionStorage.removeItem("hasRefreshed");
-      message.success("You have logged out successfully!"); // Show logout success message
+      message.success("You have logged out successfully!");
       navigate("/");
-     
     } catch (error) {
-      message.error("Error logging out."); // Show error message
+      message.error("Error logging out.");
       console.error("Error logging out:", error);
     }
   };
 
-  // Check if user is null
   if (!user) {
     return <p>Please log in to view your profile.</p>;
   }
 
   return (
-    <div style={{display: "flex", alignItems: "center", justifyContent: "space-between"}}>
     <div className="profile-container">
-      <h2>Your Profile</h2>
-      <div>
+      <div className="profile-info">
+        <h2>Your Profile</h2>
         <p><strong>Email:</strong> {user.email}</p>
+        <p><strong>Username:</strong> {user.displayName || "N/A"}</p>
+
+        <div>
+          <label>Profile Picture:</label>
+          <input type="file" accept="image/*" onChange={handleProfilePicChange} />
+          {profilePicUrl && <img className="profile-pic" src={profilePicUrl} alt="Profile" />}
+        </div>
+
+        <button onClick={handleProfileUpdate}>Save Changes</button>
+
+        <button className="logout-btn" onClick={handleLogout}>
+          Logout
+        </button>
       </div>
-      <div>
-        <label>Username:</label>
-        <input
-          type="text"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-        />
+
+      <div className="profile-visuals">
+        <div className="section">
+          <div className="section-title">❤️ Your liked items</div>
+          <img className="section-img" src={likedp} alt="liked items" />
+        </div>
+
+        <div className="section">
+          <div className="section-title">🛒 Your basket</div>
+          <img className="section-img" src={savetob} alt="saved items" />
+        </div>
       </div>
-      <div>
-        <label>Profile Picture:</label>
-        <input type="file" accept="image/*" onChange={handleProfilePicChange} />
-        {profilePicUrl && <img src={profilePicUrl} alt="Profile" />}
-      </div>
-      <button onClick={handleProfileUpdate}>Save Changes</button>
-      <button
-        style={{
-          marginTop: "10px",
-          backgroundColor: "red",
-          color: "white",
-          padding: "10px",
-          border: "none",
-          borderRadius: "5px",
-          cursor: "pointer",
-        }}
-        onClick={handleLogout}
-      >
-        Logout
-      </button>
-    </div>
-    <div>
-    <div style={{padding: "20px"}}>
-      <div style={{color: "black", fontSize: "20px", fontWeight: "bold", padding: "10px"}}> ❤️ Your liked items</div>
-        <img style={{width: "420px", maxHeight: "200px", objectFit: "cover" }} src={likedp} alt="liked Images"/>
-    </div>
-    <div style={{padding: "20px"}}>
-    <div style={{color: "black", fontSize: "20px", fontWeight: "bold", padding: "10px"}}> 🛒 Your basket</div>
-    <img style={{width: "420px", maxHeight: "200px", objectFit: "cover" }} src={savetob} alt="liked Images"/>
-    </div>
-    </div>
     </div>
   );
 };
