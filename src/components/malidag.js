@@ -217,7 +217,7 @@ const Malidag = ({ user, gra, slides }) => {
 )}
 
 <div className="container2de">
-  <h1  style={{display: "flex", alignItems: "center"}}>Top 100 Most Sold Items  <div style={{fontSize: "14px", color: "green", marginLeft: "10px", fontWeight: "bold", marginTop: "10px", cursor: "pointer"}}  onClick={onclicktopitem} >Explore now</div> </h1>
+  <h1  style={{display: "flex", alignItems: "center"}}>Top Items  <div style={{fontSize: "14px", color: "green", marginLeft: "10px", fontWeight: "bold", marginTop: "10px", cursor: "pointer"}}  onClick={onclicktopitem} >Explore now</div> </h1>
   <div style={{width: "100%"}}>
   <TopTopic />
   </div>

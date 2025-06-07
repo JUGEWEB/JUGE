@@ -10,6 +10,8 @@ import {
 } from "firebase/auth";
 import { message } from "antd";
 import { useNavigate } from "react-router-dom";
+import { sendEmailVerification } from "firebase/auth";
+
 
 const AuthForm = ({ auth, user }) => {
   const [email, setEmail] = useState("");
@@ -17,6 +19,8 @@ const AuthForm = ({ auth, user }) => {
   const [isSignUp, setIsSignUp] = useState(false);
   const navigate = useNavigate();
   const {isMobile, isDesktop, isSmallMobile, isTablet, isVerySmall} = useScreenSize()
+  const [emailSent, setEmailSent] = useState(false);
+
 
  
   useEffect(() => {
@@ -34,50 +38,79 @@ const AuthForm = ({ auth, user }) => {
   }, [user, navigate]);
 
   const handleAuth = async (e) => {
-    e.preventDefault();
-    try {
-      if (isSignUp) {
-        await createUserWithEmailAndPassword(auth, email, password);
-        message.success("Sign-up successful!");
-        navigate("/"); // Redirect after successful sign-up
-      } else {
-        await signInWithEmailAndPassword(auth, email, password);
-        message.success("Login successful!");
-        navigate("/"); // Redirect after successful login
+  e.preventDefault();
+  try {
+    if (isSignUp) {
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
+
+      await sendEmailVerification(user);
+       setEmailSent(true); // ✅ Show the message
+      
+      message.success("Sign-up successful! Please verify your email before logging in.");
+    } else {
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
+
+      if (!user.emailVerified) {
+        message.warning("Please verify your email before logging in.");
+        return;
       }
-    } catch (error) {
-      console.error("Error during authentication:", error.message); // Log error for debugging
-      message.error(error.message); // Show the error message using Ant Design
+
+      message.success("Login successful!");
+      navigate("/");
     }
-  };
+  } catch (error) {
+  console.error("Auth error:", error.message);
+
+  let friendlyMessage = "Something went wrong. Please try again.";
+
+  if (error.code === "auth/invalid-credential" || error.code === "auth/wrong-password") {
+    friendlyMessage = "Incorrect email or password.";
+  } else if (error.code === "auth/user-not-found") {
+    friendlyMessage = "No account found with this email.";
+  } else if (error.code === "auth/email-already-in-use") {
+    friendlyMessage = "This email is already registered.";
+  } else if (error.code === "auth/weak-password") {
+    friendlyMessage = "Password should be at least 6 characters.";
+  }
+
+  message.error(friendlyMessage);
+}
+
+};
+
 
   const handleGoogleSignIn = async () => {
-    const provider = new GoogleAuthProvider();
-  
-    try {
-      // Use the popup flow for both mobile and desktop
-      const result = await signInWithPopup(auth, provider);
-  
-      // If the sign-in is successful, you can retrieve the user and token from the result
-      const user = result.user;
-      const credential = GoogleAuthProvider.credentialFromResult(result);
-      const token = credential.accessToken;  // Google Access Token
-  
-      console.log("User signed in:", user);
-      console.log("Google Access Token:", token);
-  
-      // Handle successful sign-in (e.g., store user info, navigate, etc.)
-      message.success("Login successful!");
-      navigate("/");  // Redirect after successful login
-    } catch (error) {
-      console.error("Error during Google sign-in:", error.message);
-      message.error(error.message);  // Show error message if any
+  const provider = new GoogleAuthProvider();
+
+  try {
+    const result = await signInWithPopup(auth, provider);
+    const user = result.user;
+
+    if (!user.emailVerified) {
+      message.warning("Please verify your email before continuing.");
+      return;
     }
-  };
-  
+
+    message.success("Google sign-in successful!");
+    navigate("/");
+  } catch (error) {
+    console.error("Error during Google sign-in:", error.message);
+    message.error(error.message);
+  }
+};
+
 
   return (
     <div className="auth-form">
+
+      {isSignUp &&  (
+  <p style={{ color: "#222", marginTop: "10px" }}>
+    A confirmation link will be sent to your email. Please verify before logging in.
+  </p>
+)}
+
       <h2>{isSignUp ? "Sign Up" : "Login"}</h2>
       <form onSubmit={handleAuth}>
         <input

@@ -227,16 +227,16 @@ function MalidagHeader({ user, isConnected, connect, address, disconnect, pendin
             onClick={() => navigate("/profile")}
             style={{
               cursor: "pointer",
-              fontSize: "30px",
+              fontSize: "27px",
               filter: "hue-rotate(100deg) saturate(350%) brightness(1.2)",
             }}
           >
-            👤
+            <FaUser />
           </span>
         ) : (
           <div className="buttonlog" onClick={() => navigate("/auth")}>
            <div>Login</div> <div>-</div> <div>&gt;</div> <div style={{ cursor: "pointer",
-              fontSize: (isTablet || isDesktop)? "27px" : "15px",
+              fontSize: (isTablet || isDesktop) ? "27px" : "15px",
               filter: "hue-rotate(100deg) saturate(350%) brightness(1.2)",}}> <FaUser /></div>
           </div>
         )}
@@ -270,7 +270,7 @@ function MalidagHeader({ user, isConnected, connect, address, disconnect, pendin
           fontSize: '24px',
           lineHeight: '1',
           background: 'none',
-          border: '1px solid blue',
+         
           cursor: 'pointer',
           color: "white",
           marginRight: "10px"

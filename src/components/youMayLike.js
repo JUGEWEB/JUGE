@@ -12,9 +12,9 @@ function YouMayLike({ user }) {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [cryptoPrices, setCryptoPrices] = useState({});
   const navigate = useNavigate();
-  const { isMobile, isDesktop, isSmallMobile, isTablet } = useScreenSize();
+  const { isMobile, isDesktop, isSmallMobile, isTablet, isVerySmall, isVeryVerySmall,  } = useScreenSize();
 
-  const itemsPerSlide = 6;
+ const itemsPerSlide = isMobile || isSmallMobile || isVerySmall ? 2 : 6;
   const stars = Math.floor(Math.random() * 5) + 1;
 
   // Fetch user search history
@@ -77,7 +77,9 @@ function YouMayLike({ user }) {
 
   const totalSlides = Math.ceil(suggestedItems.length / itemsPerSlide);
   const startIdx = currentSlide * itemsPerSlide;
-  const currentItems = suggestedItems.slice(startIdx, startIdx + itemsPerSlide);
+  const currentItems = isMobile || isSmallMobile || isVerySmall
+  ? suggestedItems
+  : suggestedItems.slice(currentSlide * itemsPerSlide, currentSlide * itemsPerSlide + itemsPerSlide);
 
   const handleNextSlide = () => {
     setCurrentSlide(prev => (prev + 1) % totalSlides);
@@ -106,7 +108,7 @@ function YouMayLike({ user }) {
               <div
                 className="carousel-slid"
                 style={{
-                  overflowX: (isMobile || isSmallMobile || isTablet) ? "auto" : "hidden"
+                  overflowX: (isMobile || isSmallMobile || isTablet || isVerySmall || isVeryVerySmall) ? "auto" : "hidden"
                 }}
               >
                 {currentItems.map((item, index) => (
