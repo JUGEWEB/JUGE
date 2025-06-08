@@ -11,6 +11,8 @@ import {
 import { message } from "antd";
 import { useNavigate } from "react-router-dom";
 import { sendEmailVerification } from "firebase/auth";
+import {  sendPasswordResetEmail } from "firebase/auth";
+
 
 
 const AuthForm = ({ auth, user }) => {
@@ -20,6 +22,9 @@ const AuthForm = ({ auth, user }) => {
   const navigate = useNavigate();
   const {isMobile, isDesktop, isSmallMobile, isTablet, isVerySmall} = useScreenSize()
   const [emailSent, setEmailSent] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+const [resetEmailSent, setResetEmailSent] = useState(false);
+
 
 
  
@@ -101,6 +106,29 @@ const AuthForm = ({ auth, user }) => {
   }
 };
 
+const handlePasswordReset = async () => {
+  if (!email) {
+    message.warning("Please enter your email to reset password.");
+    return;
+  }
+
+  try {
+    await sendPasswordResetEmail(auth, email);
+    setResetEmailSent(true);
+    message.success("Password reset email sent!");
+  } catch (error) {
+    console.error("Password reset error:", error.message);
+    if (error.code === "auth/user-not-found") {
+  message.error("No user found with this email.");
+} else {
+  message.error("Failed to send reset email. Please try again.");
+}
+
+    message.error("Failed to send reset email. Please try again.");
+  }
+};
+
+
 
   return (
     <div className="auth-form">
@@ -111,6 +139,13 @@ const AuthForm = ({ auth, user }) => {
   </p>
 )}
 
+{resetEmailSent && (
+  <p style={{ color: "#28a745", marginTop: "8px" }}>
+    A password reset link has been sent to <strong>{email}</strong>.
+  </p>
+)}
+
+
       <h2>{isSignUp ? "Sign Up" : "Login"}</h2>
       <form onSubmit={handleAuth}>
         <input
@@ -120,13 +155,30 @@ const AuthForm = ({ auth, user }) => {
           onChange={(e) => setEmail(e.target.value)}
           required
         />
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
+       <div style={{ position: "relative" }}>
+  <input
+    type={showPassword ? "text" : "password"}
+    placeholder="Password"
+    value={password}
+    onChange={(e) => setPassword(e.target.value)}
+    required
+  />
+  <span
+    onClick={() => setShowPassword(!showPassword)}
+    style={{
+      position: "absolute",
+      right: 10,
+      top: "50%",
+      transform: "translateY(-50%)",
+      cursor: "pointer",
+      fontSize: "12px",
+      color: "#007bff",
+    }}
+  >
+    {showPassword ? "Hide" : "Show"}
+  </span>
+</div>
+
         <button type="submit" className="auth-submit">
           {isSignUp ? "Sign Up" : "Login"}
         </button>
@@ -140,6 +192,18 @@ const AuthForm = ({ auth, user }) => {
           {isSignUp ? "Login" : "Sign Up"}
         </button>
       </p>
+
+      {!isSignUp && (
+  <p style={{ marginTop: "10px" }}>
+    <button
+      style={{ background: "none", border: "none", color: "#007bff", cursor: "pointer", padding: 0 }}
+      onClick={handlePasswordReset}
+    >
+      Forgot your password?
+    </button>
+  </p>
+)}
+
 
       {/* Google Sign-In Button */}
       <button className="google-sign-in" onClick={handleGoogleSignIn}>
