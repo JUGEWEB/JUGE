@@ -6,6 +6,7 @@ import {ethers} from "ethers"
 import { useBalance,  useReadContracts  } from "wagmi";
 import { formatUnits, parseAbi } from "viem";
 import "./buyNow.css"; // Import styles
+import useScreenSize from "./useIsMobile";
 
 const walletLogos = {
   metamask: "https://upload.wikimedia.org/wikipedia/commons/3/36/MetaMask_Fox.svg",
@@ -88,6 +89,7 @@ const BuyNow = ({ basketItems, userAddresses, user, connectors, connect, address
     const [size, setSize] = useState(null);
     const [checkLoading, setCheckLoading] = useState(false)
     const [brand, setBrand] = useState(null)
+     const {isMobile, isDesktop, isSmallMobile, isTablet, isVerySmall, isVeryVerySmall} = useScreenSize()
 
     const navigate = useNavigate()
 
@@ -494,7 +496,7 @@ const handleBuyNow = async () => {
       borderRadius: "8px", 
       fontSize: "16px", 
       fontWeight: "500", 
-      maxWidth: "600px", 
+      maxWidth:(isDesktop || isTablet) ? "600px" : "100%", 
       margin: "20px auto", 
       textAlign: "center",
       border: "1px solid #c3e6cb"
@@ -516,7 +518,30 @@ const handleBuyNow = async () => {
 )}
 
 
-    <div style={{display: "flex", justifyContent: "space-between"}}>
+    <div style={{display:(isDesktop || isTablet) ? "flex" : "", justifyContent: "space-between"}}>
+
+       <div style={{display: (isDesktop || isTablet) ? "none" : "", padding: "10px"}} className="checkout-containerSmall">
+  {loading ? (
+    <p>Loading item details...</p>
+  ) : item ? (
+    <div
+      className="item-deils"
+      onClick={backToProduct}
+      style={{
+        marginRight: isCheckoutPage && basketItems.length > 0 ? "120px" : "0px",
+      }}
+    >
+      <img src={item?.images?.[0]} alt={item?.name} className="item-ige" />
+      <h3 className="item-ne">
+  {item?.name ? item.name.slice(0, 25) + (item.name.length > 25 ? "..." : "") : "No name available"}
+</h3>
+
+    </div>
+  ) : (
+    <p>Item not found.</p>
+  )}
+</div>
+
     <div className="buy-now-container">
       <h2>👋 Hey {firstName}, ready to shop?</h2>
       {/* Delivery Information */}
@@ -724,7 +749,7 @@ const handleBuyNow = async () => {
         </div>
       )}
     </div>
-    <div className="checkout-container">
+    <div style={{display: (isDesktop || isTablet) ? "" : "none"}} className="checkout-container">
   {loading ? (
     <p>Loading item details...</p>
   ) : item ? (
@@ -737,7 +762,7 @@ const handleBuyNow = async () => {
     >
       <img src={item?.images?.[0]} alt={item?.name} className="item-ige" />
       <h3 className="item-ne">
-  {item?.name ? item.name.slice(0, 40) + (item.name.length > 40 ? "..." : "") : "No name available"}
+  {item?.name ? item.name.slice(0, 25) + (item.name.length > 25 ? "..." : "") : "No name available"}
 </h3>
 
     </div>
