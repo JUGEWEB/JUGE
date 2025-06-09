@@ -642,7 +642,12 @@ const handleBuyNow = async () => {
   )}
 
 {isConnected && (
-          <p>Address: {address}</p>
+          <p style={{ maxWidth: "100%", maxHeight: "auto" }}>
+    Address:{" "}
+    <span style={{ maxWidth: "100%", maxHeight: "auto" }}>
+      {address.slice(0, 6)}...{address.slice(-4)}
+    </span>
+  </p>
        )}
       </div>
 
@@ -661,7 +666,7 @@ const handleBuyNow = async () => {
       {tokenBalances.length > 0 ? (
         <ul>
           {tokenBalances.map(({ symbol, balance }) => (
-            <div key={symbol} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", width: "400px", color: "black" }}>
+            <div key={symbol} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", maxWidth: "400px", color: "black",  }}>
               <div style={{ display: "flex", alignItems: "center", width: "100px", backgroundColor: "gray", marginBottom: "10px" }}>
                 {logoUrls[symbol] && (
                   <img
@@ -672,8 +677,8 @@ const handleBuyNow = async () => {
                 )}
                 <div style={{ color: "white" }}>{symbol}:</div>
               </div>
-              <div style={{ alignItems: "center", justifyContent: "start", width: "150px", display: "flex", backgroundColor: "yellow" }}>
-                {balance}
+              <div style={{ alignItems: "center", justifyContent: "start", maxWidth: "100%", display: "flex", backgroundColor: "yellow", height: "auto" }}>
+               {Number(balance).toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 6 })}
               </div>
             </div>
           ))}
