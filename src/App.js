@@ -195,13 +195,13 @@ const App = () => {
   )}
    {/* ✅ Navigation Menu */}
    {(isMobile || isSmallMobile || isVerySmall) && (
-    <div style={{display: "flex", backgroundColor: "#333", padding: "5px"}}>
+    <div style={{display: "flex", backgroundColor: "#333", padding: "5px",}}>
       <Type basketItems={basketItems} />
       </div>
         )}
 
         {(isMobile || isSmallMobile || isVerySmall) && (
-        <div style={{backgroundColor: "#336"}}>
+        <div style={{backgroundColor: "#336", border: "1px solid #ccc" }}>
       <Coin  basketItems={basketItems}/>
       </div> 
         )}
@@ -219,8 +219,9 @@ const App = () => {
         {(isTablet || isDesktop) && (
       <NavMenu  basketItems={basketItems} /> 
         )}
-
+      <div style={{border: "1px solid #ccc"}}>
         <MainSlider user={user}/>
+        </div>
 <div style={{width: "100%", height: "auto", backgroundColor: "#ddd5" }}>
         <SpanWarnings/>
 </div>
