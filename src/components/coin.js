@@ -80,7 +80,7 @@ const Coin = () => {
   }
   
 
-  if (loading) return <div style={{height: "60px", backgroundColor:(isDesktop || isTablet) ? "#333" : "#334" }}></div>;
+  if (loading) return <div style={{height: "60px", backgroundColor:(isDesktop || isTablet) ? "#333" : "white" }}></div>;
   if (error) return <div>{error}</div>;
 
   const handleCoinClick = (symbol) => {
@@ -88,7 +88,7 @@ const Coin = () => {
   };
 
   return (
-    <div className="coin-scroll-container" style={{backgroundColor:(isDesktop || isTablet) ? "#333" : "#334" }}>
+    <div className="coin-scroll-container" style={{backgroundColor:(isDesktop || isTablet) ? "#333" : "white" }}>
       <div className="coin-scroll">
         {coins.map((coin) => (
           <div key={coin.symbol} className="coin-item" onClick={() => handleCoinClick(coin?.symbol)} >
@@ -99,8 +99,8 @@ const Coin = () => {
               className="coin-image"
               style={{ opacity: loadedImages[coin.symbol] ? 1 : 1 }}
             />
-            <div>{coin?.symbol}</div>
-            <div style={{marginLeft: '5px'}}>${coin?.price}</div>
+            <div style={{color: (isDesktop || isTablet) ? "white" : "black"}}>{coin?.symbol}</div>
+            <div style={{marginLeft: '5px', color: (isDesktop || isTablet) ? "white" : "black"}}>${coin?.price}</div>
           </div>
         ))}
       </div>

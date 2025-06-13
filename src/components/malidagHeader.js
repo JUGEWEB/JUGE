@@ -167,11 +167,13 @@ function MalidagHeader({ user, isConnected, connect, address, disconnect, pendin
   )}
 
 
-      {(isTablet || isDesktop) && (
-  <Location country={country} allCountries={allCountries} />
-)}
+     
 
       </div>
+      
+       {(isTablet || isDesktop) && (
+  <Location country={country} allCountries={allCountries} />
+)}
 
       <div style={{width: "100%", marginRight: "5px"}}>
 

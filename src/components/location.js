@@ -1,101 +1,91 @@
 import React, {useState} from "react";
 import useScreenSize from "./useIsMobile";
+import { Dropdown, Menu, Button } from "antd";
+import { DownOutlined } from "@ant-design/icons";
 
-function Location({ country, allCountries,}) {
+function Location({ country, allCountries, setCountry }) {
      const [isOpen, setIsOpen] = useState(false);
      const {isMobile, isDesktop, isSmallMobile, isTablet, isVerySmall} = useScreenSize()
 
     const flagUrl = `https://flagcdn.com/w320/${country.code}.png`;
+    console.log(country, allCountries);
+
+
+     // Create the dropdown menu
+  const menu = (
+    <Menu>
+      {allCountries.map((c) => (
+        <Menu.Item
+          key={c.code}
+          onClick={() => setCountry(c)}
+          style={{ display: "flex", alignItems: "center" }}
+        >
+          <img src={c.flag} alt={c.name} style={{ width: 20, marginRight: 10 }} />
+          {c.name}
+        </Menu.Item>
+      ))}
+    </Menu>
+  );
 
     const toggleDropdown = () => setIsOpen(!isOpen);
 
-    return(
-       
-        <div style={{position: "relative", alignItems: "center", width: "auto", marginRight: "30px"}}>
-        <div
-          onClick={toggleDropdown}
-          style={{
-            border: (isMobile || isSmallMobile || isVerySmall) ? "0" : "1px solid #ccc",
-            padding:(isMobile || isSmallMobile || isVerySmall) ? "5px" : "10px",
-            borderRadius:(isMobile || isSmallMobile || isVerySmall) ? "0" : "2px",
-            cursor: "pointer",
-            width: "100%",
-            display: "flex",
-            alignItems: "center",
-            height: (isMobile || isSmallMobile || isVerySmall) ? "auto" : "20px",
-            marginTop: (isMobile || isSmallMobile || isVerySmall) ? "0px" : "10px",
-            backgroundColor: (isMobile || isSmallMobile || isVerySmall) ? " rgb(3, 29, 48)" : "#333",
-            justifyContent: (isMobile || isSmallMobile || isVerySmall) ? "start" : "center",
-             marginBottom: (isMobile || isSmallMobile || isVerySmall) ? "0px" : "5px",
-             marginRight: "5px",
-             marginLeft: "5px"
-          }}
-        >
-          <span style={{display: (isMobile || isSmallMobile || isVerySmall) ? "flex" : "",}}>
-            {(isMobile || isSmallMobile || isVerySmall) && (
-                <div>🏠</div>
-            )}
-            <div style={{ textAlign: "center", fontSize: "11px", marginTop: (isMobile || isSmallMobile || isVerySmall) ? "5px" : "0px", marginRight: (isMobile || isSmallMobile || isVerySmall) ? "5px" : "0px", }}>
-              deliver to{" "}
-            </div>
-            {(isTablet || isDesktop) && (
-            <img
-              src={flagUrl}
-              alt={country.name}
-              style={{ width: "20px", marginRight: "10px", textAlign: "center" }}
-            />
-        )}
-        {(isDesktop || isTablet) && (
-            country.code
-        )}
-            {(isMobile || isSmallMobile || isVerySmall ) && (
-                <div style={{marginTop: "5px", fontSize: "12px", fontWeight: "bold"}}>
-                {country.name}
-                </div>
-            )}
-          </span>
-          <span style={{ marginLeft: "5px" }}>▼</span>
-        </div>
+    return (
+  <div style={{ margin: "10px", maxWidth: "100%", maxHeight: "100%" }}>
+   <Dropdown
+  overlay={menu}
+  placement="bottomLeft"
+  trigger={["click"]}
+  getPopupContainer={(triggerNode) => triggerNode.parentNode}
+>
 
-        {isOpen && (
-          <div
+      <Button
+        style={{
+          display: "flex",
+          alignItems: "center",
+          backgroundColor:
+            isMobile || isSmallMobile || isVerySmall ? "rgb(3, 29, 48)" : "#333",
+          color: "#fff",
+          border: "1px solid #ccc",
+          padding: "5px 10px",
+          fontSize: "12px",
+          width: "100%",
+          justifyContent:
+            isMobile || isSmallMobile || isVerySmall ? "flex-start" : "center",
+        }}
+      >
+        <span style={{ display: "flex", alignItems: "center" }}>
+          {(isMobile || isSmallMobile || isVerySmall) && <span>🏠</span>}
+          <span
             style={{
-              position: "absolute",
-              backgroundColor: "#fff",
-              border: "1px solid #ccc",
-              maxHeight: "300px",
-              overflowY: "scroll",
-              zIndex: 1000,
-              marginTop: "5px",
+              fontSize: "11px",
+              marginRight: "5px",
+              marginLeft: "5px",
+              textAlign: "center",
             }}
           >
-            {allCountries.map((c) => (
-              <div
-                key={c.name}
-                onClick={() => {
-                  setCountry(c);
-                  setIsOpen(false);
-                }}
-                style={{
-                  color: "black",
-                  padding: "10px",
-                  display: "flex",
-                  alignItems: "center",
-                  cursor: "pointer",
-                }}
-              >
-                <img
-                  src={c.flag}
-                  alt={c.name}
-                  style={{ width: "20px", marginRight: "10px" }}
-                />
-                <span>{c.name}</span>
-              </div>
-            ))}
-          </div>
-        )}
-      </div>
-    )
+            deliver to
+          </span>
+          {(isTablet || isDesktop) && (
+            <>
+              <img
+                src={flagUrl}
+                alt={country.name}
+                style={{ width: "20px", marginRight: "10px" }}
+              />
+              {country.code}
+            </>
+          )}
+          {(isMobile || isSmallMobile || isVerySmall) && (
+            <span style={{ fontSize: "12px", fontWeight: "bold" }}>
+              {country.name}
+            </span>
+          )}
+        </span>
+        <DownOutlined style={{ fontSize: "10px", marginLeft: "6px" }} />
+      </Button>
+    </Dropdown>
+  </div>
+);
 }
 
 export default Location

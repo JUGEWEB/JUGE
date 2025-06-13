@@ -135,7 +135,7 @@ const App = () => {
     const fetchCountries = async () => {
       try {
         const countriesResponse = await axios.get(
-          "https://restcountries.com/v3.1/all"
+         "https://restcountries.com/v3.1/all?fields=name,cca2,flags"
         );
         const countryList = countriesResponse.data
           .map((c) => ({
@@ -200,21 +200,22 @@ const App = () => {
       </div>
         )}
 
+
+
+        </div>
+
+        {(isMobile || isSmallMobile || isVerySmall) && allCountries.length > 0 && (
+  <div style={{color: "white", backgroundColor: " rgb(3, 29, 48)", padding: "10px",zIndex: 1000}}>
+    <Location country={country} allCountries={allCountries} setCountry={setCountry}/>
+    </div>
+  )}
+       
         {(isMobile || isSmallMobile || isVerySmall) && (
-        <div style={{backgroundColor: "#336", borderTop: "1px solid #ccc", borderBottom: "1px solid #ccc" }}>
+        <div style={{backgroundColor: "white", borderTop: "1px solid #ccc", borderBottom: "1px solid #ccc" }}>
       <Coin  basketItems={basketItems}/>
       </div> 
         )}
 
-{(isMobile || isSmallMobile || isVerySmall) && (
-  <div style={{color: "white", backgroundColor: " rgb(3, 29, 48)", padding: "10px"}}>
-    <Location country={country} allCountries={allCountries}/>
-    </div>
-  )}
-
-        </div>
-       
-       
         {/* ✅ Navigation Menu */}
         {(isTablet || isDesktop) && (
       <NavMenu  basketItems={basketItems} /> 
