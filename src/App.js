@@ -201,7 +201,7 @@ const App = () => {
         )}
 
         {(isMobile || isSmallMobile || isVerySmall) && (
-        <div style={{backgroundColor: "#336", border: "1px solid #ccc" }}>
+        <div style={{backgroundColor: "#336", borderTop: "1px solid #ccc", borderBottom: "1px solid #ccc" }}>
       <Coin  basketItems={basketItems}/>
       </div> 
         )}
