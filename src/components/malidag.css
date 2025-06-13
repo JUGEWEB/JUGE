@@ -29,6 +29,18 @@
     color: hwb(34 0% 87%);
   }
 
+  .span-warningsmall{
+    position: relative;
+    display: flex;
+    text-align: center;
+    padding-top: 10px;
+    padding-bottom: 10px;
+   
+    background:#ddd5;
+    font-weight: bold;
+    color: hwb(34 0% 87%);
+  }
+
  
 
   .ddd{

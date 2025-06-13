@@ -62,6 +62,7 @@ import ItemOfElectronic from "./components/itemOfElectronic";
 import ItemOfPetCare from "./components/itemOfPetCare";
 import ItemOfKids from "./components/itemOfKids";
 import ItemOfHome from "./components/itemOfHome";
+import SpanWarnings from "./components/spanWarnings";
 
 
 
@@ -220,6 +221,9 @@ const App = () => {
         )}
 
         <MainSlider user={user}/>
+<div style={{width: "100%", height: "auto", backgroundColor: "#ddd5" }}>
+        <SpanWarnings/>
+</div>
      
          
 

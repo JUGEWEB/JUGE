@@ -66,7 +66,7 @@ const PrevArrow = ({ className, style, onClick }) => {
   slidesToShow: 1,
   slidesToScroll: 1,
   autoplay: true,
-  autoplaySpeed: 15000,
+  autoplaySpeed: 150009,
   initialSlide: currentSlide,
   beforeChange: (oldIndex, newIndex) => setCurrentSlide(newIndex),
   arrows: true,
@@ -106,7 +106,7 @@ const PrevArrow = ({ className, style, onClick }) => {
         ))}
       </Helmet>
       <div style={{position: "relative"}}>
-      <div style={{width: "100%", height: (isDesktop || isTablet || isMobile) ? "750px" : "440px", backgroundColor: "#ddd5"}}>
+      <div style={{width: "100%", height: (isDesktop || isTablet || isMobile) ? "750px" : "auto", backgroundColor: "#ddd5"}}>
 
 <Slider {...settings}>
 {slides.map((slide) => (
@@ -181,7 +181,7 @@ const PrevArrow = ({ className, style, onClick }) => {
   </a>
 </span>
 )}
-        <div style={{display: "flex", width: "100%", height: "auto", alignItems: "start", justifyContent: "space-between", overflowX:(isMobile || isTablet || isDesktop) ? "auto" : "auto"}}>
+        <div style={{display: "flex", width: "100%", height: "auto", alignItems: "start", justifyContent: "space-between", overflowX:(isMobile || isTablet || isDesktop) ? "auto" : "auto",  scrollbarWidth: "none", msOverflowStyle: "none",  }}>
           <MalidagCategorySmall/>
             <MalidagCategory user={user} />
            <div style={{}}>
