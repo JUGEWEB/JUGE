@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useLocation } from "react-router-dom"; // 👈 Move useLocation here
 import Slider from "react-slick";
 import { Helmet } from "react-helmet";
@@ -17,21 +17,66 @@ const slides = [
 ];
 
 const MainSlider = ({user}) => {
+  const [currentSlide, setCurrentSlide] = useState(0)
   const location = useLocation(); // 👈 use it here!
    const {isMobile, isDesktop, isSmallMobile, isTablet, isVerySmall} = useScreenSize()
     const  navigate = useNavigate()
 
   const isHome = location.pathname === "/"; // Only show slider on home page
 
-  const settings = {
-    dots: false,
-    infinite: true,
-    speed: 100,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    autoplay: true,
-    autoplaySpeed: 15000,
-  };
+  const NextArrow = ({ className, style, onClick }) => {
+  return (
+    <div
+      className={className}
+      style={{
+        ...style,
+        display: "block",
+        right: "20px",
+        marginRight: "20px",
+        top: "10%", // 👈 move arrow up (adjust % as needed)
+        zIndex: 2,
+      }}
+      onClick={onClick}
+    />
+  );
+};
+
+const PrevArrow = ({ className, style, onClick }) => {
+  return (
+    <div
+      className={className}
+      style={{
+        ...style,
+        display: "block",
+        left: "20px",
+        marginLeft: "20px",
+        top: "10%", // 👈 move arrow up
+        zIndex: 2,
+      }}
+      onClick={onClick}
+    />
+  );
+};
+
+
+ const settings = {
+  dots: false,
+  infinite: true,
+  speed: 100,
+  slidesToShow: 1,
+  slidesToScroll: 1,
+  autoplay: true,
+  autoplaySpeed: 15000,
+  initialSlide: currentSlide,
+  beforeChange: (oldIndex, newIndex) => setCurrentSlide(newIndex),
+  arrows: true,
+  nextArrow: <NextArrow />,
+  prevArrow: <PrevArrow />
+};
+
+
+
+
 
   // Handle navigation based on ID
   const handleNavigation = (id) => {

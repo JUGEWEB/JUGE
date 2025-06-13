@@ -1,35 +1,20 @@
 import React, { useState, useEffect } from "react"; 
 import "./malidag.css"; // Import the styles
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
-import { Modal, Spin } from "antd"; // Import Ant Design components
-import MalidagHeader from "./malidagHeader";
-import MalidagCategory from "./malidagCategory";
 import FashionForAll from "./fashionForAll";
 import YouMayLike from "./youMayLike";
 import TopTopic from "./topTopic";
 import RecommendedItem from "./recomendeItem";
 import Electronic from "./electronic";
-import Type from "./type";
 import TradingView from "./tradingView";
-import MalidagFoote from "./malidagFoote";
-import Home from "./homeAndKitchen";
 import "./malidagPresentItem.css";
-import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import { LeftOutlined, RightOutlined } from "@ant-design/icons";
-import { auth } from "./firebaseConfig";
 import useScreenSize from "./useIsMobile";
-import ThemeWithText from "./themewithtext";
 import MalidagCategories2 from "./malidagCatgories2";
-import MalidagCategorySmall from "./malidagCategorySmall";
 import SearchSuggestions from "./searchSuggestion";
 import ThemeForPersonnalCare from "./themeForPersonnalCare";
-import ThemeForMenFashion from "./themeForMenFashion";
-import { LazyLoadImage } from 'react-lazy-load-image-component';
 import 'react-lazy-load-image-component/src/effects/blur.css';
-import { useQuery } from '@tanstack/react-query'; // 👈 Import useQuery
 import { Helmet } from "react-helmet";
 import ThemeForWomenFashion from "./themeForWomenFashion";
 import ThemeForHomeAndKitchen from "./themeForHomeAndKitchen";
@@ -37,65 +22,13 @@ import MalidagCategories3 from "./malidagCategory3";
 import ThemeForKidsFashion from "./themeForKidFashion";
 import ThemeForKidToy from "./themeForKidsToy";
 
-
-const ITEMS_PER_SLIDE = 6; // Number of items to display per slide
-const MAX_ITEMS = 17; // Maximum items to display in total
-const BASE_URL = "https://api.malidag.com"; // Replace with your IP
   
-const Malidag = ({ user, gra, slides }) => {
-  const [currentSlide, setCurrentSlide] = useState(0); // Manage slide state
-  const [totalSlides, setTotalSlides] = useState(0);
-  const [items, setItems] = useState([]); // Hold all items
-  const [isHovered, setIsHovered] = useState(false); // State to control hover effect
-  const [isModalVisible, setIsModalVisible] = useState(false);
-  const [modalData, setModalData] = useState(null); // Data for the modal
-  const [isLoading, setIsLoading] = useState(false); // Loading state for modal content
+const Malidag = ({ user}) => {
+ 
   const [selectedSymbol, setSelectedSymbol] = useState("BTC");
-   const [currentSlideType, setCurrentSlideType] = useState("#689c85");
-   const [slideDirection, setSlideDirection] = useState("right");
   const  navigate = useNavigate()
   const {isMobile, isDesktop, isSmallMobile, isTablet, isVerySmall} = useScreenSize()
-  const [prevType, setPrevType] = useState(currentSlideType);
-  const [animate, setAnimate] = useState(false);
 
-
-  
-
-  useEffect(() => {
-    console.log("Slides rendered:", slides);
-  }, [slides]);
-  
-
-  
-    // Slider settings
-    const settings = {
-      dots: false, // 👈 this disables the three dots
-      infinite: true,
-      speed: 100,
-      slidesToShow: 1,
-      slidesToScroll: 1,
-      autoplay: true,
-      autoplaySpeed: 15000,
-      initialSlide: currentSlide, // 👈 Start from saved slide
-      beforeChange: (oldIndex, newIndex) => {
-        setCurrentSlide(newIndex);
-        const newColor = slides[newIndex]?.type || "#689c85";
-        setCurrentSlideType(newColor);
-      },
-    };
-
-  // Get the items for the current slide
-  const startIndex = currentSlide * ITEMS_PER_SLIDE;
-  const endIndex = startIndex + ITEMS_PER_SLIDE;
-  const currentItems = items.slice(startIndex, endIndex);
-  
- const onclickKid = () => {
-  navigate('/kidFashion')
- }
-
- const onclickKidToy = () => {
-  navigate('/KidToy')
- }
 
  const onclickIFP = () => {
   navigate('/IFP')
@@ -103,10 +36,6 @@ const Malidag = ({ user, gra, slides }) => {
 
  const onclickElPage = () => {
   navigate('/ElPage')
- }
-
- const onclickIHP = () => {
-  navigate('/IHP')
  }
 
  const onclickbrowsing = () => {
@@ -121,13 +50,6 @@ const Malidag = ({ user, gra, slides }) => {
   return (
 
     <>
-
-     {/* Helmet for Dynamic Preload */}
-     <Helmet>
-        {slides.map(slide => (
-          <link key={slide.id} rel="preload" as="image" href={slide.url} />
-        ))}
-      </Helmet>
 
           <div style={{backgroundColor: "#ddd5", position: 'relative',width: "100%", height: "auto"}}>
 
