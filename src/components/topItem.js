@@ -60,7 +60,7 @@ function TopItem() {
                 </div>
                 <div className="recommended-price">${item.item.usdPrice}</div>
                 <a
-                  href={item.item.link}
+                  href={`https://www.malidag.com/#/product/${item.id}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="recommended-link"
