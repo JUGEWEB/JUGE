@@ -206,7 +206,7 @@ const App = () => {
         </div>
 
         {(isMobile || isSmallMobile || isVerySmall) && allCountries.length > 0 && (
-  <div style={{color: "white", backgroundColor: "#0d1b2a", padding: "10px",zIndex: 1000}}>
+  <div style={{color: "white", backgroundColor: "#0d1b2a", padding: "10px"}}>
     <Location country={country} allCountries={allCountries} setCountry={setCountry}/>
     </div>
   )}

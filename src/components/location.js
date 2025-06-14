@@ -32,7 +32,7 @@ function Location({ country, allCountries, setCountry }) {
     const toggleDropdown = () => setIsOpen(!isOpen);
 
     return (
-  <div style={{ margin: "0px", maxWidth: "100%", maxHeight: "100%" }}>
+  <div style={{ margin: isMobile || isSmallMobile || isVerySmall ? "0px" : "10px", maxWidth: "100%", maxHeight: "100%" }}>
    <Dropdown
   overlay={menu}
   placement="bottomLeft"
@@ -42,7 +42,7 @@ function Location({ country, allCountries, setCountry }) {
 
       <div
         style={{
-          display:  isMobile || isSmallMobile || isVerySmall ? "flex" : "",
+          display:  "flex" ,
           alignItems: "center",
           backgroundColor:
             isMobile || isSmallMobile || isVerySmall ?  "#0d1b2a" : "#333",
@@ -50,10 +50,10 @@ function Location({ country, allCountries, setCountry }) {
           fontSize: "12px",
           width: "100%",
           justifyContent:
-            isMobile || isSmallMobile || isVerySmall ? "flex-start" : "center",
+            isMobile || isSmallMobile || isVerySmall ? "flex-start" : "",
         }}
       >
-        <span style={{ display: "flex", alignItems: "center" }}>
+        <span style={{ display: "flex", alignItems: "center" }}> 
           {(isMobile || isSmallMobile || isVerySmall) && <span> <FiMapPin style={{ fontSize: "16px", marginRight: "4px" }} /></span>}
           <span
             style={{
@@ -65,6 +65,7 @@ function Location({ country, allCountries, setCountry }) {
           >
             deliver to
           </span>
+          <span>
           {(isTablet || isDesktop) && (
             <>
               <img
@@ -75,6 +76,7 @@ function Location({ country, allCountries, setCountry }) {
               {country.code}
             </>
           )}
+          </span>
           {(isMobile || isSmallMobile || isVerySmall) && (
             <span style={{ fontSize: "12px", fontWeight: "bold" }}>
               {country.name}

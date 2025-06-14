@@ -64,6 +64,9 @@ function YouMayLike({ user }) {
         );
 
         setSuggestedItems(matchedItems);
+
+         // ✅ Save count in localStorage
+    localStorage.setItem("suggestedItemsCount", matchedItems.length);
         await fetchCryptoPrices();
       } catch (error) {
         console.error("Error fetching suggested items:", error);
