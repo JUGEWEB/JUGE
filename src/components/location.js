@@ -2,6 +2,8 @@ import React, {useState} from "react";
 import useScreenSize from "./useIsMobile";
 import { Dropdown, Menu, Button } from "antd";
 import { DownOutlined } from "@ant-design/icons";
+import { FiMapPin } from "react-icons/fi"; // Feather Icons – clean & minimal
+
 
 function Location({ country, allCountries, setCountry }) {
      const [isOpen, setIsOpen] = useState(false);
@@ -30,7 +32,7 @@ function Location({ country, allCountries, setCountry }) {
     const toggleDropdown = () => setIsOpen(!isOpen);
 
     return (
-  <div style={{ margin: "10px", maxWidth: "100%", maxHeight: "100%" }}>
+  <div style={{ margin: "0px", maxWidth: "100%", maxHeight: "100%" }}>
    <Dropdown
   overlay={menu}
   placement="bottomLeft"
@@ -38,15 +40,13 @@ function Location({ country, allCountries, setCountry }) {
   getPopupContainer={(triggerNode) => triggerNode.parentNode}
 >
 
-      <Button
+      <div
         style={{
-          display: "flex",
+          display:  isMobile || isSmallMobile || isVerySmall ? "flex" : "",
           alignItems: "center",
           backgroundColor:
-            isMobile || isSmallMobile || isVerySmall ? "rgb(3, 29, 48)" : "#333",
+            isMobile || isSmallMobile || isVerySmall ?  "#0d1b2a" : "#333",
           color: "#fff",
-          border: "1px solid #ccc",
-          padding: "5px 10px",
           fontSize: "12px",
           width: "100%",
           justifyContent:
@@ -54,7 +54,7 @@ function Location({ country, allCountries, setCountry }) {
         }}
       >
         <span style={{ display: "flex", alignItems: "center" }}>
-          {(isMobile || isSmallMobile || isVerySmall) && <span>🏠</span>}
+          {(isMobile || isSmallMobile || isVerySmall) && <span> <FiMapPin style={{ fontSize: "16px", marginRight: "4px" }} /></span>}
           <span
             style={{
               fontSize: "11px",
@@ -82,7 +82,7 @@ function Location({ country, allCountries, setCountry }) {
           )}
         </span>
         <DownOutlined style={{ fontSize: "10px", marginLeft: "6px" }} />
-      </Button>
+      </div>
     </Dropdown>
   </div>
 );
