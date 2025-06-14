@@ -16,9 +16,9 @@ const slides = [
   { id: 3, url: "https://api.malidag.com/public/header/3/dyctm.webp", type: "#024163" },
 ];
 const slidessmall = [
-  { id: 4, url: "https://api.malidag.com/public/header/4/image%20%281%29.webp", type: "#dfd3e5" },
-  { id: 5, url: "https://api.malidag.com/public/header/5/image%20%285%29.webp", type: "#cfbdce" },
-  { id: 6, url: "https://api.malidag.com/public/header/6/image%20%283%29.webp", type: "#f1dcd9" },
+  { id: 1, url: "https://api.malidag.com/public/header/4/image%20%281%29.webp", type: "#dfd3e5" },
+  { id: 2, url: "https://api.malidag.com/public/header/5/image%20%285%29.webp", type: "#cfbdce" },
+  { id: 3, url: "https://api.malidag.com/public/header/6/image%20%283%29.webp", type: "#f1dcd9" },
 ];
 
 const MainSlider = ({user}) => {
