@@ -15,12 +15,21 @@ const slides = [
   { id: 2, url: "https://api.malidag.com/public/header/2/Screenshorealbbbb.webp", type: "#e87909" },
   { id: 3, url: "https://api.malidag.com/public/header/3/dyctm.webp", type: "#024163" },
 ];
+const slidessmall = [
+  { id: 4, url: "https://api.malidag.com/public/header/4/image%20%281%29.webp", type: "#dfd3e5" },
+  { id: 5, url: "https://api.malidag.com/public/header/5/image%20%285%29.webp", type: "#cfbdce" },
+  { id: 6, url: "https://api.malidag.com/public/header/6/image%20%283%29.webp", type: "#f1dcd9" },
+];
 
 const MainSlider = ({user}) => {
   const [currentSlide, setCurrentSlide] = useState(0)
   const location = useLocation(); // 👈 use it here!
    const {isMobile, isDesktop, isSmallMobile, isTablet, isVerySmall} = useScreenSize()
     const  navigate = useNavigate()
+
+    const isStandardWidth = isDesktop || isTablet || isMobile;
+const activeSlides = isStandardWidth ? slides : slidessmall;
+
 
   const isHome = location.pathname === "/"; // Only show slider on home page
 
@@ -100,75 +109,74 @@ const PrevArrow = ({ className, style, onClick }) => {
   return (
     <div style={{ display: isHome ? "block" : "none" }}>
       {/* 👆 NEVER UNMOUNT slider, just hide it with CSS */}
-      <Helmet>
-        {slides.map(slide => (
-          <link key={slide.id} rel="preload" as="image" href={slide.url} />
-        ))}
-      </Helmet>
+     <Helmet>
+  {activeSlides.map((slide) => (
+    <link key={slide.id} rel="preload" as="image" href={slide.url} />
+  ))}
+</Helmet>
+
       <div style={{position: "relative"}}>
       <div style={{width: "100%", height: (isDesktop || isTablet || isMobile) ? "750px" : "auto", backgroundColor: "#ddd5"}}>
 
 <Slider {...settings}>
-{slides.map((slide) => (
-   
-   <div
-     key={slide.id}
-     style={{
-       position: "relative",
-       width: "100%",
-       height: "auto",
-       display: "flex",
-       justifyContent: "center",
-       alignItems: "center",
-       backgroundColor: "#ddd5",
-     }}
-   >
-     <div
-       style={{
-         width: "100%",
-         height: (isDesktop || isTablet || isMobile) ? "350px" : "210px",
-         position: "relative",
-         backgroundColor: slide.type,
-       }}
-     >
-      <picture>
-      <source srcSet={slide.url} type="image/webp" />
-    {/* 👇 Actual Image */}
-    <img
-      src={slide.url}
-      alt={`Slide ${slide.id}`}
-      onClick={() => handleNavigation(slide.id)}
+  {activeSlides.map((slide) => (
+    <div
+      key={slide.id}
       style={{
+        position: "relative",
         width: "100%",
-        height: (isDesktop || isTablet || isMobile) ? "300px" : "200px",
-        objectFit: "cover",
-        filter: "contrast(1.2) brightness(1.1)", // Add this line to enhance clarity
+        height: "auto",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        backgroundColor: "#ddd5",
       }}
-    />
-    </picture>
+    >
+      <div
+        style={{
+          width: "100%",
+          height: isStandardWidth ? "350px" : "210px",
+          position: "relative",
+          backgroundColor: slide.type,
+        }}
+      >
+        <picture>
+          <source srcSet={slide.url} type="image/webp" />
+          <img
+            src={slide.url}
+            alt={`Slide ${slide.id}`}
+            onClick={() => handleNavigation(slide.id)}
+            style={{
+              width: "100%",
+              height: isStandardWidth ? "300px" : "200px",
+              objectFit: "cover",
+              filter: "contrast(1.2) brightness(1.1)",
+            }}
+          />
+        </picture>
+        <div
+          style={{
+            width: "100%",
+            height: "50px",
+            position: "absolute",
+            bottom: isStandardWidth ? "50px" : "10px",
+            background: `linear-gradient(to bottom, transparent, ${slide.type || "#ddd5"})`,
+          }}
+        ></div>
+      </div>
 
-       <div
-         style={{
-           width: "100%",
-           height: "50px",
-           position: "absolute",
-           bottom: (isDesktop || isMobile || isTablet) ? "50px" : "10px",
-           background: `linear-gradient(to bottom, transparent, ${slide.type || '#ddd5'})`,
-         }}
-       ></div>
-     </div>
-
-     <div
-       style={{
-         width: "100%",
-         height: (isDesktop || isMobile || isTablet) ? "400px" : "230px",
-         top: "0px",
-         background: `linear-gradient(to bottom, ${slide.type}, #ddd5)`,
-       }}
-     ></div>
-   </div>
-))}
+      <div
+        style={{
+          width: "100%",
+          height: isStandardWidth ? "400px" : "230px",
+          top: "0px",
+          background: `linear-gradient(to bottom, ${slide.type}, #ddd5)`,
+        }}
+      ></div>
+    </div>
+  ))}
 </Slider>
+
 </div>
 
     <div style={{position: "absolute", top: "170px", width: "100%" }}>
