@@ -63,6 +63,7 @@ import ItemOfPetCare from "./components/itemOfPetCare";
 import ItemOfKids from "./components/itemOfKids";
 import ItemOfHome from "./components/itemOfHome";
 import SpanWarnings from "./components/spanWarnings";
+import InternationalShipping from "./components/internationnalShipping";
 
 
 
@@ -259,6 +260,7 @@ const App = () => {
             <Route path="/browsing" element={<Browsing user={user} />} />
             <Route path="/topitem" element={<TopItem user={user} />} />
             <Route path="/50off" element={<PayBBE />} />
+            <Route path="/international-shipping" element={<InternationalShipping />} />
             <Route path="/savebig" element={<SaveBig />} />
             <Route path="/theme1" element={<Theme1 />} />
             <Route path="/theme1Department" element={<Theme1Department/>} />
