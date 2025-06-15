@@ -45,7 +45,7 @@
   }
 }
 
-@media screen and (max-width: 480px) {
+@media screen and (max-width: 300px) {
   .item-card {
     width: 100%;
   }
