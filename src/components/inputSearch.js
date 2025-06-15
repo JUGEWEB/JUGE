@@ -133,11 +133,11 @@ function InputSearch({ isBasketVisible, basketItems, user }) {
     position: "relative",
     width: isVeryVerySmall || isVerySmall ? "95%" : isSmallMobile ? "90%" : isMobile ? "85%" : "100%",
     margin: "0 auto",
-    padding: "0 5px",
+    padding: "10px",
     boxSizing: "border-box",
   }}>
 
-<div style={{ display: "flex", alignItems: "center", width: "100%", backgroundColor: "white", border: `2px solid ${isFocused ? "#0078ff" : "white"}`,  borderRadius: "0 5px 5px 0", overflow: "hidden" }}>
+<div style={{ display: "flex", alignItems: "center", width: "100%", backgroundColor: "white", border: `2px solid ${isFocused ? "#0078ff" : "white"}`,  borderRadius: "5px 5px 5px 5px", overflow: "hidden" }}>
   
   <input
     type="text"
@@ -154,7 +154,7 @@ function InputSearch({ isBasketVisible, basketItems, user }) {
   }}
     style={{
       flex: 1, 
-      height: "35px",
+      height: "45px",
       padding: "0 10px",
       border: "none",
       fontSize: "16px",
@@ -170,17 +170,17 @@ function InputSearch({ isBasketVisible, basketItems, user }) {
       setIsFocused(false);
     }}
     style={{
-      height: "35px",
+      height: "45px",
       padding: "0 15px",
       display: "flex",
       alignItems: "center",
       justifyContent: "center",
       cursor: "pointer",
-      backgroundColor: "white",
+      backgroundColor: "orange",
       borderLeft: "1px solid #ddd",
     }}
   >
-    <FaSearch style={{ fontSize: "10px", color: "#333" }} />
+    <FaSearch style={{ fontSize: "15px", color: "#333" }} />
   </div>
 
 </div>

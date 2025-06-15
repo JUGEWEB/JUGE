@@ -38,7 +38,7 @@ function TopItem() {
 
   return (
     <div className="recommended-items-container">
-      <h2 className="recommended-title">Top 100 Most Sold Items</h2>
+      <h2 className="recommended-title">Top Items</h2>
       {loading ? (
         <div className="loading-indicator">Loading...</div>
       ) : topSoldItems.length > 0 ? (

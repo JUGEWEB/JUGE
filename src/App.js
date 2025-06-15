@@ -196,7 +196,7 @@ const App = () => {
   )}
    {/* ✅ Navigation Menu */}
    {(isMobile || isSmallMobile || isVerySmall) && (
-    <div style={{display: "flex", backgroundColor: "#333", padding: "5px",}}>
+    <div style={{display: "flex", backgroundColor: "#333", padding: "10px",}}>
       <Type basketItems={basketItems} />
       </div>
         )}
