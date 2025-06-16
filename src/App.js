@@ -64,6 +64,7 @@ import ItemOfKids from "./components/itemOfKids";
 import ItemOfHome from "./components/itemOfHome";
 import SpanWarnings from "./components/spanWarnings";
 import InternationalShipping from "./components/internationnalShipping";
+import TheCryptoShop from "./components/theCryptoShop";
 
 
 
@@ -239,6 +240,7 @@ const App = () => {
             <Route path="/item/:searchTerm" element={<ItemPage />} />
             <Route path="/items" element={<TypePage />} />
             <Route path="/coin/:crypto" element={<CoinPage />} />
+            <Route path="/the-crypto-shop" element={<TheCryptoShop />} />
             <Route path="/items/:itemClicked" element={<Item />} />
             <Route path="/itemsOfWomen/:itemClicked" element={<ItemOfWomen />} />
             <Route path="/itemsOfShoes/:itemClicked" element={<ItemOfShoes />} />

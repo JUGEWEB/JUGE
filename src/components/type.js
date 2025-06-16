@@ -34,6 +34,7 @@ const Type = () => {
           </div>
           <div
           className="type-itemT"
+          onClick={() => navigate("/the-crypto-shop")}
           >
             The crypto shop
           </div>
