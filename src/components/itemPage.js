@@ -16,6 +16,7 @@ function ItemPage() {
   const [activeVideoId, setActiveVideoId] = useState(null);
   const navigate = useNavigate(); // Initialize the useNavigate hook
   const {isMobile, isDesktop, isTablet, isSmallMobile, isVerySmall, isVeryVerySmall} = useScreenSize()
+   const [reviews, setReviews] = useState({}); // Store reviews data
 
   console.log('video', activeVideoId)
 
@@ -38,6 +39,31 @@ function ItemPage() {
     }
   };
 
+   // Fetch reviews from the endpoint
+        const fetchReviews = async (productId) => {
+          try {
+            const response = await axios.get(`https://api.malidag.com/get-reviews/${productId}`);
+            if (response.data.success) {
+             
+              const reviewsArray = response.data.reviews || [];
+              const totalRating = reviewsArray.reduce((acc, review) => {
+                let rating = parseFloat(review.rating);
+                return acc + (isNaN(rating) ? 4 : rating); // If rating is invalid, treat as 5 stars
+              }, 0);
+              const averageRating = reviewsArray.length ? (totalRating / reviewsArray.length).toFixed(2) : null;
+      
+              setReviews((prevReviews) => ({
+                ...prevReviews,
+                [productId]: { averageRating, reviewsArray },
+              }));
+      
+            }
+          } catch (error) {
+            console.error("Error fetching reviews:", error);
+          }
+        };
+      
+
   useEffect(() => {
     const fetchItems = async () => {
       try {
@@ -47,6 +73,11 @@ function ItemPage() {
 
         const uniqueCategories = [...new Set(fetchedItems.map(item => item.category))];
         setCategories(uniqueCategories);
+
+         // Fetch reviews for each item
+       fetchedItems.forEach((item) => {
+        fetchReviews(item.itemId); // Fetch reviews for each product
+      });
 
         const cryptoSymbols = [
           ...new Set(fetchedItems.map((item) => `${item.item.cryptocurrency}`)),
@@ -198,11 +229,12 @@ const categoryTypes = Array.from(
     <div className="item-page-container" style={{marginTop: "80px"}}>
       <div className="search-results-container">
         {items.map((itemData) => {
-          const { id, item } = itemData;
+          const {itemId, id, item } = itemData;
           const { name, usdPrice, originalPrice, cryptocurrency, sold, videos } = item;
           const cryptoSymbol = `${cryptocurrency}`;
           const crypto = String(cryptocurrency);
-          const stars = Math.floor(Math.random() * 5) + 1; // Random stars for now
+          const reviewsData = reviews[itemId] || {}; // Ensure it exists
+            const finalRating = reviewsData ? reviewsData.averageRating : "No rating";
           const cryptoPriceInUSD = cryptoPrices[cryptoSymbol] || 0;
           const itemPriceInCrypto =
             cryptoPriceInUSD > 0 ? (usdPrice / cryptoPriceInUSD).toFixed(6) : "N/A";
@@ -298,8 +330,11 @@ const categoryTypes = Array.from(
                     </span>
                   </div>
                 </div>
-                <div className="item-stars">
-                  {"★".repeat(stars)}{"☆".repeat(5 - stars)}
+               <div className="item-type-stars" onClick={() =>
+   navigate('/reviewPage', { 
+    state: { itemData: itemData}
+ }) } title="View reviews of this item">
+                {finalRating ? "★".repeat(Math.round(finalRating)) + "☆".repeat(5 - Math.round(finalRating)) : "No rating"}
                 </div>
               </div>
             </div>
