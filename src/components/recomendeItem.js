@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./recomendedItem.css";
 import { useNavigate } from "react-router-dom"; // Import useNavigate
+import axios from "axios";
 
 const BASE_URL = "https://api.malidag.com"; // Replace with your actual API URL
 const BASE_URLs = "https://api.malidag.com"; // Replace with your actual API URL
@@ -11,6 +12,7 @@ function RecommendedItem() {
   const [expandedItemId, setExpandedItemId] = useState(null); // Track expanded item
   const stars = Math.floor(Math.random() * 5) + 1; // Random stars for now
   const navigate = useNavigate(); // Initialize navigate
+  const [reviews, setReviews] = useState({});
 
  // Fetch cryptocurrency prices from the new endpoint
  const fetchCryptoPrices = async () => {
@@ -22,6 +24,29 @@ function RecommendedItem() {
     console.error("Error fetching crypto prices:", error);
   }
 };
+
+const fetchReviews = async (productId) => {
+    try {
+      const response = await axios.get(`${BASE_URL}/get-reviews/${productId}`);
+      if (response.data.success) {
+        const reviewsArray = response.data.reviews || [];
+        const totalRating = reviewsArray.reduce((acc, review) => {
+          const rating = parseFloat(review.rating);
+          return acc + (isNaN(rating) ? 4 : rating);
+        }, 0);
+        const averageRating = reviewsArray.length
+          ? (totalRating / reviewsArray.length).toFixed(2)
+          : null;
+
+        setReviews((prev) => ({
+          ...prev,
+          [productId]: { averageRating, reviewsArray },
+        }));
+      }
+    } catch (error) {
+      console.error("Error fetching reviews:", error);
+    }
+  };
 
   useEffect(() => {
     const fetchRecommendedItems = async () => {
@@ -40,6 +65,8 @@ function RecommendedItem() {
         const selectedItems = shuffledItems.slice(0, 30);
 
         setRecommendedItems(selectedItems);
+
+        await Promise.all(selectedItems.map((item) => fetchReviews(item.itemId)));
 
         const symbols = [
           ...new Set(
@@ -83,7 +110,12 @@ function RecommendedItem() {
     <div className="recommended-items-container">
       <h2 className="recommended-title">Recommended Products</h2>
       <div className="recommended-grid">
-        {recommendedItems.map((item) => (
+        {recommendedItems.map((item) => {
+
+          const ratingObj = reviews[item.itemId];
+          const averageRating = ratingObj ? ratingObj.averageRating : null;
+
+           return (
           <div className="recommended-item" key={item.id}>
             <div className="rec-img">
             <img
@@ -96,7 +128,10 @@ function RecommendedItem() {
             <div className="recommended-info">
               <p  onClick={() => handleItemClick(item.id)} className="recommended-name">{item.item.name}</p>
               <div className="item-sta">
-                  {"★".repeat(stars)}{"☆".repeat(5 - stars)}
+                  {averageRating
+                    ? "★".repeat(Math.round(averageRating)) +
+                      "☆".repeat(5 - Math.round(averageRating))
+                    : "No rating"}
                 </div>
               <div className="recommended-price">${item.item.usdPrice}</div>
               <div style={{display: 'flex', alignItems: 'center'}}>
@@ -118,7 +153,8 @@ function RecommendedItem() {
               )}
             </div>
           </div>
-        ))}
+           );
+})}
       </div>
     </div>
   );
