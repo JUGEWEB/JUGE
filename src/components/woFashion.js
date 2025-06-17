@@ -11,8 +11,10 @@ const CRYPTO_URL = "https://api.malidag.com/crypto-prices"; // Your crypto price
 function WoFashion() {
   const [types, setTypes] = useState({});
   const [mtypes, setMTypes] = useState({})
+  const [loadingMTypes, setLoadingMTypes] = useState(true);
   const [cryptoPrices, setCryptoPrices] = useState({});
   const [loading, setLoading] = useState(true);
+  const [loadingTypes, setLoadingTypes] = useState(true);
   const navigate = useNavigate(); // Initialize navigate
 
   useEffect(() => {
@@ -23,6 +25,7 @@ function WoFashion() {
         const data = response.data; // Should return the array of types with images
 
         setMTypes(data); // Update state with the types and images
+        setLoadingMTypes(false);
       } catch (error) {
         console.error("Error fetching Beauty category items:", error);
       } finally {
@@ -54,6 +57,8 @@ function WoFashion() {
       }, {});
 
       setTypes(groupedData);
+      setLoadingTypes(false);
+     
     } catch (error) {
       console.error("Error fetching items:", error);
     } finally {
@@ -108,7 +113,6 @@ function WoFashion() {
     return cryptoIcons[cryptocurrency] || "/crypto-icons/default.png";
   };
 
-  if (loading) return <div className="loading-message">Loading Beauty Items...</div>;
 
    // Handle item click to navigate to product details page
    const handleItemClick = (id) => {
@@ -134,88 +138,123 @@ function WoFashion() {
 
   return (
     <div className="personal-care-container">
-      <div>
+      <div >
           {/* Display categories and images */}
-      <div className="beauty-category">
-        {Object.values(mtypes).length === 0 ? (
-          <div>No types found for Beauty category</div>
-        ) : (
-          Object.values(mtypes).map((typeObj, index) => (
-            <div key={index} className="type-section">
-             
-              <div className="type-image-id">
-                <img
-                  src={typeObj.image}
-                  alt={typeObj.type}
-                  className="type-image-imgid"
-                  onClick={() => handleCategoryClick(typeObj.type)}
-                />
-              </div>
-              <h3 className="type-title"style={{color: 'green', fontSize: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', marginLeft: '20px'}}>{typeObj.type}</h3>
-            </div>
-          ))
-        )}
+     <div className="beauty-catego">
+  {loadingMTypes ? (
+    <div className="section-spinner-wrapper">
+      <div className="section-spinner"></div>
+    </div>
+  ) : Object.values(mtypes).length === 0 ? (
+    <div>No types found for Beauty category</div>
+  ) : (
+    Object.values(mtypes).map((typeObj, index) => (
+      <div key={index} className="type-section">
+        <div className="type-image-id">
+          <img
+            src={typeObj.image}
+            alt={typeObj.type}
+            className="type-image-imgid"
+            onClick={() => handleCategoryClick(typeObj.type)}
+          />
+        </div>
+        <h3 className="type-title" style={{ color: "black" }}>
+          {typeObj.type}
+        </h3>
       </div>
+    ))
+  )}
+</div>
+
       </div>
 
     {/* Horizontal scroll of type names (Top Topics) */}
+{/* Horizontal scroll of type names (Top Topics) */}
 <div style={{
   display: 'flex',
   overflowX: 'auto',
   gap: '16px',
   padding: '10px',
-  marginBottom: '20px'
+  marginBottom: '20px',
+  height: '60px',
+  alignItems: 'center',
+  position: 'relative'
 }}>
-  {Object.keys(types).map((type, index) => (
-    <div
-      key={index}
-      onClick={() => navigate(`/women-top-topic/${type.toLowerCase()}`)}
-      style={{
-        flex: '0 0 auto',
-        background: '#f0f0f0',
-        padding: '10px 20px',
-        borderRadius: '8px',
-        cursor: 'pointer',
-        fontWeight: 'bold',
-        color: '#333',
-        whiteSpace: 'nowrap'
-      }}
-    >
-      Top {type}
+
+  {loadingTypes ? (
+    <div className="section-spinner-wrapper">
+      <div className="section-spinner"></div>
     </div>
-  ))}
+  ) : (
+    Object.keys(types).map((type, index) => (
+      <div
+        key={index}
+        onClick={() => navigate(`/women-top-topic/${type.toLowerCase()}`)}
+        style={{
+          flex: '0 0 auto',
+          background: '#f0f0f0',
+          padding: '10px 20px',
+          borderRadius: '8px',
+          cursor: 'pointer',
+          fontWeight: 'bold',
+          color: '#333',
+          whiteSpace: 'nowrap'
+        }}
+      >
+        Top {type}
+      </div>
+    ))
+  )}
 </div>
 
+
 {/* All images grid (merged across types) */}
-<div style={{
-  display: 'grid',
-  gridTemplateColumns: 'repeat(auto-fill, minmax(160px, 1fr))',
-  gap: '12px',
-  padding: '10px'
-}}>
-  {Object.values(types).flat().map(({ id, item }) => (
-    <div
-      key={id}
-      onClick={() => handleItemClick(id)}
-      style={{
-        background: '#fff',
-        padding: '10px',
-        border: '1px solid #eee',
-        borderRadius: '6px',
-        cursor: 'pointer'
-      }}
-    >
-      <img
-        src={item.images[0]}
-        alt={item.name}
-        style={{ width: '100%', height: '160px', objectFit: 'contain', marginBottom: '8px' }}
-      />
-      <div style={{ fontWeight: 'bold', fontSize: '14px', marginBottom: '4px' }}>${item.usdPrice}</div>
-      <div style={{ fontSize: '12px', color: '#555' }}>
-        {item.name.length > 50 ? `${item.name.substring(0, 50)}...` : item.name}
-      </div>
+<div style={{ padding: '10px' }}>
+  {loadingTypes ? (
+    <div style={{
+      display: 'grid',
+      gridTemplateColumns: 'repeat(auto-fill, minmax(160px, 1fr))',
+      gap: '12px'
+    }}>
+      {[...Array(8)].map((_, i) => (
+        <div key={i} className="skeleton-card">
+          <div className="skeleton-image" />
+          <div className="skeleton-line short" />
+          <div className="skeleton-line" />
+        </div>
+      ))}
     </div>
-  ))}
+  ) : (
+    <div style={{
+      display: 'grid',
+      gridTemplateColumns: 'repeat(auto-fill, minmax(160px, 1fr))',
+      gap: '12px'
+    }}>
+      {Object.values(types).flat().map(({ id, item }) => (
+        <div
+          key={id}
+          onClick={() => handleItemClick(id)}
+          style={{
+            background: '#fff',
+            padding: '10px',
+            border: '1px solid #eee',
+            borderRadius: '6px',
+            cursor: 'pointer'
+          }}
+        >
+          <img
+            src={item.images[0]}
+            alt={item.name}
+            style={{ width: '100%', height: '160px', objectFit: 'contain', marginBottom: '8px' }}
+          />
+          <div style={{ fontWeight: 'bold', fontSize: '14px', marginBottom: '4px' }}>${item.usdPrice}</div>
+          <div style={{ fontSize: '12px', color: '#555' }}>
+            {item.name.length > 50 ? `${item.name.substring(0, 50)}...` : item.name}
+          </div>
+        </div>
+      ))}
+    </div>
+  )}
 </div>
 
 

@@ -10,7 +10,6 @@ function RecommendedItem() {
   const [recommendedItems, setRecommendedItems] = useState([]);
   const [cryptoPrices, setCryptoPrices] = useState({});
   const [expandedItemId, setExpandedItemId] = useState(null); // Track expanded item
-  const stars = Math.floor(Math.random() * 5) + 1; // Random stars for now
   const navigate = useNavigate(); // Initialize navigate
   const [reviews, setReviews] = useState({});
 
