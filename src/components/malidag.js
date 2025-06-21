@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react"; 
 import "./malidag.css"; // Import the styles
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import FashionForAll from "./fashionForAll";
 import YouMayLike from "./youMayLike";
 import TopTopic from "./topTopic";
@@ -21,45 +21,56 @@ import ThemeForHomeAndKitchen from "./themeForHomeAndKitchen";
 import MalidagCategories3 from "./malidagCategory3";
 import ThemeForKidsFashion from "./themeForKidFashion";
 import ThemeForKidToy from "./themeForKidsToy";
+import MalidagFooter from "./malidagFooter";
+import AppHeader from "./appHeader";
 
   
-const Malidag = ({ user}) => {
+const Malidag = ({
+  view = "home",
+  auth,
+  user,
+  basketItems,
+  connectors,
+  connect,
+  address,
+  disconnect,
+  isConnected,
+  pendingConnector,
+  allCountries,
+  country,
+  setCountry
+}) => {
  
   const [selectedSymbol, setSelectedSymbol] = useState("BTC");
   const  navigate = useNavigate()
   const {isMobile, isDesktop, isSmallMobile, isTablet, isVerySmall} = useScreenSize()
   const suggestedItemsCount = parseInt(localStorage.getItem("suggestedItemsCount")) || 0;
 
+ // ✅ Move handlers up here
+  const onclickIFP = () => navigate('/IFP');
+  const onclickElPage = () => navigate('/ElPage');
+  const onclickbrowsing = () => navigate('/browsing');
+  const onclicktopitem = () => navigate('/topitem');
 
- const onclickIFP = () => {
-  navigate('/IFP')
- }
+  // 🔄 Switch view rendering early
+  if (view === "ifp") return <ItemFashionPage />;
+  if (view === "topitem") return <TopItem user={user} />;
+  if (view === "browsing") return <Browsing user={user} />;
 
- const onclickElPage = () => {
-  navigate('/ElPage')
- }
-
- const onclickbrowsing = () => {
-  navigate('/browsing')
- }
-
- const onclicktopitem = () => {
-  navigate('/topitem')
- }
-  
 
   return (
 
     <>
 
           <div style={{backgroundColor: "#ddd5", position: 'relative',width: "100%", height: "auto"}}>
-
+<div>
             <MalidagCategories2/>
+            </div>
 
-            <div style={{paddingLeft: "0rem", paddingRight: "0rem"}}>
-
+            <div >
+          
                 {!(isTablet || isDesktop) && (
-          <div className="container">
+          <div className="containersmall">
             <div style={{ backgroundColor: "white", width: "100%", position: "relative", height: "auto", paddingBottom: "10px"}}>
             <div style={{display: "flex", alignItems: "center", justifyContent: "start",}}>
           <h1 style={{marginLeft: "20px"}}>Fashion for All</h1>
@@ -69,7 +80,9 @@ const Malidag = ({ user}) => {
           <FashionForAll />
           </div>
         </div>
+       
         )}
+        
 
             {(isSmallMobile || isVerySmall) && (
             <div style={{width: "100%", display: "flex", alignItems: "center", justifyContent: "center"}}>
@@ -99,6 +112,7 @@ const Malidag = ({ user}) => {
                     </div>
                   )}
                    {!(isTablet || isDesktop) && (
+                    
 <div className="container2de">
   <h1  style={{display: "flex", alignItems: "center"}}>Top Items  <div style={{fontSize: "14px", color: "green", marginLeft: "10px", fontWeight: "bold", marginTop: "10px", cursor: "pointer"}}  onClick={onclicktopitem} >Explore now</div> </h1>
   <div style={{width: "100%"}}>
@@ -188,11 +202,13 @@ const Malidag = ({ user}) => {
 )}
 
  {(isTablet || isDesktop) && (
+  <div className="container">
 <div className="container2de">
   <h1  style={{display: "flex", alignItems: "center"}}>Top Items  <div style={{fontSize: "14px", color: "green", marginLeft: "10px", fontWeight: "bold", marginTop: "10px", cursor: "pointer"}}  onClick={onclicktopitem} >Explore now</div> </h1>
   <div style={{width: "100%"}}>
   <TopTopic />
   </div>
+</div>
 </div>
  )}
        
@@ -206,7 +222,7 @@ const Malidag = ({ user}) => {
           <TradingView symbol={selectedSymbol} />
         </div>
         </div>
-
+       <MalidagFooter />
         </>
         
   );

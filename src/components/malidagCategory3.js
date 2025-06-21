@@ -103,23 +103,34 @@ function MalidagCategories3({ user, auth }) {
   };
 
   return (
-    <div className="categories-container">
+    <div style={{overflowX: "auto", display: "flex", alignItems: "center", justifyContent: "space-between", width: "100%", margin: "0px"  }}>
+        <div style={{margin: "20px"}}>
      {(isDesktop) && (
       <ThemeForFashionKick2/>
     )}
+    </div>
+    <div style={{margin: "20px"}}>
       {(isDesktop) && (
       <ThemeForMenFashion2/>
     )}
+    </div>
+
+    <div style={{margin: "20px"}}>
 
      {(isDesktop) && (
-      <div style={{marginLeft: "1rem"}}>
+      <div style={{}}>
       <ThemeForPersonnalCare2/>
       </div>
     )}
+    </div>
+
+    <div style={{margin: "20px"}}>
 
      {(isDesktop) && (
-      <ThemeForHomeAndKitchen/>
+      <ThemeForKidToy/>
     )}
+
+    </div>
      
     </div>
   );

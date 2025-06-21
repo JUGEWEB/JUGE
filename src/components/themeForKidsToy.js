@@ -22,9 +22,6 @@ const ThemeForKidToy = () => {
     image: "https://api.malidag.com/images/1748821351223-ChatGPT%20Image%20Jun%202,%202025,%2002_36_43%20AM.webp"
   };
 
-  const brandCount = parseInt(localStorage.getItem('brandCount')) || 0;
-  if (isDesktop && brandCount === 2) return null;
-
   
 
   const handleDiscoverClick = () => {
@@ -33,15 +30,12 @@ const ThemeForKidToy = () => {
 
   return (
     <div style={{
-     padding: (isSmallMobile || isVerySmall) ? "0.5rem" : "1rem",
-      marginLeft: (isSmallMobile || isVerySmall) ? "" : '1rem',
       overflow: 'hidden',
       width: (isDesktop || isTablet || isMobile) ? '270px' : "100%",
       boxShadow: '0 2px 10px rgba(0, 0, 0, 0.05)',
       backgroundColor: '#fdfdfd',
       borderRadius: (isDesktop || isMobile || isTablet) ? "0px" : "0px",
-      marginTop:(isSmallMobile || isVerySmall) ? "0rem" : "1rem",
-      marginBottom:(isSmallMobile || isVerySmall) ? "0rem" : "1rem"
+      height:(isDesktop || isTablet || isMobile) ? '400px' : "100%",
     }}>
       <div style={{
         padding: '1rem',
@@ -66,7 +60,7 @@ const ThemeForKidToy = () => {
               width: '100%',
               height: (isSmallMobile || isVerySmall) ? "auto" : 'auto',
               display: 'block',
-              opacity: loadedImages[theme.id] ? 1 : 1,
+              opacity: loadedImages[theme.id] ? 1 : 0,
               objectFit: 'cover',
               transition: 'opacity 0.3s ease-in-out'
             }}

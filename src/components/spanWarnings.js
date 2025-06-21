@@ -14,9 +14,9 @@ function SpanWarnings () {
   if (location.pathname !== "/") return null;
 
     return(
-        <div>
+        <div style={{backgroundColor: "#ddd5", width: "100%", height: "100%"}}>
              {!(isTablet || isDesktop) && (
-<span className="span-warningsmall" style={{backgroundColor: "#ddd5", maxWidth: "100%", maxHeight: "100%", margin: "10px" }}>
+<span className="span-warningsmall" style={{backgroundColor: "#ddd5", maxWidth: "100%", maxHeight: "100%", margin: "0px" }}>
   We are displaying products that ship to your location. You can select a different location in the menu above.  
   <span
             onClick={() => navigate("/international-shipping")}

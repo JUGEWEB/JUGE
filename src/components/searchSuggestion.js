@@ -52,11 +52,11 @@ if (brandCount === 0) return null;
   return (
    
    
-    <div style={{ padding: (isDesktop || isMobile || isTablet) ? '1rem' : "" }}>
+    <div style={{ padding: (isDesktop || isMobile || isTablet) ? '1px' : "" , position: "relative", width: "100%", height: "auto"}}>
       <div style={{
         display: (isDesktop || isMobile || isTablet) ? 'flex' : "",
         flexWrap: (isDesktop || isMobile || isTablet) ? '' : "none",
-        gap: '1.5rem',
+        gap: '10px',
         width: '100%'
       }}>
         {suggestions.length > 0 ? (
@@ -72,13 +72,13 @@ if (brandCount === 0) return null;
               <h3>Suggested Brands Inspired by Your Searches</h3>
               <div style={{
                 display: 'flex',
-                gap: '1rem',
+                gap: '10px',
                 flexWrap: (isDesktop || isMobile || isTablet) ? 'wrap' : "none",
                 overflowX: (isDesktop || isMobile || isTablet) ? 'none' : "auto"
               }}>
                 {items.map(item => (
                   <div key={item?.itemId} style={{
-                    padding: (isDesktop || isMobile || isTablet) ? '0.5rem' : "0rem",
+                    padding: (isDesktop || isMobile || isTablet) ? '10px' : "0rem",
                     width: (isDesktop || isMobile || isTablet) ? '100px' : "300px",
                     textAlign: 'center',
                     backgroundColor: 'white'
@@ -95,7 +95,7 @@ if (brandCount === 0) return null;
                     />
                     <div style={{
                       fontWeight: 'bold',
-                      fontSize: '0.9rem',
+                      fontSize: '10px',
                       whiteSpace: 'nowrap',
                       overflow: 'hidden',
                       textOverflow: 'ellipsis',
@@ -106,7 +106,7 @@ if (brandCount === 0) return null;
                   </div>
                 ))}
               </div>
-              <h4 style={{ marginBottom: '1rem', color: "blue", textDecoration: "underline", cursor: "pointer" }}>
+              <h4 style={{ marginBottom: '10px', color: "blue", textDecoration: "underline", cursor: "pointer" }}>
                 visite {brand}
               </h4>
             </div>

@@ -99,14 +99,20 @@ function MalidagCategorySmall({ user }) {
   };
 
   return (
-    <div className="categories-container">
+    <div >
     
           {(isSmallMobile || isVerySmall) && (
-            <>
+            <div style={{overflowX: "auto", display: "flex", alignItems: "center", justifyContent: "space-between", width: "100%", margin: "0px"  }}>
+              <div style={{margin: "5px"}}>
               <ThemeForFashionKick />
+              </div>
+              <div style={{margin: "5px"}}>
               <ThemeForMenFashion />
+              </div>
+              <div style={{margin: "5px"}}>
               <ThemeForGamers />
-            </>
+              </div>
+            </div>
           )}
     </div>
   );

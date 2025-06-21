@@ -89,7 +89,7 @@
   
   .modal-content {
     max-height: 400px; 
-    overflow-y: auto; 
+     overflow-y: auto;
     padding-right: 16px; 
   }
   
@@ -113,27 +113,34 @@
     cursor: pointer;
   }
   
-.container{
-  position: relative;
+.container {
   display: flex;
   justify-content: center;
-  background-color: white;
+  align-items: center;
+  margin: 20px auto;
+  width: calc(100% - 40px);
+  max-width: 1200px; /* Or whatever max width you want */
   color: black;
-  width: 100%;
-  height: auto;
-  margin-top: 3px;
+}
+
+.containersmall {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 20px auto;
+  width: calc(100% - 0px);
+  max-width: 1200px; /* Or whatever max width you want */
+  color: black;
 }
 
 .containeri{
-  position: relative;
   display: flex;
   justify-content: center;
-  background-color: white;
+  align-items: center;
+  margin: 20px auto;
+  width: calc(100% - 40px);
+  max-width: 1200px; /* Or whatever max width you want */
   color: black;
-  width: 100%;
-  height: auto;
-  margin-top: 3px;
-  margin-bottom: 0px;
 }
 
 h1, h2, h3, h4, h5, h6 {

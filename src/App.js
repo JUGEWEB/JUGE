@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Malidag from "./components/malidag";
 import axios from "axios"
-import { HashRouter as Router, Route, Routes } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import { onAuthStateChanged } from "firebase/auth";
 import AuthForm from "./components/AuthForm";
 import Profile from "./components/profile";
@@ -41,7 +41,7 @@ import useScreenSize from "./components/useIsMobile";
 
 import { useConnect,  useAccount, useDisconnect } from 'wagmi'
 import ProductReview from "./components/productReview";
-
+import { useLocation } from 'react-router-dom';
 import './App.css'
 import BasketComponent from "./components/basketComponent";
 import WomenTopTopic from "./components/womentoptopic";
@@ -65,12 +65,16 @@ import ItemOfHome from "./components/itemOfHome";
 import SpanWarnings from "./components/spanWarnings";
 import InternationalShipping from "./components/internationnalShipping";
 import TheCryptoShop from "./components/theCryptoShop";
+import ScrollToTop from "./components/ScrollToTop";
+import useScrollResetOnNavigate from "./components/useScrollResetOnNavigate";
+import Layout from "./components/layout";
 
 
 
 const BASE_URLs = 'https://api.malidag.com';
 
 const App = () => {
+   useScrollResetOnNavigate();
   const [currentSlide, setCurrentSlide] = useState(0);
   const [user, setUser] = useState(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -88,6 +92,9 @@ const App = () => {
     const savedIndex = localStorage.getItem("selectedIndex");
     return savedIndex !== null ? Number(savedIndex) : 0  
   });
+  const location = useLocation();
+
+
  
   console.log("contry:", country)
   useEffect(() => {
@@ -155,6 +162,16 @@ const App = () => {
     fetchUserIPAndCountry();
     fetchCountries();
   }, []);
+  useEffect(() => {
+  const forceScroll = () => {
+    setTimeout(() => {
+      console.log("Hard scroll in App.js");
+      window.scrollTo(0, 0);
+    }, 200);
+  };
+  forceScroll();
+}, [location.pathname]);
+
 
   useEffect(() => {
     const fetchBasketItems = async () => {
@@ -175,67 +192,45 @@ const App = () => {
     return () => clearInterval(intervalId);
   }, [user]); // Fetch basket when userId changes
 
+   useEffect(() => {
+  const onScroll = () => {
+    console.log("Scroll event from:", document.activeElement, "Window scroll:", window.scrollY);
+  };
+
+  window.addEventListener("scroll", onScroll);
+  return () => window.removeEventListener("scroll", onScroll);
+}, []);
+
   return (
-    <div style={{ backgroundColor: "#fdfdfd", minHeight: "100vh" }}>
-      
-   
-    <div style={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
-      <Router>
-        
-        {/* Header */}
-        <div style={{backgroundColor: "#333"}}>
-       <div className="header-container" style={{backgroundColor: (isDesktop || isTablet) ? "" : "#333"}} >
-       
-        <MalidagHeader  className="malidag-header"  basketItems={basketItems} user={user}  connectors={connectors} connect={connect} address={address} disconnect={disconnect} isConnected={isConnected}  pendingConnector={pendingConnector} allCountries={allCountries} country={country}  />
-        
-         <BasketComponent basketItems={basketItems}/>
-        </div>
-        {(isMobile || isSmallMobile || isVerySmall || isTablet) && (
-          <div style={{width: "100%", marginLeft: "0px", marginRight: "0px", backgroundColor: "#333", marginTop: "2px"}}>
-    <InputSearch user={user} basketItems={basketItems} isBasketVisible={true} />
-    </div>
-  )}
-   {/* ✅ Navigation Menu */}
-   {(isMobile || isSmallMobile || isVerySmall) && (
-    <div style={{display: "flex", backgroundColor: "#333", padding: "10px",}}>
-      <Type basketItems={basketItems} />
-      </div>
-        )}
-
-
-
-        </div>
-
-        {(isMobile || isSmallMobile || isVerySmall) && allCountries.length > 0 && (
-  <div style={{color: "white", backgroundColor: "#0d1b2a", padding: "10px"}}>
-    <Location country={country} allCountries={allCountries} setCountry={setCountry}/>
-    </div>
-  )}
-       
-        {(isMobile || isSmallMobile || isVerySmall) && (
-        <div style={{backgroundColor: "white", borderTop: "1px solid #ccc", borderBottom: "1px solid #ccc" }}>
-      <Coin  basketItems={basketItems}/>
-      </div> 
-        )}
-
-        {/* ✅ Navigation Menu */}
-        {(isTablet || isDesktop) && (
-      <NavMenu  basketItems={basketItems} /> 
-        )}
-      <div style={{border: "1px solid #ccc"}}>
-        <MainSlider user={user}/>
-        </div>
-<div style={{width: "100%", height: "auto", backgroundColor: "#ddd5" }}>
-        <SpanWarnings/>
-</div>
-     
-         
-
-        {/* Main Content */}
-        <div style={{ flex: 1 }}>
-          <Routes>
+    <>
+          <Routes >
+             <Route element={
+    <Layout
+      basketItems={basketItems}
+      user={user}
+      connectors={connectors}
+      connect={connect}
+      address={address}
+      disconnect={disconnect}
+      isConnected={isConnected}
+      pendingConnector={pendingConnector}
+      allCountries={allCountries}
+      country={country}
+      setCountry={setCountry}
+    />
+  }>
             <Route path="/auth" element={<AuthForm auth={auth} user={user} />} />
-            <Route path="/" element={<Malidag auth={auth} user={user} />} />
+           <Route path="/" element={<Malidag view="home" user={user} basketItems={basketItems}
+       
+        connectors={connectors}
+        connect={connect}
+        address={address}
+        disconnect={disconnect}
+        isConnected={isConnected}
+        pendingConnector={pendingConnector}
+        allCountries={allCountries}
+        country={country}
+        setCountry={setCountry} />} />
             <Route path="/profile" element={<Profile auth={auth} user={user} />} />
             <Route path="/item/:searchTerm" element={<ItemPage />} />
             <Route path="/items" element={<TypePage />} />
@@ -276,15 +271,15 @@ const App = () => {
             <Route path="/shoes-top-topic/:type" element={<ShoesTopTopic />} /> {/* Dynamic route */}
             <Route path="/women-top-topic/:type" element={<WomenTopTopic />} /> {/* Dynamic route */}
             <Route path="/product/:id" element={<ProductDetails basketItems={basketItems}  country={country} user={user} address={address} auth={auth} chainId={isConnected && chain ? chain.id : null}/>} />
+            </Route>
           </Routes>
-        </div>
+    </>
 
-        <MalidagFooter/>
-      </Router>
-    </div>
-    </div>
     
   );
+
 };
+
+
 
 export default App;

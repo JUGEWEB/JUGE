@@ -22,9 +22,6 @@ const ThemeForKidsFashion = () => {
     image: "https://api.malidag.com/images/1748702209351-ChatGPT%20Image%20May%2031,%202025,%2005_31_17%20PM.webp"
   };
 
-  const brandCount = parseInt(localStorage.getItem('brandCount')) || 0;
-  if (isDesktop && brandCount === 2) return null;
-
   
 
   const handleDiscoverClick = () => {
@@ -33,15 +30,12 @@ const ThemeForKidsFashion = () => {
 
   return (
     <div style={{
-     padding: (isSmallMobile || isVerySmall) ? "0.5rem" : "1rem",
-      marginLeft: (isSmallMobile || isVerySmall) ? "" : '1rem',
       overflow: 'hidden',
       width: (isDesktop || isTablet || isMobile) ? '270px' : "100%",
       boxShadow: '0 2px 10px rgba(0, 0, 0, 0.05)',
       backgroundColor: '#fdfdfd',
       borderRadius: (isDesktop || isMobile || isTablet) ? "0px" : "0px",
-      marginTop:(isSmallMobile || isVerySmall) ? "0rem" : "1rem",
-      marginBottom:(isSmallMobile || isVerySmall) ? "0rem" : "1rem"
+      height:(isDesktop || isTablet || isMobile) ? '400px' : "auto",
     }}>
       <div style={{
         padding: '1rem',
@@ -55,7 +49,7 @@ const ThemeForKidsFashion = () => {
         Kids fashion
       </div>
 
-      <div style={{ width:(isSmallMobile || isVerySmall) ? "100%" : '100%', height:(isSmallMobile || isVerySmall) ? "auto" : 'auto', backgroundColor: "#ddd5"}}>
+      <div style={{ width:(isSmallMobile || isVerySmall) ? "100%" : '100%', height:(isSmallMobile || isVerySmall) ? "100%" : 'auto', backgroundColor: "#ddd5"}}>
           <img
             src={theme.image}
             alt={theme.theme}
@@ -66,7 +60,7 @@ const ThemeForKidsFashion = () => {
               width: '100%',
               height: (isSmallMobile || isVerySmall) ? "auto" : 'auto',
               display: 'block',
-              opacity: loadedImages[theme.id] ? 1 : 1,
+              opacity: loadedImages[theme.id] ? 1 : 0,
               objectFit: 'cover',
               transition: 'opacity 0.3s ease-in-out'
             }}

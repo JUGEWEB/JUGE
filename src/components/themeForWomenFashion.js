@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import useScreenSize from './useIsMobile';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 
 const ThemeForWomenFashion = () => {
   const { isDesktop, isMobile, isTablet, isSmallMobile, isVerySmall } = useScreenSize();
@@ -22,21 +22,18 @@ const ThemeForWomenFashion = () => {
     image: "https://api.malidag.com/images/1745877690253-Screenshot_12fashion.webp"
   };
 
-  const brandCount = parseInt(localStorage.getItem('brandCount')) || 0;
-  if (isDesktop && brandCount === 2) return null;
-
   
 
   const handleDiscoverClick = () => {
     navigate("/woFashion");
+   
   };
 
   return (
     <div style={{
-     padding: (isSmallMobile || isVerySmall) ? "0.5rem" : "1rem",
-      marginLeft: (isSmallMobile || isVerySmall) ? "" : '1rem',
       overflow: 'hidden',
       width: (isDesktop || isTablet || isMobile) ? '270px' : "100%",
+      height:(isSmallMobile || isVerySmall) ? "100%" :  '400px',
       boxShadow: '0 2px 10px rgba(0, 0, 0, 0.05)',
       backgroundColor: '#fdfdfd',
       borderRadius: (isDesktop || isMobile || isTablet) ? "0px" : "0px",
@@ -56,11 +53,16 @@ const ThemeForWomenFashion = () => {
       </div>
 
       <div style={{ width:(isSmallMobile || isVerySmall) ? "100%" : '100%', height:(isSmallMobile || isVerySmall) ? "auto" : 'auto', backgroundColor: "#ddd5"}}>
+       <Link
+  to="/woFashion"
+  onClick={() => window.scrollTo(0, 0)}
+>
           <img
             src={theme.image}
             alt={theme.theme}
              loading="lazy"
-            onClick={handleDiscoverClick}
+            //onClick={handleDiscoverClick}
+            
             style={{
               width: '100%',
               height: (isSmallMobile || isVerySmall) ? "auto" : 'auto',
@@ -70,6 +72,8 @@ const ThemeForWomenFashion = () => {
               transition: 'opacity 0.3s ease-in-out'
             }}
           />
+          </Link>
+          
       </div>
 
       {(isDesktop || isTablet || isMobile) && (

@@ -54,20 +54,14 @@ const ThemeForGamers = () => {
 
   return (
     <div style={{
-      marginLeft: '1rem',
-      padding: (isDesktop) ? "1rem" : "0rem",
       overflow: 'hidden',
-      width: (isDesktop || isTablet || isMobile) ? '270px' : "150px",
-      borderRadius:(isDesktop || isMobile || isTablet) ? "0px" : "0px",
-      boxShadow: '0 2px 10px rgba(0, 0, 0, 0.05)',
+      width:(isDesktop || isTablet || isMobile) ? '270px' : "150px",
+      height:(isDesktop || isTablet || isMobile) ? '400px' : "270px",
       backgroundColor: '#fdfdfd',
-      marginTop: (isDesktop) ? "0rem" : "1rem",
-      marginBottom: "1rem",
-      marginRight: (isDesktop) ? "1rem" : "0rem"
     }}>
       <div style={{
-        padding: '1rem',
-        fontSize: (isDesktop || isTablet || isMobile) ? '1.5rem' : "1rem",
+        padding: '10px',
+        fontSize:"24px",
         fontWeight: 'bold',
         color: '#333',
         backgroundColor: '#fafafa',
@@ -88,12 +82,13 @@ const ThemeForGamers = () => {
           display: 'block',
           opacity: loadedImages[loadTheme.id] ? 1 : 1,
           objectFit: 'cover',
+          cursor: "pointer"
         }}
       />
       </div>
         {(isDesktop || isMobile || isTablet) && (
    
-      <div  onClick={handleDiscoverClick} style={{color: "blue", marginTop: "4rem", fontSize: "0.8rem", textDecoration: "underline", marginLeft: "1rem"}}>discover now</div>
+      <div  onClick={handleDiscoverClick} style={{color: "blue", marginTop: "4rem", fontSize: "0.8rem",fontWeight: "bold", textDecoration: "underline", marginLeft: "10px", cursor: "pointer"}}>discover now</div>
                
     )}
     </div>

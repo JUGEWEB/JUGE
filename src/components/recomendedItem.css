@@ -116,6 +116,45 @@
     color: #ffb400;
     margin-left: 5px;
   }
+
+  .skeleton-card {
+  background: #fff;
+  border-radius: 6px;
+  border: 1px solid #eee;
+  padding: 10px;
+  animation: pulse 1.5s infinite ease-in-out;
+}
+
+.skeleton-image {
+  height: 160px;
+  background: #e0e0e0;
+  border-radius: 4px;
+  margin-bottom: 10px;
+}
+
+.skeleton-line {
+  height: 14px;
+  background: #e0e0e0;
+  border-radius: 4px;
+  margin-bottom: 8px;
+}
+
+.skeleton-line.short {
+  width: 60%;
+}
+
+@keyframes pulse {
+  0% {
+    background-color: #eee;
+  }
+  50% {
+    background-color: #ddd;
+  }
+  100% {
+    background-color: #eee;
+  }
+}
+
   
   
   

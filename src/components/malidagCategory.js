@@ -7,6 +7,7 @@ import useScreenSize from "./useIsMobile";
 import ThemeForFashionKick from "./themeForFasionKick";
 import ThemeForMenFashion from "./themeForMenFashion";
 import ThemeForGamers from "./themeForGamers";
+import ThemeWithText from "./themewithtext";
 
 const BASE_URL = "https://api.malidag.com";
 const BASE_URLs = "https://api.malidag.com";
@@ -102,27 +103,33 @@ function MalidagCategory({ user, auth }) {
   };
 
   return (
-    <div className="categories-container">
-       {(isTablet || isDesktop || isMobile) && (
-       
-      <SearchSuggestions userId={user?.uid}/>
-     
-       )}
-
+    <div style={{display: "flex", alignItems: "center", justifyContent:isDesktop ? "center" : "start", width: "100%", margin: "0px", overflowX: "auto"}}>
+<div style={{margin: "20px"}}>
 {(isTablet || isDesktop || isMobile) && (
       <ThemeForPersonnalCare/>
     )}
-     {(isTablet || isDesktop || isMobile) && (
-      <div>
+    </div>
+
+    <div style={{margin: "20px"}}>
+
+    {(isTablet || isDesktop || isMobile) && (
       <ThemeForFashionKick/>
-      </div>
     )}
-      {(isTablet || isDesktop || isMobile) && (
+    </div>
+
+    <div style={{margin: "20px"}}>
+
+    {(isTablet || isDesktop || isMobile) && (
       <ThemeForMenFashion/>
     )}
-      {(isTablet || isMobile) && (
-      <ThemeForGamers/>
+    </div>
+
+     <div style={{margin: "20px"}}>
+
+    {(isTablet || isDesktop || isMobile) && (
+      <ThemeWithText/>
     )}
+    </div>
      
     </div>
   );

@@ -1,5 +1,9 @@
 .categories-container{
   display: flex;
+  position: relative;
+  width: 100%;
+  height: auto;
+  justify-content: start;
 }
 
 @keyframes pulse {

@@ -116,7 +116,7 @@ const PrevArrow = ({ className, style, onClick }) => {
 </Helmet>
 
       <div style={{position: "relative"}}>
-      <div style={{width: "100%", height: (isDesktop || isTablet || isMobile) ? "750px" : "auto", backgroundColor: "#ddd5"}}>
+      <div style={{width: "100%", height: (isDesktop || isTablet || isMobile) ? "auto" : "auto", backgroundColor: "#ddd5"}}>
 
 <Slider {...settings}>
   {activeSlides.map((slide) => (
@@ -148,7 +148,7 @@ const PrevArrow = ({ className, style, onClick }) => {
             onClick={() => handleNavigation(slide.id)}
             style={{
               width: "100%",
-              height: isStandardWidth ? "300px" : "200px",
+              height: isStandardWidth ? "300px" : "300px",
               objectFit: "cover",
               filter: "contrast(1.2) brightness(1.1)",
             }}
@@ -168,7 +168,7 @@ const PrevArrow = ({ className, style, onClick }) => {
       <div
         style={{
           width: "100%",
-          height: isStandardWidth ? "400px" : "230px",
+          height: isStandardWidth ? "300px" : "230px",
           top: "0px",
           background: `linear-gradient(to bottom, ${slide.type}, #ddd5)`,
         }}
@@ -179,7 +179,7 @@ const PrevArrow = ({ className, style, onClick }) => {
 
 </div>
 
-    <div style={{position: "absolute", top: "170px", width: "100%" }}>
+    <div style={{position: "absolute", bottom: "0px", width: "100%" }}>
 
     {(isTablet || isDesktop) && (
 <span className="span-warning">
@@ -189,13 +189,9 @@ const PrevArrow = ({ className, style, onClick }) => {
   </a>
 </span>
 )}
-        <div style={{display: "flex", width: "100%", height: "auto", alignItems: "start", justifyContent: "space-between", overflowX:(isMobile || isTablet || isDesktop) ? "auto" : "auto",  scrollbarWidth: "none", msOverflowStyle: "none",  }}>
+        <div style={{width: "100%", height: "auto", margin: "0px"}}>
           <MalidagCategorySmall/>
             <MalidagCategory user={user} />
-           <div style={{}}>
-            <ThemeWithText/>
-            </div>
-      
             </div>
 
           </div>

@@ -29,11 +29,6 @@ const ThemeForFashionKick2 = () => {
     fetchTheme();
   }, []);
 
-  const brandCount = parseInt(localStorage.getItem('brandCount')) || 0;
-
-  // ❌ On desktop, hide if brandCount is 3 or more
-  if (!(isDesktop && brandCount >= 2)) return null;
-
   if (!theme) return null;
 
   const handleDiscoverClick = () => {
@@ -42,12 +37,12 @@ const ThemeForFashionKick2 = () => {
 
   return (
     <div style={{
-      marginLeft: '1rem',
+     
       overflow: 'hidden',
       width: '270px',
       boxShadow: '0 2px 10px rgba(0, 0, 0, 0.05)',
       backgroundColor: '#fdfdfd',
-      marginBottom: "1rem"
+     height: "400px"
     }}>
       <div style={{
         padding: '1rem',

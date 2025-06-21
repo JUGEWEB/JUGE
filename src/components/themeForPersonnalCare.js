@@ -18,24 +18,19 @@ const ThemeForPersonnalCare = () => {
     });
   }, []);
 
-  const brandCount = parseInt(localStorage.getItem('brandCount')) || 0;
-  if (isDesktop && brandCount >= 3) return null;
-
   return (
     <div style={{
-      padding: (isSmallMobile || isVerySmall) ? "0.5rem" : "1rem",
+      position: "relative",
       width: (isSmallMobile || isVerySmall) ? "100%" : '270px',
-      minHeight:  '250px',
-      marginTop: (isSmallMobile || isVerySmall) ? "0rem" : "1rem",
-      marginBottom: (isSmallMobile || isVerySmall) ? "0.2rem" : "1rem",
+      height:(isSmallMobile || isVerySmall) ? "100%" :  '400px',
       boxShadow: '0 1px 4px rgba(0,0,0,0.08)',
       backgroundColor: '#fff'
     }}>
       <div style={{
-        fontSize: '1.25rem',
+        fontSize: '25px',
         fontWeight: 'bold',
         color: '#333',
-        marginBottom: '1rem',
+        marginBottom: '10px',
         textAlign: 'center',
       }}>
         Personal care for you
@@ -45,14 +40,16 @@ const ThemeForPersonnalCare = () => {
        display:(isSmallMobile || isVerySmall) ? "grid" : 'flex',
         flexWrap: 'wrap',
         width: "100%",
-        gap:(isSmallMobile || isVerySmall) ? "1rem" :  "1rem",
+        gap:(isSmallMobile || isVerySmall) ? "1px" :  "1px",
         justifyContent:(isSmallMobile || isVerySmall) ? "space-between" :  'space-between',
         gridTemplateColumns: (isSmallMobile || isVerySmall) ? 'repeat(2, 1fr)' : 'repeat(2, 1fr)', // 👈 Always 2 columns
         alignItems: "center",
+        height: "auto"
       }}>
         {personalCareThemes.map((theme) => (
           <div key={theme.id} onClick={() => navigate(`/items/${encodeURIComponent(theme.type)}`)} style={{
             width:(isSmallMobile || isVerySmall) ? "100%" : '100px',
+            height: "auto",
             textAlign: 'center',
             minHeight: '100%',
               

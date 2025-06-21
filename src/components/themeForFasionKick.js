@@ -23,12 +23,6 @@ const ThemeForFashionKick = () => {
     image: "https://api.malidag.com/images/1745586262836-Screenshot_7.webp"
   };
 
-  const brandCount = parseInt(localStorage.getItem('brandCount')) || 0;
-  if (isDesktop && brandCount >= 2) return null;
-  
-
-
-   console.log("brandCount:", brandCount)
   
 
   const handleDiscoverClick = () => {
@@ -37,18 +31,16 @@ const ThemeForFashionKick = () => {
 
   return (
     <div style={{
-      marginLeft: '1rem',
       overflow: 'hidden',
       width: (isDesktop || isTablet || isMobile) ? '270px' : "150px",
       boxShadow: '0 2px 10px rgba(0, 0, 0, 0.05)',
       backgroundColor: '#fdfdfd',
+      height:(isDesktop || isTablet || isMobile) ? '400px' : "270px",
       borderRadius: (isDesktop || isMobile || isTablet) ? "0px" : "0px",
-      marginTop: "1rem",
-      marginBottom: "1rem"
     }}>
       <div style={{
-        padding: '1rem',
-        fontSize: (isDesktop || isTablet || isMobile) ? '1.5rem' : "1rem",
+        padding: '10px',
+        fontSize: (isDesktop || isTablet || isMobile) ? '24px' : "24px",
         fontWeight: 'bold',
         color: '#333',
         backgroundColor: '#fafafa',
@@ -66,7 +58,7 @@ const ThemeForFashionKick = () => {
             onClick={handleDiscoverClick}
             style={{
               width: '100%',
-              height: (isSmallMobile || isVerySmall) ? "100%" : 'auto',
+              height: (isSmallMobile || isVerySmall) ? "100%" : '300px',
               display: 'block',
               opacity: loadedImages[theme.id] ? 1 : 1,
               objectFit: 'cover',

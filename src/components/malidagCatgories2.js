@@ -10,6 +10,7 @@ import ThemeForGamers from "./themeForGamers";
 import ThemeForWomenFashion from "./themeForWomenFashion";
 import ThemeForKidsFashion from "./themeForKidFashion";
 import ThemeForKidToy from "./themeForKidsToy";
+import ThemeForHomeAndKitchen from "./themeForHomeAndKitchen";
 
 const BASE_URL = "https://api.malidag.com";
 const BASE_URLs = "https://api.malidag.com";
@@ -102,19 +103,35 @@ function MalidagCategories2({ user, auth }) {
   };
 
   return (
-    <div className="categories-container">
-       {(isDesktop) && (
+    <div style={{display: "flex", alignItems: "center", justifyContent:isDesktop ? "center" : "start", width: "100%", margin: "0px", overflowX: "auto"}}>
+
+      <div  style={{margin: "20px"}}>
+       {(isDesktop || isTablet || isMobile) && (
       <ThemeForGamers/>
        )}
-        {(isDesktop) && (
+
+       </div>
+
+       <div  style={{margin: "20px"}}>
+       {(isDesktop || isTablet || isMobile) && (
       <ThemeForWomenFashion/>
        )}
-        {(isDesktop) && (
+
+       </div>
+
+        <div  style={{margin: "20px"}}>
+       {(isDesktop || isTablet || isMobile) && (
+      <ThemeForHomeAndKitchen/>
+       )}
+
+       </div>
+
+        <div  style={{margin: "20px"}}>
+       {(isDesktop || isTablet || isMobile) && (
       <ThemeForKidsFashion/>
        )}
-        {(isDesktop) && (
-      <ThemeForKidToy/>
-       )}
+
+       </div>
      
     </div>
   );

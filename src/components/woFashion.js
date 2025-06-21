@@ -16,6 +16,8 @@ function WoFashion() {
   const [loading, setLoading] = useState(true);
   const [loadingTypes, setLoadingTypes] = useState(true);
   const navigate = useNavigate(); // Initialize navigate
+  
+
 
   useEffect(() => {
     // Fetch types and images for the Beauty category

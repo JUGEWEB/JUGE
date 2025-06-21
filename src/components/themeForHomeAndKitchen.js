@@ -34,16 +34,13 @@ const ThemeForHomeAndKitchen = () => {
 
   return (
     <div style={{
-     padding: (isSmallMobile || isVerySmall) ? "0.5rem" : "1rem",
-      marginLeft:  (isDesktop || isTablet || isMobile)
-    ? (brandCount === 0 ? "" : "1rem")
-    : "",
       overflow: 'hidden',
       width:
   (isDesktop || isTablet || isMobile)
-    ? (brandCount === 0 ? "100%" : "270px")
+    ? "270px"
     : "100%",
       boxShadow: '0 2px 10px rgba(0, 0, 0, 0.05)',
+       height:(isDesktop || isTablet || isMobile) ? '400px' : "270px",
       backgroundColor: '#fdfdfd',
       borderRadius: (isDesktop || isMobile || isTablet) ? "0px" : "0px",
       marginTop:(isSmallMobile || isVerySmall) ? "0rem" : "1rem",
@@ -61,7 +58,7 @@ const ThemeForHomeAndKitchen = () => {
         Home and kitchen
       </div>
 
-      <div style={{ width:(isSmallMobile || isVerySmall) ? "100%" : '100%', height:(isSmallMobile || isVerySmall) ? "auto" : 'auto', backgroundColor: "#ddd5"}}>
+      <div  style={{ width:(isSmallMobile || isVerySmall) ? "100%" : '100%', height:(isSmallMobile || isVerySmall) ? "auto" : 'auto', backgroundColor: "#ddd5"}}>
           <img
             src={theme.image}
             alt={theme.theme}
@@ -75,7 +72,7 @@ const ThemeForHomeAndKitchen = () => {
               display: 'block',
               opacity: loadedImages[theme.id] ? 1 : 1,
               objectFit:  (isDesktop || isTablet || isMobile)
-    ? (brandCount === 0 ? "cover" : "cover")
+    ? "cover"
     : "cover",
               transition: 'opacity 0.3s ease-in-out'
             }}

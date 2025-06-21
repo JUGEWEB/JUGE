@@ -50,10 +50,9 @@ const ThemeWithText = () => {
   return (
     <div style={{
       overflow: 'hidden',
-      width:(isDesktop || isMobile || isTablet) ? '270px' : "150px",
-      height: "auto",
+       width: (isSmallMobile || isVerySmall) ? "100%" : '270px',
+      height:(isDesktop || isTablet || isMobile) ? '400px' : "270px",
       justifyContent: "space-between",
-      padding: "1rem"
      
     }}>
       <div style={{

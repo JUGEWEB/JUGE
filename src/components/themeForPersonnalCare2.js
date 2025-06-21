@@ -5,8 +5,9 @@ import { useNavigate } from 'react-router-dom';
 
 const ThemeForPersonnalCare2 = () => {
   const [themes, setThemes] = useState([]);
-  const { isDesktop, isMobile, isTablet } = useScreenSize();
-   const navigate = useNavigate(); // ✅ Initialize navigate
+  const { isSmallMobile, isVerySmall } = useScreenSize();
+  const navigate = useNavigate();
+  const [loadedImages, setLoadedImages] = useState({});
 
   useEffect(() => {
     const fetchThemes = async () => {
@@ -16,9 +17,18 @@ const ThemeForPersonnalCare2 = () => {
 
         const filtered = allThemes.filter(
           t => t.mode === 'default' && t.theme === 'Personal care for you'
-        );
+        ).slice(0, 4);
 
-        setThemes(filtered.slice(0, 4)); // limit to 4
+        // Preload images
+        filtered.forEach((theme) => {
+          const img = new Image();
+          img.src = theme.image;
+          img.onload = () => {
+            setLoadedImages(prev => ({ ...prev, [theme.id]: true }));
+          };
+        });
+
+        setThemes(filtered);
       } catch (error) {
         console.error('Error fetching themes:', error);
       }
@@ -27,74 +37,87 @@ const ThemeForPersonnalCare2 = () => {
     fetchThemes();
   }, []);
 
-  const brandCount = parseInt(localStorage.getItem('brandCount')) || 0;
-
-  // ❌ On desktop, hide if brandCount is 3 or more
-  if (!(isDesktop && brandCount >= 3)) return null;
-
   if (themes.length === 0) return null;
 
   return (
     <div style={{
-        padding: "1rem",
-      backgroundColor: '#f9f9f9',
-      width: '270px',
-      height: "auto", 
-      marginBottom: "1rem"
+      position: "relative",
+      width: (isSmallMobile || isVerySmall) ? "100%" : '270px',
+      height: '400px',
+      boxShadow: '0 1px 4px rgba(0,0,0,0.08)',
+      backgroundColor: '#fff'
     }}>
       <div style={{
-        fontSize: '1.25rem',
+        fontSize: '25px',
         fontWeight: 'bold',
         color: '#333',
-        marginBottom: '1rem',
+        marginBottom: '10px',
         textAlign: 'center',
       }}>
         Personal care for you
       </div>
 
       <div style={{
-        display: 'flex',
+        display: (isSmallMobile || isVerySmall) ? "grid" : 'flex',
         flexWrap: 'wrap',
-        gap: "1rem",
+        width: "100%",
+        gap: "1px",
         justifyContent: 'space-between',
-        height: "auto",
+        gridTemplateColumns: 'repeat(2, 1fr)',
+        alignItems: "center",
+        height: "auto"
       }}>
         {themes.map((theme) => (
-          <div key={theme.id} style={{
-            width: '100px',
-            textAlign: 'center',
-          }}>
+          <div
+            key={theme.id}
+            onClick={() => navigate(`/items/${encodeURIComponent(theme.types[0])}`)}
+            style={{
+              width: (isSmallMobile || isVerySmall) ? "100%" : '100px',
+              textAlign: 'center',
+              minHeight: '100%',
+              cursor: 'pointer',
+            }}
+          >
             <img
-            onClick={() => navigate(`/items/${encodeURIComponent(theme.types)}`)}
               src={theme.image}
-              alt={theme.types?.[0] || 'Type'}
+              alt={theme.types[0]}
+              loading="lazy"
               style={{
-                width: '100%',
-                height: '100px',
+                width: (isSmallMobile || isVerySmall) ? "100%" : '100px',
+                height: (isSmallMobile || isVerySmall) ? "185px" : '100px',
                 objectFit: 'cover',
-                marginTop: '1rem',
-                cursor: "pointer"
+                opacity: loadedImages[theme.id] ? 1 : 0,
+                transition: 'opacity 0.3s ease',
+                filter: "contrast(1)",
+                boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+                borderRadius: "5px",
+                backgroundColor: '#fff'
               }}
             />
             <div style={{
               fontSize: '0.9rem',
               fontWeight: '500',
               color: '#555',
+              marginTop: '6px',
             }}>
-              {theme.types?.[0] || 'Unknown'}
+              {theme.types[0]}
             </div>
           </div>
         ))}
       </div>
-      <div onClick={() => navigate('/personal')} style={{
-        fontSize: '0.8rem',
-        fontWeight: 'bold',
-        color: 'blue',
-        marginTop: "5rem",
-        textAlign: 'start',
-        textDecoration: "underline",
-        cursor: "pointer"
-      }}>
+
+      <div
+        onClick={() => navigate('/personal')}
+        style={{
+          fontSize: '0.8rem',
+          fontWeight: 'bold',
+          color: 'blue',
+          marginTop: "2rem",
+          textAlign: 'start',
+          textDecoration: "underline",
+          cursor: "pointer"
+        }}
+      >
         Discover Now
       </div>
     </div>
