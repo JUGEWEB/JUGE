@@ -6,7 +6,7 @@ import "./index.css";
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { WagmiProvider } from 'wagmi'
 import { config } from './config'
-import { BrowserRouter as Router } from "react-router-dom"; // ✅ Wrap App in Router
+import { HashRouter as Router } from "react-router-dom"; // ✅ Wrap App in Router
 import ScrollToTop from "./components/ScrollToTop"; // Your updated component
 
 

@@ -204,6 +204,7 @@ const App = () => {
   return (
     <>
           <Routes >
+            
              <Route element={
     <Layout
       basketItems={basketItems}
