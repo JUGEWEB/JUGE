@@ -16,9 +16,9 @@ const slides = [
   { id: 3, url: "https://api.malidag.com/public/header/3/dyctm.webp", type: "#024163" },
 ];
 const slidessmall = [
-  { id: 1, url: "https://api.malidag.com/public/header/4/image%20%281%29.webp", type: "#dfd3e5" },
-  { id: 2, url: "https://api.malidag.com/public/header/5/image%20%285%29.webp", type: "#cfbdce" },
-  { id: 3, url: "https://api.malidag.com/public/header/6/image%20%283%29.webp", type: "#f1dcd9" },
+   { id: 1, url: "https://api.malidag.com/public/header/1/firstbestimage.webp", type: "#689c85" },
+  { id: 2, url: "https://api.malidag.com/public/header/2/Screenshorealbbbb.webp", type: "#e87909" },
+  { id: 3, url: "https://api.malidag.com/public/header/3/dyctm.webp", type: "#024163" },
 ];
 
 const MainSlider = ({user}) => {
@@ -107,7 +107,7 @@ const PrevArrow = ({ className, style, onClick }) => {
   };
 
   return (
-    <div style={{ display: isHome ? "block" : "none" }}>
+    <div style={{ display: isHome ? "block" : "none", /* border: "20px solid #666"*/}}>
       {/* 👆 NEVER UNMOUNT slider, just hide it with CSS */}
      <Helmet>
   {activeSlides.map((slide) => (
@@ -148,7 +148,7 @@ const PrevArrow = ({ className, style, onClick }) => {
             onClick={() => handleNavigation(slide.id)}
             style={{
               width: "100%",
-              height: isStandardWidth ? "300px" : "300px",
+              height: isStandardWidth ? "300px" : "200px",
               objectFit: "cover",
               filter: "contrast(1.2) brightness(1.1)",
             }}
@@ -189,9 +189,19 @@ const PrevArrow = ({ className, style, onClick }) => {
   </a>
 </span>
 )}
-        <div style={{width: "100%", height: "auto", margin: "0px"}}>
+        <div style={{width: "100%", height: "auto", margin: "0px" }}>
+           {!(isDesktop || isTablet) && (
+          <div>
           <MalidagCategorySmall/>
+          </div>
+           )}
+
+          {(isDesktop || isTablet) && (
+          <div>
             <MalidagCategory user={user} />
+            </div>
+                 
+          )}
             </div>
 
           </div>

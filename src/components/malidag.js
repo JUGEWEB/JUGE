@@ -63,9 +63,11 @@ const Malidag = ({
     <>
 
           <div style={{backgroundColor: "#ddd5", position: 'relative',width: "100%", height: "auto"}}>
+             {(isTablet || isDesktop || isMobile) && (
 <div>
             <MalidagCategories2/>
             </div>
+             )}
 
             <div >
           
