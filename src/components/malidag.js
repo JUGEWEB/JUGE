@@ -224,7 +224,6 @@ const Malidag = ({
           <TradingView symbol={selectedSymbol} />
         </div>
         </div>
-       <MalidagFooter />
         </>
         
   );

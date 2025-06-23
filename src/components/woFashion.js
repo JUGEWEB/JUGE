@@ -140,7 +140,7 @@ function WoFashion() {
 
   return (
     <div className="personal-care-container">
-      <div >
+      <div style={{padding: "20px"}}>
           {/* Display categories and images */}
      <div className="beauty-catego">
   {loadingMTypes ? (
