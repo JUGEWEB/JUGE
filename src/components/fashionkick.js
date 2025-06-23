@@ -90,10 +90,8 @@ function FashionKick() {
 
   return (
     <div>
-   
-      <h2 className="personal-care-title">Fashion kick</h2>
 
-      <div className="beauty-category">
+      <div className="beauty-fackik">
         {Object.values(mtypes).length === 0 ? (
           <div>No types found for Fashion category</div>
         ) : (
