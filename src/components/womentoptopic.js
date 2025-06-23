@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
-import "./beautyTopTopic.css";
+import "./WomenTopTopic.css";
 import AnalyseReview from "./analyseReview"; // Import your AnalyseReview component
 
 const BASE_URL = "https://api.malidag.com";
