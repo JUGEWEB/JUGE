@@ -46,6 +46,7 @@
   .bbe-item-grid {
     flex: 1;
     display: grid;
+    width: 100%;
     gap: 5px;
     padding: 5px 15px;
     grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
@@ -63,7 +64,7 @@
   
   .bbe-item-image {
     width: 100%;
-    height: 150px;
+    height: 300px;
     object-fit: contain;
     margin-bottom: 10px;
   }
@@ -96,6 +97,7 @@
   .bbe-item-name {
     margin: 5px 0;
     font-size: 13px;
+    font-weight: bold;
   }
   
   .bbe-item-rating .star {
@@ -145,4 +147,33 @@
       grid-template-columns: repeat(1, 1fr);
     }
   }
+
+  @media (min-width: 1024px) {
+  .bbe-item-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.item-spinner-wrapper {
+  width: 100%;
+  padding: 50px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.loader {
+  width: 40px;
+  height: 40px;
+  border: 5px solid #ddd;
+  border-top: 5px solid #28a745;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
   

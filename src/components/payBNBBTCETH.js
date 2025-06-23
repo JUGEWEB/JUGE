@@ -126,7 +126,6 @@ function PayBBE() {
     navigate(`/product/${id}`);
   };
 
-  if (loading) return <div className="loading-message">Loading Items...</div>;
 
   return (
     <div className="bbe-container">
@@ -153,41 +152,48 @@ function PayBBE() {
       </div>
 
       {/* All Discounted Items */}
-      <div className="bbe-item-grid">
-        {Object.values(types).flat().map(({ id, item }) => (
-          <div key={id} className="bbe-item-card">
-            <div style={{ backgroundColor: "white", filter: "brightness(0.88) contrast(1.2)" }}>
+      {/* All Discounted Items */}
+<div className="bbe-item-grid">
+  {loading ? (
+    <div className="item-spinner-wrapper">
+      <div className="loader"></div>
+    </div>
+  ) : (
+    Object.values(types).flat().map(({ id, item }) => (
+      <div key={id} className="bbe-item-card">
+        <div style={{ backgroundColor: "white", filter: "brightness(0.88) contrast(1.2)" }}>
+          <img
+            src={item.images[0]}
+            alt={item.name}
+            onClick={() => handleItemClick(id)}
+            className="bbe-item-image"
+            onError={(e) => {
+              e.target.onerror = null;
+              e.target.src = "/fallback.png";
+            }}
+          />
+        </div>
+        <div className="bbe-item-info" onClick={() => handleItemClick(id)}>
+          <div className="bbe-item-price">
+            ${item.usdPrice}
+            <span className="crypto-price">
+              {convertToCrypto(item.usdPrice, item.cryptocurrency)} {item.cryptocurrency}
               <img
-                src={item.images[0]}
-                alt={item.name}
-                onClick={() => handleItemClick(id)}
-                className="bbe-item-image"
-                onError={(e) => {
-                  e.target.onerror = null;
-                  e.target.src = "/fallback.png";
-                }}
+                src={getCryptoIcon(item.cryptocurrency)}
+                className="crypto-icon"
+                alt={item.cryptocurrency}
               />
-            </div>
-            <div className="bbe-item-info" onClick={() => handleItemClick(id)}>
-              <div className="bbe-item-price">
-                ${item.usdPrice}
-                <span className="crypto-price">
-                  {convertToCrypto(item.usdPrice, item.cryptocurrency)} {item.cryptocurrency}
-                  <img
-                    src={getCryptoIcon(item.cryptocurrency)}
-                    className="crypto-icon"
-                    alt={item.cryptocurrency}
-                  />
-                </span>
-              </div>
-              <div className="bbe-item-name">
-                {item.name.length > 100 ? `${item.name.slice(0, 100)}...` : item.name}
-              </div>
-              <div className="bbe-item-rating">{renderStars(item.rating || 0)}</div>
-            </div>
+            </span>
           </div>
-        ))}
+          <div className="bbe-item-name">
+            {item.name.length > 100 ? `${item.name.slice(0, 100)}...` : item.name}
+          </div>
+          <div className="bbe-item-rating">{renderStars(item.rating || 0)}</div>
+        </div>
       </div>
+    ))
+  )}
+</div>
     </div>
   );
 }

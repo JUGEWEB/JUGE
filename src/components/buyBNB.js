@@ -126,7 +126,6 @@ function Bnboff() {
     navigate(`/product/${id}`);
   };
 
-  if (loading) return <div className="loading-message">Loading Items...</div>;
 
   return (
     <div className="bbe-container">
