@@ -184,7 +184,7 @@ const PrevArrow = ({ className, style, onClick }) => {
     {(isTablet || isDesktop) && (
 <span className="span-warning">
   We are displaying products that ship to your location. You can select a different location in the menu above.  
-  <a href="/international-shipping" style={{ color: "blue", marginLeft: "5px", textDecoration: "underline" }}>
+  <a  onClick={() => navigate("/international-shipping")} style={{ color: "blue", marginLeft: "5px", textDecoration: "underline", cursor: "pointer" }}>
     Learn about international shipping here
   </a>
 </span>
