@@ -3,6 +3,8 @@ import axios from "axios";
 import "./woFashion.css";
 import RecommendedItem from "./personalRecommend";
 import { useNavigate } from "react-router-dom"; // Import useNavigate
+import Slider from "react-slick";
+
 
 const BASE_URLs = "https://api.malidag.com"; // Replace with the new API URL for categories (the server you provided)
 const BASE_URL = "https://api.malidag.com"; // Replace with your actual API URL
@@ -140,9 +142,8 @@ function WoFashion() {
 
   return (
     <div className="personal-care-container">
-      <div style={{padding: "20px"}}>
-          {/* Display categories and images */}
-     <div className="beauty-catego">
+     <div style={{ padding: "20px" }}>
+  {/* Display categories and images */}
   {loadingMTypes ? (
     <div className="section-spinner-wrapper">
       <div className="section-spinner"></div>
@@ -150,25 +151,43 @@ function WoFashion() {
   ) : Object.values(mtypes).length === 0 ? (
     <div>No types found for Beauty category</div>
   ) : (
-    Object.values(mtypes).map((typeObj, index) => (
-      <div key={index} className="type-section">
-        <div className="type-image-id">
-          <img
-            src={typeObj.image}
-            alt={typeObj.type}
-            className="type-image-imgid"
-            onClick={() => handleCategoryClick(typeObj.type)}
-          />
+    <Slider
+      dots={true}
+      infinite={false}
+      speed={500}
+      slidesToShow={3}
+      slidesToScroll={1}
+      responsive={[
+        {
+          breakpoint: 1024,
+          settings: { slidesToShow: 2 },
+        },
+        {
+          breakpoint: 600,
+          settings: { slidesToShow: 1 },
+        },
+      ]}
+    >
+      {Object.values(mtypes).map((typeObj, index) => (
+        <div key={index} className="type-section">
+          <div className="type-image-id">
+            <img
+              src={typeObj.image}
+              alt={typeObj.type}
+              className="type-image-imgid"
+              onClick={() => handleCategoryClick(typeObj.type)}
+            />
+            <div style={{color: "white", backgroundColor: "black", padding: "20px", position: "absolute", bottom: "20px"}}  onClick={() => handleCategoryClick(typeObj.type)}>View more</div>
+          </div>
+          <h3 className="type-title" style={{ color: "black", display: "flex", justifyContent: "center", width: "100%" }}>
+            {typeObj.type}
+          </h3>
         </div>
-        <h3 className="type-title" style={{ color: "black" }}>
-          {typeObj.type}
-        </h3>
-      </div>
-    ))
+      ))}
+    </Slider>
   )}
 </div>
 
-      </div>
 
     {/* Horizontal scroll of type names (Top Topics) */}
 {/* Horizontal scroll of type names (Top Topics) */}

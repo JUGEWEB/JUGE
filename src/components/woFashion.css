@@ -12,6 +12,25 @@
     margin-bottom: 20px;
     color: white;
   }
+
+  /* Default dot style (optional) */
+.slick-dots li button:before {
+  font-size: 10px;
+  color: #888;
+}
+
+/* On active dot */
+.slick-dots li.slick-active button:before {
+  color: #333;
+}
+
+/* ✅ Increase dot size on small screens */
+@media (max-width: 768px) {
+  .slick-dots li button:before {
+    font-size: 28px; /* Increase dot size */
+  }
+}
+
   
   .category-secti {
     margin-bottom: 40px;
@@ -197,6 +216,7 @@
 
 .type-image-id {
   width: 100%;
+  position: relative;
   height: auto;
   display: flex;
   align-items: center;
