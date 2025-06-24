@@ -15,6 +15,7 @@ const WomenTopTopic = () => {
   const [selectedItemProductId, setSelectedItemProductId] = useState(null); // Store `itemId` for AnalyseReview
   const [modalOpen, setModalOpen] = useState(false);
   const [modalPosition, setModalPosition] = useState({ top: 0, left: 0 });
+   const [reviews, setReviews] = useState({}); // Store reviews data
  
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
@@ -31,6 +32,12 @@ const WomenTopTopic = () => {
           (item) => item.category !== "Beauty" && item.item.genre === "women" && item.item.type.toLowerCase() === type.toLowerCase() && item.item.sold >= 100
         );
         setTopBeautyItems(filteredItems);
+
+          filteredItems.forEach((itemData) => {
+  if (itemData?.itemId) {
+    fetchReviews(itemData.itemId);
+  }
+});
       } catch (error) {
         console.error("Error fetching top beauty items:", error);
       } finally {
@@ -45,6 +52,31 @@ const WomenTopTopic = () => {
       
     }
   }, [type]);
+
+   // Fetch reviews from the endpoint
+     const fetchReviews = async (productId) => {
+      try {
+        const response = await axios.get(`https://api.malidag.com/get-reviews/${productId}`);
+        if (response.data.success) {
+         
+          const reviewsArray = response.data.reviews || [];
+          const totalRating = reviewsArray.reduce((acc, review) => {
+            let rating = parseFloat(review.rating);
+            return acc + (isNaN(rating) ? 4 : rating); // If rating is invalid, treat as 5 stars
+          }, 0);
+          const averageRating = reviewsArray.length ? (totalRating / reviewsArray.length).toFixed(2) : null;
+  
+          setReviews((prevReviews) => ({
+            ...prevReviews,
+            [productId]: { averageRating, reviewsArray },
+          }));
+  
+        }
+      } catch (error) {
+        console.error("Error fetching reviews:", error);
+      }
+    };
+  
 
   const openModal = (item, event) => {
     setSelectedItem(item); // Store the entire item object
@@ -87,7 +119,12 @@ const closeModal = () => {
       {topBeautyItems.length === 0 ? (
         <p>No top-selling items found for {type}.</p>
       ) : (
-        topBeautyItems.map(({itemId, id, item }) => (
+        topBeautyItems.map((itemData) => {
+           const { id, itemId, item } = itemData;
+           const reviewsData = reviews[itemId] || {}; // Ensure it exists
+            const finalRating = reviewsData ? reviewsData.averageRating : "No rating";
+
+            return (
            
           <div
             key={id}
@@ -104,16 +141,28 @@ const closeModal = () => {
 
             {/* Details on the right */}
             <div className="m-details">
-            <button className="view-details-btn" onClick={(e) => openModal({ id, itemId, item }, e)}>
-                 View Details & Reviews
-            </button>
-              <h3 className="m-name"  onClick={() => navigate(`/product/${id}`)} >{item.name}</h3>
+                <div className="name-rating-wrapper">
+  <div className="m-name" onClick={() => navigate(`/product/${id}`)}>
+    {item.name.length > 80 ? item.name.slice(0, 80) + '...' : item.name}
+  </div>
+  <div
+    className="item-starstop"
+    onClick={(e) => openModal({ id, itemId, item }, e)}
+  >
+    {finalRating
+      ? "★".repeat(Math.round(finalRating)) +
+        "☆".repeat(5 - Math.round(finalRating))
+      : "No rating"}
+  </div>
+</div>
+
               <p className="m-sold">Sold: {item.sold} items</p>
              
             </div>
            
           </div>
-        ))
+            )
+        })
       )}
     </div>
      {/* Modal (Always Appears Next to Clicked Button) */}
