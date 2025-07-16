@@ -145,7 +145,7 @@ function FashionKick() {
         cursor: "pointer",
         fontWeight: "bold",
         color: "#333",
-        whiteSpace: "nowrap"
+        whiteSpace: "nowrap "
       }}
     >
       Top {type}

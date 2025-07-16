@@ -39,7 +39,7 @@ function ItemOfMen() {
   
       setCryptoPrices(prices);
     } catch (error) {
-      console.error("Error fetching crypto prices:", error);
+      console.error("Error fetching crypto prices :", error);
     }
   };
 

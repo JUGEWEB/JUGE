@@ -33,7 +33,7 @@ const ImageZoom1 = ({ selectedImage, onMouseEnter, onMouseLeave, isZoomVisible, 
            
             background: ' #04447850',
             pointerEvents: 'none',
-            boxShadow: '0 0 10px rgba(255, 255, 255, 0.5)',
+            boxShadow: '0 0 10px rgba(255, 255, 255, 0.5 )',
           }}
         />
       )}
