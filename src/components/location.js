@@ -3,11 +3,13 @@ import useScreenSize from "./useIsMobile";
 import { Dropdown, Menu, Button } from "antd";
 import { DownOutlined } from "@ant-design/icons";
 import { FiMapPin } from "react-icons/fi"; // Feather Icons – clean & minimal
+import { useTranslation } from "react-i18next";
 
 
 function Location({ country, allCountries, setCountry }) {
      const [isOpen, setIsOpen] = useState(false);
      const {isMobile, isDesktop, isSmallMobile, isTablet, isVerySmall} = useScreenSize()
+     const { t } = useTranslation();
 
     const flagUrl = `https://flagcdn.com/w320/${country.code}.png`;
     console.log(country, allCountries);
@@ -55,7 +57,7 @@ function Location({ country, allCountries, setCountry }) {
       >
         <span style={{ display: "flex", alignItems: "center" }}> 
           {(isMobile || isSmallMobile || isVerySmall) && <span> <FiMapPin style={{ fontSize: "16px", marginRight: "4px" }} /></span>}
-          <span
+                    <span
             style={{
               fontSize: "11px",
               marginRight: "5px",
@@ -63,8 +65,9 @@ function Location({ country, allCountries, setCountry }) {
               textAlign: "center",
             }}
           >
-            deliver to
+            {t("deliver_to")}
           </span>
+
           <span>
           {(isTablet || isDesktop) && (
             <>

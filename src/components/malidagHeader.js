@@ -13,6 +13,7 @@ import InputSearch from "./inputSearch";
 import All from "./All";
 import { FaUser } from "react-icons/fa"; // ✅ Import user icon
 import "./themeSkeleton.css";
+import LanguageSelector from "./LanguageSelector";
 
 
 
@@ -170,7 +171,7 @@ function MalidagHeader({ user, isConnected, connect, address, disconnect, pendin
      
 
       </div>
-      
+
        {(isTablet || isDesktop) && (
   <Location country={country} allCountries={allCountries} />
 )}
@@ -245,6 +246,7 @@ function MalidagHeader({ user, isConnected, connect, address, disconnect, pendin
       </div>
 
      {/* Connect Button */}
+     <LanguageSelector />
     
 {!isConnected ? (
   <div className="connectBttt" onClick={showModal} style={{marginRight: "5px", marginLeft: "10px", fontSize: "11px", padding: "5px", cursor: "pointer"}}>

@@ -17,6 +17,9 @@ import ImageZoom from "./imageZoom";
 import ImageZoom1 from "./imageZoom1";
 import useScreenSize from "./useIsMobile";
 import AnalyseReviewSmallWidth from "./analyseReviewSmallwidth";
+import { useTranslation } from "react-i18next";
+import i18n from "i18next";
+
 
 const BASKET_API = "https://api.malidag.com/add-to-basket"
 const BASE_URL = "https://api.malidag.com";
@@ -68,6 +71,8 @@ function ProductDetails({basketItems, country, user, address, auth, chainId}) {
 const [ratingToPass, setRatingToPass] = useState(null);
 const [openModalSmall, setOpenModalSmall] = useState(false);
 const [pendingRating, setPendingRating] = useState(null); // stores the rating only temporarily
+ const { t } = useTranslation();
+ const [translation, setTranslation] = useState(null);
 
 
   
@@ -240,6 +245,17 @@ const [pendingRating, setPendingRating] = useState(null); // stores the rating o
     }
   }, [location]); // Dependency array to re-run the effect on location change
 
+const fetchTranslation = async (productId, lang) => {
+  try {
+    const response = await axios.get(`https://api.malidag.com/translate/product/translate/${productId}/${lang}`);
+    setTranslation(response.data.translation);
+  } catch (error) {
+    console.error("Translation fetch error:", error.message);
+    setTranslation(null); // fallback to original if error
+  }
+};
+
+
  // Fetch all products function
  const fetchAllProducts = async () => {
   try {
@@ -253,9 +269,10 @@ const [pendingRating, setPendingRating] = useState(null); // stores the rating o
       const initialColor = Object.keys(foundProduct.item.imagesVariants)[0];
       setItemId(foundProduct.itemId);
       setProduct(foundProduct.item);
+      const userLang = i18n.language || "en"; // using i18next detected language
       setSelectedColor(initialColor);
       setSelectedImage(foundProduct.item.imagesVariants[initialColor][0]);
-
+      fetchTranslation(foundProduct.itemId, userLang);
       // Parse and set the initial size
       const sizesString = foundProduct.item.size?.[initialColor]?.[0] || "";
       const sizesArray = sizesString.split(", ").map((size) => size.trim());
@@ -266,6 +283,12 @@ const [pendingRating, setPendingRating] = useState(null); // stores the rating o
     console.error("Error fetching product details:", error);
   }
 };
+
+useEffect(() => {
+  if (product && itemsd && i18n.language) {
+    fetchTranslation(itemsd, i18n.language);
+  }
+}, [i18n.language]);
 
 useEffect(() => {
   // If the `reload` flag is passed in the state, re-fetch all products
@@ -322,7 +345,7 @@ useEffect(() => {
     if (cryptoPrices[cryptoType]) {
       return (usdAmount / cryptoPrices[cryptoType]).toFixed(6); // Show up to 6 decimals
     }
-    return "Loading...";
+    return t("loading");
   };
 
   const handleColorChange = (color) => {
@@ -330,7 +353,7 @@ useEffect(() => {
     setSelectedImage(product.imagesVariants[color][0]);
     const sizesString = product.size?.[color]?.[0] || "";
     const sizesArray = sizesString.split(", ").map((size) => size.trim());
-    setSelectedSize(sizesArray[0] || "No Size Available");
+    setSelectedSize(sizesArray[0] || t("no_size_available"));
   };
 
   const handleImageChange = (image, index) => {
@@ -344,7 +367,7 @@ const handleSizeChange = (size) => {
   };
 
   if (!product || !selectedColor) {
-    return <p>Loading product details...</p>;
+    return <p>{t("loading_product_details")}</p>;
   }
 
   // Slick slider settings for videos
@@ -375,7 +398,7 @@ const handleSizeChange = (size) => {
   const handleAddToBasket = async (product) => {
     const currentUser = auth.currentUser; // Get the authenticated user
     if (!currentUser) {
-        alert("Please log in to add items to your basket.");
+        alert(t("login_to_add_to_basket"));
        
         return;
     }
@@ -401,20 +424,20 @@ const handleSizeChange = (size) => {
         const response = await axios.post(BASKET_API, basketItem);
 
         if (response.status === 200 || response.status === 201) {
-            alert(`${product.name} added to your basket successfully!`);
+            alert(t("basket_add_success", { product: product.name }));
         } else {
-            alert("Failed to add item to the basket. Please try again.");
+            alert(t("basket_add_failed"));
         }
     } catch (error) {
         console.error("Error adding item to basket:", error);
-        alert("An error occurred while adding the item to your basket.");
+        alert(t("basket_add_error"));
     }
 };
 
 const handleLikeItem = async (product) => {
   const currentUser = auth.currentUser
   if (!currentUser) {
-    alert("Please log in to like items.");
+    alert(t("like_login_required"));
     return;
   }
 
@@ -430,9 +453,9 @@ const handleLikeItem = async (product) => {
     const response = await axios.post(`${LIKED_API}/like-item`, likedItem);
 
     if (response.status === 200 || response.status === 201) {
-      alert(`${product.name} added to your liked items!`);
+      alert(t("like_success", { product: product.name }));
     } else {
-      alert("Failed to like item.");
+      alert(t("like_failed"));
     }
   } catch (error) {
     console.error("Error liking item:", error);
@@ -543,10 +566,10 @@ const getNetworkName = (chainId) => {
   if (!chainId) {
     return (
       <div style={{ color: "red" }}>
-        🚫 You are not connected. Make sure to connect to a supported network.
+       {t("not_connected")}
         <br />
         <a href="/supported-networks" style={{ color: "blue", textDecoration: "underline" }}>
-          Learn about our supported networks.
+         {t("learn_supported_networks")}
         </a>
       </div>
     );
@@ -563,10 +586,10 @@ const getNetworkName = (chainId) => {
   if (!networkName) {
     return (
       <div style={{ color: "red" }}>
-        ❌ Unknown Network. You are connected to an unsupported network.
+        {t("unknown_network")}
         <br />
         <a href="/supported-networks" style={{ color: "blue", textDecoration: "underline" }}>
-          Learn about our supported networks.
+          {t("learn_supported_networks")}
         </a>
       </div>
     );
@@ -574,7 +597,7 @@ const getNetworkName = (chainId) => {
 
   return (
     <div style={{ color: "green", display: "flex", alignItems: "center" }}>
-      ✅ You are connected to {networkName}
+       {t("connected_to_network", { network: networkName })}
       {networkLogos[chainId] && (
         <img
           src={networkLogos[chainId]}
@@ -587,14 +610,14 @@ const getNetworkName = (chainId) => {
 };
 
 if (!product || !selectedColor) {
-  return <p>Loading product details...</p>; // ✅ GOOD for loading
+  return <p>{t("loading_product_details")}</p>; // ✅ GOOD for loading
 }
 
 
 // Function to handle Buy Now click
 const handleBuyNowClick = (itemId) => {
   if (!chainId) {
-    message.warning("⚠️ Your wallet is not connected. Please connect your wallet first.");
+    message.warning(t("wallet_not_connected_warning"));
     return; // Prevent navigation
   }
 
@@ -697,11 +720,11 @@ const handleVisitBrand = async () => {
 
 {(!(isDesktop || isTablet)) && (
   <div style={{maxHeight: "auto", maxWidth: "100%", position: "relative"}}>
-     <h1 style={{color: "black"}}>{product.name}</h1>
+     <h1 style={{color: "black"}}> {translation?.name || product.name}</h1>
 
       {product.brand && product.brand.trim() !== "" && (
         <button onClick={handleVisitBrand}>
-          Visit the {product.brand} brand
+          {t("visit_brand_button", { brand: product.brand })}
         </button>
       )}
 
@@ -769,12 +792,12 @@ const handleVisitBrand = async () => {
   </span>
 </div>
 
- <h1 style={{color: "black", fontSize: "14px", marginTop: "10px"}}> Size Name:{selectedSize}</h1>
+ <h1 style={{color: "black", fontSize: "14px", marginTop: "10px"}}> {t("size_name", { size: selectedSize })}</h1>
 
         {product.size?.[selectedColor] && (
           <div>
             <label htmlFor="size-select" style={{ color: "black" }}>
-              Select Size:
+             {t("select_size_label")}
             </label>
             <select
               id="size-select"
@@ -815,12 +838,12 @@ const handleVisitBrand = async () => {
           )} {product.cryptocurrency}
         </h3>
       ) : (
-        <h3 style={{ color: "gray" }}>Fetching crypto price...</h3>
+        <h3 style={{ color: "gray" }}>{t("fetching_crypto_price")}</h3>
       )}
       </div>
        {/* Quantity Selector */}
        <div style={{display: "flex", alignItems: "center", maxWidth: "200px", top: "0", marginBottom: "10px"}}>
-        <span style={{marginBottom: "5px", fontStyle: "italic"}}>Quantity</span>
+        <span style={{marginBottom: "5px", fontStyle: "italic"}}>{t("quantity")}</span>
     <div style={{ display: "flex", alignItems: "center", border: "1px solid gray", borderRadius: "100px", marginLeft: "20px" }}>
      
       <div
@@ -843,20 +866,20 @@ const handleVisitBrand = async () => {
         <div style={{display: "flex", alignItems: "center", justifyContent: "start", padding: "5px"}}>
         
         <button className="buy-now-button" onClick={() => handleBuyNowClick(id)}>
-          Buy Now
+          {t("buy_now")}
         </button>
      
-        <button className="add-to-basket" onClick={() => handleAddToBasket(product)}>Add to Basket</button>
-        <button className="like-botton" onClick={() => handleLikeItem(product)}>❤️ Like</button>
+        <button className="add-to-basket" onClick={() => handleAddToBasket(product)}>{t("add_to_basket")}</button>
+        <button className="like-botton" onClick={() => handleLikeItem(product)}>{t("like")}</button>
         </div>
-        <p style={{color: "red", fontSize: "15px"}}>{product.sold} Items already sold 🔥</p>
+        <p style={{color: "red", fontSize: "15px"}}>{t("items_already_sold", { count: product.sold })}</p>
         </div>
 
          {/* Video Slider */}
          <div>
 {validVideos?.length > 0 && (
   <div className="product-videos" >
-    <h2 style={{ color: "black" }}>Product Videos</h2>
+    <h2 style={{ color: "black" }}>{t("product_videos")}</h2>
 
     {validVideos?.length === 1 ? (
       <div>
@@ -885,9 +908,9 @@ const handleVisitBrand = async () => {
 
 
   <div>
-     <p style={{color: "black",  display: "flex"}}> <strong style={{marginRight: "20px"}}>product detail:</strong> {product.text}</p>
-        <p style={{color: "black",  display: "flex"}}> <strong style={{marginRight: "20px"}}>About this item:</strong> {product.productDetail01}</p>
-         <h1 style={{color: "black", fontSize: "14px"}}> ID: {itemsd}</h1>
+     <p style={{color: "black",  display: "flex"}}> <strong style={{marginRight: "20px"}}>{t("product_detail")}</strong>{translation?.text || product.text}</p>
+        <p style={{color: "black",  display: "flex"}}> <strong style={{marginRight: "20px"}}>{t("about_this_item")}</strong> {translation?.productDetail01 || product.productDetail01}</p>
+         <h1 style={{color: "black", fontSize: "14px"}}>{t("product_id", { id: itemsd })}</h1>
   </div>
 
    {/* Modal for Transaction Form */}
@@ -922,7 +945,7 @@ const handleVisitBrand = async () => {
            marginBottom: "20px"
         }}
       >
-        See all reviews →
+        {t("see_all_reviews")}
       </div>
     )}
   
@@ -1029,11 +1052,11 @@ const handleVisitBrand = async () => {
           />
         </div>
       )}
-        <h1 style={{color: "black"}}>{product.name}</h1>
+        <h1 style={{color: "black"}}> {translation?.name || product.name}</h1>
         {/* Check if the product brand exists and is not empty */}
        {product.brand && product.brand.trim() !== "" && (
         <button onClick={handleVisitBrand}>
-          Visit the {product.brand} brand
+         {t("visit_brand_button", { brand: product.brand })}
         </button>
       )}
         <div className="product-info">
@@ -1114,12 +1137,12 @@ const handleVisitBrand = async () => {
           )} {product.cryptocurrency}
         </h3>
       ) : (
-        <h3 style={{ color: "gray" }}>Fetching crypto price...</h3>
+        <h3 style={{ color: "gray" }}>{t("fetching_crypto_price")}</h3>
       )}
       </div>
        {/* Quantity Selector */}
        <div style={{display: "flex", alignItems: "center", maxWidth: "200px", top: "0", marginBottom: "10px"}}>
-        <span style={{marginBottom: "5px", fontStyle: "italic"}}>Quantity</span>
+        <span style={{marginBottom: "5px", fontStyle: "italic"}}>{t("quantity")}</span>
     <div style={{ display: "flex", alignItems: "center", border: "1px solid gray", borderRadius: "100px", marginLeft: "20px" }}>
      
       <div
@@ -1142,15 +1165,15 @@ const handleVisitBrand = async () => {
         <div style={{display: "flex", alignItems: "center", justifyContent: "start", padding: "5px"}}>
         
         <button className="buy-now-button" onClick={() => handleBuyNowClick(id)}>
-          Buy Now
+         {t("buy_now")}
         </button>
      
-        <button className="add-to-basket" onClick={() => handleAddToBasket(product)}>Add to Basket</button>
-        <button className="like-botton" onClick={() => handleLikeItem(product)}>❤️ Like</button>
+        <button className="add-to-basket" onClick={() => handleAddToBasket(product)}>{t("add_to_basket")}</button>
+        <button className="like-botton" onClick={() => handleLikeItem(product)}>{t("like")}</button>
         </div>
-        <p style={{color: "red", fontSize: "15px"}}>{product.sold} Items already sold 🔥</p>
+        <p style={{color: "red", fontSize: "15px"}}>{t("items_already_sold", { count: product.sold })}</p>
         </div>
-        <h1 style={{color: "black", fontSize: "14px"}}> color Name: {selectedColor}</h1>
+        <h1 style={{color: "black", fontSize: "14px"}}>  {t("color_name", { color: selectedColor })}</h1>
         </div>
        
         </div>
@@ -1170,12 +1193,12 @@ const handleVisitBrand = async () => {
   </div>
 )}
         
-        <h1 style={{color: "black", fontSize: "14px"}}> Size Name:{selectedSize}</h1>
+        <h1 style={{color: "black", fontSize: "14px"}}>  {t("size_name", { size: selectedSize })}</h1>
 
         {product.size?.[selectedColor] && (
           <div>
             <label htmlFor="size-select" style={{ color: "black" }}>
-              Select Size:
+              {t("select_size_label")}
             </label>
             <select
               id="size-select"
@@ -1194,9 +1217,9 @@ const handleVisitBrand = async () => {
           </div>
         )}
       
-        <p style={{color: "black",  display: "flex"}}> <strong style={{marginRight: "20px"}}>product detail:</strong> {product.text}</p>
-        <p style={{color: "black",  display: "flex"}}> <strong style={{marginRight: "20px"}}>About this item:</strong> {product.productDetail01}</p>
-        <h1 style={{color: "black", fontSize: "14px"}}> ID: {itemsd}</h1>
+        <p style={{color: "black",  display: "flex"}}> <strong style={{marginRight: "20px"}}>{t("product_detail")}</strong> {translation?.text || product.text}</p>
+        <p style={{color: "black",  display: "flex"}}> <strong style={{marginRight: "20px"}}>{t("about_this_item")}</strong>  {translation?.productDetail01 || product.productDetail01}</p>
+        <h1 style={{color: "black", fontSize: "14px"}}>{t("product_id", { id: itemsd })}</h1>
 
 
         </div>
@@ -1215,7 +1238,7 @@ const handleVisitBrand = async () => {
         <div>
 {validVideos?.length > 0 && (
   <div className="product-videos" >
-    <h2 style={{ color: "black" }}>Product Videos</h2>
+    <h2 style={{ color: "black" }}>{t("product_videos")}</h2>
 
     {validVideos?.length === 1 ? (
       <div>
@@ -1278,7 +1301,7 @@ const handleVisitBrand = async () => {
           marginBottom: "20px"
         }}
       >
-        See all reviews →
+       {t("see_all_reviews")}
       </div>
     )}
       </div>

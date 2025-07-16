@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import "./LikedItems.css";
 import useScreenSize from "./useIsMobile";
+import { useTranslation } from "react-i18next";
 
 const BASE_URL = "https://api.malidag.com";
 
@@ -13,6 +14,7 @@ const LikedItems = ({ auth }) => {
   const location = useLocation(); // ✅ Get current route
   const isLikedPage = location.pathname === "/likeditem"; // ✅ Check if on Liked Items page
   const {isMobile, isDesktop, isSmallMobile, isTablet, isVerySmall} = useScreenSize()
+  const { t } = useTranslation();
 
   // 🔹 Fetch liked items when component mounts
   useEffect(() => {
@@ -48,10 +50,10 @@ const LikedItems = ({ auth }) => {
 
   return (
     <div className="liked-container">
-      <h2>What you like</h2>
+      <h2>{t("liked_title")}</h2>
       <div style={{display: (!(isDesktop || isTablet || isLikedPage)) ? "flex" : "", overflowX: (!(isDesktop || isTablet || isLikedPage)) ? "auto" : "", justifyContent: (!(isDesktop || isTablet || isLikedPage)) ? "start" : ""}}>
       {likedItems.length === 0 ? (
-        <p>No liked items yet.</p>
+       <p>{t("no_liked_items")}</p>
       ) : (
         (isLikedPage ? likedItems : likedItems.slice(0, 5)).map((item) => (
           <div key={item.id} className="liked-item" style={{ display: isLikedPage ? "flex" : "", padding: "2px" }}>
@@ -74,9 +76,9 @@ const LikedItems = ({ auth }) => {
 
             {/* ✅ Show Remove button only if on /likedItem page */}
             {isLikedPage && (
-              <button onClick={() => handleRemoveLike(item.id)} className="remove-btn">
-                Remove
-              </button>
+                      <button onClick={() => handleRemoveLike(item.id)} className="remove-btn">
+            {t("remove")}
+          </button>
             )}
           </div>
         ))

@@ -23,6 +23,7 @@ import ThemeForKidsFashion from "./themeForKidFashion";
 import ThemeForKidToy from "./themeForKidsToy";
 import MalidagFooter from "./malidagFooter";
 import AppHeader from "./appHeader";
+import { useTranslation } from "react-i18next";
 
   
 const Malidag = ({
@@ -45,6 +46,7 @@ const Malidag = ({
   const  navigate = useNavigate()
   const {isMobile, isDesktop, isSmallMobile, isTablet, isVerySmall} = useScreenSize()
   const suggestedItemsCount = parseInt(localStorage.getItem("suggestedItemsCount")) || 0;
+  const { t } = useTranslation();
 
  // ✅ Move handlers up here
   const onclickIFP = () => navigate('/IFP');
@@ -75,8 +77,8 @@ const Malidag = ({
           <div className="containersmall">
             <div style={{ backgroundColor: "white", width: "100%", position: "relative", height: "auto", paddingBottom: "10px"}}>
             <div style={{display: "flex", alignItems: "center", justifyContent: "start",}}>
-          <h1 style={{marginLeft: "20px"}}>Fashion for All</h1>
-          <div style={{color: "green", fontSize: "14px", fontWeight: "bold", cursor: "pointer", marginLeft: "20px", marginTop: "10px"}} onClick={onclickIFP}>View more</div>
+          <h1 style={{marginLeft: "20px"}}> {t("fashion_for_all")}</h1>
+          <div style={{color: "green", fontSize: "14px", fontWeight: "bold", cursor: "pointer", marginLeft: "20px", marginTop: "10px"}} onClick={onclickIFP}>{t("view_more")}</div>
           </div>
           
           <FashionForAll />
@@ -98,8 +100,8 @@ const Malidag = ({
         <div className="containeri">
         <div style={{ backgroundColor: "white", width: "100%", position: "relative", height: "auto", paddingBottom: "20px"}}>
         <div style={{display: "flex", alignItems: "center", justifyContent: "start",}}>
-          <h1 style={{marginLeft: "20px", height: "auto"}}>Home & Office Tech</h1>
-          <div style={{color: "green", fontSize: "14px", fontWeight: "bold", cursor: "pointer", marginLeft: "20px", marginTop: "10px"}} onClick={onclickElPage}>View more</div>
+          <h1 style={{marginLeft: "20px", height: "auto"}}>{t("home_office_tech")}</h1>
+          <div style={{color: "green", fontSize: "14px", fontWeight: "bold", cursor: "pointer", marginLeft: "20px", marginTop: "10px"}} onClick={onclickElPage}>{t("view_more")}</div>
           </div>
           <Electronic />
           </div>
@@ -116,7 +118,7 @@ const Malidag = ({
                    {!(isTablet || isDesktop) && (
                     
 <div className="container2de">
-  <h1  style={{display: "flex", alignItems: "center"}}>Top Items  <div style={{fontSize: "14px", color: "green", marginLeft: "10px", fontWeight: "bold", marginTop: "10px", cursor: "pointer"}}  onClick={onclicktopitem} >Explore now</div> </h1>
+  <h1  style={{display: "flex", alignItems: "center"}}>{t("top_items")}  <div style={{fontSize: "14px", color: "green", marginLeft: "10px", fontWeight: "bold", marginTop: "10px", cursor: "pointer"}}  onClick={onclicktopitem} >{t("explore_now")}</div> </h1>
   <div style={{width: "100%"}}>
   <TopTopic />
   </div>
@@ -134,7 +136,7 @@ const Malidag = ({
                    
 { user && suggestedItemsCount > 0 &&  (!isTablet || !isDesktop) && (
 <div className="container1">
-  <div  style={{display: "flex", alignItems: "center", width: "100%", fontSize: "24px", fontWeight: "bold"}} >Based on your browsing history  <div style={{fontSize: "14px", color: "green", marginLeft: "10px", fontWeight: "bold", marginTop: "10px", cursor: "pointer"}}  onClick={onclickbrowsing} >Explore now</div> </div>
+  <div  style={{display: "flex", alignItems: "center", width: "100%", fontSize: "24px", fontWeight: "bold"}} >{t("based_on_browsing_history")} <div style={{fontSize: "14px", color: "green", marginLeft: "10px", fontWeight: "bold", marginTop: "10px", cursor: "pointer"}}  onClick={onclickbrowsing} >{t("explore_now")}</div> </div>
   <div style={{width: "100%"}}>
   <YouMayLike user={user} />
   </div>
@@ -174,8 +176,8 @@ const Malidag = ({
           <div className="container">
             <div style={{ backgroundColor: "white", width: "100%", position: "relative", height: "auto", paddingBottom: "10px"}}>
             <div style={{display: "flex", alignItems: "center", justifyContent: "start",}}>
-          <h1 style={{marginLeft: "20px"}}>Fashion for All</h1>
-          <div style={{color: "green", fontSize: "14px", fontWeight: "bold", cursor: "pointer", marginLeft: "20px", marginTop: "10px"}} onClick={onclickIFP}>View more</div>
+          <h1 style={{marginLeft: "20px"}}>{t("fashion_for_all")}</h1>
+          <div style={{color: "green", fontSize: "14px", fontWeight: "bold", cursor: "pointer", marginLeft: "20px", marginTop: "10px"}} onClick={onclickIFP}>{t("view_more")}</div>
           </div>
           
           <FashionForAll />
@@ -186,8 +188,8 @@ const Malidag = ({
         <div className="containeri">
         <div style={{ backgroundColor: "white", width: "100%", position: "relative", height: "auto", paddingBottom: "20px"}}>
         <div style={{display: "flex", alignItems: "center", justifyContent: "start",}}>
-          <h1 style={{marginLeft: "20px", height: "auto"}}>Home & Office Tech</h1>
-          <div style={{color: "green", fontSize: "14px", fontWeight: "bold", cursor: "pointer", marginLeft: "20px", marginTop: "10px"}} onClick={onclickElPage}>View more</div>
+          <h1 style={{marginLeft: "20px", height: "auto"}}>{t("home_office_tech")}</h1>
+          <div style={{color: "green", fontSize: "14px", fontWeight: "bold", cursor: "pointer", marginLeft: "20px", marginTop: "10px"}} onClick={onclickElPage}>{t("view_more")}</div>
           </div>
           <Electronic />
           </div>
@@ -196,7 +198,7 @@ const Malidag = ({
 
 { user && suggestedItemsCount > 0  && (isTablet || isDesktop) && (
 <div className="container1">
-  <div  style={{display: "flex", alignItems: "center", width: "100%", fontSize: "24px", fontWeight: "bold"}} >Based on your browsing history  <div style={{fontSize: "14px", color: "green", marginLeft: "10px", fontWeight: "bold", marginTop: "10px", cursor: "pointer"}}  onClick={onclickbrowsing} >Explore now</div> </div>
+  <div  style={{display: "flex", alignItems: "center", width: "100%", fontSize: "24px", fontWeight: "bold"}} >{t("based_on_browsing_history")} <div style={{fontSize: "14px", color: "green", marginLeft: "10px", fontWeight: "bold", marginTop: "10px", cursor: "pointer"}}  onClick={onclickbrowsing} >{t("explore_now")}</div> </div>
   <div style={{width: "100%"}}>
   <YouMayLike user={user} />
   </div>
@@ -206,7 +208,7 @@ const Malidag = ({
  {(isTablet || isDesktop) && (
   <div className="container">
 <div className="container2de">
-  <h1  style={{display: "flex", alignItems: "center"}}>Top Items  <div style={{fontSize: "14px", color: "green", marginLeft: "10px", fontWeight: "bold", marginTop: "10px", cursor: "pointer"}}  onClick={onclicktopitem} >Explore now</div> </h1>
+  <h1  style={{display: "flex", alignItems: "center"}}>{t("top_items")} <div style={{fontSize: "14px", color: "green", marginLeft: "10px", fontWeight: "bold", marginTop: "10px", cursor: "pointer"}}  onClick={onclicktopitem} >{t("explore_now")}</div> </h1>
   <div style={{width: "100%"}}>
   <TopTopic />
   </div>
@@ -220,7 +222,7 @@ const Malidag = ({
         </div>
           {/* TradingView Chart */}
           <div className="tradingview-container">
-          <h1>Live Chart for {selectedSymbol}</h1>
+          <h1>{t("live_chart_for")} {selectedSymbol}</h1>
           <TradingView symbol={selectedSymbol} />
         </div>
         </div>

@@ -3,6 +3,7 @@ import axios from "axios";
 import "./woFashion.css";
 import { useNavigate } from "react-router-dom"; // Import useNavigate for navigation
 import RecommendedItem from "./personalRecommend";
+import { useTranslation } from "react-i18next";
 
 const BASE_URLs = "https://api.malidag.com"; // Replace with the new API URL for categories (the server you provided)
 const BASE_URL = "https://api.malidag.com"; // Replace with your actual API URL
@@ -14,6 +15,8 @@ function KidToy() {
   const [cryptoPrices, setCryptoPrices] = useState({});
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate(); // Initialize the useNavigate hook
+  const { t } = useTranslation();
+
 
   useEffect(() => {
     // Fetch types and images for the Beauty category
@@ -108,7 +111,7 @@ function KidToy() {
     return cryptoIcons[cryptocurrency] || "/crypto-icons/default.png";
   };
 
-  if (loading) return <div className="loading-message">Loading Beauty Items...</div>;
+  if (loading) return <div className="loading-message">{t("loading_toy_items")}</div>;
 
    // Handle item click to navigate to product details page
    const handleItemClick = (id) => {
@@ -119,12 +122,12 @@ function KidToy() {
 
   return (
     <div className="personal-care-container">
-      <h2 className="personal-care-title">Toy for kids</h2>
+      <h2 className="personal-care-title">{t("toy_for_kids")}</h2>
       <div>
           {/* Display categories and images */}
       <div className="beauty-category">
-        {Object.values(mtypes).length === 0 ? (
-          <div>No types found for Beauty category</div>
+       {Object.values(mtypes).length === 0 ? (
+  <div>{t("no_toy_types_found")}</div>
         ) : (
           Object.values(mtypes).map((typeObj, index) => (
             <div key={index} className="type-section">
@@ -145,7 +148,13 @@ function KidToy() {
 
       {Object.entries(types).map(([type, items]) => (
         <div className="type-secti" key={type}>
-          <h3 className="type-tit" style={{display: 'flex', }}>{type} Top topic <div style={{marginLeft: '10px', fontSize: '14px', fontWeight: 'bold', color: 'green', marginTop: '10px', cursor: 'pointer'}}>see more</div></h3>
+         <h3 className="type-tit" style={{display: 'flex'}}>
+  {type} {t("top_topic")}
+  <div style={{marginLeft: '10px', fontSize: '14px', fontWeight: 'bold', color: 'green', marginTop: '10px', cursor: 'pointer'}}>
+    {t("see_more")}
+  </div>
+</h3>
+
           <div className="items-contain">
             {items.map(({ id, item }) => (
                 <div className="c">
@@ -167,7 +176,8 @@ function KidToy() {
             
                     {convertToCrypto(item.usdPrice, item.cryptocurrency)
                       ? `${convertToCrypto(item.usdPrice, item.cryptocurrency)} ${item.cryptocurrency}`
-                      : "Loading..."}
+                      : t("loading")}
+
 
                     <img
                       src={getCryptoIcon(item.cryptocurrency)}

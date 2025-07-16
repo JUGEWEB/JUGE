@@ -9,6 +9,7 @@ import MalidagCategory from "./malidagCategory";
 import ThemeWithText from "./themewithtext";
 import useScreenSize from "./useIsMobile";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 const slides = [
   { id: 1, url: "https://api.malidag.com/public/header/1/firstbestimage.webp", type: "#689c85" },
@@ -29,6 +30,7 @@ const MainSlider = ({user}) => {
 
     const isStandardWidth = isDesktop || isTablet || isMobile;
 const activeSlides = isStandardWidth ? slides : slidessmall;
+const { t } = useTranslation();
 
 
   const isHome = location.pathname === "/"; // Only show slider on home page
@@ -183,9 +185,9 @@ const PrevArrow = ({ className, style, onClick }) => {
 
     {(isTablet || isDesktop) && (
 <span className="span-warning">
-  We are displaying products that ship to your location. You can select a different location in the menu above.  
-  <a  onClick={() => navigate("/international-shipping")} style={{ color: "blue", marginLeft: "5px", textDecoration: "underline", cursor: "pointer" }}>
-    Learn about international shipping here
+  {t("shipping_notice")}
+  <a onClick={() => navigate("/international-shipping")} style={{ color: "blue", marginLeft: "5px", textDecoration: "underline", cursor: "pointer" }}>
+    {t("learn_about_shipping")}
   </a>
 </span>
 )}

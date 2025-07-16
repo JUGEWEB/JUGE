@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import useScreenSize from "./useIsMobile";
 import './itemOfWomen.css';
+import { useTranslation } from "react-i18next";
 
 function ItemOfElectronic() {
   const { itemClicked } = useParams();
@@ -18,6 +19,7 @@ function ItemOfElectronic() {
    const [reviews, setReviews] = useState({}); // Store reviews data
               const {isMobile, isDesktop, isTablet, isSmallMobile, isVerySmall, isVeryVerySmall} = useScreenSize()
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   console.log('video', activeVideoId)
   console.log('itemClick', itemClicked)
@@ -126,7 +128,7 @@ function ItemOfElectronic() {
     }));
   };
 
-  if (loading) return <div className="loading-message">Loading...</div>;
+  if (loading) return <div className="loading-message">{t("loading")}</div>;
 
  
 
@@ -151,8 +153,6 @@ function ItemOfElectronic() {
     setActiveVideoId(null);
   };
 
-  if (loading) return <div className="loading-message">Loading...</div>;
-
   const handleNavigate = (id) => {
     navigate(`/product/${id}`);
   };
@@ -166,7 +166,7 @@ function ItemOfElectronic() {
       <div style={{width: "100%", overflowX: "auto"}}>
       <div style={{width: "100%", maxWidth: "100%", display: "flex", alignItems: "center", justifyContent: "start", padding: "10px"}}>
         <div>Malidag {itemClicked}</div>
-        <div style={{ marginLeft: "20px" }}>Related Categories:</div>
+        <div style={{ marginLeft: "20px" }}>{t("related_categories")}</div>
            <div style={{ marginLeft: "20px" }}>
         {categories.map((category, index) => (
   <div key={index}>
@@ -204,7 +204,7 @@ function ItemOfElectronic() {
           ))}
       </div>
       <div>
-        <strong style={{ marginLeft: "50%" , width: "100%"}}>Hot 🔥:</strong>
+        <strong style={{ marginLeft: "50%" , width: "100%"}}>{t("hot_label")}</strong>
         <div style={{width: "100%", backgroundColor: "white"}}>
           {getHotItems(categorizedItems[category]).map((hotItem, idx) => (
             <div key={idx} style={{width: "250px"}}>
@@ -215,7 +215,7 @@ function ItemOfElectronic() {
                 className="stable-ht-item-image"
               />
               <div className="stable-ht-item-name">{hotItem.item.name}</div>
-              <div className="stable-ht-item-sold">{hotItem.item.sold} sold</div>
+              <div className="stable-ht-item-sold">{hotItem.item.sold} {t("sold")}</div>
             </div>
           ))}
         </div>
@@ -229,7 +229,7 @@ function ItemOfElectronic() {
         </div>
       </div>
       {loading ? (
-        <p>Loading images...</p>
+        <p>{t("loading_images")}</p>
       ) : (
         <div className="beauty-images-container" 
         style={{
@@ -278,7 +278,7 @@ function ItemOfElectronic() {
           const cryptoSymbol = `${cryptocurrency}`;
           const crypto = String(cryptocurrency);
           const reviewsData = reviews[itemId] || {}; // Ensure it exists
-            const finalRating = reviewsData ? reviewsData.averageRating : "No rating";
+            const finalRating = reviewsData ? reviewsData.averageRating : t("no_rating");
           const cryptoPriceInUSD = cryptoPrices[cryptoSymbol] || 0;
           const itemPriceInCrypto =
             cryptoPriceInUSD > 0 ? (usdPrice / cryptoPriceInUSD).toFixed(6) : "N/A";
@@ -362,7 +362,7 @@ function ItemOfElectronic() {
                     >
                       {sold}{" "}
                       <div style={{ marginLeft: "5px", fontWeight: "bold", color: "red" }}>
-                        sold
+                         {t("sold")}
                       </div>
                     </span>
                   </div>
@@ -379,15 +379,15 @@ function ItemOfElectronic() {
                     <span className="item-crypto-price">
                       {itemPriceInCrypto !== "N/A"
                         ? `${itemPriceInCrypto} ${cryptocurrency}`
-                        : "Price unavailable"}
+                        : t("price_unavailable")}
                     </span>
                   </div>
                 </div>
                 <div className="item-type-stars" onClick={() =>
    navigate('/reviewPage', { 
     state: { itemData: itemData}
- }) } title="View reviews of this item">
-                {finalRating ? "★".repeat(Math.round(finalRating)) + "☆".repeat(5 - Math.round(finalRating)) : "No rating"}
+ }) } title={t("view_reviews")}>
+                {finalRating ? "★".repeat(Math.round(finalRating)) + "☆".repeat(5 - Math.round(finalRating)) :  t("no_rating")}
                 </div>
               </div>
             </div>

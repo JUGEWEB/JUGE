@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import './itemOfItems.css';
 import useScreenSize from "./useIsMobile";
+import { useTranslation } from "react-i18next";
 
 function Item() {
   const { itemClicked } = useParams();
@@ -17,6 +18,7 @@ function Item() {
   const navigate = useNavigate();
    const [reviews, setReviews] = useState({}); // Store reviews data
   const {isMobile, isDesktop, isTablet, isSmallMobile, isVerySmall, isVeryVerySmall} = useScreenSize()
+  const { t } = useTranslation();
 
   console.log('video', activeVideoId)
   console.log('itemClick', itemClicked)
@@ -123,8 +125,6 @@ function Item() {
     }));
   };
 
-  if (loading) return <div className="loading-message">Loading...</div>;
-
  
 
   const categorizedItems = categories.reduce((acc, category) => {
@@ -148,7 +148,7 @@ function Item() {
     setActiveVideoId(null);
   };
 
-  if (loading) return <div className="loading-message">Loading...</div>;
+  if (loading) return <div className="loading-message">{t("loading")}</div>;
 
   const handleNavigate = (id) => {
     navigate(`/product/${id}`);
@@ -161,7 +161,7 @@ function Item() {
       <div style={{width: "100%", overflowX: "auto"}}>
       <div style={{width: "100%", maxWidth: "100%", display: "flex", alignItems: "center", justifyContent: "start", padding: "10px"}}>
         <div>Malidag {itemClicked}.</div>
-        <div style={{ marginLeft: "20px" }}>Related Categories:</div>
+        <div style={{ marginLeft: "20px" }}>{t("related_categories")}</div>
            <div style={{ marginLeft: "20px" }}>
         {categories.map((category, index) => (
   <div key={index}>
@@ -199,7 +199,7 @@ function Item() {
           ))}
       </div>
       <div>
-        <strong style={{ marginLeft: "50%" , width: "100%"}}>Hot 🔥:</strong>
+        <strong style={{ marginLeft: "50%" , width: "100%"}}>{t("hot_label")}</strong>
         <div style={{width: "100%", backgroundColor: "white"}}>
           {getHotItems(categorizedItems[category]).map((hotItem, idx) => (
             <div key={idx} style={{width: "250px"}}>
@@ -210,7 +210,7 @@ function Item() {
                 className="stable-ht-item-image"
               />
               <div className="stable-ht-item-name">{hotItem.item.name}</div>
-              <div className="stable-ht-item-sold">{hotItem.item.sold} sold</div>
+              <div className="stable-ht-item-sold">{hotItem.item.sold} {t("sold")} </div>
             </div>
           ))}
         </div>
@@ -225,7 +225,7 @@ function Item() {
       </div>
 
       {loading ? (
-        <p>Loading images...</p>
+        <p>{t("loading_images")}</p>
       ) : (
         <div className="beauty-images-container" 
         style={{
@@ -248,54 +248,7 @@ function Item() {
         </div>
       )}
 
-        <div style={{
-      display: (isDesktop) ? "none" : "",
-  backgroundColor: '#f8f9fa', 
-  borderLeft: '5px solid #4CAF50', 
-  padding: '15px', 
-  borderRadius: '8px', 
-  fontFamily: 'Arial, sans-serif', 
-  lineHeight: '1.5', 
-  color: '#333',
-  margin: '20px 0', 
-  maxHeight: "auto",
-  maxWidth: "100%"
-
-}}>
-  <h2 style={{ color: '#4CAF50', marginBottom: '10px' }}>🛡️ Quality Assurance Promise 🏥</h2>
-  <p>At <strong>Malidag Beauty</strong>, your health and safety are our top priority. 💖✨ Every beauty product in our collection is <strong>dermatologically tested</strong> and approved by certified hospitals before being added to our shop.</p>
-  <ul style={{ paddingLeft: '20px' }}>
-    <li>✅ <strong>Safe & Non-Toxic Ingredients</strong> – No harmful chemicals!</li>
-    <li>✅ <strong>Clinically Tested</strong> – Verified by healthcare professionals.</li>
-    <li>✅ <strong>Hypoallergenic</strong> – Gentle on all skin types.</li>
-  </ul>
-  <p style={{ fontWeight: 'bold', color: '#4CAF50' }}>Your beauty, your safety. Shop with confidence! 💄🛍️</p>
-</div>
-
     <div className="item-pge-container">
-    <div style={{
-      display: (!isDesktop) ? "none" : "",
-  backgroundColor: '#f8f9fa', 
-  borderLeft: '5px solid #4CAF50', 
-  padding: '15px', 
-  borderRadius: '8px', 
-  fontFamily: 'Arial, sans-serif', 
-  lineHeight: '1.5', 
-  color: '#333',
-  margin: '20px 0', 
-  maxHeight: "auto",
-  maxWidth: "210px"
-
-}}>
-  <h2 style={{ color: '#4CAF50', marginBottom: '10px' }}>🛡️ Quality Assurance Promise 🏥</h2>
-  <p>At <strong>Malidag Beauty</strong>, your health and safety are our top priority. 💖✨ Every beauty product in our collection is <strong>dermatologically tested</strong> and approved by certified hospitals before being added to our shop.</p>
-  <ul style={{ paddingLeft: '20px' }}>
-    <li>✅ <strong>Safe & Non-Toxic Ingredients</strong> – No harmful chemicals!</li>
-    <li>✅ <strong>Clinically Tested</strong> – Verified by healthcare professionals.</li>
-    <li>✅ <strong>Hypoallergenic</strong> – Gentle on all skin types.</li>
-  </ul>
-  <p style={{ fontWeight: 'bold', color: '#4CAF50' }}>Your beauty, your safety. Shop with confidence! 💄🛍️</p>
-</div>
 
       <div   style={{
   display: "grid",
@@ -321,7 +274,7 @@ function Item() {
           const cryptoSymbol = `${cryptocurrency}`;
           const crypto = String(cryptocurrency);
            const reviewsData = reviews[itemId] || {}; // Ensure it exists
-            const finalRating = reviewsData ? reviewsData.averageRating : "No rating";
+            const finalRating = reviewsData ? reviewsData.averageRating : t("no_rating");
           const cryptoPriceInUSD = cryptoPrices[cryptoSymbol] || 0;
           const itemPriceInCrypto =
             cryptoPriceInUSD > 0 ? (usdPrice / cryptoPriceInUSD).toFixed(6) : "N/A";
@@ -405,7 +358,7 @@ function Item() {
                     >
                       {sold}{" "}
                       <div style={{ marginLeft: "5px", fontWeight: "bold", color: "red" }}>
-                        sold
+                       {t("sold")}
                       </div>
                     </span>
                   </div>
@@ -422,15 +375,15 @@ function Item() {
                     <span className="item-crypto-price">
                       {itemPriceInCrypto !== "N/A"
                         ? `${itemPriceInCrypto} ${cryptocurrency}`
-                        : "Price unavailable"}
+                        : t("price_unavailable")}
                     </span>
                   </div>
                 </div>
                  <div className="item-type-stars" onClick={() =>
    navigate('/reviewPage', { 
     state: { itemData: itemData}
- }) } title="View reviews of this item">
-                {finalRating ? "★".repeat(Math.round(finalRating)) + "☆".repeat(5 - Math.round(finalRating)) : "No rating"}
+ }) } title={t("view_reviews")}>
+                {finalRating ? "★".repeat(Math.round(finalRating)) + "☆".repeat(5 - Math.round(finalRating)) : t("no_rating")}
                 </div>
               </div>
             </div>

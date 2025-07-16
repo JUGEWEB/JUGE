@@ -26,7 +26,7 @@ function FashionForAll() {
           const category = item.category?.toLowerCase() || "";
           const theme = item.item?.theme?.toLowerCase() || "";
           const name = item.item?.name?.toLowerCase() || "";
-          return category.includes("jacket") || theme.includes("jacket") || name.includes("jacket");
+          return category.includes("shoes") || theme.includes("shoes") || name.includes("shoes");
         });
 
         // Limit to max items and set state

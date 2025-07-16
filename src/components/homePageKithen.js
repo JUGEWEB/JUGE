@@ -4,6 +4,8 @@ import { useNavigate } from "react-router-dom"; // Import useNavigate for naviga
 import axios from "axios";
 import './itemPage.css';
 import useScreenSize from "./useIsMobile";
+import { useTranslation } from "react-i18next";
+import i18n from "i18next";
 
 function ItemHomePage() {
   const [items, setItems] = useState([]);
@@ -13,8 +15,10 @@ function ItemHomePage() {
   const [dropdownOpen, setDropdownOpen] = useState({});
   const [activeVideoId, setActiveVideoId] = useState(null);
   const [reviews, setReviews] = useState({}); // Store reviews data
+  const [translations, setTranslations] = useState({});
              const {isMobile, isDesktop, isTablet, isSmallMobile, isVerySmall, isVeryVerySmall} = useScreenSize()
    const navigate = useNavigate();
+    const { t } = useTranslation();
 
   console.log('video', activeVideoId)
 
@@ -37,6 +41,29 @@ function ItemHomePage() {
     }
   };
 
+const fetchTranslation = async (productId, lang) => {
+  // Avoid re-fetching if already present
+  if (translations[productId]?.[lang]) return;
+
+  try {
+    const response = await axios.get(
+      `https://api.malidag.com/translate/product/translate/${productId}/${lang}`
+    );
+
+    setTranslations((prev) => ({
+      ...prev,
+      [productId]: {
+        ...(prev[productId] || {}),
+        [lang]: response.data.translation,
+      },
+    }));
+  } catch (error) {
+    console.error(`Translation fetch error for ${productId}:`, error.message);
+  }
+};
+
+
+
   useEffect(() => {
     const fetchItems = async () => {
       try {
@@ -49,6 +76,12 @@ function ItemHomePage() {
         );
         
         setItems(filteredItems);
+
+        for (const product of filteredItems) {
+  const productId = product.itemId;
+  const lang = i18n.language || "en";
+  fetchTranslation(productId, lang);
+}
   
         const uniqueCategories = [...new Set(filteredItems.map(item => item.category))];
         setCategories(uniqueCategories);
@@ -66,6 +99,19 @@ function ItemHomePage() {
   
     fetchItems();
   }, );
+
+
+useEffect(() => {
+  if (!items.length) return;
+
+  const lang = i18n.language || "en";
+
+  items.forEach((product) => {
+    fetchTranslation(product.itemId, lang);
+  });
+}, [i18n.language, items]);
+
+
   
 
   const toggleDropdown = (category) => {
@@ -75,12 +121,12 @@ function ItemHomePage() {
     }));
   };
 
-  if (loading) return <div className="loading-message">Loading...</div>;
+  if (loading) return <div className="loading-message">{t("loading")}</div>;
 
   if (!items || items.length === 0) {
     return (
       <div className="no-results-message">
-        No results found for "{searchTerm}".
+        {t("no_results_found", { term: searchTerm })}
       </div>
     );
   }
@@ -106,11 +152,6 @@ function ItemHomePage() {
     setActiveVideoId(null);
   };
 
-  if (loading) return <div className="loading-message">Loading...</div>;
-
-  if (!items || items.length === 0) {
-    return <div className="no-results-message">No results found for "{searchTerm}".</div>;
-  }
 
    // Handle item click to navigate to product details page
    const handleItemClick = (id) => {
@@ -152,7 +193,7 @@ function ItemHomePage() {
           const cryptoSymbol = `${cryptocurrency}`;
           const crypto = String(cryptocurrency);
           const reviewsData = reviews[itemId] || {}; // Ensure it exists
-            const finalRating = reviewsData ? reviewsData.averageRating : "No rating";
+            const finalRating = reviewsData ? reviewsData.averageRating : t("no_rating");
           const cryptoPriceInUSD = cryptoPrices[cryptoSymbol] || 0;
           const itemPriceInCrypto =
             cryptoPriceInUSD > 0 ? (usdPrice / cryptoPriceInUSD).toFixed(6) : "N/A";
@@ -161,6 +202,9 @@ function ItemHomePage() {
             const firstVideoUrl = normalizedVideos.find(
               (video) => typeof video === "string" && video.endsWith(".mp4")
             );
+           const translated = translations[itemId]?.[i18n.language];
+const productName = translated?.name || name;
+
 
           return (
             <div key={id} >
@@ -222,7 +266,7 @@ function ItemHomePage() {
               </div>
               <div  onClick={() => handleItemClick(id)}  className="item-details">
                 <div className="item-name" title={name}>
-                  {name.length > 20 ? `${name.substring(0, 20)}...` : name}
+                 {productName.length > 20 ? `${productName.substring(0, 20)}...` : productName}
                 </div>
                 <div className="item-prices">
                   <div style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
@@ -232,11 +276,11 @@ function ItemHomePage() {
                     )}
                     <span
                       className="item-sold"
-                      style={{ display: "flex", marginLeft: "10px", fontSize: "0.8rem" }}
+                      style={{ display: "flex", marginLeft: "10px", fontSize: "0.8rem", color: "black" }}
                     >
                       {sold}{" "}
                       <div style={{ marginLeft: "5px", fontWeight: "bold", color: "red" }}>
-                        sold
+                        {t("sold")}
                       </div>
                     </span>
                   </div>
@@ -253,15 +297,15 @@ function ItemHomePage() {
                     <span className="item-crypto-price">
                       {itemPriceInCrypto !== "N/A"
                         ? `${itemPriceInCrypto} ${cryptocurrency}`
-                        : "Price unavailable"}
+                        : t("price_unavailable")}
                     </span>
                   </div>
                 </div>
                  <div className="item-type-stars" onClick={() =>
    navigate('/reviewPage', { 
     state: { itemData: itemData}
- }) } title="View reviews of this item">
-                {finalRating ? "★".repeat(Math.round(finalRating)) + "☆".repeat(5 - Math.round(finalRating)) : "No rating"}
+ }) } title={t("view_reviews")}>
+                {finalRating ? "★".repeat(Math.round(finalRating)) + "☆".repeat(5 - Math.round(finalRating)) : t("no_rating")}
                 </div>
               </div>
             </div>

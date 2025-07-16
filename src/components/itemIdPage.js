@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import useScreenSize from "./useIsMobile";
 import './ItemIdPage.css';
 import { Carousel } from "antd";
+import { useTranslation } from "react-i18next";
+import i18n from "i18next";
 
 
 const ItemIdPage = ({ id }) => {
@@ -9,26 +11,50 @@ const ItemIdPage = ({ id }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const {isMobile, isDesktop, isTablet, isSmallMobile, isVerySmall, isVeryVerySmall} = useScreenSize()
+  const { t } = useTranslation();
+   const [translation, setTranslation] = useState(null);
+  const getTranslationById = (id) => {
+  return translation?.find(t => t.id === id)?.translatedText || null;
+};
+
+console.log("Translation array:", translation);
+
 
   useEffect(() => {
-    const fetchData = async () => {
-      setLoading(true);
-      setError(null);
-      try {
-        const response = await fetch(`https://api.malidag.com/api/items/items/${id}`);
-        if (!response.ok) throw new Error("Item not found or API error");
-        const result = await response.json();
-        setData(result);
-        console.log("result:", result);
-      } catch (error) {
-        setError(error.message);
-      } finally {
-        setLoading(false);
-      }
-    };
+  const fetchData = async () => {
+    setLoading(true);
+    setError(null);
 
-    fetchData();
-  }, [id]);
+    try {
+      const res = await fetch(`https://api.malidag.com/api/items/items/${id}`);
+      if (!res.ok) throw new Error("Item not found or API error");
+
+      const itemData = await res.json();
+      setData(itemData);
+
+      // ✅ Now fetch translations
+      const lang = i18n.language;
+      const folderID = itemData.folderID;
+      const transRes = await fetch(`https://api.malidag.com/translate/brand-media/${folderID}/${lang}`);
+
+      if (transRes.ok) {
+        const transData = await transRes.json();
+        setTranslation(transData.translation);
+      } else {
+        console.warn("No translations found for current language.");
+        setTranslation(null);
+      }
+
+    } catch (error) {
+      setError(error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  fetchData();
+}, [id, i18n.language]);
+
 
   if (loading) return <div className="text-center py-10 text-lg">Loading...</div>;
   if (error) return <div className="text-center text-red-500">{error}</div>;
@@ -38,7 +64,11 @@ const ItemIdPage = ({ id }) => {
     <div style={{width: "100%", maxWidth: "100%", overflow: "hidden"}} >
       <h1 className="text-centerSlide">From the brand</h1>
 
-        {data.media.map((item, index) => (
+        {data.media.map((item, index) => {
+         const hasText = item.text && item.text.trim();
+
+  return (
+
           <div key={index}  style={{width: "100%", maxWidth: "100%"}}>
             {/* Image with Text */}
             {item.type === "image_with_text" && (
@@ -49,13 +79,13 @@ const ItemIdPage = ({ id }) => {
                   className="w-full-slide"
                   style={{maxWidth: (isDesktop || isTablet) ? "500px" : "100%", height: "100%"}}
                 />
-                <p className="text-l-hgeslid" style={{color: "black", padding: "5px"}}>{item.text}</p>
+                <p className="text-l-hgeslid" style={{color: "black", padding: "5px"}}>{hasText ? (getTranslationById(item.id) || item.text) : null}</p>
               </div>
             )}
 
             {item.type === "image-Left_with_text" && (
               <div className="f-grid-versionHsion" style={{display:(isDesktop || isTablet) ? "flex" : "", alignItems:(isDesktop || isTablet) ? "center" : "start", justifyContent: "end", padding: "20px",  width: "100%", maxWidth: "100%"}}>
-                <p className="text-lgGar" style={{color: "black", padding: "20px"}}>{item.text}</p>
+                <p className="text-lgGar" style={{color: "black", padding: "20px"}}>{hasText ? (getTranslationById(item.id) || item.text) : null}</p>
                 <img
                   src={`https://api.malidag.com${item.filePath}`}
                   alt="With text"
@@ -75,7 +105,7 @@ const ItemIdPage = ({ id }) => {
                   className="w-fuldfreh"
                   style={{maxWidth: (isDesktop || isTablet) ? "500px" : "100%", height: "100%"}}
                 />
-                <p className="text-lgrdsea" style={{color: "black", padding: "20px"}}>{item.text}</p>
+                <p className="text-lgrdsea" style={{color: "black", padding: "20px"}}> {getTranslationById(item.id) || item.text}</p>
               </div>
             )}
 
@@ -116,7 +146,7 @@ const ItemIdPage = ({ id }) => {
         fontWeight: "bold",
       }}
     >
-      {item.text}
+    {hasText ? (getTranslationById(item.id) || item.text) : null}
     </h2>
 
     <div style={{ width: "100%", maxWidth: "100%", margin: "0 auto" }}>
@@ -164,7 +194,9 @@ const ItemIdPage = ({ id }) => {
               </div>
             )}
           </div>
-        ))}
+  )
+})}
+    
       </div>
     
   );

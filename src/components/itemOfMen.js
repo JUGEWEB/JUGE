@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import useScreenSize from "./useIsMobile";
 import './itemOfWomen.css';
+import { useTranslation } from "react-i18next";
 
 function ItemOfMen() {
   const { itemClicked } = useParams();
@@ -18,6 +19,7 @@ function ItemOfMen() {
    const [reviews, setReviews] = useState({}); // Store reviews data
         const {isMobile, isDesktop, isTablet, isSmallMobile, isVerySmall, isVeryVerySmall} = useScreenSize()
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   console.log('video', activeVideoId)
   console.log('itemClick', itemClicked)
@@ -145,7 +147,7 @@ function ItemOfMen() {
     }));
   };
 
-  if (loading) return <div className="loading-message">Loading...</div>;
+  if (loading) return <div className="loading-message">{t("loading")}</div>;
 
  
 
@@ -170,8 +172,6 @@ function ItemOfMen() {
     setActiveVideoId(null);
   };
 
-  if (loading) return <div className="loading-message">Loading...</div>;
-
   const handleNavigate = (id) => {
     navigate(`/product/${id}`);
   };
@@ -185,7 +185,7 @@ function ItemOfMen() {
       <div style={{width: "100%", overflowX: "auto"}}>
       <div style={{width: "100%", maxWidth: "100%", display: "flex", alignItems: "center", justifyContent: "start", padding: "10px"}}>
         <div>Malidag {itemClicked}</div>
-        <div style={{ marginLeft: "20px" }}>Related Categories:</div>
+        <div style={{ marginLeft: "20px" }}>{t("related_categories")}</div>
            <div style={{ marginLeft: "20px" }}>
         {categories.map((category, index) => (
   <div key={index}>
@@ -223,7 +223,7 @@ function ItemOfMen() {
           ))}
       </div>
       <div>
-        <strong style={{ marginLeft: "50%" , width: "100%"}}>Hot 🔥:</strong>
+        <strong style={{ marginLeft: "50%" , width: "100%"}}>{t("hot_label")}</strong>
         <div style={{width: "100%", backgroundColor: "white"}}>
           {getHotItems(categorizedItems[category]).map((hotItem, idx) => (
             <div key={idx} style={{width: "250px"}}>
@@ -234,7 +234,7 @@ function ItemOfMen() {
                 className="stable-ht-item-image"
               />
               <div className="stable-ht-item-name">{hotItem.item.name}</div>
-              <div className="stable-ht-item-sold">{hotItem.item.sold} sold</div>
+              <div className="stable-ht-item-sold">{hotItem.item.sold} {t("sold")}</div>
             </div>
           ))}
         </div>
@@ -248,7 +248,7 @@ function ItemOfMen() {
         </div>
       </div>
       {loading ? (
-        <p>Loading images...</p>
+        <p>{t("loading_images")}</p>
       ) : (
         <div className="beauty-images-container" 
         style={{
@@ -284,18 +284,8 @@ function ItemOfMen() {
    maxHeight: "auto",
   maxWidth: "100%"
 }}>
-  <h2 style={{ color: '#4CAF50', marginBottom: '10px' }}>🔍 Search by Size 👕</h2>
-  <p>Finding the perfect fit is easier than ever! Use our size search feature to explore clothing in your preferred size:</p>
-  <ul style={{ paddingLeft: '20px' }}>
-    <li>✅ <strong>Small (S)</strong> – For a snug and comfortable fit.</li>
-    <li>✅ <strong>Medium (M)</strong> – Classic and standard sizing.</li>
-    <li>✅ <strong>Large (L)</strong> – Roomy and relaxed wear.</li>
-    <li>✅ <strong>Extra Large (XL, XXL, XXXL)</strong> – Designed for ultimate comfort.</li>
-  </ul>
-  <p style={{ fontWeight: 'bold', color: '#4CAF50' }}>Find your size effortlessly and shop with confidence! 👗🛍️</p>
-
   <div className="size-filter-container">
-            <h3>Filter by Size</h3>
+            <h3>{t("filter_by_size")}</h3>
             <div className="sizes-list">
               {getAllSizes(items).map((size) => (
                 <button
@@ -310,7 +300,7 @@ function ItemOfMen() {
 
             {selectedSize && (
               <button className="clear-filter" onClick={() => setSelectedSize(null)}>
-                ❌ Clear Filter
+              {t("clear_filter")}
               </button>
             )}
           </div>
@@ -331,18 +321,8 @@ function ItemOfMen() {
    maxHeight: "auto",
   maxWidth: "210px"
 }}>
-  <h2 style={{ color: '#4CAF50', marginBottom: '10px' }}>🔍 Search by Size 👕</h2>
-  <p>Finding the perfect fit is easier than ever! Use our size search feature to explore clothing in your preferred size:</p>
-  <ul style={{ paddingLeft: '20px' }}>
-    <li>✅ <strong>Small (S)</strong> – For a snug and comfortable fit.</li>
-    <li>✅ <strong>Medium (M)</strong> – Classic and standard sizing.</li>
-    <li>✅ <strong>Large (L)</strong> – Roomy and relaxed wear.</li>
-    <li>✅ <strong>Extra Large (XL, XXL, XXXL)</strong> – Designed for ultimate comfort.</li>
-  </ul>
-  <p style={{ fontWeight: 'bold', color: '#4CAF50' }}>Find your size effortlessly and shop with confidence! 👗🛍️</p>
-
   <div className="size-filter-container">
-            <h3>Filter by Size</h3>
+            <h3>{t("filter_by_size")}</h3>
             <div className="sizes-list">
               {getAllSizes(items).map((size) => (
                 <button
@@ -357,7 +337,7 @@ function ItemOfMen() {
 
             {selectedSize && (
               <button className="clear-filter" onClick={() => setSelectedSize(null)}>
-                ❌ Clear Filter
+                {t("clear_filter")}
               </button>
             )}
           </div>
@@ -389,7 +369,7 @@ function ItemOfMen() {
           const cryptoSymbol = `${cryptocurrency}`;
           const crypto = String(cryptocurrency);
          const reviewsData = reviews[itemId] || {}; // Ensure it exists
-            const finalRating = reviewsData ? reviewsData.averageRating : "No rating";
+            const finalRating = reviewsData ? reviewsData.averageRating : t("no_rating");
           const cryptoPriceInUSD = cryptoPrices[cryptoSymbol] || 0;
           const itemPriceInCrypto =
             cryptoPriceInUSD > 0 ? (usdPrice / cryptoPriceInUSD).toFixed(6) : "N/A";
@@ -473,7 +453,7 @@ function ItemOfMen() {
                     >
                       {sold}{" "}
                       <div style={{ marginLeft: "5px", fontWeight: "bold", color: "red" }}>
-                        sold
+                        {t("sold")}
                       </div>
                     </span>
                   </div>
@@ -490,15 +470,15 @@ function ItemOfMen() {
                     <span className="item-crypto-price">
                       {itemPriceInCrypto !== "N/A"
                         ? `${itemPriceInCrypto} ${cryptocurrency}`
-                        : "Price unavailable"}
+                        : t("price_unavailable")}
                     </span>
                   </div>
                 </div>
                  <div className="item-type-stars" onClick={() =>
    navigate('/reviewPage', { 
     state: { itemData: itemData}
- }) } title="View reviews of this item">
-                {finalRating ? "★".repeat(Math.round(finalRating)) + "☆".repeat(5 - Math.round(finalRating)) : "No rating"}
+ }) } title={t("view_reviews")}>
+                {finalRating ? "★".repeat(Math.round(finalRating)) + "☆".repeat(5 - Math.round(finalRating)) : t("no_rating")}
                 </div>
               </div>
             </div>

@@ -5,6 +5,7 @@ import './itemPage.css';
 import { useNavigate } from "react-router-dom"; // Import useNavigate for navigation
 import { DownOutlined, UpOutlined } from "@ant-design/icons";
 import useScreenSize from "./useIsMobile";
+import { useTranslation } from "react-i18next";
 
 function ItemPage() {
   const { searchTerm } = useParams();
@@ -17,6 +18,7 @@ function ItemPage() {
   const navigate = useNavigate(); // Initialize the useNavigate hook
   const {isMobile, isDesktop, isTablet, isSmallMobile, isVerySmall, isVeryVerySmall} = useScreenSize()
    const [reviews, setReviews] = useState({}); // Store reviews data
+   const { t } = useTranslation();
 
   console.log('video', activeVideoId)
 
@@ -64,34 +66,50 @@ function ItemPage() {
         };
       
 
-  useEffect(() => {
-    const fetchItems = async () => {
-      try {
-        const response = await axios.get(`https://api.malidag.com/items/${searchTerm}`);
-        const fetchedItems = response.data.items || [];
-        setItems(fetchedItems);
+ useEffect(() => {
+  const fetchItems = async () => {
+    try {
+      const response = await axios.get("https://api.malidag.com/items");
+      const allItems = response.data.items || [];
 
-        const uniqueCategories = [...new Set(fetchedItems.map(item => item.category))];
-        setCategories(uniqueCategories);
+      const termParts = searchTerm.toLowerCase().split(" ");
 
-         // Fetch reviews for each item
-       fetchedItems.forEach((item) => {
-        fetchReviews(item.itemId); // Fetch reviews for each product
-      });
+      const matchedItems = allItems.filter((item) => {
+  const type = item.item.type?.toLowerCase() || "";
+  const genre = item.item.genre?.toLowerCase() || "";
+  const name = item.item.name?.toLowerCase() || "";
+  const brandType = item.item.brandType?.toLowerCase() || "";
+  const department = item.item.department?.toLowerCase() || "";
 
-        const cryptoSymbols = [
-          ...new Set(fetchedItems.map((item) => `${item.item.cryptocurrency}`)),
-        ];
-        await fetchCryptoPrices(cryptoSymbols);
-      } catch (error) {
-        console.error("Error fetching items:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
+  return termParts.every((part) =>
+    type.includes(part) ||
+    genre.includes(part) ||
+    name.includes(part) ||
+    brandType.includes(part) ||
+    department.includes(part)
+  );
+});
 
-    fetchItems();
-  }, [searchTerm]);
+
+      setItems(matchedItems);
+
+      const uniqueCategories = [...new Set(matchedItems.map(item => item.category))];
+      setCategories(uniqueCategories);
+
+      matchedItems.forEach((item) => fetchReviews(item.itemId));
+
+      const cryptoSymbols = [...new Set(matchedItems.map(item => `${item.item.cryptocurrency}`))];
+      await fetchCryptoPrices(cryptoSymbols);
+    } catch (error) {
+      console.error("Error fetching items:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  fetchItems();
+}, [searchTerm]);
+
 
   const toggleDropdown = (category) => {
     setDropdownOpen((prev) => ({
@@ -100,15 +118,7 @@ function ItemPage() {
     }));
   };
 
-  if (loading) return <div className="loading-message">Loading...</div>;
-
-  if (!items || items.length === 0) {
-    return (
-      <div className="no-results-message">
-        No results found for "{searchTerm}".
-      </div>
-    );
-  }
+  
 
   const categorizedItems = categories.reduce((acc, category) => {
     acc[category] = items.filter((item) => item.category === category);
@@ -141,10 +151,10 @@ const categoryTypes = Array.from(
     setActiveVideoId(null);
   };
 
-  if (loading) return <div className="loading-message">Loading...</div>;
+  if (loading) return <div className="loading-message">{t("loading")}</div>;
 
   if (!items || items.length === 0) {
-    return <div className="no-results-message">No results found for "{searchTerm}".</div>;
+    return <div className="no-results-message"> {t("no_results_found", { term: searchTerm })}</div>;
   }
 
    // Handle item click to navigate to product details page
@@ -160,7 +170,7 @@ const categoryTypes = Array.from(
        <div style={{width: "100%", maxWidth: "100%"}}>
    <div className="item-type-title">
      
-     <div style={{ whiteSpace: "nowrap" }}>Related Types:</div>
+     <div style={{ whiteSpace: "nowrap" }}>{t("related_types")}</div>
    
      <div  className="related-type-info" >
      {categoryTypes.map((relatedType, index) => (
@@ -220,7 +230,7 @@ const categoryTypes = Array.from(
              ))}
            </div>
              </div>
-           <div style={{color: "blue", textDecoration: "underline", cursor: "pointer"}}> view {relatedType} page</div>
+           <div style={{color: "blue", textDecoration: "underline", cursor: "pointer"}}>{t("view_type_page", { type: relatedType })}</div>
          </div>
    
        )
@@ -234,7 +244,7 @@ const categoryTypes = Array.from(
           const cryptoSymbol = `${cryptocurrency}`;
           const crypto = String(cryptocurrency);
           const reviewsData = reviews[itemId] || {}; // Ensure it exists
-            const finalRating = reviewsData ? reviewsData.averageRating : "No rating";
+            const finalRating = reviewsData ? reviewsData.averageRating : t("no_rating");
           const cryptoPriceInUSD = cryptoPrices[cryptoSymbol] || 0;
           const itemPriceInCrypto =
             cryptoPriceInUSD > 0 ? (usdPrice / cryptoPriceInUSD).toFixed(6) : "N/A";
@@ -305,15 +315,15 @@ const categoryTypes = Array.from(
                   <div style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
                     <span className="item-price">${usdPrice}</span>
                     {originalPrice > 0 && (
-                      <span className="item-original-price">${originalPrice}</span>
+                      <span className="item-original-price" >${originalPrice}</span>
                     )}
                     <span
                       className="item-sold"
-                      style={{ display: "flex", marginLeft: "10px", fontSize: "0.8rem" }}
+                      style={{ display: "flex", marginLeft: "10px", fontSize: "0.8rem", color: "black" }}
                     >
                       {sold}{" "}
                       <div style={{ marginLeft: "5px", fontWeight: "bold", color: "red" }}>
-                        sold
+                       {t("sold")}
                       </div>
                     </span>
                   </div>
@@ -326,15 +336,15 @@ const categoryTypes = Array.from(
                     <span className="item-crypto-price">
                       {itemPriceInCrypto !== "N/A"
                         ? `${itemPriceInCrypto} ${cryptocurrency}`
-                        : "Price unavailable"}
+                        :  t("price_unavailable")}
                     </span>
                   </div>
                 </div>
                <div className="item-type-stars" onClick={() =>
    navigate('/reviewPage', { 
     state: { itemData: itemData}
- }) } title="View reviews of this item">
-                {finalRating ? "★".repeat(Math.round(finalRating)) + "☆".repeat(5 - Math.round(finalRating)) : "No rating"}
+ }) } title={t("view_reviews")}>
+                {finalRating ? "★".repeat(Math.round(finalRating)) + "☆".repeat(5 - Math.round(finalRating)) : t("no_rating")}
                 </div>
               </div>
             </div>
