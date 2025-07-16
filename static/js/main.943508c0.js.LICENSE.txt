@@ -42,9 +42,11 @@ object-assign
  * Released under the MIT License
  */
 
+/*! Copyright Twitter Inc. and other contributors. Licensed under MIT */
+
 /*! noble-hashes - MIT License (c) 2022 Paul Miller (paulmillr.com) */
 
-/*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/facebook/regenerator/blob/main/LICENSE */
+/*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/babel/babel/blob/main/packages/babel-helpers/LICENSE */
 
 /**
       * @license
