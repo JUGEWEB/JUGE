@@ -191,17 +191,18 @@ function WoFashion() {
 
     {/* Horizontal scroll of type names (Top Topics) */}
 {/* Horizontal scroll of type names (Top Topics) */}
-<div style={{
-  display: 'flex',
-  overflowX: 'auto',
-  gap: '16px',
-  padding: '10px',
-  marginBottom: '20px',
-  height: '60px',
-  alignItems: 'center',
-  position: 'relative'
-}}>
-
+<div
+  style={{
+    display: 'flex',
+    overflowX: 'auto',
+    gap: '16px',
+    padding: '10px',
+    marginBottom: '20px',
+    height: '100px', // slightly taller for visual clarity
+    alignItems: 'center',
+    position: 'relative'
+  }}
+>
   {loadingTypes ? (
     <div className="section-spinner-wrapper">
       <div className="section-spinner"></div>
@@ -213,20 +214,38 @@ function WoFashion() {
         onClick={() => navigate(`/women-top-topic/${type.toLowerCase()}`)}
         style={{
           flex: '0 0 auto',
-          background: '#f0f0f0',
-          padding: '10px 20px',
-          borderRadius: '8px',
+          width: '160px',
+          height: '100px',
+          backgroundImage: `url('https://api.malidag.com/images/1752764163519-steptodown.com980265.webp')`, // ✅ Replace with your image
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          borderRadius: '10px',
+          position: 'relative',
           cursor: 'pointer',
           fontWeight: 'bold',
-          color: '#333',
-          whiteSpace: 'nowrap'
+          color: '#fff',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          textShadow: '0 2px 4px rgba(0,0,0,0.7)'
         }}
       >
-        Top {type}
+        <div
+          style={{
+            position: 'absolute',
+            inset: 0,
+            background: 'rgba(0,0,0,0.4)',
+            borderRadius: '10px'
+          }}
+        />
+        <span style={{ position: 'relative', zIndex: 1 }}>
+          Top {type}
+        </span>
       </div>
     ))
   )}
 </div>
+
 
 
 {/* All images grid (merged across types) */}

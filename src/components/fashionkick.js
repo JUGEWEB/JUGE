@@ -3,6 +3,7 @@ import axios from "axios";
 import "./woFashion.css";
 import { useNavigate } from "react-router-dom";
 import RecommendedItem from "./recomendeItem";
+import { useTranslation } from "react-i18next";
 
 const BASE_URLs = "https://api.malidag.com";
 const BASE_URL = "https://api.malidag.com";
@@ -14,6 +15,8 @@ function FashionKick() {
   const [cryptoPrices, setCryptoPrices] = useState({});
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
+  const { t } = useTranslation();
+
 
   useEffect(() => {
     const fetchBeautyItems = async () => {
@@ -116,44 +119,61 @@ function FashionKick() {
                   marginLeft: "20px"
                 }}
               >
-                {typeObj.type}
+                {t(typeObj.type)}
               </h3>
             </div>
           ))
         )}
       </div>
 
+     <div
+  style={{
+    display: "flex",
+    overflowX: "auto",
+    gap: "12px",
+    padding: "10px 15px",
+    marginBottom: "20px",
+    scrollbarWidth: "none"
+  }}
+>
+  {Object.entries(types).flatMap(([type, genres]) =>
+    Object.keys(genres).map((genre) => (
       <div
+        key={`${type}-${genre}`}
         style={{
+          flex: "0 0 auto",
+          width: "160px",
+          height: "100px",
+          backgroundImage: `url('https://api.malidag.com/images/1752763495656-steptodown.com390802.webp')`, // ✅ your image link
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          borderRadius: "10px",
+          position: "relative",
+          cursor: "pointer",
+          color: "#fff",
+          fontWeight: "bold",
           display: "flex",
-          overflowX: "auto",
-          gap: "12px",
-          padding: "10px 15px",
-          marginBottom: "20px",
-          scrollbarWidth: "none"
+          alignItems: "center",
+          justifyContent: "center",
+          textShadow: "0 2px 4px rgba(0,0,0,0.7)"
         }}
       >
-       {Object.entries(types).flatMap(([type, genres]) =>
-  Object.keys(genres).map((genre) => (
-    <div
-      key={`${type}-${genre}`}  // ✅ Unique key
-      style={{
-        flex: "0 0 auto",
-        background: "#f0f0f0",
-        padding: "10px 20px",
-        borderRadius: "8px",
-        cursor: "pointer",
-        fontWeight: "bold",
-        color: "#333",
-        whiteSpace: "nowrap "
-      }}
-    >
-      Top {type}
-    </div>
-  ))
-)}
-
+        <div
+          style={{
+            position: "absolute",
+            inset: 0,
+            background: "rgba(0,0,0,0.4)",
+            borderRadius: "10px"
+          }}
+        />
+        <span style={{ position: "relative", zIndex: 1 }}>
+          {t("top_items")}: {t(type) || type}
+        </span>
       </div>
+    ))
+  )}
+</div>
+
 
       <div
         style={{
