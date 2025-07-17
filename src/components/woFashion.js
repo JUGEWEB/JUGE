@@ -218,7 +218,7 @@ function WoFashion() {
           height: '100px',
           backgroundImage: `url('https://api.malidag.com/images/1752764163519-steptodown.com980265.webp')`, // ✅ Replace with your image
           backgroundSize: 'cover',
-          backgroundPosition: 'center',
+          backgroundPosition: 'center ',
           borderRadius: '10px',
           position: 'relative',
           cursor: 'pointer',
