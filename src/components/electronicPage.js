@@ -329,7 +329,7 @@ const fetchTranslation = async (productId, lang) => {
       <div className="item-sold">{sold} {t("sold")}</div>
       <div
         className="item-type-stars"
-        onClick={() => navigate("/reviewPage ", { state: { itemData } })}
+        onClick={() => navigate("/reviewPage", { state: { itemData } })}
         title={t("view_reviews")}
       >
         {finalRating
