@@ -192,5 +192,14 @@
   "show_original": "Түпнұсқаны көрсету ({{lang}})",
   "translate_to": "{{lang}} тіліне аудару",
   "translate_to_select": "аудару",
-  "no_country": "Белгісіз"
+  "no_country": "Белгісіз",
+  "no_types_found_fashion": "Сән санаты үшін ешбір түр табылмады",
+  "top": "Жоғарғы",
+  "men_sneakers": "Ерлерге арналған кроссовкалар",
+  "girls_boots": "Қыздарға арналған етік",
+  "women_boots": "Әйелдер етігі",
+  "women_sneakers": "Әйелдерге арналған кроссовкалар",
+  "men_boots": "Ерлерге арналған етік",
+  "best_seller": "Бестселлер",
+  "topIt": "ТОП"
 }

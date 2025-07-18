@@ -192,5 +192,14 @@
   "show_original": "Rodyti originalą ({{lang}})",
   "translate_to": "Versti į {{lang}}",
   "translate_to_select": "išversti į",
-  "no_country": "Nežinoma"
+  "no_country": "Nežinoma",
+  "no_types_found_fashion": "Mados kategorijai nerasta jokių tipų",
+  "top": "Viršuje",
+  "men_sneakers": "Vyriški sportbačiai",
+  "girls_boots": "Mergaičių batai",
+  "women_boots": "Moteriški batai",
+  "women_sneakers": "Moteriški sportbačiai",
+  "men_boots": "Vyriški batai",
+  "best_seller": "Geriausiai parduodamas",
+  "topIt": "VIRŠUS"
 }

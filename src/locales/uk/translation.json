@@ -192,5 +192,14 @@
   "show_original": "Показати оригінал ({{lang}})",
   "translate_to": "Перекласти мовою {{lang}}",
   "translate_to_select": "перекласти на",
-  "no_country": "Невідомо"
+  "no_country": "Невідомо",
+  "no_types_found_fashion": "Не знайдено типів для категорії «Мода»",
+  "top": "Верх",
+  "men_sneakers": "Чоловічі кросівки",
+  "girls_boots": "Дівчачі чоботи",
+  "women_boots": "Жіночі чоботи",
+  "women_sneakers": "Жіночі кросівки",
+  "men_boots": "Чоловічі чоботи",
+  "best_seller": "Бестселер",
+  "topIt": "ТОП"
 }

@@ -192,5 +192,14 @@
   "show_original": "បង្ហាញដើម ({{lang}})",
   "translate_to": "បកប្រែជា {{lang}}",
   "translate_to_select": "បកប្រែទៅ",
-  "no_country": "មិនស្គាល់"
+  "no_country": "មិនស្គាល់",
+  "no_types_found_fashion": "រកមិនឃើញប្រភេទសម្រាប់ប្រភេទម៉ូតទេ។",
+  "top": "កំពូល",
+  "men_sneakers": "ស្បែកជើងប៉ាតាបុរស",
+  "girls_boots": "ស្បែកជើងកវែងក្មេងស្រី",
+  "women_boots": "ស្បែកជើងកវែងស្ត្រី",
+  "women_sneakers": "ស្បែកជើងប៉ាតាស្ត្រី",
+  "men_boots": "ស្បែកជើងកវែងបុរស",
+  "best_seller": "លក់ដាច់បំផុត។",
+  "topIt": "កំពូល"
 }

@@ -193,5 +193,14 @@
   "show_original": "Hōʻike kumu ({{lang}})",
   "translate_to": "Unuhi i ka {{lang}}",
   "translate_to_select": "unuhi i",
-  "no_country": "ʻAʻole ʻike ʻia"
+  "no_country": "ʻAʻole ʻike ʻia",
+  "no_types_found_fashion": "ʻAʻohe ʻano i loaʻa no ka ʻano hana",
+  "top": "ʻO luna",
+  "men_sneakers": "Kāne sneakers",
+  "girls_boots": "Nā kāmaʻa kaikamahine",
+  "women_boots": "Nā kāmaʻa wahine",
+  "women_sneakers": "Nā sneakers wahine",
+  "men_boots": "Nā kāmaʻa kāne",
+  "best_seller": "ʻOi aku ka mea kūʻai aku",
+  "topIt": "TOP"
 }

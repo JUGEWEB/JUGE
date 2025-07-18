@@ -192,5 +192,14 @@
   "show_original": "원본 보기 ({{lang}})",
   "translate_to": "{{lang}}로 번역",
   "translate_to_select": "번역하다",
-  "no_country": "알려지지 않은"
+  "no_country": "알려지지 않은",
+  "no_types_found_fashion": "패션 카테고리에 대한 유형이 없습니다.",
+  "top": "맨 위",
+  "men_sneakers": "남성 스니커즈",
+  "girls_boots": "여아용 부츠",
+  "women_boots": "여성 부츠",
+  "women_sneakers": "여성 스니커즈",
+  "men_boots": "남성 부츠",
+  "best_seller": "베스트셀러",
+  "topIt": "맨 위"
 }

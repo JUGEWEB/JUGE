@@ -192,5 +192,14 @@
   "show_original": "Visa original ({{lang}})",
   "translate_to": "Översätt till {{lang}}",
   "translate_to_select": "översätt till",
-  "no_country": "Okänd"
+  "no_country": "Okänd",
+  "no_types_found_fashion": "Inga typer hittades för kategorin Mode",
+  "top": "Bästa",
+  "men_sneakers": "Herrsneakers",
+  "girls_boots": "Flickstövlar",
+  "women_boots": "Damstövlar",
+  "women_sneakers": "Damsneakers",
+  "men_boots": "Herrstövlar",
+  "best_seller": "Bästsäljare",
+  "topIt": "BÄSTA"
 }

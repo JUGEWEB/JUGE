@@ -192,5 +192,14 @@
   "show_original": "Hlahisa Ea Pele ({{lang}})",
   "translate_to": "Fetolela ho {{lang}}",
   "translate_to_select": "fetolela ho",
-  "no_country": "Tse sa tsejoeng"
+  "no_country": "Tse sa tsejoeng",
+  "no_types_found_fashion": "Ha ho mefuta e fumanehang molemong oa feshene",
+  "top": "Holimo",
+  "men_sneakers": "Li-sneakers tsa banna",
+  "girls_boots": "Lirifi tsa banana",
+  "women_boots": "Lirifi tsa basali",
+  "women_sneakers": "Li-sneakers tsa basali",
+  "men_boots": "Lirifi tsa banna",
+  "best_seller": "E rekisitseng ho fetisisa",
+  "topIt": "HLOMPHO"
 }

@@ -193,5 +193,14 @@
   "show_original": "Mostrar orixinal ({{lang}})",
   "translate_to": "Traducir a {{lang}}",
   "translate_to_select": "traducir a",
-  "no_country": "Descoñecido"
+  "no_country": "Descoñecido",
+  "no_types_found_fashion": "Non se atoparon tipos para a categoría Moda",
+  "top": "Arriba",
+  "men_sneakers": "zapatillas deportivas para homes",
+  "girls_boots": "Botas de nena",
+  "women_boots": "Botas de muller",
+  "women_sneakers": "zapatillas deportivas de muller",
+  "men_boots": "Botas de home",
+  "best_seller": "Máis vendido",
+  "topIt": "SUPERIOR"
 }

@@ -192,5 +192,14 @@
   "show_original": "Tampilake Asli ({{lang}})",
   "translate_to": "Terjemahake menyang {{lang}}",
   "translate_to_select": "nerjemahake menyang",
-  "no_country": "Ora dingerteni"
+  "no_country": "Ora dingerteni",
+  "no_types_found_fashion": "Ora ana jinis sing ditemokake kanggo kategori Fashion",
+  "top": "Ndhuwur",
+  "men_sneakers": "Sneakers lanang",
+  "girls_boots": "Boots bocah-bocah wadon",
+  "women_boots": "Boots wanita",
+  "women_sneakers": "Sneakers wanita",
+  "men_boots": "Boots lanang",
+  "best_seller": "Paling laris",
+  "topIt": "TOP"
 }

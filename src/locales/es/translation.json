@@ -194,5 +194,14 @@
   "show_original": "Mostrar original ({{lang}})",
   "translate_to": "Traducir a {{lang}}",
   "translate_to_select": "traducir a",
-  "no_country": "Desconocido"
+  "no_country": "Desconocido",
+  "no_types_found_fashion": "No se encontraron tipos para la categoría Moda",
+  "top": "Arriba",
+  "men_sneakers": "Zapatillas deportivas para hombre",
+  "girls_boots": "Botas de niña",
+  "women_boots": "Botas de mujer",
+  "women_sneakers": "Zapatillas deportivas de mujer",
+  "men_boots": "Botas de hombre",
+  "best_seller": "Mejor vendido",
+  "topIt": "ARRIBA"
 }

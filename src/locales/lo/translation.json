@@ -192,5 +192,14 @@
   "show_original": "ສະແດງຕົ້ນສະບັບ ({{lang}})",
   "translate_to": "ແປເປັນ {{lang}}",
   "translate_to_select": "ແປເປັນ",
-  "no_country": "ບໍ່ຮູ້ຈັກ"
+  "no_country": "ບໍ່ຮູ້ຈັກ",
+  "no_types_found_fashion": "ບໍ່ພົບປະເພດໃດສຳລັບໝວດໝູ່ແຟຊັນ",
+  "top": "ເທິງ",
+  "men_sneakers": "ເກີບຜູ້ຊາຍ",
+  "girls_boots": "ເກີບເດັກຍິງ",
+  "women_boots": "ເກີບຜູ້ຍິງ",
+  "women_sneakers": "ເກີບຜ້າໃບແມ່ຍິງ",
+  "men_boots": "ເກີບຜູ້ຊາຍ",
+  "best_seller": "ຜູ້ຂາຍດີທີ່ສຸດ",
+  "topIt": "ເທິງ"
 }

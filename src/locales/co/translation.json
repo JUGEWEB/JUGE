@@ -194,5 +194,14 @@
   "show_original": "Mustrà l'uriginale ({{lang}})",
   "translate_to": "Traduce in {{lang}}",
   "translate_to_select": "traduce in",
-  "no_country": "Scunnisciutu"
+  "no_country": "Scunnisciutu",
+  "no_types_found_fashion": "Nisun tipu trovu per a categuria Moda",
+  "top": "Cima",
+  "men_sneakers": "Scarpe da ginnastica per l'omi",
+  "girls_boots": "Stivali per e zitelle",
+  "women_boots": "Stivali da donna",
+  "women_sneakers": "Scarpe da ginnastica da donna",
+  "men_boots": "Stivali da omu",
+  "best_seller": "U megliu venditore",
+  "topIt": "TOP"
 }

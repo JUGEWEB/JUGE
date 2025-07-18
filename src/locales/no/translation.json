@@ -192,5 +192,14 @@
   "show_original": "Vis original ({{lang}})",
   "translate_to": "Oversett til {{lang}}",
   "translate_to_select": "oversette til",
-  "no_country": "Ukjent"
+  "no_country": "Ukjent",
+  "no_types_found_fashion": "Ingen typer funnet for Mote-kategorien",
+  "top": "Topp",
+  "men_sneakers": "Herre joggesko",
+  "girls_boots": "Jentestøvler",
+  "women_boots": "Damestøvler",
+  "women_sneakers": "Damesneakers",
+  "men_boots": "Herrestøvler",
+  "best_seller": "Bestselger",
+  "topIt": "TOPP"
 }

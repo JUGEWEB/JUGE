@@ -193,5 +193,14 @@
   "show_original": "Näytä alkuperäinen ({{lang}})",
   "translate_to": "Käännä kielelle {{lang}}",
   "translate_to_select": "kääntää kielelle",
-  "no_country": "Tuntematon"
+  "no_country": "Tuntematon",
+  "no_types_found_fashion": "Muoti-kategorialle ei löytynyt tyyppejä",
+  "top": "Yläosa",
+  "men_sneakers": "Miesten lenkkarit",
+  "girls_boots": "Tyttöjen saappaat",
+  "women_boots": "Naisten saappaat",
+  "women_sneakers": "Naisten lenkkarit",
+  "men_boots": "Miesten saappaat",
+  "best_seller": "Myydyin",
+  "topIt": "YLÄOSA"
 }

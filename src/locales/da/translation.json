@@ -193,5 +193,14 @@
   "show_original": "Vis original ({{lang}})",
   "translate_to": "Oversæt til {{lang}}",
   "translate_to_select": "oversæt til",
-  "no_country": "Ukendt"
+  "no_country": "Ukendt",
+  "no_types_found_fashion": "Ingen typer fundet i kategorien Mode",
+  "top": "Top",
+  "men_sneakers": "Herresneakers",
+  "girls_boots": "Pigerstøvler",
+  "women_boots": "Damestøvler",
+  "women_sneakers": "Damesneakers",
+  "men_boots": "Herrestøvler",
+  "best_seller": "Bedst sælgende",
+  "topIt": "TOP"
 }

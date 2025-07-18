@@ -192,5 +192,14 @@
   "show_original": "Onyesha Asili ({{lang}})",
   "translate_to": "Tafsiri hadi {{lang}}",
   "translate_to_select": "kutafsiri kwa",
-  "no_country": "Haijulikani"
+  "no_country": "Haijulikani",
+  "no_types_found_fashion": "Hakuna aina zilizopatikana kwa kitengo cha Mitindo",
+  "top": "Juu",
+  "men_sneakers": "Sneakers za wanaume",
+  "girls_boots": "Boti za wasichana",
+  "women_boots": "Boti za wanawake",
+  "women_sneakers": "Sneakers za wanawake",
+  "men_boots": "Boti za wanaume",
+  "best_seller": "Muuzaji bora",
+  "topIt": "JUU"
 }

@@ -192,5 +192,14 @@
   "show_original": "اصل دکھائیں ({{lang}})",
   "translate_to": "{{lang}} میں ترجمہ کریں",
   "translate_to_select": "میں ترجمہ کریں",
-  "no_country": "نامعلوم"
+  "no_country": "نامعلوم",
+  "no_types_found_fashion": "فیشن کے زمرے کے لیے کوئی قسم نہیں ملی",
+  "top": "اوپر",
+  "men_sneakers": "مردوں کے جوتے",
+  "girls_boots": "لڑکیوں کے جوتے",
+  "women_boots": "خواتین کے جوتے",
+  "women_sneakers": "خواتین کے جوتے",
+  "men_boots": "مردوں کے جوتے",
+  "best_seller": "بہترین فروخت کنندہ",
+  "topIt": "ٹاپ"
 }

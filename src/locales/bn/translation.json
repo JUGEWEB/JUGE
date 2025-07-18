@@ -194,5 +194,14 @@
   "show_original": "আসলটি দেখান ({{lang}})",
   "translate_to": "{{lang}} তে অনুবাদ করুন",
   "translate_to_select": "অনুবাদ করুন",
-  "no_country": "অজানা"
+  "no_country": "অজানা",
+  "no_types_found_fashion": "ফ্যাশন বিভাগের জন্য কোনও প্রকার খুঁজে পাওয়া যায়নি",
+  "top": "শীর্ষ",
+  "men_sneakers": "পুরুষদের স্নিকার্স",
+  "girls_boots": "মেয়েদের বুট",
+  "women_boots": "মহিলাদের বুট",
+  "women_sneakers": "মহিলাদের স্নিকার্স",
+  "men_boots": "পুরুষদের বুট",
+  "best_seller": "সর্বাধিক বিক্রিত",
+  "topIt": "শীর্ষ"
 }

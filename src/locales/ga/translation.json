@@ -193,5 +193,14 @@
   "show_original": "Taispeáin an Bunleagan ({{lang}})",
   "translate_to": "Aistrigh go {{lang}}",
   "translate_to_select": "aistriú go",
-  "no_country": "Anaithnid"
+  "no_country": "Anaithnid",
+  "no_types_found_fashion": "Ní bhfuarthas aon chineálacha don chatagóir Faisin",
+  "top": "Barr",
+  "men_sneakers": "Bróga fir",
+  "girls_boots": "Buataisí cailíní",
+  "women_boots": "Buataisí ban",
+  "women_sneakers": "Bróga mná",
+  "men_boots": "Buataisí fir",
+  "best_seller": "Díoltóir is fearr",
+  "topIt": "BARR"
 }

@@ -189,5 +189,14 @@
   "show_original": "Onetsani Choyambirira ({{lang}})",
   "translate_to": "Tanthauzirani ku {{lang}}",
   "translate_to_select": "kumasulira ku",
-  "no_country": "Zosadziwika"
+  "no_country": "Zosadziwika",
+  "no_types_found_fashion": "Palibe mitundu yomwe yapezeka pagulu la Mafashoni",
+  "top": "Pamwamba",
+  "men_sneakers": "Zovala za amuna",
+  "girls_boots": "Atsikana nsapato",
+  "women_boots": "Nsapato za akazi",
+  "women_sneakers": "Zovala zazimayi",
+  "men_boots": "Amuna nsapato",
+  "best_seller": "Logulitsidwa kwambiri",
+  "topIt": "KUPANGA"
 }

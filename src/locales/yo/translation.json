@@ -192,5 +192,14 @@
   "show_original": "Ṣafihan Atilẹba ({{lang}})",
   "translate_to": "Tumọ si {{lang}}",
   "translate_to_select": "tumọ si",
-  "no_country": "Aimọ"
+  "no_country": "Aimọ",
+  "no_types_found_fashion": "Ko si awọn oriṣi ti a rii fun ẹka Fashion",
+  "top": "Oke",
+  "men_sneakers": "Awọn sneakers ọkunrin",
+  "girls_boots": "Awọn bata orunkun ọmọbirin",
+  "women_boots": "Awọn bata orunkun obirin",
+  "women_sneakers": "Awọn sneakers obirin",
+  "men_boots": "Awọn bata orunkun ọkunrin",
+  "best_seller": "Olutaja ti o dara julọ",
+  "topIt": "TOP"
 }

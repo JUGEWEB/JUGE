@@ -192,5 +192,14 @@
   "show_original": "Prikaži izvirnik ({{lang}})",
   "translate_to": "Prevedi v {{lag}}",
   "translate_to_select": "prevedi v",
-  "no_country": "Neznano"
+  "no_country": "Neznano",
+  "no_types_found_fashion": "Za kategorijo Moda ni bilo najdenih vrst",
+  "top": "Zgoraj",
+  "men_sneakers": "Moški superge",
+  "girls_boots": "Dekliški škornji",
+  "women_boots": "Ženski škornji",
+  "women_sneakers": "Ženske superge",
+  "men_boots": "Moški škornji",
+  "best_seller": "Najbolje prodajano",
+  "topIt": "VRH"
 }

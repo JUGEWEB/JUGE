@@ -192,5 +192,14 @@
   "show_original": "Muuji Asalka ({{lang}})",
   "translate_to": "U tarjun {{lang}}",
   "translate_to_select": "u turjun",
-  "no_country": "Lama garanayo"
+  "no_country": "Lama garanayo",
+  "no_types_found_fashion": "Noocyo looma helin qaybta Fashion",
+  "top": "Sare",
+  "men_sneakers": "Ragga kabaha kabaha",
+  "girls_boots": "Kabaha gabdhaha",
+  "women_boots": "Kabaha dumarka",
+  "women_sneakers": "Kabaha dumarka",
+  "men_boots": "Ragga kabaha",
+  "best_seller": "Iibiyaha ugu fiican",
+  "topIt": "TOP"
 }

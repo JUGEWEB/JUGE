@@ -193,5 +193,14 @@
   "show_original": "Afficher l'original ({{lang}})",
   "translate_to": "Traduire en {{lang}}",
   "translate_to_select": "traduire en",
-  "no_country": "Inconnu"
+  "no_country": "Inconnu",
+  "no_types_found_fashion": "Aucun type trouvé pour la catégorie Mode",
+  "top": "Haut",
+  "men_sneakers": "Baskets pour hommes",
+  "girls_boots": "Bottes pour filles",
+  "women_boots": "Bottes pour femmes",
+  "women_sneakers": "Baskets pour femmes",
+  "men_boots": "bottes pour hommes",
+  "best_seller": "Meilleure vente",
+  "topIt": "HAUT"
 }

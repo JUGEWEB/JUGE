@@ -192,5 +192,14 @@
   "show_original": "Montre Orijinal la ({{lang}})",
   "translate_to": "Tradui an {{lang}}",
   "translate_to_select": "tradui nan",
-  "no_country": "Enkoni"
+  "no_country": "Enkoni",
+  "no_types_found_fashion": "Pa jwenn okenn kalite pou kategori Mòd",
+  "top": "Anlè",
+  "men_sneakers": "Tenis pou gason",
+  "girls_boots": "Bòt pou fi",
+  "women_boots": "Bòt fanm",
+  "women_sneakers": "Tenis pou fanm",
+  "men_boots": "Bòt gason",
+  "best_seller": "Pi bon vandè",
+  "topIt": "ANWO"
 }

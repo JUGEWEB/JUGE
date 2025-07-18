@@ -80,7 +80,7 @@ function FashionForAll() {
         ))}
       </div>
 
-      {(!(isMobile || !isTablet || isSmallMobile || isVerySmall)) && (
+      {((isMobile || !isTablet || isSmallMobile || isVerySmall)) && (
       <div className="carousel-arrows">
               <LeftOutlined onClick={handlePrevSlide} className="arrow-button" />
               <RightOutlined onClick={handleNextSlide} className="arrow-button" />

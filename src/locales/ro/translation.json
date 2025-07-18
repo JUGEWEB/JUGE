@@ -192,5 +192,14 @@
   "show_original": "Afișează originalul ({{lang}})",
   "translate_to": "Traduceți în {{lang}}",
   "translate_to_select": "traduce în",
-  "no_country": "Necunoscut"
+  "no_country": "Necunoscut",
+  "no_types_found_fashion": "Nu s-au găsit tipuri pentru categoria Modă",
+  "top": "Top",
+  "men_sneakers": "Adidași pentru bărbați",
+  "girls_boots": "Ghete pentru fete",
+  "women_boots": "Ghete de damă",
+  "women_sneakers": "Teniși pentru femei",
+  "men_boots": "Ghete bărbătești",
+  "best_seller": "Cel mai vândut",
+  "topIt": "TOP"
 }

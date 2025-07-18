@@ -189,5 +189,14 @@
   "show_original": "Seall an tùs ({{lang}})",
   "translate_to": "Eadar-theangaich gu {{lang}}",
   "translate_to_select": "eadar-theangaich gu",
-  "no_country": "Neo-aithnichte"
+  "no_country": "Neo-aithnichte",
+  "no_types_found_fashion": "Cha deach seòrsaichean a lorg airson roinn Fasan",
+  "top": "Barr",
+  "men_sneakers": "Brògan-spòrs fir",
+  "girls_boots": "Bòtannan nigheanan",
+  "women_boots": "Bòtannan boireannaich",
+  "women_sneakers": "Sneakers boireannaich",
+  "men_boots": "Bòtannan fir",
+  "best_seller": "An neach-reic as fheàrr",
+  "topIt": "MULLACH"
 }

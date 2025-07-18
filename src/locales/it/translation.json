@@ -192,5 +192,14 @@
   "show_original": "Mostra originale ({{lang}})",
   "translate_to": "Traduci in {{lang}}",
   "translate_to_select": "tradurre in",
-  "no_country": "Sconosciuto"
+  "no_country": "Sconosciuto",
+  "no_types_found_fashion": "Nessun tipo trovato per la categoria Moda",
+  "top": "Superiore",
+  "men_sneakers": "Sneakers da uomo",
+  "girls_boots": "Stivali da ragazza",
+  "women_boots": "stivali da donna",
+  "women_sneakers": "Sneakers da donna",
+  "men_boots": "Stivali da uomo",
+  "best_seller": "Best seller",
+  "topIt": "SUPERIORE"
 }

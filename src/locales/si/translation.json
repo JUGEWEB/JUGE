@@ -192,5 +192,14 @@
   "show_original": "මුල් පිටපත පෙන්වන්න ({{lang}})",
   "translate_to": "{{lang}} භාෂාවට පරිවර්තනය කරන්න",
   "translate_to_select": "පරිවර්තනය කරන්න",
-  "no_country": "නොදන්නා"
+  "no_country": "නොදන්නා",
+  "no_types_found_fashion": "විලාසිතා කාණ්ඩය සඳහා වර්ග හමු නොවීය.",
+  "top": "ඉහළට",
+  "men_sneakers": "පිරිමි සපත්තු",
+  "girls_boots": "ගැහැණු ළමයින්ගේ සපත්තු",
+  "women_boots": "කාන්තා සපත්තු",
+  "women_sneakers": "කාන්තා සපත්තු",
+  "men_boots": "පිරිමි සපත්තු",
+  "best_seller": "වැඩියෙන් අලෙවි වන",
+  "topIt": "ඉහළට"
 }

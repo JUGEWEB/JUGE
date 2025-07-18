@@ -192,5 +192,14 @@
   "show_original": "Toon origineel ({{lang}})",
   "translate_to": "Vertalen naar het {{lang}}",
   "translate_to_select": "vertalen naar",
-  "no_country": "Onbekend"
+  "no_country": "Onbekend",
+  "no_types_found_fashion": "Geen typen gevonden voor de categorie Mode",
+  "top": "Bovenkant",
+  "men_sneakers": "Heren sneakers",
+  "girls_boots": "Meisjeslaarzen",
+  "women_boots": "Dameslaarzen",
+  "women_sneakers": "Dames sneakers",
+  "men_boots": "Heren laarzen",
+  "best_seller": "Bestseller",
+  "topIt": "BOVENKANT"
 }

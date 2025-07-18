@@ -193,5 +193,14 @@
   "show_original": "Jatorrizkoa erakutsi ({{lang}})",
   "translate_to": "Itzuli {{lang}} hizkuntzara",
   "translate_to_select": "itzuli",
-  "no_country": "Ezezaguna"
+  "no_country": "Ezezaguna",
+  "no_types_found_fashion": "Ez da motarik aurkitu Moda kategorian",
+  "top": "Goia",
+  "men_sneakers": "Gizonezkoentzako kirol oinetakoak",
+  "girls_boots": "Nesken botak",
+  "women_boots": "Emakumeen botak",
+  "women_sneakers": "Emakumeentzako kirol oinetakoak",
+  "men_boots": "Gizonezkoen botak",
+  "best_seller": "Salduena",
+  "topIt": "GOIA"
 }

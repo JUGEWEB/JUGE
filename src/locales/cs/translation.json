@@ -194,5 +194,14 @@
   "show_original": "Zobrazit originál ({{lang}})",
   "translate_to": "Přeložit do jazyka {{lang}}",
   "translate_to_select": "přeložit do",
-  "no_country": "Neznámý"
+  "no_country": "Neznámý",
+  "no_types_found_fashion": "Pro kategorii Móda nebyly nalezeny žádné typy",
+  "top": "Nahoře",
+  "men_sneakers": "Pánské tenisky",
+  "girls_boots": "Dívčí boty",
+  "women_boots": "Dámské boty",
+  "women_sneakers": "Dámské tenisky",
+  "men_boots": "Pánské boty",
+  "best_seller": "Bestseller",
+  "topIt": "TOP"
 }

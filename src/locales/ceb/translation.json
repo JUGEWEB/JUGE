@@ -195,5 +195,14 @@
   "show_original": "Ipakita ang Orihinal ({{lang}})",
   "translate_to": "Hubad sa {{lang}}",
   "translate_to_select": "hubad sa",
-  "no_country": "Wala mailhi"
+  "no_country": "Wala mailhi",
+  "no_types_found_fashion": "Walay mga matang nga nakit-an para sa Fashion nga kategorya",
+  "top": "Ibabaw",
+  "men_sneakers": "Mga sneaker sa lalaki",
+  "girls_boots": "Mga botas sa mga babaye",
+  "women_boots": "Mga botas sa babaye",
+  "women_sneakers": "Mga babaye nga sneaker",
+  "men_boots": "Mga botas sa lalaki",
+  "best_seller": "Best seller",
+  "topIt": "TOP"
 }

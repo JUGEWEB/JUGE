@@ -197,5 +197,14 @@
   "show_original": "ዋናውን አሳይ ({{lang}})",
   "translate_to": "ወደ {{lang}} ተርጉም",
   "translate_to_select": "መተርጎም ወደ",
-  "no_country": "ያልታወቀ"
+  "no_country": "ያልታወቀ",
+  "no_types_found_fashion": "ለፋሽን ምድብ ምንም አይነት አልተገኙም።",
+  "top": "ከፍተኛ",
+  "men_sneakers": "የወንዶች ስኒከር",
+  "girls_boots": "የሴቶች ቦት ጫማዎች",
+  "women_boots": "የሴቶች ቦት ጫማዎች",
+  "women_sneakers": "የሴቶች የስፖርት ጫማዎች",
+  "men_boots": "የወንዶች ቦት ጫማዎች",
+  "best_seller": "ምርጥ ሻጭ",
+  "topIt": "ከላይ"
 }

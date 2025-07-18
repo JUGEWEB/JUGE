@@ -193,5 +193,14 @@
   "show_original": "Dangos Gwreiddiol ({{lang}})",
   "translate_to": "Cyfieithu i {{lang}}",
   "translate_to_select": "cyfieithu i",
-  "no_country": "Anhysbys"
+  "no_country": "Anhysbys",
+  "no_types_found_fashion": "Ni chanfuwyd unrhyw fathau ar gyfer y categori Ffasiwn",
+  "top": "Top",
+  "men_sneakers": "Sneakers dynion",
+  "girls_boots": "Esgidiau merched",
+  "women_boots": "Esgidiau menywod",
+  "women_sneakers": "Sneakers menywod",
+  "men_boots": "Esgidiau dynion",
+  "best_seller": "Gwerthwr gorau",
+  "topIt": "TOP"
 }

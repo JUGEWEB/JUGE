@@ -192,5 +192,14 @@
   "show_original": "Оригиналь күрсәт ({{lang}})",
   "translate_to": "{{Lang} to тәрҗемә итегез",
   "translate_to_select": "тәрҗемә итү",
-  "no_country": "Билгесез"
+  "no_country": "Билгесез",
+  "no_types_found_fashion": "Мода категориясе өчен төрләр табылмады",
+  "top": ".Гары",
+  "men_sneakers": "Ир-атлар",
+  "girls_boots": "Кызлар итек",
+  "women_boots": "Хатын-кызлар итек",
+  "women_sneakers": "Хатын-кызлар кроссовкасы",
+  "men_boots": "Ирләр итек",
+  "best_seller": "Иң яхшы сатучы",
+  "topIt": "TOP"
 }

@@ -193,5 +193,14 @@
   "show_original": "Montri Originalon ({{lang}})",
   "translate_to": "Traduki al {{lang}}",
   "translate_to_select": "traduki al",
-  "no_country": "Nekonata"
+  "no_country": "Nekonata",
+  "no_types_found_fashion": "Neniuj tipoj trovitaj por la kategorio Modo",
+  "top": "Supro",
+  "men_sneakers": "Viraj sportŝuoj",
+  "girls_boots": "Knabinaj botoj",
+  "women_boots": "Virinaj botoj",
+  "women_sneakers": "Virinaj sportŝuoj",
+  "men_boots": "Viraj botoj",
+  "best_seller": "Furorlibro",
+  "topIt": "SUPRO"
 }

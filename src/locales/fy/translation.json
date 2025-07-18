@@ -193,5 +193,14 @@
   "show_original": "Orizjineel sjen litte ({{lang}})",
   "translate_to": "Oerset nei {{lang}}",
   "translate_to_select": "oersette nei",
-  "no_country": "Ûnbekend"
+  "no_country": "Ûnbekend",
+  "no_types_found_fashion": "Gjin typen fûn foar de kategory Moade",
+  "top": "Top",
+  "men_sneakers": "Manlju sneakers",
+  "girls_boots": "Famkeslearzens",
+  "women_boots": "Frouljuslaarzen",
+  "women_sneakers": "Frouljus sneakers",
+  "men_boots": "Manlju learzens",
+  "best_seller": "Bêste ferkeaper",
+  "topIt": "TOP"
 }

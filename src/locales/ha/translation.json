@@ -193,5 +193,14 @@
   "show_original": "Nuna Asali ({{lang}})",
   "translate_to": "Fassara zuwa {{lang}}",
   "translate_to_select": "fassara zuwa",
-  "no_country": "Ba a sani ba"
+  "no_country": "Ba a sani ba",
+  "no_types_found_fashion": "Babu nau'ikan da aka samo don nau'in Fashion",
+  "top": "Sama",
+  "men_sneakers": "Maza sneakers",
+  "girls_boots": "Takalmin 'yan mata",
+  "women_boots": "Takalmin mata",
+  "women_sneakers": "Mata masu sneakers",
+  "men_boots": "Maza takalma",
+  "best_seller": "Mafi kyawun siyarwa",
+  "topIt": "TOP"
 }

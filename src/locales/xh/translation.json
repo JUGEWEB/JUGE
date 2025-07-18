@@ -192,5 +192,14 @@
   "show_original": "Bonisa Eyokuqala ({{lang}})",
   "translate_to": "Guqulela ku{{lang}}",
   "translate_to_select": "guqulela ku",
-  "no_country": "Akwaziwa"
+  "no_country": "Akwaziwa",
+  "no_types_found_fashion": "Akukho ntlobo zifunyenweyo zodidi lweFashoni",
+  "top": "Phezulu",
+  "men_sneakers": "Iiteki zamadoda",
+  "girls_boots": "Iibhutsi zamantombazana",
+  "women_boots": "Iibhutsi zabasetyhini",
+  "women_sneakers": "Iiteki zabasetyhini",
+  "men_boots": "Iibhutsi zamadoda",
+  "best_seller": "Umthengisi ogqibelele",
+  "topIt": "PHEZULU"
 }

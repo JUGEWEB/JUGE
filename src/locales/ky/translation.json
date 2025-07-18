@@ -192,5 +192,14 @@
   "show_original": "Түпнуска ({{lang}}) көрсөтүү",
   "translate_to": "{{lang}} тилине которуу",
   "translate_to_select": "которуу",
-  "no_country": "Белгисиз"
+  "no_country": "Белгисиз",
+  "no_types_found_fashion": "Мода категориясы үчүн эч кандай түрлөрү табылган жок",
+  "top": "Жогорку",
+  "men_sneakers": "Эркектер кроссовкалары",
+  "girls_boots": "Кыздардын бут кийимдери",
+  "women_boots": "Аялдардын бут кийимдери",
+  "women_sneakers": "Аялдардын кроссовкалары",
+  "men_boots": "Эркектер бут кийимдери",
+  "best_seller": "мыкты сатуучу",
+  "topIt": "ТОП"
 }

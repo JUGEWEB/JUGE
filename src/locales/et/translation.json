@@ -194,5 +194,14 @@
   "show_original": "Näita originaali ({{lang}})",
   "translate_to": "Tõlgi {{lang}} keelde",
   "translate_to_select": "tõlkida",
-  "no_country": "Tundmatu"
+  "no_country": "Tundmatu",
+  "no_types_found_fashion": "Moe kategooria jaoks ei leitud tüüpe",
+  "top": "Ülemine",
+  "men_sneakers": "Meeste tossud",
+  "girls_boots": "Tüdrukute saapad",
+  "women_boots": "Naiste saapad",
+  "women_sneakers": "Naiste tossud",
+  "men_boots": "Meeste saapad",
+  "best_seller": "Enimmüüdud",
+  "topIt": "TOP"
 }

@@ -196,5 +196,14 @@
   "show_original": "عرض الأصل ({{lang}})",
   "translate_to": "ترجمة إلى {{lang}}",
   "translate_to_select": "ترجم إلى",
-  "no_country": "مجهول"
+  "no_country": "مجهول",
+  "no_types_found_fashion": "لم يتم العثور على أنواع لفئة الموضة",
+  "top": "قمة",
+  "men_sneakers": "أحذية رياضية للرجال",
+  "girls_boots": "أحذية الفتيات",
+  "women_boots": "أحذية نسائية",
+  "women_sneakers": "أحذية رياضية نسائية",
+  "men_boots": "أحذية رجالية",
+  "best_seller": "الأكثر مبيعًا",
+  "topIt": "قمة"
 }

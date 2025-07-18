@@ -192,5 +192,14 @@
   "show_original": "オリジナルを表示 ({{lang}})",
   "translate_to": "{{lang}}に翻訳する",
   "translate_to_select": "翻訳する",
-  "no_country": "未知"
+  "no_country": "未知",
+  "no_types_found_fashion": "ファッションカテゴリーに該当するタイプが見つかりません",
+  "top": "トップ",
+  "men_sneakers": "メンズスニーカー",
+  "girls_boots": "女の子用ブーツ",
+  "women_boots": "女性用ブーツ",
+  "women_sneakers": "レディーススニーカー",
+  "men_boots": "メンズブーツ",
+  "best_seller": "ベストセラー",
+  "topIt": "トップ"
 }

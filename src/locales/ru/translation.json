@@ -192,5 +192,14 @@
   "show_original": "Показать оригинал ({{lang}})",
   "translate_to": "Перевести на {{lang}}",
   "translate_to_select": "перевести на",
-  "no_country": "Неизвестный"
+  "no_country": "Неизвестный",
+  "no_types_found_fashion": "Типы для категории «Мода» не найдены.",
+  "top": "Вершина",
+  "men_sneakers": "Мужские кроссовки",
+  "girls_boots": "Ботинки для девочек",
+  "women_boots": "Женские сапоги",
+  "women_sneakers": "Женские кроссовки",
+  "men_boots": "Мужские ботинки",
+  "best_seller": "Бестселлер",
+  "topIt": "ВЕРШИНА"
 }

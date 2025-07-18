@@ -192,5 +192,14 @@
   "show_original": "Tampilkan Asli ({{lang}})",
   "translate_to": "Terjemahkan ke {{lang}}",
   "translate_to_select": "menerjemahkan ke",
-  "no_country": "Tidak dikenal"
+  "no_country": "Tidak dikenal",
+  "no_types_found_fashion": "Tidak ada jenis yang ditemukan untuk kategori Fashion",
+  "top": "Atas",
+  "men_sneakers": "Sepatu kets pria",
+  "girls_boots": "Sepatu bot anak perempuan",
+  "women_boots": "Sepatu bot wanita",
+  "women_sneakers": "Sepatu kets wanita",
+  "men_boots": "Sepatu bot pria",
+  "best_seller": "Penjual terbaik",
+  "topIt": "ATAS"
 }

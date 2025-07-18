@@ -192,5 +192,14 @@
   "show_original": "Erekana Umwimerere ({{lang}})",
   "translate_to": "Sobanura kuri {{lang}}",
   "translate_to_select": "Guhindura Kuri",
-  "no_country": "Ntazwi"
+  "no_country": "Ntazwi",
+  "no_types_found_fashion": "Nta bwoko buboneka kurwego rwimyambarire",
+  "top": "Hejuru",
+  "men_sneakers": "Inkweto z'abagabo",
+  "girls_boots": "Inkweto z'abakobwa",
+  "women_boots": "Inkweto z'abagore",
+  "women_sneakers": "Inkweto z'abagore",
+  "men_boots": "Inkweto z'abagabo",
+  "best_seller": "Umugurisha mwiza",
+  "topIt": "TOP"
 }

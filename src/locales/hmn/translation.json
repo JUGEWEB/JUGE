@@ -192,5 +192,14 @@
   "show_original": "Qhia Original ({{lang}})",
   "translate_to": "Txhais rau {{lang}}",
   "translate_to_select": "txhais rau",
-  "no_country": "Tsis paub"
+  "no_country": "Tsis paub",
+  "no_types_found_fashion": "Tsis muaj hom pom rau Fashion qeb",
+  "top": "Sab saum toj",
+  "men_sneakers": "Txiv neej khau ntaub",
+  "girls_boots": "Cov ntxhais khau boots",
+  "women_boots": "Cov poj niam khau boots",
+  "women_sneakers": "Poj niam khau ntaub",
+  "men_boots": "Txiv neej khau boots",
+  "best_seller": "Tus neeg muag khoom zoo tshaj plaws",
+  "topIt": "TOP"
 }

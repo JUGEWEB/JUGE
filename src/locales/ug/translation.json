@@ -192,5 +192,14 @@
   "show_original": "ئەسلى ({{lang}}) نى كۆرسەت",
   "translate_to": "{{Lang} to غا تەرجىمە قىلىڭ",
   "translate_to_select": "to translate to",
-  "no_country": "نامەلۇم"
+  "no_country": "نامەلۇم",
+  "no_types_found_fashion": "مودا تۈرىگە تېپىلمىدى",
+  "top": "ئۈستى",
+  "men_sneakers": "ئەرلەر تەنھەرىكەت ئايىغى",
+  "girls_boots": "قىزلار ئۆتۈك",
+  "women_boots": "ئاياللار ئۆتۈك",
+  "women_sneakers": "ئاياللار تەنھەرىكەت ئايىغى",
+  "men_boots": "ئەرلەر ئۆتۈك",
+  "best_seller": "ئەڭ ياخشى ساتقۇچى",
+  "topIt": "TOP"
 }

@@ -192,5 +192,14 @@
   "show_original": "اصلي ({{lang}}) وښایاست",
   "translate_to": "{{lang}} ته وژباړئ",
   "translate_to_select": "ته وژباړئ",
-  "no_country": "نامعلوم"
+  "no_country": "نامعلوم",
+  "no_types_found_fashion": "د فېشن کټګورۍ لپاره هیڅ ډول ونه موندل شو",
+  "top": "پورته",
+  "men_sneakers": "د نارینه وو لپاره بوټان",
+  "girls_boots": "د نجونو بوټان",
+  "women_boots": "د ښځو بوټان",
+  "women_sneakers": "د ښځو بوټان",
+  "men_boots": "د نارینه وو بوټان",
+  "best_seller": "غوره پلورونکی",
+  "topIt": "پورته"
 }

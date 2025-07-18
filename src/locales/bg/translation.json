@@ -195,5 +195,14 @@
   "show_original": "Покажи оригинала ({{lang}})",
   "translate_to": "Превод на {{lang}}",
   "translate_to_select": "превеждам на",
-  "no_country": "Неизвестен"
+  "no_country": "Неизвестен",
+  "no_types_found_fashion": "Няма намерени типове за категория „Мода“",
+  "top": "Най-горе",
+  "men_sneakers": "Мъжки маратонки",
+  "girls_boots": "Ботуши за момичета",
+  "women_boots": "Дамски ботуши",
+  "women_sneakers": "Дамски маратонки",
+  "men_boots": "Мъжки ботуши",
+  "best_seller": "Бестселър",
+  "topIt": "ТОП"
 }

@@ -192,5 +192,14 @@
   "show_original": "அசல் ({{lang}}) ஐக் காட்டு",
   "translate_to": "{{lang}} மொழிக்கு மொழிபெயர்க்கவும்",
   "translate_to_select": "மொழிபெயர்க்கவும்",
-  "no_country": "தெரியவில்லை"
+  "no_country": "தெரியவில்லை",
+  "no_types_found_fashion": "ஃபேஷன் வகைக்கு எந்த வகைகளும் கிடைக்கவில்லை.",
+  "top": "மேல்",
+  "men_sneakers": "ஆண்கள் ஸ்னீக்கர்கள்",
+  "girls_boots": "பெண்கள் பூட்ஸ்",
+  "women_boots": "பெண்கள் பூட்ஸ்",
+  "women_sneakers": "பெண்கள் ஸ்னீக்கர்கள்",
+  "men_boots": "ஆண்கள் பூட்ஸ்",
+  "best_seller": "சிறந்த விற்பனையாளர்",
+  "topIt": "மேல்"
 }

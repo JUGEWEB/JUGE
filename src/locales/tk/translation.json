@@ -192,5 +192,14 @@
   "show_original": "Asyl nusgasyny görkez ({ang lang}})",
   "translate_to": "{{Lang} to terjime et",
   "translate_to_select": "terjime etmek",
-  "no_country": "Näbelli"
+  "no_country": "Näbelli",
+  "no_types_found_fashion": "Moda kategoriýasy üçin görnüş tapylmady",
+  "top": "Topokarky",
+  "men_sneakers": "Erkek krossowka",
+  "girls_boots": "Gyzlar köwüş",
+  "women_boots": "Aýallar köwüş",
+  "women_sneakers": "Aýal krossowka",
+  "men_boots": "Erkekler köwüş",
+  "best_seller": "Iň köp satyjy",
+  "topIt": "TOP"
 }

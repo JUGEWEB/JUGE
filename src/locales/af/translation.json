@@ -196,5 +196,14 @@
   "show_original": "Wys oorspronklike ({{lang}})",
   "translate_to": "Vertaal na {{lang}}",
   "translate_to_select": "vertaal na",
-  "no_country": "Onbekend"
+  "no_country": "Onbekend",
+  "no_types_found_fashion": "Geen tipes gevind vir Mode-kategorie nie",
+  "top": "Bo",
+  "men_sneakers": "Mans tekkies",
+  "girls_boots": "Meisies stewels",
+  "women_boots": "Damesstewels",
+  "women_sneakers": "Dames tekkies",
+  "men_boots": "Mans stewels",
+  "best_seller": "Beste verkoper",
+  "topIt": "BO"
 }

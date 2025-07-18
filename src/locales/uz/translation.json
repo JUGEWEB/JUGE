@@ -192,5 +192,14 @@
   "show_original": "Asl nusxani ko‘rsatish ({{lang}})",
   "translate_to": "{{lang}} tiliga tarjima qilish",
   "translate_to_select": "ga tarjima qiling",
-  "no_country": "Noma'lum"
+  "no_country": "Noma'lum",
+  "no_types_found_fashion": "Moda turkumi uchun turlar topilmadi",
+  "top": "Yuqori",
+  "men_sneakers": "Erkaklar krossovkalari",
+  "girls_boots": "Qizlar etiklari",
+  "women_boots": "Ayol etiklari",
+  "women_sneakers": "Ayollar krossovkalari",
+  "men_boots": "Erkaklar etiklari",
+  "best_seller": "Bozori chaqqon",
+  "topIt": "TOP"
 }

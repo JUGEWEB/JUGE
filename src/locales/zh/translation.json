@@ -192,5 +192,14 @@
   "show_original": "显示原文 ({{lang}})",
   "translate_to": "翻译为 {{lang}}",
   "translate_to_select": "翻译为",
-  "no_country": "未知"
+  "no_country": "未知",
+  "no_types_found_fashion": "未找到“时尚”类别的类型",
+  "top": "顶部",
+  "men_sneakers": "男士运动鞋",
+  "girls_boots": "女童靴子",
+  "women_boots": "女靴",
+  "women_sneakers": "女士运动鞋",
+  "men_boots": "男靴",
+  "best_seller": "畅销书",
+  "topIt": "顶部"
 }

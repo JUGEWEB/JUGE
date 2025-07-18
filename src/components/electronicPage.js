@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./itemPage.css";
 import useScreenSize from "./useIsMobile";
+import { useTranslation } from "react-i18next";
+import i18n from "i18next";
 
 function ElectronicPage() {
   const [brandGroups, setBrandGroups] = useState([]);
@@ -14,6 +16,8 @@ function ElectronicPage() {
    const [reviews, setReviews] = useState({}); // Store reviews data
   const navigate = useNavigate();
   const [brandThemes, setBrandThemes] = useState([]);
+  const { t } = useTranslation();
+  const [translations, setTranslations] = useState({});
 
 
   // Fetch reviews from the endpoint
@@ -52,6 +56,22 @@ function ElectronicPage() {
   };
   fetchBrandThemes();
 }, []);
+
+const fetchTranslation = async (productId, lang) => {
+  if (translations[productId]?.[lang]) return;
+  try {
+    const response = await axios.get(`https://api.malidag.com/translate/product/translate/${productId}/${lang}`);
+    setTranslations(prev => ({
+      ...prev,
+      [productId]: {
+        ...(prev[productId] || {}),
+        [lang]: response.data.translation,
+      },
+    }));
+  } catch (error) {
+    console.error(`Error fetching translation for ${productId}`, error);
+  }
+};
 
 
   // Fetch brands from clothing, shoes, and bags
@@ -136,6 +156,14 @@ function ElectronicPage() {
     }
   }, [brandGroups]);
 
+  useEffect(() => {
+  const lang = i18n.language || "en";
+  Object.values(topItemsPerBrand).flatMap(items =>
+    items.forEach(item => fetchTranslation(item.itemId, lang))
+  );
+}, [i18n.language, topItemsPerBrand]);
+
+
   const fetchCryptoPrices = async (symbols) => {
     try {
       const response = await axios.get("https://api.malidag.com/crypto-prices");
@@ -151,11 +179,20 @@ function ElectronicPage() {
     }
   };
 
+  const getTranslatedName = (item, itemId) => {
+  const lang = i18n.language || "en";
+  const translated = translations[itemId]?.[lang]?.name;
+  const fallback = item.name;
+  const nameToShow = translated || fallback;
+  return nameToShow.length > 20 ? nameToShow.slice(0, 20) + "..." : nameToShow;
+};
+
+
   const handleItemClick = (id) => {
     if (id) navigate(`/product/${id}`);
   };
 
-  if (loading) return <div className="loading-message">Loading...</div>;
+  if (loading) return <div className="loading-message">{t("loading")}</div>;
 
   return (
     <div style={{ width: "100%" }}>
@@ -273,10 +310,10 @@ function ElectronicPage() {
             zIndex: 2,
           }}
         >
-          {isBestSeller ? "Best seller" : "TOP"}
+          {isBestSeller ? t("best_seller") : t("topIt")}
         </div>
       </div>
-      <div className="item-name">{name.length > 20 ? name.slice(0, 20) + "..." : name}</div>
+      <div className="item-name">{getTranslatedName(item, itemId)}</div>
       <div className="item-price">${usdPrice}</div>
       <div className="item-crypto">
         <img
@@ -286,18 +323,18 @@ function ElectronicPage() {
           onError={(e) => (e.target.src = "https://cryptologos.cc/logos/binance-usd-busd-logo.png")}
         />
         <span className="item-crypto-price">
-          {priceInCrypto !== "N/A" ? `${priceInCrypto} ${crypto}` : "Price unavailable"}
+          {priceInCrypto !== "N/A" ? `${priceInCrypto} ${crypto}` : t("price_unavailable")}
         </span>
       </div>
-      <div className="item-sold">{sold} sold</div>
+      <div className="item-sold">{sold} {t("sold")}</div>
       <div
         className="item-type-stars"
         onClick={() => navigate("/reviewPage", { state: { itemData } })}
-        title="View reviews of this item"
+        title={t("view_reviews")}
       >
         {finalRating
           ? "★".repeat(Math.round(finalRating)) + "☆".repeat(5 - Math.round(finalRating))
-          : "No rating"}
+          : t("no_rating")}
       </div>
     </div>
   );

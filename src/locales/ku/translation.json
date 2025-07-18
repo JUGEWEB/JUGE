@@ -192,5 +192,14 @@
   "show_original": "Orjînalê nîşan bide ({{lang}})",
   "translate_to": "Wergerîne bo {{lang}}",
   "translate_to_select": "wergerîne bo",
-  "no_country": "Nenas"
+  "no_country": "Nenas",
+  "no_types_found_fashion": "Ji bo kategoriya Modayê ti cure nehat dîtin",
+  "top": "Kop",
+  "men_sneakers": "Pêlavên werzişê yên mêran",
+  "girls_boots": "Pêlavên keçan",
+  "women_boots": "Pêlavên jinan",
+  "women_sneakers": "Pêlavên werzişê yên jinan",
+  "men_boots": "Pêlavên mêran",
+  "best_seller": "Herî zêde firotî",
+  "topIt": "KOP"
 }

@@ -192,5 +192,14 @@
   "show_original": "اصل ڏيکاريو ({{lang}})",
   "translate_to": "{{lang}} ۾ ترجمو ڪريو",
   "translate_to_select": "ترجمو ڪريو",
-  "no_country": "اڻڄاتل"
+  "no_country": "اڻڄاتل",
+  "no_types_found_fashion": "فيشن جي ڪيٽيگري لاءِ ڪي به قسم نه مليا",
+  "top": "مٿي",
+  "men_sneakers": "مردن جا سنيڪر",
+  "girls_boots": "ڇوڪرين جا بوٽ",
+  "women_boots": "عورتن جا بوٽ",
+  "women_sneakers": "عورتن جا سنوڪر",
+  "men_boots": "مردن جا بوٽ",
+  "best_seller": "بهترين وڪرو ڪندڙ",
+  "topIt": "مٿي"
 }

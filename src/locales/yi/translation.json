@@ -192,5 +192,14 @@
   "show_original": "ווייזן אריגינעל ({{lang}})",
   "translate_to": "איבערזעצן צו {{lang}}",
   "translate_to_select": "איבערזעצן צו",
-  "no_country": "אומבאַקאַנט"
+  "no_country": "אומבאַקאַנט",
+  "no_types_found_fashion": "קיין טיפן געפונען פאר מאָדע קאַטעגאָריע",
+  "top": "שפּיץ",
+  "men_sneakers": "מענער סניקערס",
+  "girls_boots": "מיידלעך שיך",
+  "women_boots": "פרויען שיך",
+  "women_sneakers": "פרויען סניקערס",
+  "men_boots": "מענער שיך",
+  "best_seller": "בעסטסעלער",
+  "topIt": "שפּיץ"
 }

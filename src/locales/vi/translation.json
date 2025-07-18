@@ -192,5 +192,14 @@
   "show_original": "Hiển thị bản gốc ({{lang}})",
   "translate_to": "Dịch sang {{lang}}",
   "translate_to_select": "dịch sang",
-  "no_country": "Không rõ"
+  "no_country": "Không rõ",
+  "no_types_found_fashion": "Không tìm thấy loại nào cho danh mục Thời trang",
+  "top": "Đứng đầu",
+  "men_sneakers": "Giày thể thao nam",
+  "girls_boots": "Giày bốt cho bé gái",
+  "women_boots": "Giày bốt nữ",
+  "women_sneakers": "Giày thể thao nữ",
+  "men_boots": "Giày bốt nam",
+  "best_seller": "Bán chạy nhất",
+  "topIt": "ĐỨNG ĐẦU"
 }

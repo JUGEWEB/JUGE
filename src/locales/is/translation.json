@@ -192,5 +192,14 @@
   "show_original": "Sýna frumrit ({{lang}})",
   "translate_to": "Þýða á {{lang}}",
   "translate_to_select": "þýða til",
-  "no_country": "Óþekkt"
+  "no_country": "Óþekkt",
+  "no_types_found_fashion": "Engar gerðir fundust fyrir tískuflokkinn",
+  "top": "Efst",
+  "men_sneakers": "Karlmenn í íþróttaskóm",
+  "girls_boots": "Stelpustígvél",
+  "women_boots": "Kvenstígvél",
+  "women_sneakers": "Kvenskór",
+  "men_boots": "Karlstígvél",
+  "best_seller": "Besta söluvara",
+  "topIt": "TOPP"
 }

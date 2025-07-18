@@ -192,5 +192,14 @@
   "show_original": "Uri l-Oriġinali ({{lang}})",
   "translate_to": "Ittraduċi għal {{lang}}",
   "translate_to_select": "tittraduċi għal",
-  "no_country": "Mhux magħruf"
+  "no_country": "Mhux magħruf",
+  "no_types_found_fashion": "Ma nstabu l-ebda tipi għall-kategorija tal-Moda",
+  "top": "Fuq",
+  "men_sneakers": "Żraben tal-irġiel",
+  "girls_boots": "Stivali tal-bniet",
+  "women_boots": "Stivali tan-nisa",
+  "women_sneakers": "Żraben tan-nisa",
+  "men_boots": "Stivali tal-irġiel",
+  "best_seller": "L-aqwa bejjiegħ",
+  "topIt": "FUQ"
 }

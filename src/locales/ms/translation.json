@@ -192,5 +192,14 @@
   "show_original": "Tunjukkan Asal ({{lang}})",
   "translate_to": "Terjemah ke {{lang}}",
   "translate_to_select": "terjemahkan kepada",
-  "no_country": "Tidak diketahui"
+  "no_country": "Tidak diketahui",
+  "no_types_found_fashion": "Tiada jenis ditemui untuk kategori Fesyen",
+  "top": "Atas",
+  "men_sneakers": "kasut lelaki",
+  "girls_boots": "Kasut but perempuan",
+  "women_boots": "Kasut but wanita",
+  "women_sneakers": "kasut wanita",
+  "men_boots": "Kasut but lelaki",
+  "best_seller": "Best seller",
+  "topIt": "TOP"
 }

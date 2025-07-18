@@ -192,5 +192,14 @@
   "show_original": "Prikaži original ({{lang}})",
   "translate_to": "Prevedi na {{lang}}",
   "translate_to_select": "prevedi na",
-  "no_country": "Nepoznato"
+  "no_country": "Nepoznato",
+  "no_types_found_fashion": "Nisu pronađene vrste za kategoriju Moda",
+  "top": "Vrh",
+  "men_sneakers": "Muške tenisice",
+  "girls_boots": "Djevojačke čizme",
+  "women_boots": "Ženske čizme",
+  "women_sneakers": "Ženske tenisice",
+  "men_boots": "Muške čizme",
+  "best_seller": "Najprodavaniji",
+  "topIt": "VRH"
 }

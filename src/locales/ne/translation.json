@@ -192,5 +192,14 @@
   "show_original": "मूल देखाउनुहोस् ({{lang}})",
   "translate_to": "{{lang}} मा अनुवाद गर्नुहोस्",
   "translate_to_select": "अनुवाद गर्नुहोस्",
-  "no_country": "अज्ञात"
+  "no_country": "अज्ञात",
+  "no_types_found_fashion": "फेसन कोटीको लागि कुनै प्रकार फेला परेन",
+  "top": "शीर्ष",
+  "men_sneakers": "पुरुषहरूले लगाउने जुत्ताहरू",
+  "girls_boots": "केटीहरूको जुत्ता",
+  "women_boots": "महिला बुटहरू",
+  "women_sneakers": "महिलाका जुत्ताहरू",
+  "men_boots": "पुरुषले लगाउने बुट",
+  "best_seller": "सर्वाधिक बिक्री हुने",
+  "topIt": "शीर्ष"
 }

@@ -192,5 +192,14 @@
   "show_original": "ორიგინალის ჩვენება ({{lang}})",
   "translate_to": "თარგმნა {{lang}} ენაზე",
   "translate_to_select": "თარგმნა",
-  "no_country": "უცნობი"
+  "no_country": "უცნობი",
+  "no_types_found_fashion": "მოდის კატეგორიისთვის ტიპები ვერ მოიძებნა",
+  "top": "ზედა",
+  "men_sneakers": "მამაკაცის სპორტული ფეხსაცმელი",
+  "girls_boots": "გოგონას ჩექმები",
+  "women_boots": "ქალის ჩექმები",
+  "women_sneakers": "ქალის სპორტული ფეხსაცმელი",
+  "men_boots": "მამაკაცის ჩექმები",
+  "best_seller": "ბესტსელერი",
+  "topIt": "ზედა"
 }

@@ -192,5 +192,14 @@
   "show_original": "မူရင်းကို ပြပါ ({{lang}})",
   "translate_to": "{{lang}} သို့ ဘာသာပြန်ရန်",
   "translate_to_select": "ဘာသာပြန်ရန်",
-  "no_country": "မသိ"
+  "no_country": "မသိ",
+  "no_types_found_fashion": "ဖက်ရှင်အမျိုးအစားအတွက် အမျိုးအစားမတွေ့ပါ။",
+  "top": "ထိပ်တန်း",
+  "men_sneakers": "အမျိုးသားစီးဖိနပ်",
+  "girls_boots": "မိန်းကလေးဖိနပ်",
+  "women_boots": "အမျိုးသမီးဘွတ်ဖိနပ်",
+  "women_sneakers": "အမျိုးသမီးဖိနပ်",
+  "men_boots": "ယောက်ျားဘွတ်ဖိနပ်",
+  "best_seller": "ရောင်းအားအကောင်းဆုံး",
+  "topIt": "ထိပ်တန်း"
 }

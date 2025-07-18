@@ -192,5 +192,14 @@
   "show_original": "ಮೂಲ ({{ಲ್ಯಾಂಗ್}}) ತೋರಿಸಿ",
   "translate_to": "{{ಭಾಷೆ}} ಗೆ ಅನುವಾದಿಸಿ",
   "translate_to_select": "ಅನುವಾದಿಸಿ",
-  "no_country": "ಅಜ್ಞಾತ"
+  "no_country": "ಅಜ್ಞಾತ",
+  "no_types_found_fashion": "ಫ್ಯಾಷನ್ ವರ್ಗಕ್ಕೆ ಯಾವುದೇ ಪ್ರಕಾರಗಳು ಕಂಡುಬಂದಿಲ್ಲ.",
+  "top": "ಟಾಪ್",
+  "men_sneakers": "ಪುರುಷರ ಸ್ನೀಕರ್ಸ್",
+  "girls_boots": "ಹುಡುಗಿಯರ ಬೂಟುಗಳು",
+  "women_boots": "ಮಹಿಳೆಯರ ಬೂಟುಗಳು",
+  "women_sneakers": "ಮಹಿಳೆಯರ ಸ್ನೀಕರ್ಸ್",
+  "men_boots": "ಪುರುಷರ ಬೂಟುಗಳು",
+  "best_seller": "ಅತ್ಯುತ್ತಮ ಮಾರಾಟಗಾರ",
+  "topIt": "ಟಾಪ್"
 }

@@ -195,5 +195,14 @@
   "show_original": "Orijinalı göstər ({{lang}})",
   "translate_to": "{{lang}} dilinə tərcümə edin",
   "translate_to_select": "-a tərcümə edin",
-  "no_country": "Naməlum"
+  "no_country": "Naməlum",
+  "no_types_found_fashion": "Moda kateqoriyası üçün heç bir növ tapılmadı",
+  "top": "Üst",
+  "men_sneakers": "Kişi idman ayaqqabısı",
+  "girls_boots": "Qız çəkmələri",
+  "women_boots": "Qadın çəkmələri",
+  "women_sneakers": "Qadın idman ayaqqabısı",
+  "men_boots": "Kişi çəkmələri",
+  "best_seller": "Ən yaxşı satıcı",
+  "topIt": "TOP"
 }

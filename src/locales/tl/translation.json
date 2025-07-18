@@ -192,5 +192,14 @@
   "show_original": "Ipakita ang Orihinal ({{lang}})",
   "translate_to": "Isalin sa {{lang}}",
   "translate_to_select": "isalin sa",
-  "no_country": "Hindi alam"
+  "no_country": "Hindi alam",
+  "no_types_found_fashion": "Walang nakitang uri para sa kategorya ng Fashion",
+  "top": "Nangunguna",
+  "men_sneakers": "Mga sneaker ng lalaki",
+  "girls_boots": "Mga bota ng babae",
+  "women_boots": "Mga bota ng babae",
+  "women_sneakers": "Mga sneaker ng babae",
+  "men_boots": "Mga bota ng lalaki",
+  "best_seller": "Pinakamabenta",
+  "topIt": "TOP"
 }

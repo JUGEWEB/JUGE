@@ -193,5 +193,14 @@
   "show_original": "મૂળ ({{lang}}) બતાવો",
   "translate_to": "{{lang}} માં અનુવાદ કરો",
   "translate_to_select": "અનુવાદ કરો",
-  "no_country": "અજ્ઞાત"
+  "no_country": "અજ્ઞાત",
+  "no_types_found_fashion": "ફેશન શ્રેણી માટે કોઈ પ્રકાર મળ્યા નથી.",
+  "top": "ટોચ",
+  "men_sneakers": "પુરુષોના સ્નીકર્સ",
+  "girls_boots": "છોકરીઓના બૂટ",
+  "women_boots": "મહિલાઓના બુટ",
+  "women_sneakers": "મહિલાઓના સ્નીકર્સ",
+  "men_boots": "પુરુષોના બુટ",
+  "best_seller": "બેસ્ટ સેલર",
+  "topIt": "ટોચ"
 }

@@ -192,5 +192,14 @@
   "show_original": "Originale Monstra ({{lang}})",
   "translate_to": "Vertere ad {{lang}}",
   "translate_to_select": "transferre ad",
-  "no_country": "Ignotus"
+  "no_country": "Ignotus",
+  "no_types_found_fashion": "Nulla genera inventa pro categoria Modae",
+  "top": "Summum",
+  "men_sneakers": "Calcei athletici viriles",
+  "girls_boots": "Caligae puellarum",
+  "women_boots": "Caligae muliebres",
+  "women_sneakers": "Calcei athletici muliebres",
+  "men_boots": "Caligae virorum",
+  "best_seller": "Optimus venditor",
+  "topIt": "SUMMUM"
 }

@@ -195,5 +195,14 @@
   "show_original": "Паказаць арыгінал ({{lang}})",
   "translate_to": "Перакласці на {{lang}}",
   "translate_to_select": "перакласці на",
-  "no_country": "Невядома"
+  "no_country": "Невядома",
+  "no_types_found_fashion": "Тыпаў для катэгорыі «Мода» не знойдзена",
+  "top": "Верхняя частка",
+  "men_sneakers": "Мужчынскія красоўкі",
+  "girls_boots": "Дзявочыя боты",
+  "women_boots": "Жаночыя боты",
+  "women_sneakers": "Жаночыя красоўкі",
+  "men_boots": "Мужчынскія боты",
+  "best_seller": "Бестселер",
+  "topIt": "ТОП"
 }

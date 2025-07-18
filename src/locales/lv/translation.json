@@ -192,5 +192,14 @@
   "show_original": "Rādīt oriģinālu ({{lang}})",
   "translate_to": "Tulkot uz {{lang}}",
   "translate_to_select": "tulkot uz",
-  "no_country": "Nezināms"
+  "no_country": "Nezināms",
+  "no_types_found_fashion": "Modes kategorijai nav atrasts neviens veids",
+  "top": "Augšā",
+  "men_sneakers": "Vīriešu sporta apavi",
+  "girls_boots": "Meiteņu zābaki",
+  "women_boots": "Sieviešu zābaki",
+  "women_sneakers": "Sieviešu sporta apavi",
+  "men_boots": "Vīriešu zābaki",
+  "best_seller": "Pārdotākais",
+  "topIt": "AUGŠĀ"
 }

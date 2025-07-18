@@ -192,5 +192,14 @@
   "show_original": "ਮੂਲ ਦਿਖਾਓ ({{lang}})",
   "translate_to": "{{lang}} ਵਿੱਚ ਅਨੁਵਾਦ ਕਰੋ",
   "translate_to_select": "ਅਨੁਵਾਦ ਕਰੋ",
-  "no_country": "ਅਣਜਾਣ"
+  "no_country": "ਅਣਜਾਣ",
+  "no_types_found_fashion": "ਫੈਸ਼ਨ ਸ਼੍ਰੇਣੀ ਲਈ ਕੋਈ ਕਿਸਮਾਂ ਨਹੀਂ ਮਿਲੀਆਂ।",
+  "top": "ਸਿਖਰ",
+  "men_sneakers": "ਮਰਦਾਂ ਦੇ ਸਨੀਕਰ",
+  "girls_boots": "ਕੁੜੀਆਂ ਦੇ ਬੂਟ",
+  "women_boots": "ਔਰਤਾਂ ਦੇ ਬੂਟ",
+  "women_sneakers": "ਔਰਤਾਂ ਦੇ ਸਨੀਕਰ",
+  "men_boots": "ਮਰਦਾਂ ਦੇ ਬੂਟ",
+  "best_seller": "ਹਰਮਨ ਪਿਆਰੀ ਪੁਸਤਕ",
+  "topIt": "ਸਿਖਰ"
 }

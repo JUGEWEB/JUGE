@@ -192,5 +192,14 @@
   "show_original": "అసలు ({{lang}}) చూపించు",
   "translate_to": "{{lang}}లోకి అనువదించు",
   "translate_to_select": "అనువదించు",
-  "no_country": "తెలియదు"
+  "no_country": "తెలియదు",
+  "no_types_found_fashion": "ఫ్యాషన్ కేటగిరీకి రకాలు ఏవీ కనుగొనబడలేదు.",
+  "top": "టాప్",
+  "men_sneakers": "పురుషుల స్నీకర్లు",
+  "girls_boots": "బాలికల బూట్లు",
+  "women_boots": "మహిళల బూట్లు",
+  "women_sneakers": "మహిళల స్నీకర్లు",
+  "men_boots": "పురుషుల బూట్లు",
+  "best_seller": "బెస్ట్ సెల్లర్",
+  "topIt": "టాప్"
 }

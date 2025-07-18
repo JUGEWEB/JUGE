@@ -192,5 +192,14 @@
   "show_original": "Whakaatu Taketake ({{lang}})",
   "translate_to": "Whakamāoritia ki {{lang}}",
   "translate_to_select": "whakamaori ki",
-  "no_country": "Kaore i te mohiotia"
+  "no_country": "Kaore i te mohiotia",
+  "no_types_found_fashion": "Karekau he momo i kitea mo te waahanga ahua",
+  "top": "Runga",
+  "men_sneakers": "Hune taane",
+  "girls_boots": "Putu kotiro",
+  "women_boots": "Putu wahine",
+  "women_sneakers": "Hune hu wahine",
+  "men_boots": "Putu tane",
+  "best_seller": "Kaihoko pai",
+  "topIt": "RUNGA"
 }

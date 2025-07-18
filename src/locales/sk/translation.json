@@ -192,5 +192,14 @@
   "show_original": "Zobraziť originál ({{lang}})",
   "translate_to": "Preložiť do jazyka {{lang}}",
   "translate_to_select": "preložiť do",
-  "no_country": "Neznámy"
+  "no_country": "Neznámy",
+  "no_types_found_fashion": "Pre kategóriu Móda sa nenašli žiadne typy",
+  "top": "Hore",
+  "men_sneakers": "Pánske tenisky",
+  "girls_boots": "Dievčenské čižmy",
+  "women_boots": "Dámske čižmy",
+  "women_sneakers": "Dámske tenisky",
+  "men_boots": "Pánske čižmy",
+  "best_seller": "Najpredávanejší",
+  "topIt": "TOP"
 }

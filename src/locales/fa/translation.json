@@ -193,5 +193,14 @@
   "show_original": "نمایش نسخه اصلی ({{lang}})",
   "translate_to": "ترجمه به {{lang}}",
   "translate_to_select": "ترجمه به",
-  "no_country": "ناشناخته"
+  "no_country": "ناشناخته",
+  "no_types_found_fashion": "هیچ نوعی برای دسته بندی مد یافت نشد",
+  "top": "بالا",
+  "men_sneakers": "کفش‌های کتانی مردانه",
+  "girls_boots": "چکمه‌های دخترانه",
+  "women_boots": "چکمه‌های زنانه",
+  "women_sneakers": "کفش‌های کتانی زنانه",
+  "men_boots": "چکمه‌های مردانه",
+  "best_seller": "پرفروش‌ترین",
+  "topIt": "بالا"
 }

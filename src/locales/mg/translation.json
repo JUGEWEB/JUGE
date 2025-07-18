@@ -192,5 +192,14 @@
   "show_original": "Asehoy ny Original ({{lang}})",
   "translate_to": "Adika amin'ny {{lang}}",
   "translate_to_select": "adika amin'ny",
-  "no_country": "TSY FANTATRA"
+  "no_country": "TSY FANTATRA",
+  "no_types_found_fashion": "Tsy misy karazana hita ho an'ny sokajy lamaody",
+  "top": "Top",
+  "men_sneakers": "Sneakers lehilahy",
+  "girls_boots": "Baoty zazavavy",
+  "women_boots": "Vehivavy kiraro",
+  "women_sneakers": "Sneakers vehivavy",
+  "men_boots": "Baoty lehilahy",
+  "best_seller": "Best Seller",
+  "topIt": "TOP"
 }

@@ -192,5 +192,14 @@
   "show_original": "הצג מקור ({{lang}})",
   "translate_to": "תרגם ל-{{lang}}",
   "translate_to_select": "לתרגם ל",
-  "no_country": "לֹא יְדוּעַ"
+  "no_country": "לֹא יְדוּעַ",
+  "no_types_found_fashion": "לא נמצאו סוגים בקטגוריית אופנה",
+  "top": "רֹאשׁ",
+  "men_sneakers": "נעלי ספורט לגברים",
+  "girls_boots": "מגפי בנות",
+  "women_boots": "מגפי נשים",
+  "women_sneakers": "נעלי ספורט לנשים",
+  "men_boots": "מגפי גברים",
+  "best_seller": "רבי מכר",
+  "topIt": "רֹאשׁ"
 }

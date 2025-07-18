@@ -192,5 +192,14 @@
   "show_original": "Témbongkeun Asli ({{lang}})",
   "translate_to": "Tarjamahkeun kana {{lang}}",
   "translate_to_select": "narjamahkeun kana",
-  "no_country": "Teu kanyahoan"
+  "no_country": "Teu kanyahoan",
+  "no_types_found_fashion": "Teu aya jinis anu kapendak pikeun kategori Pantun",
+  "top": "Puncak",
+  "men_sneakers": "Sneakers lalaki",
+  "girls_boots": "Sapatu awéwé",
+  "women_boots": "Sapatu awéwé",
+  "women_sneakers": "Sneakers awéwé",
+  "men_boots": "Sapatu lalaki",
+  "best_seller": "Panglakuna",
+  "topIt": "TOP"
 }

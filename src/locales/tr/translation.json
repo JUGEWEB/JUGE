@@ -192,5 +192,14 @@
   "show_original": "Orijinali Göster ({{lang}})",
   "translate_to": "{{lang}} diline çevir",
   "translate_to_select": "tercüme etmek",
-  "no_country": "Bilinmeyen"
+  "no_country": "Bilinmeyen",
+  "no_types_found_fashion": "Moda kategorisi için hiçbir tür bulunamadı",
+  "top": "Tepe",
+  "men_sneakers": "Erkek spor ayakkabı",
+  "girls_boots": "Kız botları",
+  "women_boots": "Kadın botları",
+  "women_sneakers": "Kadın spor ayakkabıları",
+  "men_boots": "Erkek botları",
+  "best_seller": "En çok satan kitap",
+  "topIt": "TEPE"
 }

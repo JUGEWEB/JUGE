@@ -192,5 +192,14 @@
   "show_original": "Mostrar original ({{lang}})",
   "translate_to": "Traduzir para {{lang}}",
   "translate_to_select": "traduzir para",
-  "no_country": "Desconhecido"
+  "no_country": "Desconhecido",
+  "no_types_found_fashion": "Nenhum tipo encontrado para a categoria Moda",
+  "top": "Principal",
+  "men_sneakers": "Tênis masculino",
+  "girls_boots": "Botas de menina",
+  "women_boots": "Botas femininas",
+  "women_sneakers": "Tênis femininos",
+  "men_boots": "Botas masculinas",
+  "best_seller": "Best-seller",
+  "topIt": "PRINCIPAL"
 }

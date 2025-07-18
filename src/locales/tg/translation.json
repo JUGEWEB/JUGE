@@ -192,5 +192,14 @@
   "show_original": "Нишон додани аслӣ ({{lang}})",
   "translate_to": "Тарҷума ба {{lang}}",
   "translate_to_select": "тарҷума кунед",
-  "no_country": "Номаълум"
+  "no_country": "Номаълум",
+  "no_types_found_fashion": "Барои категорияи Мода намудҳо ёфт нашуд",
+  "top": "боло",
+  "men_sneakers": "Кроссовкаҳои мардона",
+  "girls_boots": "Пойафзолҳои духтарона",
+  "women_boots": "Пойафзоли занона",
+  "women_sneakers": "Кроссовкаҳои занона",
+  "men_boots": "Пойафзоли мардона",
+  "best_seller": "Пурфурӯш",
+  "topIt": "ТОП"
 }

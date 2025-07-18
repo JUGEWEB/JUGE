@@ -193,5 +193,14 @@
   "show_original": "Εμφάνιση Πρωτότυπου ({{lang}})",
   "translate_to": "Μετάφραση σε {{lang}}",
   "translate_to_select": "μεταφράζω σε",
-  "no_country": "Αγνωστος"
+  "no_country": "Αγνωστος",
+  "no_types_found_fashion": "Δεν βρέθηκαν είδη για την κατηγορία Μόδα",
+  "top": "Κορυφή",
+  "men_sneakers": "Ανδρικά αθλητικά παπούτσια",
+  "girls_boots": "Μπότες για κορίτσια",
+  "women_boots": "Γυναικείες μπότες",
+  "women_sneakers": "Γυναικεία αθλητικά παπούτσια",
+  "men_boots": "Ανδρικές μπότες",
+  "best_seller": "Καλύτερο σε πωλήσεις",
+  "topIt": "ΚΟΡΥΦΗ"
 }

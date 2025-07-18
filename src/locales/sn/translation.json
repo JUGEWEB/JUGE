@@ -192,5 +192,14 @@
   "show_original": "Ratidza Chekutanga ({{lang}})",
   "translate_to": "Shandura ku{{lang}}",
   "translate_to_select": "shandura ku",
-  "no_country": "Hazvizivikanwe"
+  "no_country": "Hazvizivikanwe",
+  "no_types_found_fashion": "Hapana mhando dzawanikwa dzeFashoni chikamu",
+  "top": "Top",
+  "men_sneakers": "Varume sneakers",
+  "girls_boots": "Vasikana bhutsu",
+  "women_boots": "Vakadzi bhutsu",
+  "women_sneakers": "Vakadzi sneakers",
+  "men_boots": "Varume bhutsu",
+  "best_seller": "Best mutengesi",
+  "topIt": "TOP"
 }

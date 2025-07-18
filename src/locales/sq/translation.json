@@ -192,5 +192,14 @@
   "show_original": "Shfaq Origjinalin ({{lang}})",
   "translate_to": "Përkthe në {{lang}}",
   "translate_to_select": "përkthe në",
-  "no_country": "I panjohur"
+  "no_country": "I panjohur",
+  "no_types_found_fashion": "Nuk u gjetën lloje për kategorinë Modë",
+  "top": "Krye",
+  "men_sneakers": "Atlete për meshkuj",
+  "girls_boots": "Çizme për vajza",
+  "women_boots": "Çizme për gra",
+  "women_sneakers": "Atlete për femra",
+  "men_boots": "Çizme për meshkuj",
+  "best_seller": "Më i shituri",
+  "topIt": "SIPËR"
 }

@@ -192,5 +192,14 @@
   "show_original": "Eredeti megjelenítése ({{lang}})",
   "translate_to": "Fordítás {{lang}} nyelvre",
   "translate_to_select": "fordítani",
-  "no_country": "Ismeretlen"
+  "no_country": "Ismeretlen",
+  "no_types_found_fashion": "Nem található típus a Divat kategóriában",
+  "top": "Felső",
+  "men_sneakers": "Férfi cipők",
+  "girls_boots": "Lány csizmák",
+  "women_boots": "Női csizmák",
+  "women_sneakers": "Női sportcipők",
+  "men_boots": "Férfi csizmák",
+  "best_seller": "Bestseller",
+  "topIt": "TETEJÉN"
 }

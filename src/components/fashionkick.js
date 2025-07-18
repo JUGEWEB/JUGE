@@ -4,6 +4,7 @@ import "./woFashion.css";
 import { useNavigate } from "react-router-dom";
 import RecommendedItem from "./recomendeItem";
 import { useTranslation } from "react-i18next";
+import i18n from "i18next";
 
 const BASE_URLs = "https://api.malidag.com";
 const BASE_URL = "https://api.malidag.com";
@@ -15,7 +16,17 @@ function FashionKick() {
   const [cryptoPrices, setCryptoPrices] = useState({});
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
+  const [translations, setTranslations] = useState({});
   const { t } = useTranslation();
+
+  const typeTranslationKeys = {
+  "Men sneakers": "men_sneakers",
+  "Girls boots": "girls_boots",
+  "Women boots": "women_boots",
+  "Women sneakers": "women_sneakers",
+  "Men boots": "men_boots"
+};
+
 
 
   useEffect(() => {
@@ -50,11 +61,21 @@ function FashionKick() {
           if (!acc[type]) acc[type] = {};
           if (!acc[type][genre]) acc[type][genre] = { genre, items: [] };
 
-          acc[type][genre].items.push({ id: item.id, item: item.item });
+          acc[type][genre].items.push({
+  id: item.id,
+  itemId: item.itemId, // ✅ include itemId
+  item: item.item
+});
+
           return acc;
         }, {});
 
         setTypes(groupedData);
+        const lang = i18n.language || "en";
+filteredData.forEach(product => {
+  fetchTranslation(product.itemId, lang);
+});
+
       } catch (error) {
         console.error("Error fetching items:", error);
       } finally {
@@ -78,6 +99,65 @@ function FashionKick() {
     return () => clearInterval(intervalId);
   }, []);
 
+  const fetchTranslation = async (productId, lang) => {
+  // Avoid re-fetching if already present
+  if (translations[productId]?.[lang]) return;
+
+  try {
+    const response = await axios.get(
+      `https://api.malidag.com/translate/product/translate/${productId}/${lang}`
+    );
+
+    setTranslations((prev) => ({
+      ...prev,
+      [productId]: {
+        ...(prev[productId] || {}),
+        [lang]: response.data.translation,
+      },
+    }));
+  } catch (error) {
+    console.error(`Translation fetch error for ${productId}:`, error.message);
+  }
+};
+
+useEffect(() => {
+  if (!Object.keys(types).length) return;
+  const lang = i18n.language || "en";
+  Object.values(types).flatMap(genreMap => 
+    Object.values(genreMap).flatMap(genreObj => 
+      genreObj.items.map(({ id, item , itemId}) => 
+        fetchTranslation(itemId, lang)
+      )
+    )
+  );
+}, [i18n.language, types]);
+
+useEffect(() => {
+  if (!Object.keys(types).length) return;
+  const lang = i18n.language || "en";
+
+  // Refetch translations on language change
+  Object.values(types).flatMap(genreMap =>
+    Object.values(genreMap).flatMap(genreObj =>
+      genreObj.items.forEach(({ itemId }) => {
+        fetchTranslation(itemId, lang);
+      })
+    )
+  );
+}, [i18n.language]);
+
+
+const getTranslatedName = (item, itemId) => {
+  const lang = i18n.language || "en";
+  const productId = itemId;
+  const translated = translations[productId]?.[lang]?.name;
+  const fallback = item.name;
+  const nameToShow = translated || fallback;
+  return nameToShow.length > 60 ? `${nameToShow.substring(0, 60)}...` : nameToShow;
+};
+
+
+
   const handleItemClick = (id) => {
     if (id) navigate(`/product/${id}`);
   };
@@ -89,14 +169,14 @@ function FashionKick() {
     }
   };
 
-  if (loading) return <div className="loading-message">Loading FashionKick Items...</div>;
+  if (loading) return <div className="loading-message">{t("loading")}</div>;
 
   return (
     <div>
 
       <div className="beauty-fackik">
         {Object.values(mtypes).length === 0 ? (
-          <div>No types found for Fashion category</div>
+          <div>{t("no_types_found_fashion")}</div>
         ) : (
           Object.values(mtypes).map((typeObj, index) => (
             <div key={index} className="type-section">
@@ -119,7 +199,7 @@ function FashionKick() {
                   marginLeft: "20px"
                 }}
               >
-                {t(typeObj.type)}
+               {t(typeTranslationKeys[typeObj.type] || typeObj.type)}
               </h3>
             </div>
           ))
@@ -167,7 +247,7 @@ function FashionKick() {
           }}
         />
         <span style={{ position: "relative", zIndex: 1 }}>
-          {t("top_items")}: {t(type) || type}
+          {t("top")} {t(type) || type}
         </span>
       </div>
     ))
@@ -186,7 +266,7 @@ function FashionKick() {
         {Object.values(types)
           .flatMap((genreMap) => Object.values(genreMap))
           .flatMap((genreObj) => genreObj.items)
-          .map(({ id, item }) => (
+          .map(({ id, item, itemId }) => (
             <div
               key={id}
               onClick={() => handleItemClick(id)}
@@ -221,17 +301,12 @@ function FashionKick() {
               >
                 ${item?.usdPrice}
               </div>
-              <div
-                style={{
-                  fontSize: "12px",
-                  color: "#555",
-                  textAlign: "center"
-                }}
-              >
-                {item?.name?.length > 60
-                  ? `${item.name.substring(0, 60)}...`
-                  : item?.name}
-              </div>
+
+            <div style={{ fontSize: "12px", color: "#555", textAlign: "center" }}>
+  {getTranslatedName(item, itemId)}
+</div>
+
+
             </div>
           ))}
       </div>

@@ -192,5 +192,14 @@
   "show_original": "Faaali le Uluai ({{lang}})",
   "translate_to": "Fa'aliliu ile {{lang}}",
   "translate_to_select": "fa'aliliu i",
-  "no_country": "Le iloa"
+  "no_country": "Le iloa",
+  "no_types_found_fashion": "Leai se ituaiga na maua mo le vaega Fa'atau",
+  "top": "Luga",
+  "men_sneakers": "Tagata sneakers",
+  "girls_boots": "seevae teine",
+  "women_boots": "seevae fafine",
+  "women_sneakers": "O sneakers tamaitai",
+  "men_boots": "seevae tane",
+  "best_seller": "Fa'atau sili",
+  "topIt": "LUGA"
 }

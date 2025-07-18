@@ -195,5 +195,14 @@
   "show_original": "Mostra l'original ({{lang}})",
   "translate_to": "Tradueix a {{lang}}",
   "translate_to_select": "traduir a",
-  "no_country": "Desconegut"
+  "no_country": "Desconegut",
+  "no_types_found_fashion": "No s'han trobat tipus per a la categoria Moda",
+  "top": "Superior",
+  "men_sneakers": "Sabatilles esportives per a home",
+  "girls_boots": "Botes de noia",
+  "women_boots": "Botes de dona",
+  "women_sneakers": "Sabatilles esportives de dona",
+  "men_boots": "Botes d'home",
+  "best_seller": "Èxit de vendes",
+  "topIt": "SUPERIOR"
 }

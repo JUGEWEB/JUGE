@@ -189,5 +189,14 @@
   "show_original": "Show Original ({{lang}})",
   "translate_to": "Translate to {{lang}}",
   "translate_to_select": "translate to",
-  "no_country": "Unknown"
+  "no_country": "Unknown",
+  "no_types_found_fashion": "No types found for Fashion category",
+  "top": "Top",
+  "men_sneakers": "Men sneakers",
+  "girls_boots": "Girls boots",
+  "women_boots": "Women boots",
+  "women_sneakers": "Women sneakers",
+  "men_boots": "Men boots",
+  "best_seller": "Best seller",
+  "topIt": "TOP"
 }

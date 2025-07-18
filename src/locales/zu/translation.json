@@ -192,5 +192,14 @@
   "show_original": "Bonisa Okwangempela ({{lang}})",
   "translate_to": "Humushela kusi-{{lang}}",
   "translate_to_select": "humushela ku",
-  "no_country": "Akwaziwa"
+  "no_country": "Akwaziwa",
+  "no_types_found_fashion": "Azikho izinhlobo ezitholakele zesigaba Semfashini",
+  "top": "Phezulu",
+  "men_sneakers": "Amateku amadoda",
+  "girls_boots": "Amantombazane amabhuzu",
+  "women_boots": "Amabhuzu abesifazane",
+  "women_sneakers": "Amateki abesifazane",
+  "men_boots": "Amabhuzu amadoda",
+  "best_seller": "Okuhamba phambili",
+  "topIt": "PHEZULU"
 }

@@ -193,5 +193,14 @@
   "show_original": "Original weisen ({{lang}})",
   "translate_to": "Iwwersetzen op {{lang}}",
   "translate_to_select": "iwwersetzen op",
-  "no_country": "Onbekannt"
+  "no_country": "Onbekannt",
+  "no_types_found_fashion": "Keng Typen an der Kategorie Moud fonnt",
+  "top": "Uewen",
+  "men_sneakers": "Männer Turnschlappen",
+  "girls_boots": "Meederchersstiwwelen",
+  "women_boots": "Fraen Stiwwelen",
+  "women_sneakers": "Fraen Turnschlappen",
+  "men_boots": "Männer Stiwwelen",
+  "best_seller": "Bestseller",
+  "topIt": "UEWEN"
 }

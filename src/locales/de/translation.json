@@ -193,5 +193,14 @@
   "show_original": "Original anzeigen ({{lang}})",
   "translate_to": "Übersetzen nach {{lang}}",
   "translate_to_select": "übersetzen in",
-  "no_country": "Unbekannt"
+  "no_country": "Unbekannt",
+  "no_types_found_fashion": "Für die Kategorie Mode wurden keine Typen gefunden",
+  "top": "Spitze",
+  "men_sneakers": "Herren Sneaker",
+  "girls_boots": "Mädchenstiefel",
+  "women_boots": "Damenstiefel",
+  "women_sneakers": "Damen Sneaker",
+  "men_boots": "Herrenstiefel",
+  "best_seller": "Bestseller",
+  "topIt": "SPITZE"
 }

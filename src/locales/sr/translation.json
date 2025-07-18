@@ -192,5 +192,14 @@
   "show_original": "Прикажи оригинал ({{lang}})",
   "translate_to": "Преведи на {{lang}}",
   "translate_to_select": "преведи на",
-  "no_country": "Непознато"
+  "no_country": "Непознато",
+  "no_types_found_fashion": "Није пронађен ниједан тип за категорију Мода",
+  "top": "Врх",
+  "men_sneakers": "Мушке патике",
+  "girls_boots": "Чизме за девојчице",
+  "women_boots": "Женске чизме",
+  "women_sneakers": "Женске патике",
+  "men_boots": "Мушке чизме",
+  "best_seller": "Бестселер",
+  "topIt": "ВРХ"
 }

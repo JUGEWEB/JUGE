@@ -192,5 +192,14 @@
   "show_original": "Эхийг харуулах ({{lang}})",
   "translate_to": "{{lang}} руу орчуулах",
   "translate_to_select": "руу орчуулах",
-  "no_country": "Тодорхойгүй"
+  "no_country": "Тодорхойгүй",
+  "no_types_found_fashion": "Загварын ангилалд төрөл олдсонгүй",
+  "top": "Топ",
+  "men_sneakers": "Эрэгтэй пүүз",
+  "girls_boots": "Охидын гутал",
+  "women_boots": "Эмэгтэй гутал",
+  "women_sneakers": "Эмэгтэй пүүз",
+  "men_boots": "Эрэгтэй гутал",
+  "best_seller": "Шилдэг худалдагч",
+  "topIt": "ДЭЭД"
 }

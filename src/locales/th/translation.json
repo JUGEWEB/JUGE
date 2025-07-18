@@ -192,5 +192,14 @@
   "show_original": "แสดงต้นฉบับ ({{lang}})",
   "translate_to": "แปลเป็น {{lang}}",
   "translate_to_select": "แปลเป็น",
-  "no_country": "ไม่ทราบ"
+  "no_country": "ไม่ทราบ",
+  "no_types_found_fashion": "ไม่พบประเภทสำหรับหมวดหมู่แฟชั่น",
+  "top": "สูงสุด",
+  "men_sneakers": "รองเท้าผ้าใบผู้ชาย",
+  "girls_boots": "รองเท้าบูทเด็กผู้หญิง",
+  "women_boots": "รองเท้าบูทผู้หญิง",
+  "women_sneakers": "รองเท้าผ้าใบผู้หญิง",
+  "men_boots": "รองเท้าบูทผู้ชาย",
+  "best_seller": "สินค้าขายดี",
+  "topIt": "สูงสุด"
 }

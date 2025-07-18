@@ -192,5 +192,14 @@
   "show_original": "Pokaż oryginał ({{lang}})",
   "translate_to": "Przetłumacz na {{lang}}",
   "translate_to_select": "przetłumaczyć na",
-  "no_country": "Nieznany"
+  "no_country": "Nieznany",
+  "no_types_found_fashion": "Nie znaleziono typów dla kategorii Moda",
+  "top": "Szczyt",
+  "men_sneakers": "Męskie trampki",
+  "girls_boots": "Buty dziewczęce",
+  "women_boots": "Buty damskie",
+  "women_sneakers": "Damskie trampki",
+  "men_boots": "Buty męskie",
+  "best_seller": "Bestseller",
+  "topIt": "SZCZYT"
 }
