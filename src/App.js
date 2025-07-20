@@ -217,7 +217,7 @@ const App = () => {
         <Route path="/likeditem" element={<LikedItems auth={auth} />} />
         <Route path="/basket" element={<AddToBasket auth={auth} />} />
         <Route path="/deliveryInformation" element={<DeliveryInfo user={user} auth={auth} selectedIndex={selectedIndex} setSelectedIndex={setSelectedIndex} />} />
-        <Route path="/checkout" element={<BuyNow basketItems={basketItems} selectedIndex={selectedIndex} user={user} address={address} auth={auth} chainId={chain?.id || null} />} />
+        <Route path="/checkout" element={<BuyNow basketItems={basketItems} selectedIndex={selectedIndex} user={user} auth={auth}  />} />
         <Route path="/international-shipping" element={<InternationalShipping />} />
         <Route path="/beauty-top-topic/:type" element={<BeautyTopTopic />} />
         <Route path="/shoes-top-topic/:type" element={<ShoesTopTopic />} />

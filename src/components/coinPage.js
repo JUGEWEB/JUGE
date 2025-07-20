@@ -5,6 +5,9 @@ import { useNavigate } from "react-router-dom"; // Import useNavigate for naviga
 import useScreenSize from "./useIsMobile";
 import Coin from "./coin";
 import "./coinPage.css"
+import { useTranslation } from "react-i18next";
+import i18n from "i18next";
+
 
 function CoinPage() {
     const { crypto } = useParams(); // Extract cryptocurrency from URL
@@ -18,7 +21,26 @@ function CoinPage() {
   const navigate = useNavigate(); // Initialize the useNavigate hook
    const [reviews, setReviews] = useState({}); // Store reviews data
   const {isMobile, isDesktop, isSmallMobile, isTablet, isVerySmall, isVeryVerySmall} = useScreenSize()
+  const { t } = useTranslation();
+  const [translations, setTranslations] = useState({});
+
   
+const fetchTranslation = async (productId, lang) => {
+  if (translations[productId]?.[lang]) return;
+  try {
+    const response = await axios.get(`https://api.malidag.com/translate/product/translate/${productId}/${lang}`);
+    setTranslations(prev => ({
+      ...prev,
+      [productId]: {
+        ...(prev[productId] || {}),
+        [lang]: response.data.translation,
+      },
+    }));
+  } catch (error) {
+    console.error(`Error fetching translation for ${productId}`, error);
+  }
+};
+
 
   const fetchCryptoPrices = async (symbols) => {
     try {
@@ -72,6 +94,12 @@ function CoinPage() {
         const fetchedItems = response.data.items || [];
         setItems(fetchedItems);
 
+        const lang = i18n.language || "en";
+fetchedItems.forEach(itemData => {
+  if (itemData?.itemId) fetchTranslation(itemData.itemId, lang);
+});
+
+
         const uniqueCategories = [...new Set(fetchedItems.map(item => item.category))];
         setCategories(uniqueCategories);
 
@@ -121,6 +149,23 @@ function CoinPage() {
       .slice(0, 4); // Top 3 sold items
   };
 
+  const getTranslatedName = (item, itemId) => {
+  const lang = i18n.language || "en";
+  const translated = translations[itemId]?.[lang]?.name;
+  const fallback = item.name;
+  const nameToShow = translated || fallback;
+  return nameToShow.length > 20 ? nameToShow.slice(0, 20) + "..." : nameToShow;
+};
+
+ const getHotTranslatedName = (item, itemId) => {
+  const lang = i18n.language || "en";
+  const translated = translations[itemId]?.[lang]?.name;
+  const fallback = item.name;
+  const nameToShow = translated || fallback;
+  return nameToShow.length > 2000 ? nameToShow.slice(0, 2000) + "..." : nameToShow;
+};
+
+
 
   const handleVideoPlay = (id, videoUrl) => {
     setActiveVideoId(id);
@@ -168,7 +213,7 @@ function CoinPage() {
           borderRadius: "8px",
         }}
       >
-         No results found for "{crypto}". 😔
+        {t("no_results_found", { crypto })}
       </div>
     );
   }
@@ -184,8 +229,8 @@ function CoinPage() {
     <>
     <div style={{position: "relative", width: "100%"}}>
     <div style={{color: "#222", display: "flex", alignItems: "center", justifyContent: "start", overflowX: "auto", width: "100%", boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.2)"}}>
-        <div style={{marginLeft: "10px"}}>Malidag crypto "{crypto}".</div>
-        <div style={{ marginLeft: "20px" }}>Related Categories:</div>
+        <div style={{marginLeft: "10px"}}>{t('malidag_crypto', { crypto })}</div>
+        <div style={{ marginLeft: "20px" }}>{t('related_categories')}</div>
      
 
       {/* CATEGORY HEADERS */}
@@ -198,7 +243,7 @@ function CoinPage() {
               style={{display: "flex", alignItems: "center", justifyContent: "start", padding: "10px", cursor: "pointer"}}
             >
               <div>
-              {category}
+              {t(category)}
               </div>
               <span
                 className={`dropdown-arrow ${
@@ -228,18 +273,18 @@ function CoinPage() {
               alignItems: "center"
             }}>
               <div style={{color: "#222", marginLeft: "10px"}}>
-                <strong>malidag {category}</strong>
+                <strong>malidag {t(category)}</strong>
                 {categorizedItems[category]
                   .map((item) => item.item.type)
                   .filter((type, idx, arr) => arr.indexOf(type) === idx)
                   .map((type, idx) => (
                     <div key={idx} className="stale-ty-item" style={{color: "blue", padding: "10px", textDecoration: "underline", cursor: "pointer"}}>
-                      {type}
+                      {t(type)}
                     </div>
                   ))}
               </div>
               <div style={{width: "100%", maxWidth: "100%", overflowX: "auto", marginTop: "10px"}}>
-                <strong style={{ marginLeft: "50%", color: "#222" }}>Hot 🔥:</strong>
+                <strong style={{ marginLeft: "50%", color: "#222" }}>{t("hot_label")}</strong>
                 <div className="stable-hot-items">
                   {getHotItems(categorizedItems[category]).map((hotItem, idx) => (
                     <div key={idx} className="stable-hot-item">
@@ -253,9 +298,9 @@ function CoinPage() {
                         onClick={() => handleItemClick(hotItem.id)}
                         className="stable-hot-item-name"
                       >
-                        {hotItem.item.name}
+                       {getHotTranslatedName(hotItem.item, hotItem.itemId)}
                       </div>
-                      <div className="stable-hot-item-sold">{hotItem.item.sold} sold</div>
+                      <div className="stable-hot-item-sold">{hotItem.item.sold} {t('sold')}</div>
                     </div>
                   ))}
                 </div>
@@ -268,8 +313,8 @@ function CoinPage() {
 
       <div>
       <div style={{display: 'flex', margin: '20px', border: '1px solid black', padding: '10px'}}>
-      <div style={{color: 'black', marginLeft: '20px', fontSize: '11px', fontWeight: 'bold'}}>View {crypto} chart here <a style={{color: 'green', cursor: 'pointer'}} onClick={toggleChartVisibility} > {chartVisible ? "▲ Hide" : "▼ Show"}</a></div>
-      <div  style={{color: 'black', marginLeft: '20px', fontSize: '11px', fontWeight: 'bold'}}>want to know more about {crypto} / buy {crypto} (100% secure) go to <a style={{color: 'green', cursor: 'pointer'}}>binege</a></div>
+      <div style={{color: 'black', marginLeft: '20px', fontSize: '11px', fontWeight: 'bold'}}>{t('view_chart_here', { crypto })}<a style={{color: 'green', cursor: 'pointer'}} onClick={toggleChartVisibility} > {chartVisible ? t('hide_chart') : t('show_chart')}</a></div>
+      <div  style={{color: 'black', marginLeft: '20px', fontSize: '11px', fontWeight: 'bold'}}>{t('learn_more_crypto', { crypto, link: 'binege' })}</div>
       </div>
        {/* Conditionally Render the Chart */}
        {chartVisible && (
@@ -318,10 +363,10 @@ function CoinPage() {
          
           const cryptoPriceInUSD = cryptoPrices[cryptoSymbol] || 0;
           const itemPriceInCrypto =
-            cryptoPriceInUSD > 0 ? (usdPrice / cryptoPriceInUSD).toFixed(6) : "N/A";
+            cryptoPriceInUSD > 0 ? (usdPrice / cryptoPriceInUSD).toFixed(6) : t("na");
 
             const reviewsData = reviews[itemId] || {}; // Ensure it exists
-            const finalRating = reviewsData ? reviewsData.averageRating : "No rating";
+            const finalRating = reviewsData ? reviewsData.averageRating : t("no_rating");
             const normalizedVideos = Array.isArray(videos) ? videos : [videos];
           const firstVideoUrl = normalizedVideos.find(
             (video) => typeof video === "string" && video.endsWith(".mp4")
@@ -384,9 +429,10 @@ function CoinPage() {
                 )}
               </div>
               <div   className="item-details">
-                <div className="item-name" title={name}>
-                  {name.length > 20 ? `${name.substring(0, 20)}...` : name}
-                </div>
+                <div className="item-name" title={getTranslatedName(item, itemId)}>
+  {getTranslatedName(item, itemId)}
+</div>
+
                 <div className="item-prices">
                   <div style={{ display: "flex", alignItems: "center", justifyContent: "start" }}>
                     <span className="item-price">${usdPrice}</span>
@@ -399,7 +445,7 @@ function CoinPage() {
                     >
                       {sold}{" "}
                       <div style={{ marginLeft: "5px", fontWeight: "bold", color: "red" }}>
-                        sold
+                        {t("sold")}
                       </div>
                     </span>
                   </div>
@@ -416,15 +462,15 @@ function CoinPage() {
                     <span className="item-crypto-price">
                       {itemPriceInCrypto !== "N/A"
                         ? `${itemPriceInCrypto} ${cryptocurrency}`
-                        : "Price unavailable"}
+                        : t('price_unavailable')}
                     </span>
                   </div>
                 </div>
                 <div className="item-stars"  onClick={() =>
    navigate('/reviewPage', { 
     state: { itemData: itemData}
- }) } title="View reviews of this item" >
-                 {finalRating ? "★".repeat(Math.round(finalRating)) + "☆".repeat(5 - Math.round(finalRating)) : "No rating"}
+ }) } title={t('view_reviews')} >
+                 {finalRating ? "★".repeat(Math.round(finalRating)) + "☆".repeat(5 - Math.round(finalRating)) : t("no_rating")}
                 </div>
               </div>
             </div>

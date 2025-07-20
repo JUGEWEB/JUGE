@@ -3,10 +3,16 @@ import { message, Button } from "antd"; // Ant Design for notifications
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import axios from "axios"
 import {ethers} from "ethers"
-import { useBalance,  useReadContracts  } from "wagmi";
+import { useAccount, useNetwork, useBalance,  useReadContracts, useConnect, useDisconnect  } from "wagmi";
 import { formatUnits, parseAbi } from "viem";
 import "./buyNow.css"; // Import styles
 import useScreenSize from "./useIsMobile";
+import { Trans } from 'react-i18next';
+import { useTranslation } from "react-i18next";
+import i18n from "i18next";
+
+
+
 
 const walletLogos = {
   metamask: "https://upload.wikimedia.org/wikipedia/commons/3/36/MetaMask_Fox.svg",
@@ -58,7 +64,7 @@ const tokenAddresses = {
 
 
 
-const BuyNow = ({ basketItems, userAddresses, user, connectors, connect, address, disconnect, isConnected, pendingConnector, allCountries, country, auth, chainId, selectedIndex }) => {
+const BuyNow = ({ basketItems, userAddresses, user, allCountries, country, auth, selectedIndex }) => {
     const [item, setItem] = useState(null);
     const [product, setProduct] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -90,6 +96,11 @@ const BuyNow = ({ basketItems, userAddresses, user, connectors, connect, address
     const [checkLoading, setCheckLoading] = useState(false)
     const [brand, setBrand] = useState(null)
      const {isMobile, isDesktop, isSmallMobile, isTablet, isVerySmall, isVeryVerySmall} = useScreenSize()
+     const { address, isConnected, chain } = useAccount();
+      const { connectors, connect, pendingConnector } = useConnect();
+       const { t } = useTranslation();
+       const { disconnect } = useDisconnect();
+     const chainId = chain?.id || null
 
     const navigate = useNavigate()
 
@@ -250,12 +261,12 @@ useEffect(() => {
       } else {
         const errorData = await response.json();
         if (errorData.error === "No delivery information found for this user") {
-          alert("No delivery information found. Please add your delivery information.");
+          alert(t("no_delivery_info"));
         }
       }
     } catch (error) {
       console.error("Error checking user delivery information:", error);
-      alert("Failed to check delivery information.");
+      alert(t("delivery_info_check_failed"));
     }
   };
 
@@ -298,7 +309,7 @@ const estimateGas = async () => {
 
   try {
     if (!selectedCurrency || !tokenAmount || tokenAmount <= 0) {
-      setError("Invalid token or amount.");
+      setError(t("invalid_token_or_amount"));
       return;
     }
 
@@ -318,11 +329,11 @@ const estimateGas = async () => {
       setEstimatedGas(gasLimitWithBuffer);
       setGasFee(response.data.gasFee);
     } else {
-      throw new Error("Gas estimation failed.");
+      throw new Error(t("gas_estimation_failed"));
     }
   } catch (err) {
     console.error("❌ Gas Estimation Error:", err);
-    setError(err.response?.data?.error || "Error estimating gas.");
+    setError(err.response?.data?.error || t("error_estimating_gas"));
   }
 };
 
@@ -336,17 +347,17 @@ useEffect(() => {
 
 const handleBuyNow = async () => {
   if (!selectedDeliveryInfo || Object.keys(selectedDeliveryInfo).length === 0) {
-    message.error("Please fill up your delivery information before purchasing.");
+    message.error(t("fill_delivery_info"));
     return;
   }
 
   if (!isConnected || !address) {
-    message.error("Please connect your wallet before purchasing.");
+    message.error(t("connect_wallet_first"));
     return;
   }
 
   if (!payItem) {
-    message.error("Invalid product details. Please try again.");
+    message.error(t("invalid_product_details"));
     return;
   }
 
@@ -385,12 +396,12 @@ const handleBuyNow = async () => {
   }
 
   if (isInsufficientBalance(tokenAmount, tokenSymbol)) {
-    message.error(`Insufficient ${tokenSymbol} balance.`);
+    message.error(t('insufficient_balance', { token: tokenSymbol }));
     return;
   }
 
   try {
-    message.loading("Processing transaction...", 0);
+    message.loading(t("processing_transaction"), 0);
 
     const response = await axios.post("https://api.malidag.com/api/transaction", {
       chainId,
@@ -411,13 +422,13 @@ const handleBuyNow = async () => {
     message.destroy();
 
     if (response.data.success) {
-      message.success("Payment successful!");
+      message.success(t("payment_successful"));
     } else {
-      message.error("Transaction failed. Please try again.");
+      message.error(t("transaction_failed"));
     }
   } catch (error) {
     console.error("Transaction failed:", error);
-    message.error("Transaction failed. Please try again.");
+    message.error(t("transaction_failed"));
   }
 };
 
@@ -430,7 +441,7 @@ const handleBuyNow = async () => {
     } else if (user?.email) {
       return user.email.split("@")[0]; // Use email prefix if no displayName
     } else {
-      return "there"; // Default fallback
+      return null; // Default fallback
     }
   };
 
@@ -487,42 +498,32 @@ const handleBuyNow = async () => {
   
   return (
     <div>
-    {selectedDeliveryInfo && (
-  <div 
-    style={{
-      backgroundColor: "#d4edda", 
-      color: "#155724", 
-      padding: "20px", 
-      borderRadius: "8px", 
-      fontSize: "16px", 
-      fontWeight: "500", 
-      maxWidth:(isDesktop || isTablet) ? "600px" : "100%", 
-      margin: "20px auto", 
-      textAlign: "center",
-      border: "1px solid #c3e6cb"
-    }}
-  >
-    We will send an email to  
-    <span 
-      style={{
-        fontWeight: "bold", 
-        color: "#007bff",
-        marginLeft: "5px",
-        marginRight: "5px"
-      }}
-    >
-      {selectedDeliveryInfo?.email}
-    </span> 
-    after a successful transaction. Please check your inbox or your spam after your purchase. Thank you!
+   {selectedDeliveryInfo && (
+  <div style={{
+    backgroundColor: "#d4edda", 
+    color: "#155724", 
+    padding: "20px", 
+    borderRadius: "8px", 
+    fontSize: "16px", 
+    fontWeight: "500", 
+    maxWidth: (isDesktop || isTablet) ? "600px" : "100%", 
+    margin: "20px auto", 
+    textAlign: "center",
+    border: "1px solid #c3e6cb"
+  }}>
+    <Trans 
+      i18nKey="email_notice"
+      values={{ email: selectedDeliveryInfo.email }}
+      components={{ strong: <strong style={{ color: '#007bff' }} /> }}
+    />
   </div>
 )}
-
 
     <div style={{display:(isDesktop || isTablet) ? "flex" : "", justifyContent: "space-between"}}>
 
        <div style={{display: (isDesktop || isTablet) ? "none" : "", padding: "10px"}} className="checkout-containerSmall">
   {loading ? (
-    <p>Loading item details...</p>
+    <p>{t("loading_item_details")}</p>
   ) : item ? (
     <div
       className="item-deils"
@@ -538,15 +539,15 @@ const handleBuyNow = async () => {
 
     </div>
   ) : (
-    <p>Item not found.</p>
+    <p>{t("item_not_found")}</p>
   )}
 </div>
 
     <div className="buy-now-container">
-      <h2>👋 Hey {firstName}, ready to shop?</h2>
+      <h2>{t("greeting_ready_to_shop", { firstName })}</h2>
       {/* Delivery Information */}
       <div className="section">
-        <h3>📦 Delivery Information</h3>
+        <h3>{t("delivery_information")}</h3>
         {selectedDeliveryInfo ? (
           <div>
   <div>
@@ -557,22 +558,22 @@ const handleBuyNow = async () => {
     <p>{selectedDeliveryInfo.town}</p>
     <p>{selectedDeliveryInfo.country}</p>
   </div>
-   <Link to="/deliveryInformation">modify your delivery information</Link>
+   <Link to="/deliveryInformation">{t("modify_delivery_info")}</Link>
    </div>
           ) : (
 
           <div>
-          <p className="error-text">⚠️ Please fill up your delivery information.</p>
-          <Link to="/deliveryInformation">Add your delivery information</Link>
+          <p className="error-text">{t("please_fill_delivery_info")}</p>
+          <Link to="/deliveryInformation">{t("add_delivery_info")}</Link>
           </div>
         )}
       </div>
 
       <div className="buy-now-item-information">
   {checkoutData === null || checkoutData === undefined ? (
-    <p>Loading item details...</p>
+    <p>{t("loading_item_details")}</p>
   ) : checkoutData?.isFromBasket ? ( 
-    <p>You have {checkoutData.items.length} items in your basket. Proceeding to checkout.</p>
+    <p>{t("items_in_basket_checkout", { count: checkoutData.items.length })}</p>
   ) : item ? (
     <div className="ferty">
       <div 
@@ -603,33 +604,33 @@ const handleBuyNow = async () => {
 
       {/* Price Calculation */}
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-        <p className="voyeur">Total Price: ${(tokenAmount).toFixed(2)}</p>
+       <p className="voyeur">{t("total_price_usd", { price: tokenAmount.toFixed(2) })}</p>
         {"\u2248"}
-        <p>{convertUsdToCrypto(tokenAmount, selectedCurrency)} {selectedCurrency}</p>
+        <p>{t("approx_crypto_amount", { amount: convertUsdToCrypto(tokenAmount, selectedCurrency), currency: selectedCurrency })}</p>
       </div>
       
       {/* Color & Size Selection */}
-      <div style={{ marginTop: "-10px" }}>
-        {selectedColor && selectedColor.trim() !== "" && (
-          <p className="maybe">Color: {selectedColor}</p>
-        )}
-        {selectedSize && selectedSize !== "null" && selectedSize.trim() !== "" && (
-          <p className="sometime">Size: {selectedSize}</p>
-        )}
-      </div>
+     <div style={{ marginTop: "-10px" }}>
+  {selectedColor && selectedColor.trim() !== "" && (
+    <p className="maybe">{t("color_label", { color: selectedColor })}</p>
+  )}
+  {selectedSize && selectedSize !== "null" && selectedSize.trim() !== "" && (
+    <p className="sometime">{t("size_label", { size: selectedSize })}</p>
+  )}
+</div>
     </div>
   ) : (
-    <p>Item not found.</p>
+    <p>{t("item_not_found")}</p>
   )}
 </div>
 
 
       {/* Payment Method */}
       <div className="section">
-        <h3>💳 Payment Method</h3>
+        <h3>{t("payment_method")}</h3>
        {isConnected && connectedWallet ? (
     <p>
-       Connected Wallet:
+       {t("connected_wallet")}
       <img 
         src={connectedWallet.logo} 
         alt={connectedWallet.name} 
@@ -638,16 +639,15 @@ const handleBuyNow = async () => {
        {connectedWallet.name} 
     </p>
   ) : (
-    <p>No wallet connected.</p>
+    <p>{t("no_wallet_connected")}</p>
   )}
 
 {isConnected && (
-          <p style={{ maxWidth: "100%", maxHeight: "auto" }}>
-    Address:{" "}
-    <span style={{ maxWidth: "100%", maxHeight: "auto" }}>
-      {address.slice(0, 6)}...{address.slice(-4)}
-    </span>
-  </p>
+         <p style={{ maxWidth: "100%", maxHeight: "auto" }}>
+  {t("address_label", {
+    shortAddress: `${address.slice(0, 6)}...${address.slice(-4)}`
+  })}
+</p>
        )}
       </div>
 
@@ -655,11 +655,14 @@ const handleBuyNow = async () => {
       <div className="section">
          {/* Native Balance */}
       {nativeBalance ? (
-        <p style={{color: "black"}}>
-          Native Balance: {nativeBalance.formatted} {nativeBalance.symbol}
-        </p>
+        <p style={{ color: "black" }}>
+  {t("native_balance", {
+    balance: nativeBalance.formatted,
+    symbol: nativeBalance.symbol
+  })}
+</p>
       ) : (
-        <p>Loading native balance...</p>
+        <p>{t("loading_token_balances")}</p>
       )}
 
       {/* Token Balances */}
@@ -684,22 +687,29 @@ const handleBuyNow = async () => {
           ))}
         </ul>
       ) : (
-        <p>Loading token balances...</p>
+        <p>{t("loading_token_balances")}</p>
       )}
     </div>
       <div>
-    <h3>⛽ Network Gas Fee Estimate</h3>
+    <h3>{t("network_gas_fee_estimate")}</h3>
     {loading ? (
-        <p>Estimating gas...</p>
+        <p>{t("estimating_gas")}</p>
     ) : error ? (
-        <p style={{ color: "red" }}>⚠️ {error}</p>
+       <p style={{ color: "red" }}>
+      {t("gas_fee_error", { error })}
+    </p>
     ) : estimatedGas && gasFee ? (
         <>
-            <p>Estimated Gas: {estimatedGas} units</p>
-            <p>Gas Fee: {gasFee} {nativeTokens[chainId]}</p>
+            <p>{t("estimated_gas_units", { units: estimatedGas })}</p>
+            <p>
+        {t("gas_fee_amount", {
+          fee: gasFee,
+          symbol: nativeTokens[chainId]
+        })}
+      </p>
         </>
     ) : (
-        <p>No gas fee data available</p>
+         <p>{t("no_gas_fee_data")}</p>
     )}
 </div>
 
@@ -707,56 +717,58 @@ const handleBuyNow = async () => {
 
 {isInsufficientBalance(tokenAmount, selectedCurrency) ? (
   <p className="error-text">
-    ⚠️ You do not have enough {selectedCurrency} in your wallet to complete this purchase.
-    Please make sure your balance is sufficient to proceed with the payment.
+    ⚠️ {t("not_enough_balance", { currency: selectedCurrency })}
     <br />
-    You currently have{" "}
-    {selectedCurrency === nativeTokens[chainId] // Check if it's a native token
-      ? nativeBalance?.formatted || "0"
-      : tokenBalances.find(token => token.symbol === selectedCurrency)?.balance || "0"
-    }{" "}
-    {selectedCurrency} in your wallet.
+    {t("current_balance", {
+      balance:
+        selectedCurrency === nativeTokens[chainId]
+          ? nativeBalance?.formatted || "0"
+          : tokenBalances.find(token => token.symbol === selectedCurrency)?.balance || "0",
+      currency: selectedCurrency
+    })}
     <br />
-    The required amount is{" "}
-    {convertUsdToCrypto(tokenAmount, selectedCurrency)}{" "}
-    {selectedCurrency}.
+    {t("required_amount", {
+      requiredAmount: convertUsdToCrypto(tokenAmount, selectedCurrency),
+      currency: selectedCurrency
+    })}
   </p>
 ) : (
   <p className="success-text">
-    ✅ You have enough {selectedCurrency} in your wallet to complete the purchase.
+    {t("enough_balance", { currency: selectedCurrency })}
     <br />
-    Your balance:{" "}
-    {selectedCurrency === nativeTokens[chainId]
-      ? nativeBalance?.formatted || "0"
-      : tokenBalances.find(token => token.symbol === selectedCurrency)?.balance || "0"
-    }{" "}
-    {selectedCurrency}.
+    {t("your_balance", {
+      balance:
+        selectedCurrency === nativeTokens[chainId]
+          ? nativeBalance?.formatted || "0"
+          : tokenBalances.find(token => token.symbol === selectedCurrency)?.balance || "0",
+      currency: selectedCurrency
+    })}
     <br />
-    Item price:{" "}
-    {convertUsdToCrypto(tokenAmount, selectedCurrency)}{" "}
-    {selectedCurrency}.
+    {t("item_price", {
+      requiredAmount: convertUsdToCrypto(tokenAmount, selectedCurrency),
+      currency: selectedCurrency
+    })}
     <br />
-    Click "Buy Now" to proceed with the payment.
+    {t("click_buy_to_proceed")}
   </p>
 )}
 
 
-
       {/* Buy Now Button */}
-      <Button className="buy-now-btn" onClick={handleBuyNow} disabled={isInsufficientBalance(tokenAmount, selectedCurrency)}>Buy Now</Button>
+      <Button className="buy-now-btn" onClick={handleBuyNow} disabled={isInsufficientBalance(tokenAmount, selectedCurrency)}>{t("buy_now_button")}</Button>
 
       {/* Trust Information */}
       {trustInfoVisible && (
         <div className="trust-info">
-          <h3>🤝 Trust & Security</h3>
-          <p>We ensure secure transactions with blockchain verification.</p>
-          <p>Your payment is protected, and funds are released upon order confirmation.</p>
+          <h3>{t("trust_security_title")}</h3>
+          <p>{t("trust_security_line1")}</p>
+          <p>{t("trust_security_line2")}</p>
         </div>
       )}
     </div>
     <div style={{display: (isDesktop || isTablet) ? "" : "none"}} className="checkout-container">
   {loading ? (
-    <p>Loading item details...</p>
+    <p>{t("loading_item_details")}</p>
   ) : item ? (
     <div
       className="item-deils"
@@ -772,7 +784,7 @@ const handleBuyNow = async () => {
 
     </div>
   ) : (
-    <p>Item not found.</p>
+    <p>{t("item_not_found")}</p>
   )}
 </div>
 </div>
