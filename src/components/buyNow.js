@@ -789,7 +789,6 @@ const handleBuyNow = async () => {
 </div>
 </div>
 
-
     </div>
   );
 };
