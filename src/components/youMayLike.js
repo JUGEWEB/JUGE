@@ -3,6 +3,8 @@ import { LeftOutlined, RightOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import useScreenSize from "./useIsMobile";
 import "./youMayLike.css";
+import { useTranslation } from "react-i18next";
+import i18n from "i18next";
 
 const BASE_URL = "https://api.malidag.com";
 
@@ -13,7 +15,7 @@ function YouMayLike({ user }) {
   const [cryptoPrices, setCryptoPrices] = useState({});
   const navigate = useNavigate();
   const { isMobile, isDesktop, isSmallMobile, isTablet, isVerySmall, isVeryVerySmall,  } = useScreenSize();
-
+const { t } = useTranslation();
  const itemsPerSlide = isMobile || isSmallMobile || isVerySmall ? 2 : 6;
   const stars = Math.floor(Math.random() * 5) + 1;
 
@@ -104,10 +106,35 @@ function YouMayLike({ user }) {
 
   return (
     <>
-      {userSearchHistory.length > 0 && (
+      {user && userSearchHistory.length > 0 && (
         <div className="you-may-like-carous">
-          {suggestedItems.length > 0 ? (
+          {user && suggestedItems.length > 0 ? (
             <>
+
+            <div style={{
+      display: "flex",
+      justifyContent: "start",
+      alignItems: "center",
+      padding: "10px 0",
+      fontWeight: "bold",
+      fontSize: "20px",
+      with: "100%"
+    }}>
+      <span>{t("based_on_browsing_history")} </span>
+      <button
+        style={{
+          backgroundColor: "green",
+          color: "white",
+          border: "none",
+          padding: "8px 14px",
+          borderRadius: "5px",
+          cursor: "pointer"
+        }}
+        onClick={() => navigate('/browsing')}
+      >
+        {t("view_more")}
+      </button>
+    </div>
               <div
                 className="carousel-slid"
                 style={{

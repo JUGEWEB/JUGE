@@ -3,6 +3,8 @@ import "./BrandDepartment.css";
 import axios from 'axios';
 import { useLocation, useNavigate } from "react-router-dom";
 import useScreenSize from "../../useIsMobile";
+import { useTranslation } from "react-i18next";
+import i18n from "i18next";
 
 
 function Theme1Department() {
@@ -15,6 +17,8 @@ function Theme1Department() {
     const [departments, setDepartments] = useState([]);
     const { isDesktop, isMobile, isVerySmall, isSmallMobile, isTablet, isVeryVerySmall } = useScreenSize();
     const [expandedDeptIndex, setExpandedDeptIndex] = useState(null);
+    const [translations, setTranslations] = useState({});
+    const { t } = useTranslation();
 
     const [brandDetails, setBrandDetails] = useState({ logo: "", headerImage: "" });
 
@@ -23,6 +27,31 @@ function Theme1Department() {
     const brandType = params.get("brandType");
 
     const brandName = location.state?.brandName || "default-brand";
+
+    const fetchTranslation = async (productId, lang) => {
+  if (translations[productId]?.[lang]) return;
+  try {
+    const response = await fetch(`https://api.malidag.com/translate/product/translate/${productId}/${lang}`);
+    const data = await response.json();
+    setTranslations(prev => ({
+      ...prev,
+      [productId]: {
+        ...(prev[productId] || {}),
+        [lang]: data.translation,
+      }
+    }));
+  } catch (error) {
+    console.error(`Error fetching translation for product ${productId}`, error);
+  }
+};
+
+useEffect(() => {
+  const lang = i18n.language || "en";
+  items.forEach(item => {
+    if (item?.itemId) fetchTranslation(item.itemId, lang);
+  });
+}, [items, i18n.language]);
+
 
     useEffect(() => {
     const fetchBrandTheme = async () => {
@@ -77,6 +106,11 @@ function Theme1Department() {
             });
     }, [department, brandType, brandName]);
 
+    const getTranslatedName = (item, itemId) => {
+  const lang = i18n.language || "en";
+  return translations[itemId]?.[lang]?.name || item.item.name;
+};
+
     return (
         <div>
              {isDesktop && (
@@ -85,12 +119,12 @@ function Theme1Department() {
                 <div className="bladeprt">
                     <div>
                         <img src={brandDetails.logo} alt={`${brandName} Logo`} className="logoImage" />
-                        <div className="departementTitle">Departments</div>
+                        <div className="departementTitle">{t("departments_label")}</div>
                         <div className="departmentCategories">
                             <ul>
                                 {departments.map((dep, index) => (
                                     <li key={index}>
-                                        <strong>{dep.name}</strong>
+                                        <strong>{t(dep.name)}</strong>
                                         <ul>
                                             {dep.brandTypes.map((brand, bIndex) => (
                                                 <li
@@ -102,7 +136,7 @@ function Theme1Department() {
               })
             }
                                                 >
-                                                    {brand}
+                                                    {t(brand)}
                                                 </li>
                                             ))}
                                         </ul>
@@ -115,8 +149,8 @@ function Theme1Department() {
             </div>
 
             <div className="rightColumn">
-                {loading && <p className="loadingMessage">Loading items...</p>}
-                {error && <p className="errorMessage">Error: {error}</p>}
+                {loading && <p className="loadingMessage">{t("loading")}</p>}
+                {error && <p className="errorMessage">{t("error_label")}: {error}</p>}
 
                 <div  style={{
   display: "grid",
@@ -132,8 +166,8 @@ function Theme1Department() {
                             </div>
                             <div className="itemDetails"  onClick={() => navigate(`/product/${item.id}`, { state: { brandName } })}
   style={{ cursor: "pointer" }}>
-                                <h3 className="itemTitle" style={{color: "black"}}>{item.item.name}</h3>
-                                <p className="itemPrice">Price: ${item.item.usdPrice}</p>
+                                <h3 className="itemTitle" style={{color: "black"}}>{getTranslatedName(item, item.itemId)}</h3>
+                                <p className="itemPrice">{t("price")}: ${item.item.usdPrice}</p>
                                <div
   onClick={() => navigate(`/product/${item.id}`, { state: { brandName } })}
   style={{
@@ -143,7 +177,7 @@ function Theme1Department() {
     marginTop: "5px"
   }}
 >
-  View
+ {t("view_label")}
 </div>
 
                             </div>
@@ -203,7 +237,7 @@ function Theme1Department() {
              
             }}
           >
-            {dep.name}
+            {t(dep.name)}
           </div>
 
           {/* Dropdown appears on top of lower content */}
@@ -286,7 +320,7 @@ function Theme1Department() {
             <div style={{cursor: "pointer"}}  >{item.item.name}</div>
             <div style={{ fontWeight: "bold" }}>${item.item.usdPrice}</div>
             <a  target="_blank" rel="noopener noreferrer">
-              View
+              {t("view_label")}
             </a>
           </div>
         </div>

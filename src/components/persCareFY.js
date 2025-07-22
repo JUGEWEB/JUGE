@@ -233,7 +233,7 @@ function PersonalCare() {
               </div>
             </div>
 
-            <div style={{ marginBottom: "5px" }}>
+            <div style={{ marginBottom: "5px", fontSize: "28px" , fontWeight: "bold"}}>
               {item.name.length > 150 ? `${item.name.substring(0, 150)}...` : item.name}
             </div>
 

@@ -24,6 +24,7 @@ import ThemeForKidToy from "./themeForKidsToy";
 import MalidagFooter from "./malidagFooter";
 import AppHeader from "./appHeader";
 import { useTranslation } from "react-i18next";
+import Browsing from "./basedbrowsing";
 
   
 const Malidag = ({
@@ -47,6 +48,8 @@ const Malidag = ({
   const {isMobile, isDesktop, isSmallMobile, isTablet, isVerySmall} = useScreenSize()
   const suggestedItemsCount = parseInt(localStorage.getItem("suggestedItemsCount")) || 0;
   const { t } = useTranslation();
+
+  console.log('user:', user, 'suggestedItemsCount:', suggestedItemsCount);
 
  // ✅ Move handlers up here
   const onclickIFP = () => navigate('/IFP');
@@ -134,14 +137,15 @@ const Malidag = ({
                   )}
 
                    
-{ user && suggestedItemsCount > 0 &&  (!isTablet || !isDesktop) && (
+
+{(isTablet || isDesktop) && (
 <div className="container1">
-  <div  style={{display: "flex", alignItems: "center", width: "100%", fontSize: "24px", fontWeight: "bold"}} >{t("based_on_browsing_history")} <div style={{fontSize: "14px", color: "green", marginLeft: "10px", fontWeight: "bold", marginTop: "10px", cursor: "pointer"}}  onClick={onclickbrowsing} >{t("explore_now")}</div> </div>
   <div style={{width: "100%"}}>
   <YouMayLike user={user} />
   </div>
 </div>
 )}
+
 
 
                   {(isSmallMobile || isVerySmall) && (
@@ -196,9 +200,8 @@ const Malidag = ({
           </div>
           )}
 
-{ user && suggestedItemsCount > 0  && (isTablet || isDesktop) && (
+{!(isTablet || isDesktop) && (
 <div className="container1">
-  <div  style={{display: "flex", alignItems: "center", width: "100%", fontSize: "24px", fontWeight: "bold"}} >{t("based_on_browsing_history")} <div style={{fontSize: "14px", color: "green", marginLeft: "10px", fontWeight: "bold", marginTop: "10px", cursor: "pointer"}}  onClick={onclickbrowsing} >{t("explore_now")}</div> </div>
   <div style={{width: "100%"}}>
   <YouMayLike user={user} />
   </div>

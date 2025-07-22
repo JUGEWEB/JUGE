@@ -4,6 +4,9 @@ import { useLocation } from "react-router-dom";
 import useFinalRating from "../../finalRating";
 import useScreenSize from "../../useIsMobile";
 import "./Baasploa.css";
+import { useTranslation } from "react-i18next";
+import i18n from "i18next";
+
 
 function Theme1() {
     const [departments, setDepartments] = useState([]);
@@ -15,6 +18,8 @@ function Theme1() {
     const [brandDetails, setBrandDetails] = useState({ headerImage: "", logo: "" });
     const {isMobile, isDesktop, isSmallMobile, isTablet, isVerySmall, isVeryVerySmall} = useScreenSize()
     const [expandedDeptIndex, setExpandedDeptIndex] = useState(null);
+    const [translations, setTranslations] = useState({});
+    const { t } = useTranslation();
 
 
 
@@ -23,6 +28,32 @@ function Theme1() {
 
 
     const navigate = useNavigate(); // ✅ Initialize navigation function
+
+    const fetchTranslation = async (productId, lang) => {
+  if (translations[productId]?.[lang]) return;
+  try {
+    const response = await fetch(`https://api.malidag.com/translate/product/translate/${productId}/${lang}`);
+    const data = await response.json();
+    setTranslations(prev => ({
+      ...prev,
+      [productId]: {
+        ...(prev[productId] || {}),
+        [lang]: data.translation,
+      }
+    }));
+  } catch (error) {
+    console.error(`Error fetching translation for product ${productId}`, error);
+  }
+};
+
+useEffect(() => {
+  const lang = i18n.language || "en";
+  topItems.forEach(item => {
+    if (item?.itemId) fetchTranslation(item.itemId, lang);
+  });
+  if (bestSeller?.itemId) fetchTranslation(bestSeller.itemId, lang);
+}, [topItems, bestSeller, i18n.language]);
+
 
     useEffect(() => {
     const fetchBrandDetails = async () => {
@@ -76,6 +107,12 @@ function Theme1() {
 
     };
 
+    const getTranslatedName = (item, itemId) => {
+  const lang = i18n.language || "en";
+  return translations[itemId]?.[lang]?.name || item.name;
+};
+
+
     return (
         <div>
             {(isDesktop) && (
@@ -91,7 +128,7 @@ function Theme1() {
                                 <ul>
                                     {departments.map((department, index) => (
                                         <li key={index}>
-                                            <strong>{department.name}</strong>
+                                            <strong>{t(department.name)}</strong>
                                             <ul>
                                                 {department.brandTypes.map((brandType, bIndex) => (
                                                     <li 
@@ -99,7 +136,7 @@ function Theme1() {
                                                         className="clickableBrandType"
                                                         onClick={() => handleBrandTypeClick(department.name, brandType)}
                                                     >
-                                                        {brandType}
+                                                        {t(brandType)}
                                                     </li>
                                                 ))}
                                             </ul>
@@ -135,7 +172,7 @@ function Theme1() {
                     <img src={item.images?.[0]} alt={item.name} className="topItemImage" />
                 </div>
                 <div className="topItemDetails">
-                    <div className="topItemName">{item.name}</div>
+                    <div className="topItemName">{getTranslatedName(item, item.itemId)}</div>
                     <div className="ratingContainer">
                         {loading ? (
                             <span>Loading...</span>
@@ -169,7 +206,7 @@ function Theme1() {
                             <div className="bestSellerContainer" onClick={() => navigate(`/product/${bestSeller.id}`)} style={{cursor: "pointer"}}>
                                 <img src={bestSeller.item.images[0]} alt={bestSeller.item.name} className="bestSellerImage" />
                                 <div className="bestSellerBadge">Best Seller</div>
-                                <div className="bestSellerTitle">{bestSeller.item.name}</div>
+                                <div className="bestSellerTitle">{getTranslatedName(bestSeller.item, bestSeller.itemId)}</div>
                             </div>
                         </div>
                     )}
@@ -191,7 +228,7 @@ function Theme1() {
                     <img src={item.images?.[0]} alt={item.name} className="topItemImage" />
                 </div>
                 <div className="topItemDetails">
-                    <div className="topItemName">{item.name}</div>
+                    <div className="topItemName">{getTranslatedName(item, item.itemId)}</div>
                     <div className="ratingContainer">
                         {loading ? (
                             <span>Loading...</span>
@@ -262,7 +299,7 @@ function Theme1() {
                     textAlign: "center",
                   }}
                 >
-                  {department.name}
+                  {t(department.name)}
                 </div>
 
                 {expandedDeptIndex === index && (
@@ -283,7 +320,7 @@ function Theme1() {
                           borderRadius: "3px",
                         }}
                       >
-                        {brandType}
+                        {t(brandType)}
                       </div>
                     ))}
                   </div>
@@ -326,7 +363,7 @@ function Theme1() {
             }}
           />
           <div className="bestSellerBadge">Best Seller</div>
-          <div className="bestSellerTitle">{bestSeller.item.name}</div>
+          <div className="bestSellerTitle">{getTranslatedName(bestSeller.item, bestSeller.itemId)}</div>
         </div>
       </div>
     )}
@@ -356,7 +393,7 @@ function Theme1() {
               />
             </div>
             <div >
-              <div >{item.name}</div>
+              <div >{getTranslatedName(item, item.itemId)}</div>
               <div >
                 {loading ? (
                   <span>Loading...</span>
@@ -396,7 +433,7 @@ function Theme1() {
               />
             </div>
             <div >
-              <div >{item.name}</div>
+              <div >{getTranslatedName(item, item.itemId)}</div>
               <div >
                 {loading ? (
                   <span>Loading...</span>

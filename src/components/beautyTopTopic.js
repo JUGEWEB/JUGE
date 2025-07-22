@@ -3,6 +3,9 @@ import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 import "./beautyTopTopic.css";
 import AnalyseReview from "./analyseReview"; // Import your AnalyseReview component
+import { Trans } from 'react-i18next';
+import { useTranslation } from "react-i18next";
+import i18n from "i18next";
 
 const BASE_URL = "https://api.malidag.com";
 
@@ -16,9 +19,27 @@ const BeautyTopTopic = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [modalPosition, setModalPosition] = useState({ top: 0, left: 0 });
    const [reviews, setReviews] = useState({}); // Store reviews data
+   const [translations, setTranslations] = useState({});
+   const { t } = useTranslation();
  
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
+
+  const fetchTranslation = async (productId, lang) => {
+  if (translations[productId]?.[lang]) return;
+  try {
+    const response = await axios.get(`https://api.malidag.com/translate/product/translate/${productId}/${lang}`);
+    setTranslations(prev => ({
+      ...prev,
+      [productId]: {
+        ...(prev[productId] || {}),
+        [lang]: response.data.translation,
+      },
+    }));
+  } catch (error) {
+    console.error(`Error fetching translation for ${productId}`, error);
+  }
+};
 
   useEffect(() => {
     const fetchTopBeautyItems = async () => {
@@ -31,6 +52,12 @@ const BeautyTopTopic = () => {
         const filteredItems = data.filter(
           (item) => item.category === "Beauty" && item.item.type.toLowerCase() === type.toLowerCase() && item.item.sold >= 100
         );
+
+        const lang = i18n.language || "en";
+filteredItems.forEach(itemData => {
+  if (itemData?.itemId) fetchTranslation(itemData.itemId, lang);
+});
+
         setTopBeautyItems(filteredItems);
 
           filteredItems.forEach((itemData) => {
@@ -52,6 +79,21 @@ const BeautyTopTopic = () => {
       
     }
   }, [type]);
+
+  useEffect(() => {
+  const lang = i18n.language || "en";
+  topBeautyItems.forEach(itemData => {
+    if (itemData?.itemId) fetchTranslation(itemData.itemId, lang);
+  });
+}, [i18n.language, topBeautyItems]);
+
+
+const getTranslatedName = (item, itemId) => {
+  const lang = i18n.language || "en";
+  const translated = translations[itemId]?.[lang]?.name;
+  return translated || item.name;
+};
+
 
    // Fetch reviews from the endpoint
    const fetchReviews = async (productId) => {
@@ -110,19 +152,26 @@ const closeModal = () => {
   };
 
 
-  if (loading) return <div className="loading-message">Loading {type} Top Items...</div>;
+ if (loading) return (
+  <div className="loading-message">
+    {t('loading')} {t(type.replace("-", " "))} {t('top_items')}...
+  </div>
+);
+
 
   return (
     <div className="beauty-top-container">
-    <h2 className="beauty-top-title">{type.replace("-", " ")} - Top Items</h2>
+   <h2 className="beauty-top-title">
+  {t(type.replace("-", " "))} - {t('top_items')}
+</h2>
     <div className="ms-grid">
       {topBeautyItems.length === 0 ? (
-        <p>No top-selling items found for {type}.</p>
+       <p>{t('no_top_selling_items', { type: t(type.replace("-", " ")) })}</p>
       ) : (
         topBeautyItems.map((itemData) => {
            const { id, itemId, item } = itemData;
            const reviewsData = reviews[itemId] || {}; // Ensure it exists
-            const finalRating = reviewsData ? reviewsData.averageRating : "No rating";
+            const finalRating = reviewsData ? reviewsData.averageRating : t("no_rating");
 
             return (
            
@@ -146,13 +195,15 @@ const closeModal = () => {
     {finalRating !== "No rating"
       ? "★".repeat(Math.round(finalRating)) +
         "☆".repeat(5 - Math.round(finalRating))
-      : "No rating"}
+      : t("no_rating")}
   </div>
   <h3 className="m-name" onClick={() => navigate(`/product/${id}`)}>
-    {item.name.length > 80 ? item.name.slice(0, 80) + '...' : item.name}
+    {getTranslatedName(item, itemId).length > 80 
+    ? getTranslatedName(item, itemId).slice(0, 80) + '...' 
+    : getTranslatedName(item, itemId)}
   </h3>
 </div>
-              <p className="m-sold">Sold: {item.sold} items</p>
+              <p className="m-sold">{t("sold")}: {item.sold} {t("items")}</p>
              
             </div>
            

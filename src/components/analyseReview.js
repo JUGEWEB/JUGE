@@ -4,6 +4,7 @@ import { Doughnut } from "react-chartjs-2";
 import { Chart as ChartJS, Title, Tooltip, Legend, ArcElement, CategoryScale } from "chart.js";
 import useFinalRating from "./finalRating"; // ✅ Import the custom hook
 import useScreenSize from "./useIsMobile";
+import { useTranslation } from "react-i18next";
 import "./analyseReview.css"
 
 ChartJS.register(Title, Tooltip, Legend, ArcElement, CategoryScale);
@@ -13,6 +14,7 @@ const AnalyseReview = ({ productId, onRatingClick, id  }) => {
   const { finalRating, loading, error, ratingPercentages } = useFinalRating(productId); // ✅ Use the hook
    const {isMobile, isDesktop, isSmallMobile, isTablet, isVerySmall, isVeryVerySmall} = useScreenSize()
   const navigate = useNavigate();
+   const { t } = useTranslation();
 
  const handleStarClick = (rating) => {
   console.log("Clicked star:", rating); // 👈 add this
@@ -24,7 +26,7 @@ const AnalyseReview = ({ productId, onRatingClick, id  }) => {
 
 
   const chartData = {
-    labels: ["1 Star", "2 Stars", "3 Stars", "4 Stars", "5 Stars"],
+    labels: [1, 2, 3, 4, 5].map(star =>` ${star} ${t(star === 1 ? "stars_label_singular" : "stars_label")}`),
     datasets: [
       {
         data: ratingPercentages,
@@ -33,6 +35,7 @@ const AnalyseReview = ({ productId, onRatingClick, id  }) => {
       },
     ],
   };
+
 
   const renderStars = (rating) => {
     const fullStars = Math.floor(rating);
@@ -50,17 +53,17 @@ const AnalyseReview = ({ productId, onRatingClick, id  }) => {
 
   return (
     <div style={{ padding: "20px", fontFamily: "Arial, sans-serif" }}>
-      <h2>Review Analysis</h2>
-      {error && <p style={{ color: "red" }}>{error}</p>}
-      {loading && <p>Loading reviews...</p>}
+      <h2>{t("review_title")}</h2>
+      {error && <p style={{ color: "red" }}>{t("review_error")} {error}</p>}
+      {loading && <p>{t("review_loading")}</p>}
       {finalRating && !loading && (
         <div style={{ maxHeight: "200px" }}>
           <h3>
-            Rating: {finalRating}/5{" "}
+            {t("rating")}: {finalRating}/5{" "}
             <span style={{ color: "#FFD700", fontSize: "24px" }}>{renderStars(finalRating)}</span>
           </h3>
 
-          <div style={{display: ((isDesktop || isTablet)) ? "block" : "none", width: "300px", height: "200px", margin: "20px auto" }}>
+          <div style={{display: ((isDesktop || isTablet)) ? "block" : "none", width: "300px", height: "250px", margin: "20px auto" }}>
             <Doughnut data={chartData} />
           </div>
 
@@ -75,7 +78,7 @@ const AnalyseReview = ({ productId, onRatingClick, id  }) => {
                 }}
               >
                 <div style={{ display: "flex", marginRight: "5px" }}>
-                  <div style={{ marginRight: "5px" }}>{star}</div> Stars:
+                  <div style={{ marginRight: "5px" }}>{star}</div> {t("stars_label")}:
                 </div>
               </div>
               <div

@@ -4,6 +4,8 @@ import { DownOutlined, UpOutlined, MenuOutlined } from "@ant-design/icons"; // D
 import axios from "axios";
 import useScreenSize from "./useIsMobile";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
+import i18n from "i18next";
 
 import "./All.css";
 
@@ -17,6 +19,7 @@ const All = () => {
   const [expandedCategories, setExpandedCategories] = useState({}); // Track expanded categories
   const navigate = useNavigate();
   const {isMobile, isDesktop, isSmallMobile, isTablet, isVerySmall} = useScreenSize()
+  const { t } = useTranslation();
 
   // ✅ Fetch and organize data by category and type
   const fetchModalData = async () => {
@@ -81,6 +84,12 @@ const All = () => {
     return () => clearInterval(interval); // Cleanup interval on unmount
   }, [modalData]);
 
+  // ✅ Handle UI rerender or refetch when language changes
+useEffect(() => {
+  console.log("Language changed:", i18n.language);
+  // fetchModalData(); // only if backend supports translations
+}, [i18n.language]);
+
   return (
     <>
      {(isDesktop || isTablet) ? (
@@ -94,7 +103,7 @@ const All = () => {
       color: "white"
     }}
   >
-    All
+     {t("all_label")}
   </div>
 ) : (
   // Show Hamburger icon for mobile and smaller
@@ -113,7 +122,7 @@ const All = () => {
       {/* ✅ Modal */}
      {/* ✅ Modal */}
      <Modal
-        title={<span style={{ fontSize: "24px", fontWeight: "bold" }}>Malidag Menu</span>}
+        title={<span style={{ fontSize: "24px", fontWeight: "bold" }}>{t("menu_title")}</span>}
         style={{ position: "absolute", top: "0", height: "400px", borderRadius: "0", fontWeight: "bold" }}
         open={isModalVisible}
         onCancel={closeModal}
@@ -143,7 +152,7 @@ const All = () => {
                       marginBottom: "5px",
                     }}
                   >
-                    <span>{category}</span>
+                    <span>{t(category.toLowerCase())}</span>
                     {expandedCategories[category] ? <UpOutlined /> : <DownOutlined />}
                   </div>
 
@@ -159,7 +168,7 @@ const All = () => {
                           <div key={type} className="type-container">
                             {/* Type Header */}
                             <div className="type-header" onClick={() => navigate(`/items/${type.toLowerCase()}`)} style={{ fontWeight: "bold", marginBottom: "5px" }}>
-                              {type}
+                              {t(type.toLowerCase())}
                             </div>
 
                             {/* Image Slideshow */}
@@ -173,7 +182,7 @@ const All = () => {
                                 />
                               </div>
                             ) : (
-                              <p>No image available</p>
+                              <p>{t("no_image")}</p>
                             )}
                           </div>
                         );

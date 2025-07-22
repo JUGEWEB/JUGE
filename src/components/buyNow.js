@@ -99,12 +99,30 @@ const BuyNow = ({ basketItems, userAddresses, user, allCountries, country, auth,
      const { address, isConnected, chain } = useAccount();
       const { connectors, connect, pendingConnector } = useConnect();
        const { t } = useTranslation();
+       const [translations, setTranslations] = useState({});
        const { disconnect } = useDisconnect();
      const chainId = chain?.id || null
 
     const navigate = useNavigate()
 
     const isCheckoutPage = location.pathname === "/checkout";
+
+    const fetchTranslation = async (productId, lang) => {
+  if (translations[productId]?.[lang]) return; // Skip if already fetched
+  try {
+    const response = await axios.get(`https://api.malidag.com/translate/product/translate/${productId}/${lang}`);
+    setTranslations(prev => ({
+      ...prev,
+      [productId]: {
+        ...(prev[productId] || {}),
+        [lang]: response.data.translation,
+      },
+    }));
+  } catch (error) {
+    console.error(`Error fetching translation for ${productId}`, error);
+  }
+};
+
     
 
     useEffect(() => {
@@ -147,12 +165,16 @@ const BuyNow = ({ basketItems, userAddresses, user, allCountries, country, auth,
           if (response.data && response.data.items) {
             // Find the item with the matching ID
             const foundItem = response.data.items.find(item => String(item.id) === String(id));
+
     
             if (foundItem) {
               setItem(foundItem.item);
               setProduct(foundItem.item);
               setPayItem(foundItem.itemId)
               setBrand(foundItem.item.brand)
+
+              const lang = i18n.language || "en";
+  if (foundItem.itemId) fetchTranslation(foundItem.itemId, lang);
             } else {
               console.warn("Item not found for ID:", id);
               setItem(null); // Set item to null if not found
@@ -201,6 +223,14 @@ const fetchNativeBalance = async (address, chainId) => {
     return null;
   }
 };
+
+const getTranslatedName = (item, itemId) => {
+  const lang = i18n.language || "en";
+  const translated = translations[itemId]?.[lang]?.name;
+  const fallback = item?.name || t("no_name_available");
+  return translated || fallback;
+};
+
 
 const fetchTokenBalance = async (address, tokenAddress, chainId) => {
   try {
@@ -534,7 +564,7 @@ const handleBuyNow = async () => {
     >
       <img src={item?.images?.[0]} alt={item?.name} className="item-ige" />
       <h3 className="item-ne">
-  {item?.name ? item.name.slice(0, 25) + (item.name.length > 25 ? "..." : "") : "No name available"}
+ {getTranslatedName(item, payItem).length > 25 ? "..." : ""}
 </h3>
 
     </div>
@@ -581,7 +611,7 @@ const handleBuyNow = async () => {
       >
         <img src={item?.images?.[0]} alt={item?.name} className="img-ferty" />
         <h3 className="fabrice">
-  {item?.name ? item.name.slice(0, 40) + (item.name.length > 40 ? "..." : "") : "No name available"}
+ {getTranslatedName(item, payItem).slice(0, 25)}
 </h3>
       </div>
       
@@ -606,7 +636,7 @@ const handleBuyNow = async () => {
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
        <p className="voyeur">{t("total_price_usd", { price: tokenAmount.toFixed(2) })}</p>
         {"\u2248"}
-        <p>{t("approx_crypto_amount", { amount: convertUsdToCrypto(tokenAmount, selectedCurrency), currency: selectedCurrency })}</p>
+        <p>{convertUsdToCrypto(tokenAmount, selectedCurrency)} {selectedCurrency}</p>
       </div>
       
       {/* Color & Size Selection */}
@@ -779,7 +809,7 @@ const handleBuyNow = async () => {
     >
       <img src={item?.images?.[0]} alt={item?.name} className="item-ige" />
       <h3 className="item-ne">
-  {item?.name ? item.name.slice(0, 25) + (item.name.length > 25 ? "..." : "") : "No name available"}
+ {getTranslatedName(item, payItem).slice(0, 25)}
 </h3>
 
     </div>

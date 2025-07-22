@@ -2,6 +2,9 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "./payBNBBTCETH.css";
 import { useNavigate } from "react-router-dom";
+import { Trans } from 'react-i18next';
+import { useTranslation } from "react-i18next";
+import i18n from "i18next";
 
 const BASE_URL = "https://api.malidag.com";
 const CRYPTO_URL = "https://api.malidag.com/crypto-prices";
@@ -11,6 +14,25 @@ function Bnboff() {
   const [cryptoPrices, setCryptoPrices] = useState({});
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
+  const [translations, setTranslations] = useState({});
+   const { t } = useTranslation();
+
+const fetchTranslation = async (productId, lang) => {
+  if (translations[productId]?.[lang]) return;
+  try {
+    const response = await axios.get(`https://api.malidag.com/translate/product/translate/${productId}/${lang}`);
+    setTranslations(prev => ({
+      ...prev,
+      [productId]: {
+        ...(prev[productId] || {}),
+        [lang]: response.data.translation,
+      },
+    }));
+  } catch (err) {
+    console.error(`Error translating ${productId}`, err);
+  }
+};
+
 
   useEffect(() => {
     const fetchFilteredItems = async () => {
@@ -23,11 +45,17 @@ function Bnboff() {
           const originalPrice = parseFloat(item.item.originalPrice);
           const discount = originalPrice > 0 ? (originalPrice - usdPrice) / originalPrice : 0;
 
+
           return (
             ["BNB"].includes(item.item.cryptocurrency) &&
             discount <= 0.3
           );
         });
+
+          const lang = i18n.language || "en";
+filteredData.forEach((item) => {
+  if (item?.itemId) fetchTranslation(item.itemId, lang);
+});
 
         const groupedData = filteredData.reduce((acc, item) => {
           const type = item.item.type || "Other";
@@ -58,6 +86,14 @@ function Bnboff() {
     const intervalId = setInterval(fetchCryptoPrices, 5000);
     return () => clearInterval(intervalId);
   }, []);
+
+  useEffect(() => {
+  const lang = i18n.language || "en";
+  Object.values(types).flat().forEach(({ itemId }) => {
+    if (itemId) fetchTranslation(itemId, lang);
+  });
+}, [i18n.language, types]);
+
 
   const formatTypeForUrl = (type) =>
     encodeURIComponent(type.toLowerCase().replace(/\s+/g, "-"));
@@ -126,24 +162,37 @@ function Bnboff() {
     navigate(`/product/${id}`);
   };
 
+  const getTranslatedName = (item, itemId) => {
+  const lang = i18n.language || "en";
+  const translated = translations[itemId]?.[lang]?.name;
+  return translated || item.name;
+};
+
+const getDisplayName = (item, itemId) => {
+  const name = getTranslatedName(item, itemId);
+  return name.length > 100 ? name.slice(0, 100) + "..." : name;
+};
+
+
+
 
   return (
     <div className="bbe-container">
       {/* Types List (clickable) */}
       <div className="bbe-type-list">
-      {Object.entries(types).map(([type, items]) => {
+    {Object.entries(types).map(([type, items]) => {
   const firstItem = items[0];
   const category = firstItem.category?.toLowerCase();
-  const gender = firstItem.item.genre || "Unisex";
-  const label = category === "electronic" ? type : `${gender} ${type}`;
-  
+  const gender = (firstItem.item.genre || "unisex").toLowerCase();
+  const label = (category === "electronic" ? type : `${gender}_${type}`).toLowerCase();
+
   return (
     <div
       key={type}
       className="bbe-type-item"
       onClick={() => handleNavigateByType(firstItem)}
     >
-      {label}
+      {t(label)}
     </div>
   );
 })}
@@ -153,7 +202,7 @@ function Bnboff() {
 
       {/* All Discounted Items */}
       <div className="bbe-item-grid">
-        {Object.values(types).flat().map(({ id, item }) => (
+        {Object.values(types).flat().map(({ id, item, itemId }) => (
           <div key={id} className="bbe-item-card">
             <div style={{ backgroundColor: "white", filter: "brightness(0.88) contrast(1.2)" }}>
               <img
@@ -180,7 +229,7 @@ function Bnboff() {
                 </span>
               </div>
               <div className="bbe-item-name">
-                {item.name.length > 100 ? `${item.name.slice(0, 100)}...` : item.name}
+               {getDisplayName(item, itemId)}
               </div>
               <div className="bbe-item-rating">{renderStars(item.rating || 0)}</div>
             </div>

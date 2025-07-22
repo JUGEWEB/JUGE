@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import { useLocation, Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import useScreenSize from "./useIsMobile";
 
 const BasketComponent = ({ basketItems }) => {
@@ -7,6 +8,7 @@ const BasketComponent = ({ basketItems }) => {
     const {isMobile, isDesktop, isSmallMobile, isTablet, isVerySmall} = useScreenSize()
   // Use location to get current path
   const location = useLocation();
+  const { t } = useTranslation();
 
   // Using useEffect to track location changes
   useEffect(() => {
@@ -46,7 +48,7 @@ const BasketComponent = ({ basketItems }) => {
         boxShadow: '0 4px 6px rgba(0,0,0,0.1)', // Improves visibility
       }}
     >
-      <h3 style={{ fontSize: '14px', textAlign: 'center' }}>Basket</h3>
+      <h3 style={{ fontSize: '14px', textAlign: 'center' }}>{t('basket')}</h3>
       <ul style={{ listStyle: 'none', padding: '0', fontSize: '12px' }}>
         {basketItems.map((item) => (
           <Link to={`/product/${item.id}`} state={{ reload: true }} key={item.id}>
@@ -59,16 +61,16 @@ const BasketComponent = ({ basketItems }) => {
 
               {item.size && (
                 <div className="basketsect" style={{ fontStyle: 'italic' }}>
-                  Size: {item.size}
+                 {t('size_label', { size: item.size })}
                 </div>
               )}
               {item.color && (
                 <div className="basketsect" style={{ fontStyle: 'italic' }}>
-                  Color: {item.color}
+                 {t('color_label', { color: t(`color_${item.color.toLowerCase()}`) })}
                 </div>
               )}
               <div className="basketsect" style={{ fontStyle: 'italic' }}>
-                Quantity: {item.quantity || 1}
+                {t('quantity')}: {item.quantity || 1}
               </div>
             </li>
           </Link>

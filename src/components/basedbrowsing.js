@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import "./recomendedItem.css";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
+import i18n from "i18next";
 
 const BASE_URL = "https://api.malidag.com";
 
@@ -12,6 +14,41 @@ function Browsing({ user }) {
   const [loading, setLoading] = useState(true);
   const stars = Math.floor(Math.random() * 5) + 1;
   const navigate = useNavigate();
+  const { t } = useTranslation();
+  const [translations, setTranslations] = useState({});
+  const [reviews, setReviews] = useState({});
+
+  const fetchTranslation = async (productId, lang) => {
+  if (translations[productId]?.[lang]) return;
+  try {
+    const response = await fetch(`https://api.malidag.com/translate/product/translate/${productId}/${lang}`);
+    const data = await response.json();
+    setTranslations(prev => ({
+      ...prev,
+      [productId]: {
+        ...(prev[productId] || {}),
+        [lang]: data.translation,
+      }
+    }));
+  } catch (error) {
+    console.error(`Error fetching translation for product ${productId}`, error);
+  }
+};
+
+const fetchReviews = async (productId) => {
+  try {
+    const response = await fetch(`${BASE_URL}/get-reviews/${productId}`);
+    const data = await response.json();
+    if (data.success) {
+      const reviewsArray = data.reviews || [];
+      const totalRating = reviewsArray.reduce((acc, review) => acc + (parseFloat(review.rating) || 4), 0);
+      const averageRating = reviewsArray.length ? (totalRating / reviewsArray.length).toFixed(2) : null;
+      setReviews(prev => ({ ...prev, [productId]: { averageRating, reviewsArray } }));
+    }
+  } catch (error) {
+    console.error(`Error fetching reviews for product ${productId}:`, error);
+  }
+};
 
   // Fetch user search history
   useEffect(() => {
@@ -66,6 +103,7 @@ function Browsing({ user }) {
       }
     };
 
+
     const fetchCryptoPrices = async () => {
       try {
         const response = await fetch(`${BASE_URL}/crypto-prices`);
@@ -83,6 +121,33 @@ function Browsing({ user }) {
     }
   }, [userSearchHistory]);
 
+   useEffect(() => {
+  const lang = i18n.language || "en";
+  suggestedItems.forEach(item => {
+    if (item?.itemId) fetchTranslation(item.itemId, lang);
+  });
+}, [suggestedItems, i18n.language]);
+
+useEffect(() => {
+  suggestedItems.forEach(item => {
+    if (item?.itemId) fetchReviews(item.itemId);
+  });
+}, [suggestedItems]);
+
+const getStarRating = (itemId) => {
+  const avgRating = reviews[itemId]?.averageRating;
+  if (!avgRating) return t("no_rating");
+  const rounded = Math.round(avgRating);
+  return "★".repeat(rounded) + "☆".repeat(5 - rounded);
+};
+
+
+  const getTranslatedName = (item, itemId) => {
+  const lang = i18n.language || "en";
+  return translations[itemId]?.[lang]?.name || item.name;
+};
+
+
   const convertToCrypto = (usdPrice, crypto) => {
     if (!cryptoPrices[crypto]) return null;
     return (usdPrice / parseFloat(cryptoPrices[crypto])).toFixed(2);
@@ -98,9 +163,9 @@ function Browsing({ user }) {
 
   return (
     <div className="recommended-items-container">
-      <h2 className="recommended-title">Based on your Browsing</h2>
+      <h2 className="recommended-title">{t("based_on_browsing_history")}</h2>
       {loading ? (
-        <div className="loading-indicator">Loading...</div>
+        <div className="loading-indicator">{t("loading")}</div>
       ) : suggestedItems.length > 0 ? (
         <div className="recommended-grid">
           {suggestedItems.map((item) => (
@@ -115,17 +180,17 @@ function Browsing({ user }) {
               </div>
               <div className="recommended-info">
                 <p className="recommended-name" onClick={() => handleItemClick(item.id)}>
-                  {item.item.name}
+                 {getTranslatedName(item.item, item.itemId)}
                 </p>
                 <div className="item-sta">
-                  {"★".repeat(stars)}{"☆".repeat(5 - stars)}
+                 {getStarRating(item.itemId)}
                 </div>
                 <div className="recommended-price">${item.item.usdPrice}</div>
                 <div style={{ display: "flex", alignItems: "center" }}>
                   <div className="recommended-price">
                     {item.item.usdPrice && item.item.cryptocurrency
                       ? `${convertToCrypto(item.item.usdPrice, item.item.cryptocurrency)} ${item.item.cryptocurrency}`
-                      : "Price in crypto N/A"}
+                      : t("price_unavailable")}
                   </div>
                   <div
                     style={{
@@ -136,14 +201,14 @@ function Browsing({ user }) {
                     }}
                     onClick={() => toggleDetails(item.id)}
                   >
-                    view price
+                   {t("view-price")}
                   </div>
                 </div>
                 {expandedItemId === item.id && (
                   <div className="recommended-pi">
                     {cryptoPrices[item.item.cryptocurrency]
                       ? `1 ${item.item.cryptocurrency} = $${cryptoPrices[item.item.cryptocurrency].toFixed(5)}`
-                      : "N/A"}
+                      : t("na")}
                   </div>
                 )}
               </div>
@@ -151,7 +216,7 @@ function Browsing({ user }) {
           ))}
         </div>
       ) : (
-        <div className="no-items">No recommendations found for your search history.</div>
+        <div className="no-items">{t("no_browsing_recommendations")}</div>
       )}
     </div>
   );
