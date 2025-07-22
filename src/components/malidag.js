@@ -24,7 +24,7 @@ import ThemeForKidToy from "./themeForKidsToy";
 import MalidagFooter from "./malidagFooter";
 import AppHeader from "./appHeader";
 import { useTranslation } from "react-i18next";
-import Browsing from "./basedbrowsing";
+import Browsing from "./basedbrowsing";;
 
   
 const Malidag = ({

@@ -19,6 +19,7 @@ import useScreenSize from "./useIsMobile";
 import AnalyseReviewSmallWidth from "./analyseReviewSmallwidth";
 import { useTranslation } from "react-i18next";
 import i18n from "i18next";
+import { Helmet } from "react-helmet";
 
 
 const BASKET_API = "https://api.malidag.com/add-to-basket"
@@ -657,6 +658,15 @@ const handleVisitBrand = async () => {
 
   return (
     <div className="product-details"  >
+
+       <Helmet>
+        <title>{product?.item?.name} | Malidag</title>
+        <meta
+          name="description"
+          content={`Shop ${product?.item?.name} at Malidag — ${product?.item?.theme || 'Beauty & Care for You'}`}
+        />
+      </Helmet>
+
       <div className="product-layout"  style={{
     marginRight: isBasketVisible && isDesktop && basketItems.length > 0 ? "0px" : "0px",
     display: isDesktop || isTablet ? "grid" : "block",

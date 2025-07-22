@@ -4,6 +4,7 @@ import LikedItems from "./likedItem";
 import { useLocation, useNavigate } from "react-router-dom";
 import useFinalRating from "./finalRating";
 import useScreenSize from "./useIsMobile";
+import ProductSchema from "./productShema";
 import './reviewPage.css'
 
 
@@ -58,6 +59,7 @@ const likedCount = parseInt(localStorage.getItem("likedCount") || "0", 10);
 
     return (
         <div>
+          <ProductSchema productId={itemData?.itemId} />
           <div style={{display: "flex", alignItems: "center", justifyContent: "start", overflowX: "auto", width: "100%"}}>
            {(!(isDesktop || isTablet)) && (
                

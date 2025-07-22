@@ -115,6 +115,7 @@ const PrevArrow = ({ className, style, onClick }) => {
   {activeSlides.map((slide) => (
     <link key={slide.id} rel="preload" as="image" href={slide.url} />
   ))}
+
 </Helmet>
 
       <div style={{position: "relative"}}>
